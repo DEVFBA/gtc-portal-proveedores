@@ -1,24 +1,22 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import {Provider} from 'react-redux'
-import configureStore from './configureStore'
-import App from './App'
+import React from "react";
+import ReactDOM from "react-dom";
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 
-const store = configureStore()
-//store.subscribe(() => console.log('state', store.getState()));
+import AuthLayout from "layouts/Auth.js";
+import AdminLayout from "layouts/Admin.js";
 
-const Component = () => (
-  <Provider store={store}>
-    <App />
-  </Provider>
-)
+import "bootstrap/dist/css/bootstrap.css";
+import "assets/scss/paper-dashboard.scss?v=1.3.0";
+import "assets/demo/demo.css";
+import "perfect-scrollbar/css/perfect-scrollbar.css";
 
-let render = () => {
-  ReactDOM.render(<Component />, document.getElementById('root'))
-}
-render()
-if (module.hot) {
-  module.hot.accept(Component => {
-    render()
-  })
-}
+ReactDOM.render(
+  <BrowserRouter>
+    <Switch>
+      <Route path="/auth" render={(props) => <AuthLayout {...props} />} />
+      <Route path="/admin" render={(props) => <AdminLayout {...props} />} />
+      <Redirect to="/admin/dashboard" />
+    </Switch>
+  </BrowserRouter>,
+  document.getElementById("root")
+);

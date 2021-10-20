@@ -9,7 +9,7 @@ import Section7 from './Section7'
 
 const Dashboard = () => (
   <div>
-    <Section1 />
+    {/*<Section1 />
     <div className="row">
       <div className="col-12 col-md-12 col-xl-6">
         <Section2 />
@@ -29,7 +29,7 @@ const Dashboard = () => (
         <Section6 />
       </div>
     </div>
-    <Section7 />
+    <Section7 />*/}
   </div>
 )
 export default Dashboard

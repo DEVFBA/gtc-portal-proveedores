@@ -4,10 +4,10 @@ import '../../css/elements/logo.css'
 
 const Logo = () => (
   <Link
-    to="/"
+    to="/admin/dashboard"
     className="logo d-flex justify-content-start align-items-center flex-nowrap">
-    <i className="fa fa-code" />
-    <span className="title">Sigma</span>
+    
+    <span className="title">GTC Portal Proveedores</span>
   </Link>
 )
 

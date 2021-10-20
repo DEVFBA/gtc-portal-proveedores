@@ -61,6 +61,7 @@ import ResetPassword from './pages/reset-password'
 import Subscribe from './pages/subscribe'
 import UnderMaintenance from './pages/under-maintenance'
 import UnlockAccount from './pages/unlock-account'
+import Carga from './pages/carta-porte/Carga'
 
 //tables
 import DefaultTables from './tables/default-tables'
@@ -105,7 +106,8 @@ const Routes = () => (
     <Route path="/dashboards/analytics" component={Analytics} />
     <Route path="/dashboards/geographic" component={Geographic} />
     <Route path="/dashboards/e-commerce" component={ECommerce} />
-    <Route path="/demos/demo-1" component={Demo1} />
+    <Route path="/admin/dashboard" component={Demo1} />
+    <Route path="/admin/carga" component={Carga} />
     <Route path="/demos/demo-2" component={Demo2} />
     <Route path="/demos/demo-3" component={Demo3} />
     <Route path="/demos/demo-4" component={Demo4} />
@@ -142,7 +144,7 @@ const Routes = () => (
     <Route path="/pages/empty-page" component={EmptyPage} />
     <Route path="/pages/error-page" component={ErrorPage} />
     <Route path="/pages/home" component={Home} />
-    <Route path="/pages/login" component={Login} />
+    <Route path="/auth/login" component={Login} />
     <Route path="/pages/reset-password" component={ResetPassword} />
     <Route path="/pages/subscribe" component={Subscribe} />
     <Route path="/pages/under-maintenance" component={UnderMaintenance} />

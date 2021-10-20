@@ -9,7 +9,7 @@ export function login(
         type: 'text',
         errors: [],
         rules: {
-          title: 'Your email',
+          title: 'Email',
           required: true
         }
       },
@@ -20,7 +20,7 @@ export function login(
         type: 'password',
         errors: [],
         rules: {
-          title: 'Your password',
+          title: 'Contraseña',
           required: true
         }
       }

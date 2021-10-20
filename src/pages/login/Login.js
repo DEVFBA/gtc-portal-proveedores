@@ -7,8 +7,8 @@ import {Link} from 'react-router-dom'
 
 const Login = ({fields, submit}) => (
   <Form
-    title="Login"
-    description="Please enter your name and email address to login">
+    title="INICIAR SESIÓN"
+    description="Ingrese su nombre y dirección de correo electrónico para iniciar sesión">
     {fields[0] && <InputGroup field={fields[0]} />}
     {fields[1] && <InputGroup field={fields[1]} />}
     {fields &&
@@ -22,12 +22,6 @@ const Login = ({fields, submit}) => (
           </button>
         </div>
       )}
-    <div className="links">
-      <p>
-        <span className="m-r-5">Don't have an account?</span>
-        <Link to="/pages/create-account">Create account</Link>
-      </p>
-    </div>
   </Form>
 )
 
