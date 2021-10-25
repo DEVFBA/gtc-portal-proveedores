@@ -2,19 +2,22 @@ import React from 'react'
 import {Link} from 'react-router-dom'
 import '../../css/elements/dropdown-grid.css'
 
-const DropdownGrid = ({items}) => (
-  <div className="navbar-dropdown dropdown-grid">
-    <div className="dropdown-inner">
-      <div className="dropdown-title">Applications</div>
-      {items.map((item, i) => (
-        <Link key={i} to="/" className="grid-item">
-          <i className={`${item.icon} color-${item.color}`} />
-          <div className="title">{item.title}</div>
-        </Link>
-      ))}
+function DropdownGrid() 
+{
+  return(
+    <div className="navbar-dropdown dropdown-grid">
+      <div className="dropdown-inner">
+        <div className="dropdown-title">Applications</div>
+        {items.map((item, i) => (
+          <Link key={i} to="/" className="grid-item">
+            <i className={`${item.icon} color-${item.color}`} />
+            <div className="title">{item.title}</div>
+          </Link>
+        ))}
+      </div>
     </div>
-  </div>
-)
+  )
+}
 
 let items = [
   {icon: 'sli-home', color: 'success', title: 'Home'},
@@ -28,6 +31,4 @@ let items = [
   {icon: 'sli-social-google', color: 'google-plus', title: 'Google'}
 ]
 
-const SampleDropdownGrid = () => <DropdownGrid items={items} />
-
-export default SampleDropdownGrid
+export default DropdownGrid

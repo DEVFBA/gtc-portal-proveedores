@@ -3,17 +3,20 @@ import Task from './Task'
 import {random} from '../../functions'
 import '../../css/elements/dropdown-tasks.css'
 
-const DropdownTasks = ({tasksForToday, tasksForTomorrow}) => (
-  <div className="navbar-dropdown dropdown-tasks">
-    <div className="dropdown-inner">
-      <div className="dropdown-title">7 pending tasks</div>
-      <h6 className="dropdown-header">Today</h6>
-      {tasksForToday.map((task, i) => <Task key={i} {...task} />)}
-      <h6 className="dropdown-header">Tomorrow</h6>
-      {tasksForTomorrow.map((task, i) => <Task key={i} {...task} />)}
+function DropdownTasks() 
+{
+  return(
+    <div className="navbar-dropdown dropdown-tasks">
+      <div className="dropdown-inner">
+        <div className="dropdown-title">7 pending tasks</div>
+        <h6 className="dropdown-header">Today</h6>
+        {tasksForToday.map((task, i) => <Task key={i} {...task} />)}
+        <h6 className="dropdown-header">Tomorrow</h6>
+        {tasksForTomorrow.map((task, i) => <Task key={i} {...task} />)}
+      </div>
     </div>
-  </div>
-)
+  )
+}
 
 let tasksForToday = [
   {
@@ -46,11 +49,4 @@ let tasksForTomorrow = [
   }
 ]
 
-const SampleDropdownTasks = () => (
-  <DropdownTasks
-    tasksForToday={tasksForToday}
-    tasksForTomorrow={tasksForTomorrow}
-  />
-)
-
-export default SampleDropdownTasks
+export default DropdownTasks

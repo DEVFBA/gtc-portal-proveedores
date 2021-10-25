@@ -6952,11 +6952,13 @@ a.text-dark:focus, a.text-dark:hover {
   align-items: center;
   flex-direction: row;
   flex-wrap: wrap;
-  height: calc(100%);
-  width: calc(100%);
+  height: calc(100%) !important;
+  width: calc(100%) !important;
   overflow: hidden;
   background: url(/assets/images/empty-view-1-dark.jpg) no-repeat center center fixed;
-  background-size: cover; }
+  background-size: cover;
+  padding-top: 16%;
+  padding-bottom: 16%; }
 
 [data-layout="home"] {
   display: flex;
@@ -6974,7 +6976,7 @@ html,
   min-height: 100%; }
 
 body {
-  font-family: "Roboto", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: normal;
   -webkit-font-smoothing: antialiased;
   -moz-font-smoothing: antialiased;
@@ -7026,7 +7028,7 @@ body,
 
 input,
 select {
-  font-family: "Roboto", sans-serif; }
+  font-family: "Montserrat", sans-serif; }
 
 .hidden {
   display: none; }

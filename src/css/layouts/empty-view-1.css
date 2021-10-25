@@ -4,8 +4,10 @@
   align-items: center;
   flex-direction: row;
   flex-wrap: wrap;
-  height: calc(100%);
-  width: calc(100%);
+  height: calc(100%) !important;
+  width: calc(100%) !important;
   overflow: hidden;
   background: url(/assets/images/empty-view-1-dark.jpg) no-repeat center center fixed;
-  background-size: cover; }
+  background-size: cover;
+  padding-top: 16%;
+  padding-bottom: 16%; }

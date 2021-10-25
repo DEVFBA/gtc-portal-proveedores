@@ -1,21 +1,24 @@
 import React from 'react'
 import '../../css/elements/dropdown-user.css'
 
-const DropdownUser = ({items}) => (
-  <div className="navbar-dropdown dropdown-user">
-    <div className="dropdown-title">My account</div>
-    {items.map((item, i) => (
-      <div className="dropdown-item" key={i}>
-        <i className={item.icon} />
-        <span className="title">{item.name}</span>
-        <div className="separator" />
-        {item.badge && (
-          <span className={item.badgeClass}>{item.badgeText}</span>
-        )}
-      </div>
-    ))}
-  </div>
-)
+function DropdownUser(){
+
+  return (
+    <div className="navbar-dropdown dropdown-user">
+      <div className="dropdown-title">My account</div>
+      {items.map((item, i) => (
+        <div className="dropdown-item" key={i}>
+          <i className={item.icon} />
+          <span className="title">{item.name}</span>
+          <div className="separator" />
+          {item.badge && (
+            <span className={item.badgeClass}>{item.badgeText}</span>
+          )}
+        </div>
+      ))}
+    </div>
+  )
+}
 
 let items = [
   {
@@ -60,6 +63,4 @@ let items = [
   }
 ]
 
-const SampleDropdownUser = () => <DropdownUser items={items} />
-
-export default SampleDropdownUser
+export default DropdownUser;

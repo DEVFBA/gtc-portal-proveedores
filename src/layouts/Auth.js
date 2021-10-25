@@ -1,95 +1,74 @@
 import React from "react";
+import { useState, useEffect } from "react";
 // javascript plugin used to create scrollbars on windows
-import PerfectScrollbar from "perfect-scrollbar";
-import { Route, Switch, useLocation } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
+import Login from '../pages/login/Login.js'
 
-import AdminNavbar from "components/Navbars/AdminNavbar.js";
-import Footer from "components/Footer/Footer.js";
-import Sidebar from "components/Sidebar/Sidebar.js";
-import FixedPlugin from "components/FixedPlugin/FixedPlugin.js";
+import navigation from "./navigation.js"
 
-import routes from "routes.js";
-import routes2 from "routes2.js";
+function Pages() {
+    const [dbRoutes, setDbRoutes] = useState([]);
+    const [isEmptyView, setIsEmptyView] = useState(true)
+    const [layout, setLayout] = useState('empty-view-1')
+    useEffect(() => {
+        var routesAux = [];
+        //Agregando las rutas del auth
+        //const ambiente = "/QSDEV"
+        
+        routesAux.push(
+          {
+            invisible: true,
+            path: "/login/",
+            name: "Login",
+            icon: "nc-icon nc-bank",
+            component: Login,
+            layout: "/auth",
+          },
+        )
+        setDbRoutes(routesAux)
+    }, []);
 
-var ps;
-
-function Admin(props) {
-  const location = useLocation();
-  const [backgroundColor, setBackgroundColor] = React.useState("brown");
-  const [activeColor, setActiveColor] = React.useState("danger");
-  const [sidebarMini, setSidebarMini] = React.useState(false);
-  const mainPanel = React.useRef();
-  React.useEffect(() => {
-    if (navigator.platform.indexOf("Win") > -1) {
-      document.documentElement.className += " perfect-scrollbar-on";
-      document.documentElement.classList.remove("perfect-scrollbar-off");
-      ps = new PerfectScrollbar(mainPanel.current);
-    }
-    return function cleanup() {
-      if (navigator.platform.indexOf("Win") > -1) {
-        ps.destroy();
-        document.documentElement.className += " perfect-scrollbar-off";
-        document.documentElement.classList.remove("perfect-scrollbar-on");
-      }
+    const getRoutes = (routes) => {
+        return routes.map((prop, key) => {
+          if (prop.collapse) {
+            return getRoutes(prop.views);
+          }
+          if (prop.layout === "/auth") {
+            return (
+              <Route
+                path={prop.layout + prop.path}
+                component={prop.component}
+                key={key}
+              />
+            );
+          } else {
+            return null;
+          }
+        });
     };
-  });
-  React.useEffect(() => {
-    document.documentElement.scrollTop = 0;
-    document.scrollingElement.scrollTop = 0;
-    mainPanel.current.scrollTop = 0;
-  }, [location]);
-  const getRoutes = (routes) => {
-    return routes.map((prop, key) => {
-      if (prop.collapse) {
-        return getRoutes(prop.views);
-      }
-      if (prop.layout === "/admin") {
-        return (
-          <Route
-            path={prop.layout + prop.path}
-            component={prop.component}
-            key={key}
-          />
-        );
-      } else {
-        return null;
-      }
-    });
-  };
-  const handleActiveClick = (color) => {
-    setActiveColor(color);
-  };
-  const handleBgClick = (color) => {
-    setBackgroundColor(color);
-  };
-  const handleMiniClick = () => {
-    if (document.body.classList.contains("sidebar-mini")) {
-      setSidebarMini(false);
-    } else {
-      setSidebarMini(true);
-    }
-    document.body.classList.toggle("sidebar-mini");
-  };
-  return (
-    <div className="wrapper">
-      <Sidebar
-        {...props}
-        routes={routes2}
-        bgColor={backgroundColor}
-        activeColor={activeColor}
-      />
-      <div className="main-panel" ref={mainPanel}>
-        <AdminNavbar {...props} handleMiniClick={handleMiniClick} />
-        <Switch>{getRoutes(routes2)}</Switch>
-        {
-          // we don't want the Footer to be rendered on full screen maps page
-          props.location.pathname.indexOf("full-screen-map") !== -1 ? null : (
-            <Footer fluid />
-          )
-        }
-      </div>
-    </div>
-  );
+  
+    return (
+      <div
+        data-layout={layout}
+        data-background="light"
+        data-navbar="light"
+        data-top-navigation="light"
+        data-logo="info"
+        data-left-sidebar="dark"
+        data-collapsed="false"
+      >
+        <div className={isEmptyView ? '' : 'container-fluid'}>
+            <div className={isEmptyView ? '' : 'row'}>
+                <div className="col main">
+                    {/*<Jumbotron />*/}
+                    <Switch>{getRoutes(dbRoutes)}</Switch>
+                    {/*<Routes />*/}
+                </div>
+            </div>
+        </div>
+        
+      </div>  
+    );
 }
 
-export default Admin;
+export default Pages;

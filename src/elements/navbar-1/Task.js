@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Task = ({title, value, color}) => {
+function Task({title, value, color}){
   let style = {width: value + '%'}
   return (
     <div className="dropdown-item">

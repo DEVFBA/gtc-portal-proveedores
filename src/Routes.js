@@ -19,7 +19,7 @@ import Demo5 from './demos/Demo5'
 import Demo6 from './demos/Demo6'
 
 //dashboards
-import Analytics from './dashboards/analytics'
+import Analytics from './dashboards/analytics/Analytics.js'
 import Geographic from './dashboards/geographic'
 import ECommerce from './dashboards/e-commerce'
 
@@ -61,7 +61,6 @@ import ResetPassword from './pages/reset-password'
 import Subscribe from './pages/subscribe'
 import UnderMaintenance from './pages/under-maintenance'
 import UnlockAccount from './pages/unlock-account'
-import Carga from './pages/carta-porte/Carga'
 
 //tables
 import DefaultTables from './tables/default-tables'
@@ -98,88 +97,90 @@ import TextWidgets from './widgets/text-widgets'
 import TimelineWidgets from './widgets/timeline-widgets'
 import UserWidgets from './widgets/user-widgets'
 
-const Routes = () => (
-  <Switch>
-    <Route exact path="/" component={Home} />
-    <Route path="/charts/chartist" component={Chartist} />
-    <Route path="/charts/recharts" component={Recharts} />
-    <Route path="/dashboards/analytics" component={Analytics} />
-    <Route path="/dashboards/geographic" component={Geographic} />
-    <Route path="/dashboards/e-commerce" component={ECommerce} />
-    <Route path="/admin/dashboard" component={Demo1} />
-    <Route path="/admin/carga" component={Carga} />
-    <Route path="/demos/demo-2" component={Demo2} />
-    <Route path="/demos/demo-3" component={Demo3} />
-    <Route path="/demos/demo-4" component={Demo4} />
-    <Route path="/demos/demo-5" component={Demo5} />
-    <Route path="/demos/demo-6" component={Demo6} />
-    <Route path="/documentation/change-log" component={Changelog} />
-    <Route path="/documentation/code-structure" component={CodeStructure} />
-    <Route path="/documentation/credits" component={Credits} />
-    <Route path="/documentation/faq" component={Faq} />
-    <Route path="/documentation/installation" component={Installation} />
-    <Route path="/forms/default-forms" component={DefaultForms} />
-    <Route path="/forms/input-groups" component={InputGroups} />
-    <Route path="/forms/react-datetime" component={ReactDatetime} />
-    <Route path="/forms/react-select" component={ReactSelect} />
-    <Route path="/forms/sliders" component={Sliders} />
-    <Route path="/forms/validation" component={Validation} />
-    <Route path="/icons/flags" component={Flags} />
-    <Route path="/icons/font-awesome" component={FontAwesome} />
-    <Route path="/icons/ionicons" component={Ionicons} />
-    <Route
-      path="/icons/material-design-icons"
-      component={MaterialDesignIcons}
-    />
-    <Route path="/icons/simple-line-icons" component={SimpleLineIcons} />
-    <Route path="/icons/weather-icons" component={WeatherIcons} />
-    <Route path="/layouts/collapsed-sidebar-1" component={CollapsedSidebar1} />
-    <Route path="/layouts/default-sidebar-1" component={DefaultSidebar1} />
-    <Route path="/layouts/top-navigation-1" component={TopNavigation1} />
-    <Route path="/maps/google-maps" component={GoogleMaps} />
-    <Route path="/maps/vector-maps" component={VectorMaps} />
-    <Route path="/notifications/reapop" component={Reapop} />
-    <Route path="/pages/contact-us" component={ContactUs} />
-    <Route path="/pages/create-account" component={CreateAccount} />
-    <Route path="/pages/empty-page" component={EmptyPage} />
-    <Route path="/pages/error-page" component={ErrorPage} />
-    <Route path="/pages/home" component={Home} />
-    <Route path="/auth/login" component={Login} />
-    <Route path="/pages/reset-password" component={ResetPassword} />
-    <Route path="/pages/subscribe" component={Subscribe} />
-    <Route path="/pages/under-maintenance" component={UnderMaintenance} />
-    <Route path="/pages/unlock-account" component={UnlockAccount} />
-    <Route path="/tables/default-tables" component={DefaultTables} />
-    <Route path="/tables/reactable" component={Reactable} />
-    <Route path="/ui-elements/alerts" component={Alerts} />
-    <Route path="/ui-elements/badges" component={Badges} />
-    <Route path="/ui-elements/breadcrumbs" component={Breadcrumbs} />
-    <Route path="/ui-elements/buttons" component={Buttons} />
-    <Route path="/ui-elements/images" component={Images} />
-    <Route path="/ui-elements/lists" component={Lists} />
-    <Route path="/ui-elements/modals" component={Modals} />
-    <Route path="/ui-elements/pagination" component={Pagination} />
-    <Route path="/ui-elements/progress-bars" component={ProgressBars} />
-    <Route
-      path="/ui-elements/social-media-buttons"
-      component={SocialMediaButtons}
-    />
-    <Route path="/ui-elements/tabs" component={Tabs} />
-    <Route path="/ui-elements/tooltips" component={Tooltips} />
-    <Route path="/ui-elements/typography" component={Typography} />
-    <Route path="/widgets/activity-widgets" component={ActivityWidgets} />
-    <Route path="/widgets/area-chart-widgets" component={AreaChartWidgets} />
-    <Route path="/widgets/bar-chart-widgets" component={BarChartWidgets} />
-    <Route path="/widgets/donut-chart-widgets" component={DonutChartWidgets} />
-    <Route path="/widgets/icon-widgets" component={IconWidgets} />
-    <Route path="/widgets/line-chart-widgets" component={LineChartWidgets} />
-    <Route path="/widgets/pie-chart-widgets" component={PieChartWidgets} />
-    <Route path="/widgets/table-widgets" component={TableWidgets} />
-    <Route path="/widgets/text-widgets" component={TextWidgets} />
-    <Route path="/widgets/timeline-widgets" component={TimelineWidgets} />
-    <Route path="/widgets/user-widgets" component={UserWidgets} />
-    <Route component={EmptyPage} />
-  </Switch>
-)
+function Routes(){
+
+  return (
+    <Switch>
+      <Route exact path="/" component={Home} />
+      <Route path="/charts/chartist" component={Chartist} />
+      <Route path="/charts/recharts" component={Recharts} />
+      <Route path="/admin/analytics" component={Analytics} />
+      <Route path="/dashboards/geographic" component={Geographic} />
+      <Route path="/dashboards/e-commerce" component={ECommerce} />
+      <Route path="/demos/demo-1" component={Demo1} />
+      <Route path="/demos/demo-2" component={Demo2} />
+      <Route path="/demos/demo-3" component={Demo3} />
+      <Route path="/demos/demo-4" component={Demo4} />
+      <Route path="/demos/demo-5" component={Demo5} />
+      <Route path="/demos/demo-6" component={Demo6} />
+      <Route path="/documentation/change-log" component={Changelog} />
+      <Route path="/documentation/code-structure" component={CodeStructure} />
+      <Route path="/documentation/credits" component={Credits} />
+      <Route path="/documentation/faq" component={Faq} />
+      <Route path="/documentation/installation" component={Installation} />
+      <Route path="/forms/default-forms" component={DefaultForms} />
+      <Route path="/forms/input-groups" component={InputGroups} />
+      <Route path="/forms/react-datetime" component={ReactDatetime} />
+      <Route path="/forms/react-select" component={ReactSelect} />
+      <Route path="/forms/sliders" component={Sliders} />
+      <Route path="/forms/validation" component={Validation} />
+      <Route path="/icons/flags" component={Flags} />
+      <Route path="/icons/font-awesome" component={FontAwesome} />
+      <Route path="/icons/ionicons" component={Ionicons} />
+      <Route
+        path="/icons/material-design-icons"
+        component={MaterialDesignIcons}
+      />
+      <Route path="/icons/simple-line-icons" component={SimpleLineIcons} />
+      <Route path="/icons/weather-icons" component={WeatherIcons} />
+      <Route path="/layouts/collapsed-sidebar-1" component={CollapsedSidebar1} />
+      <Route path="/layouts/default-sidebar-1" component={DefaultSidebar1} />
+      <Route path="/layouts/top-navigation-1" component={TopNavigation1} />
+      <Route path="/maps/google-maps" component={GoogleMaps} />
+      <Route path="/maps/vector-maps" component={VectorMaps} />
+      <Route path="/notifications/reapop" component={Reapop} />
+      <Route path="/pages/contact-us" component={ContactUs} />
+      <Route path="/pages/create-account" component={CreateAccount} />
+      <Route path="/pages/empty-page" component={EmptyPage} />
+      <Route path="/pages/error-page" component={ErrorPage} />
+      <Route path="/pages/home" component={Home} />
+      <Route path="/auth/login" component={Login} />
+      <Route path="/pages/reset-password" component={ResetPassword} />
+      <Route path="/pages/subscribe" component={Subscribe} />
+      <Route path="/pages/under-maintenance" component={UnderMaintenance} />
+      <Route path="/pages/unlock-account" component={UnlockAccount} />
+      <Route path="/tables/default-tables" component={DefaultTables} />
+      <Route path="/tables/reactable" component={Reactable} />
+      <Route path="/ui-elements/alerts" component={Alerts} />
+      <Route path="/ui-elements/badges" component={Badges} />
+      <Route path="/ui-elements/breadcrumbs" component={Breadcrumbs} />
+      <Route path="/ui-elements/buttons" component={Buttons} />
+      <Route path="/ui-elements/images" component={Images} />
+      <Route path="/ui-elements/lists" component={Lists} />
+      <Route path="/ui-elements/modals" component={Modals} />
+      <Route path="/ui-elements/pagination" component={Pagination} />
+      <Route path="/ui-elements/progress-bars" component={ProgressBars} />
+      <Route
+        path="/ui-elements/social-media-buttons"
+        component={SocialMediaButtons}
+      />
+      <Route path="/ui-elements/tabs" component={Tabs} />
+      <Route path="/ui-elements/tooltips" component={Tooltips} />
+      <Route path="/ui-elements/typography" component={Typography} />
+      <Route path="/widgets/activity-widgets" component={ActivityWidgets} />
+      <Route path="/widgets/area-chart-widgets" component={AreaChartWidgets} />
+      <Route path="/widgets/bar-chart-widgets" component={BarChartWidgets} />
+      <Route path="/widgets/donut-chart-widgets" component={DonutChartWidgets} />
+      <Route path="/widgets/icon-widgets" component={IconWidgets} />
+      <Route path="/widgets/line-chart-widgets" component={LineChartWidgets} />
+      <Route path="/widgets/pie-chart-widgets" component={PieChartWidgets} />
+      <Route path="/widgets/table-widgets" component={TableWidgets} />
+      <Route path="/widgets/text-widgets" component={TextWidgets} />
+      <Route path="/widgets/timeline-widgets" component={TimelineWidgets} />
+      <Route path="/widgets/user-widgets" component={UserWidgets} />
+      <Route component={EmptyPage} />
+    </Switch>
+  )
+}
 
 export default Routes
