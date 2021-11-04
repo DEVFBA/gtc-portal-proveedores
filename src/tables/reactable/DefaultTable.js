@@ -2,15 +2,8 @@ import React from 'react'
 import {Table, Thead, Th, Tr, Td} from 'reactable'
 import '../../css/tables/reactable.css'
 
-const DefaultTable = ({
-  items,
-  columns,
-  columnNames,
-  itemsPerPage,
-  search,
-  onSearch,
-  onChangeItemsPerPage
-}) => {
+function DefaultTable ({items, columns, columnNames, itemsPerPage, search, onSearch, onChangeItemsPerPage}) 
+{
   return (
     <div>
       <div className="row d-flex">
@@ -18,7 +11,7 @@ const DefaultTable = ({
           <form onSubmit={e => e.preventDefault()}>
             <div className="form-group">
               <div className="input-group">
-                <span className="input-group-addon rounded-left">Search</span>
+                <span className="input-group-addon rounded-left">Buscar</span>
                 <input
                   className="form-control rounded-right"
                   type="text"
@@ -32,7 +25,7 @@ const DefaultTable = ({
         <div className="col-8">
           <form onSubmit={e => e.preventDefault()} className="pull-right">
             <div className="form-group form-inline">
-              <span className="m-r-10">Show</span>
+              <span className="m-r-10">Mostrar</span>
               <select
                 className="custom-select m-r-10"
                 onChange={onChangeItemsPerPage}
@@ -42,7 +35,7 @@ const DefaultTable = ({
                 <option value="50">50</option>
                 <option value="100">100</option>
               </select>
-              <span>entries</span>
+              <span>entradas</span>
             </div>
           </form>
         </div>
@@ -80,10 +73,5 @@ const DefaultTable = ({
     </div>
   )
 }
-DefaultTable.defaultProps = {
-  items: [],
-  columns: [],
-  itemsPerPage: 20,
-  text: ''
-}
+
 export default DefaultTable

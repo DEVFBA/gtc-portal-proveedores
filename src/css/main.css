@@ -7818,3 +7818,249 @@ select {
 
 .border-color-hover-foursquare:hover, .border-color-hover-foursquare:active, .border-color-hover-foursquare:focus {
   color: #207dc5 !important; }
+
+.react-select .react-select__menu {
+  top: 105%;
+  max-width: 94%;
+  width: 94%;
+  right: 3%;
+  border-radius: 12px;
+  border: 0;
+  box-shadow: 1px 2px 7px 1px rgba(0, 0, 0, 0.125);
+  transition: all 0.3s cubic-bezier(0.215, 0.61, 0.355, 1) 0s, opacity 0.3s ease 0s, height 0s linear 0.35s;
+  background-color: #FFFFFF;
+  box-sizing: border-box;
+  max-height: 200px;
+  position: absolute;
+  z-index: 2;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 10px;
+  margin-bottom: unset;
+  margin-top: unset; }
+  .react-select .react-select__menu:before {
+    border-bottom: 11px solid #f1eae0;
+    top: -11px;
+    border-left: 11px solid transparent;
+    border-right: 11px solid transparent;
+    content: "";
+    display: inline-block;
+    position: absolute;
+    right: 15px; }
+  .react-select .react-select__menu:after {
+    top: -10px;
+    border-bottom: 11px solid #fffcf5;
+    border-left: 11px solid transparent;
+    border-right: 11px solid transparent;
+    content: "";
+    display: inline-block;
+    position: absolute;
+    right: 15px; }
+
+.react-select .react-select__menu-list {
+  max-height: 198px;
+  overflow-y: auto;
+  padding-bottom: unset;
+  padding-top: unset;
+  position: relative; }
+
+.react-select .react-select__option {
+  font-size: 0.8571em;
+  padding-top: .6rem;
+  padding-bottom: .6rem;
+  margin-top: 5px;
+  -webkit-transition: all 150ms linear;
+  -moz-transition: all 150ms linear;
+  -o-transition: all 150ms linear;
+  -ms-transition: all 150ms linear;
+  transition: all 150ms linear;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  display: block;
+  outline: none;
+  color: #292b2c; }
+
+.react-select .react-select__menu .react-select__option, .react-select .react-select__menu .react-select__option:active {
+  background-color: transparent; }
+
+.react-select .react-select__menu .react-select__option.react-select__option--is-selected, .react-select .react-select__menu .react-select__option.react-select__option--is-selected:active, .react-select .react-select__menu .react-select__option.react-select__option--is-selected.react-select__option--is-focused, .react-select .react-select__menu .react-select__option.react-select__option--is-selected.react-select__option--is-focused:active {
+  background-color: #DDDDDD; }
+
+.react-select .react-select__menu .react-select__option.react-select__option--is-focused, .react-select .react-select__menu .react-select__option.react-select__option--is-focused:active {
+  background-color: #F5F5F5; }
+
+.react-select .react-select__menu .react-select__option.react-select__option--is-disabled, .react-select .react-select__menu .react-select__option.react-select__option--is-disabled:active {
+  color: #cccccc;
+  cursor: default; }
+
+.react-select .react-select__control {
+  border-radius: 4px;
+  min-height: 40px;
+  height: 40px;
+  box-sizing: border-box;
+  border-collapse: separate;
+  display: table;
+  width: 100%; }
+  .react-select .react-select__control, .react-select .react-select__control:hover {
+    border: 1px solid #E3E3E3;
+    box-shadow: none;
+    background-color: transparent; }
+  .react-select .react-select__control.react-select__control--is-focused .react-select__dropdown-indicator:after {
+    transform: rotate(180deg);
+    top: -4px; }
+  .react-select .react-select__control.react-select__control--is-focused, .react-select .react-select__control.react-select__control--is-focused:hover {
+    border: 1px solid #043b93;
+    box-shadow: none; }
+  .react-select .react-select__control .react-select__value-container--has-value .react-select__multi-value {
+    display: inline-flex;
+    border-radius: 4px;
+    background-color: transparent; }
+    .react-select .react-select__control .react-select__value-container--has-value .react-select__multi-value + div:not(.react-select__multi-value) {
+      display: inline-flex; }
+    .react-select .react-select__control .react-select__value-container--has-value .react-select__multi-value .react-select__multi-value__label {
+      font-size: 0.9em; }
+  .react-select .react-select__control .react-select__value-container--has-value .react-select__single-value {
+    top: 48%;
+    color: #2c2c2c; }
+  .react-select .react-select__control .react-select__placeholder {
+    color: #9A9A9A;
+    line-height: normal;
+    font-size: 0.8571em;
+    top: 48%; }
+  .react-select .react-select__control .react-select__value-container,
+  .react-select .react-select__control .react-select__indicators {
+    display: table-cell; }
+  .react-select .react-select__control .react-select__indicators {
+    width: 60px;
+    padding-right: 10px;
+    align-items: flex-end;
+    vertical-align: middle;
+    text-align: right; }
+    .react-select .react-select__control .react-select__indicators .react-select__indicator-separator {
+      display: none; }
+    .react-select .react-select__control .react-select__indicators .react-select__indicator {
+      padding: 0;
+      display: inline-block; }
+    .react-select .react-select__control .react-select__indicators .react-select__dropdown-indicator:after {
+      transition: all 150ms ease 0s;
+      border-color: #999 transparent transparent;
+      border-style: solid;
+      border-width: 5px 5px 2.5px;
+      display: inline-block;
+      height: 0;
+      width: 0;
+      position: relative;
+      content: ""; }
+    .react-select .react-select__control .react-select__indicators .react-select__dropdown-indicator:hover:after {
+      border-top-color: #666666; }
+    .react-select .react-select__control .react-select__indicators .react-select__dropdown-indicator > * {
+      display: none; }
+    .react-select .react-select__control .react-select__indicators .react-select__clear-indicator:before {
+      content: "\D7";
+      display: inline-block;
+      font-size: 18px;
+      line-height: 1;
+      top: 2px;
+      position: relative;
+      margin-right: 3px; }
+    .react-select .react-select__control .react-select__indicators .react-select__clear-indicator > * {
+      display: none; }
+
+.react-select.primary .react-select__control.react-select__control--is-focused, .react-select.primary .react-select__control.react-select__control--is-focused:hover {
+  border-color: #043b93; }
+
+.react-select.primary .react-select__control .react-select__value-container--has-value .react-select__single-value,
+.react-select.primary .react-select__control .react-select__value-container--has-value .react-select__multi-value__label {
+  color: #043b93; }
+
+.react-select.primary .react-select__multi-value {
+  border: 1px solid #043b93; }
+  .react-select.primary .react-select__multi-value .react-select__multi-value__remove {
+    color: rgba(249, 99, 50, 0.3);
+    border-left: 1px solid rgba(249, 99, 50, 0.3); }
+    .react-select.primary .react-select__multi-value .react-select__multi-value__remove:hover {
+      color: #043b93;
+      background-color: transparent; }
+
+.react-select.success .react-select__control.react-select__control--is-focused, .react-select.success .react-select__control.react-select__control--is-focused:hover {
+  border-color: #6bd098; }
+
+.react-select.success .react-select__control .react-select__value-container--has-value .react-select__single-value,
+.react-select.success .react-select__control .react-select__value-container--has-value .react-select__multi-value__label {
+  color: #6bd098; }
+
+.react-select.success .react-select__multi-value {
+  border: 1px solid #6bd098; }
+  .react-select.success .react-select__multi-value .react-select__multi-value__remove {
+    color: rgba(24, 206, 15, 0.3);
+    border-left: 1px solid rgba(24, 206, 15, 0.3); }
+    .react-select.success .react-select__multi-value .react-select__multi-value__remove:hover {
+      color: #6bd098;
+      background-color: transparent; }
+
+.react-select.info .react-select__control.react-select__control--is-focused, .react-select.info .react-select__control.react-select__control--is-focused:hover {
+  border-color: #19b3a4; }
+
+.react-select.info .react-select__control .react-select__value-container--has-value .react-select__single-value,
+.react-select.info .react-select__control .react-select__value-container--has-value .react-select__multi-value__label {
+  color: #19b3a4; }
+
+.react-select.info .react-select__multi-value {
+  border: 1px solid #19b3a4; }
+  .react-select.info .react-select__multi-value .react-select__multi-value__remove {
+    color: rgba(44, 168, 255, 0.3);
+    border-left: 1px solid rgba(44, 168, 255, 0.3); }
+    .react-select.info .react-select__multi-value .react-select__multi-value__remove:hover {
+      color: #19b3a4;
+      background-color: transparent; }
+
+.react-select.warning .react-select__control.react-select__control--is-focused, .react-select.warning .react-select__control.react-select__control--is-focused:hover {
+  border-color: #ec0506; }
+
+.react-select.warning .react-select__control .react-select__value-container--has-value .react-select__single-value,
+.react-select.warning .react-select__control .react-select__value-container--has-value .react-select__multi-value__label {
+  color: #ec0506; }
+
+.react-select.warning .react-select__multi-value {
+  border: 1px solid #ec0506; }
+  .react-select.warning .react-select__multi-value .react-select__multi-value__remove {
+    color: rgba(255, 178, 54, 0.3);
+    border-left: 1px solid rgba(255, 178, 54, 0.3); }
+    .react-select.warning .react-select__multi-value .react-select__multi-value__remove:hover {
+      color: #ec0506;
+      background-color: transparent; }
+
+.react-select.danger .react-select__control.react-select__control--is-focused, .react-select.danger .react-select__control.react-select__control--is-focused:hover {
+  border-color: #ef8157; }
+
+.react-select.danger .react-select__control .react-select__value-container--has-value .react-select__single-value,
+.react-select.danger .react-select__control .react-select__value-container--has-value .react-select__multi-value__label {
+  color: #ef8157; }
+
+.react-select.danger .react-select__multi-value {
+  border: 1px solid #ef8157; }
+  .react-select.danger .react-select__multi-value .react-select__multi-value__remove {
+    color: rgba(255, 54, 54, 0.3);
+    border-left: 1px solid rgba(255, 54, 54, 0.3); }
+    .react-select.danger .react-select__multi-value .react-select__multi-value__remove:hover {
+      color: #ef8157;
+      background-color: transparent; }
+
+.react-select .react-select__multi-value {
+  border: 1px solid #9A9A9A; }
+  .react-select .react-select__multi-value .react-select__multi-value__remove {
+    position: relative;
+    color: rgba(222, 222, 222, 0.8);
+    border-left: 1px solid rgba(222, 222, 222, 0.8); }
+    .react-select .react-select__multi-value .react-select__multi-value__remove:hover {
+      color: #9A9A9A;
+      background-color: transparent; }
+
+.react-select.react-select--is-disabled .react-select__multi-value--is-disabled .react-select__multi-value__remove {
+  display: none; }
+
+.react-select.react-select--is-disabled .react-select__multi-value--is-disabled.react-select__multi-value {
+  background-color: #fcfcfc;
+  border: 1px solid #e3e3e3; }
+
+.react-select.react-select--is-disabled .react-select__control--is-disabled {
+  background-color: #f9f9f9; }

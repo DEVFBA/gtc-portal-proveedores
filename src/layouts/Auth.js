@@ -4,11 +4,10 @@ import { useState, useEffect } from "react";
 import { Route, Switch } from "react-router-dom";
 import Login from '../pages/login/Login.js'
 
-import navigation from "./navigation.js"
-
 function Pages() {
     const [dbRoutes, setDbRoutes] = useState([]);
     const [isEmptyView, setIsEmptyView] = useState(true)
+    const ambiente = "/DEV"
     const [layout, setLayout] = useState('empty-view-1')
     useEffect(() => {
         var routesAux = [];
@@ -22,7 +21,7 @@ function Pages() {
             name: "Login",
             icon: "nc-icon nc-bank",
             component: Login,
-            layout: "/auth",
+            layout:  ambiente + "/auth",
           },
         )
         setDbRoutes(routesAux)
@@ -33,7 +32,7 @@ function Pages() {
           if (prop.collapse) {
             return getRoutes(prop.views);
           }
-          if (prop.layout === "/auth") {
+          if (prop.layout === ambiente + "/auth") {
             return (
               <Route
                 path={prop.layout + prop.path}

@@ -15,29 +15,7 @@ function Navbar1({layout, setLayout})
     <nav className="navbar navbar-1 d-flex justify-content-around align-items-center flex-nowrap">
       <Logo />
       <ToggleLayout1 layout = {layout} setLayout = {setLayout}/>
-      {/*<ul className="nav nav-inline nav-inline-1">
-        <li className="nav-item nav-item-dropdown">
-          <a className="nav-link">
-            <i className="material-icons">fullscreen</i>
-          </a>
-          <DropdownGrid/>
-        </li>
-        <li className="nav-item nav-item-dropdown">
-          <a className="nav-link">
-            <i className="material-icons">rss_feed</i>
-          </a>
-          <DropdownTasks/>
-        </li>
-        <li className="nav-item nav-item-dropdown">
-          <a className="nav-link nav-link-badge">
-            <i className="material-icons">notifications_none</i>
-            <span className="badge badge-sm badge-rounded badge-danger">3</span>
-          </a>
-          <DropdownMessages/>
-        </li>
-      </ul>*/}
       <div className="separator" />
-      {/*<Search/>*/}
       <ul className="nav nav-inline nav-inline-2">
         <li className="nav-item nav-item-dropdown">
           <a className="nav-link nav-link-avatar">

@@ -11,6 +11,8 @@ import Recharts from '../charts/recharts'
 import Analytics from '../dashboards/analytics/Analytics.js'
 import Carga from "../pages/carga/Carga.js"
 
+const ambiente = "/DEV"
+
 const urls = [
     {
       collapse: true,
@@ -21,7 +23,7 @@ const urls = [
           path: '/analytics',
           icon: 'dashboard',
           name: 'Dashboard',
-          layout: "/admin", 
+          layout: ambiente + "/admin", 
           component: Analytics,
           views: []
         },
@@ -34,7 +36,7 @@ const urls = [
               path: '/monitor',
               icon: '',
               name: 'Monitor',
-              layout: "/admin",
+              layout: ambiente + "/admin",
               component: Analytics,
               views: []
             },
@@ -42,7 +44,7 @@ const urls = [
               path: '/carga',
               icon: '',
               name: 'Carga',
-              layout: "/admin",
+              layout: ambiente + "/admin",
               component: Carga,
               views: []
             }
@@ -57,7 +59,7 @@ const urls = [
               path: '/usuarios',
               icon: '',
               name: 'Usuarios',
-              layout: "/admin",
+              layout: ambiente + "/admin",
               component: Analytics,
               views: []
             }

@@ -1,33 +1,120 @@
 import React from 'react'
-import {connect} from 'react-redux'
-import {validate, submit} from '../../actions/pages/index'
-import {Link} from 'react-router-dom'
+import { useState, useEffect} from "react";
+import { Link, useHistory } from "react-router-dom";
 import '../../css/pages/form.css'
 
-import {
-  Button,
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  Label,
-  FormGroup,
-  Form,
-  Input,
-  InputGroupAddon,
-  InputGroupText,
-  InputGroup,
-  Container,
-  Col,
-  Row,
-} from "reactstrap";
-
 function Login(){
+  const ambiente = "/DEV"
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const history = useHistory();
+  const logged = localStorage.getItem("Logged");
+
+  const [errorState, setErrorState] = React.useState("");
+  const [error, setError] = React.useState();
+  const [errorMessage, setErrorMessage] = React.useState("");
+
+  useEffect(() => {
+    //Si el usuario ya ha iniciado sesión que se le redirija al dashboard
+    if(logged==="true")
+    {
+      history.push(ambiente + "/admin/dashboard");
+    }
+  }, []);
+
+  function onChangePassword(event) {
+    setPassword(event.target.value);
+  }
+
+  function onChangeEmail(event) {
+    setEmail(event.target.value);
+  }
+
+  function onSubmitForm(event) {
+    event.preventDefault();
+
+    const catRegister = {
+      pvIdUser: email,
+      pvPassword: password
+    };
+
+    fetch(`http://localhost:8091/api/security-users/login/`, {
+        method: "POST",
+        body: JSON.stringify(catRegister),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+    .then((response) => response.json())
+    .then((data) => {
+        if (data.errors) {
+            setError(
+                <p>Hubo un error al realizar tu solicitud</p>
+            );
+        }
+        else{
+            if(data[0].Code_Type === "Error")
+            {
+                setErrorState("has-danger")
+                setErrorMessage(data[0].Code_Message_User)
+            }
+            else{
+                setErrorState("has-success");
+                //Obtenemos la información del usuario y la guardamos en el useContext
+                getUser(email, data[1].token)
+            }
+        }
+    });
+  }
+
+  function getUser(email, token){
+
+    var url = new URL(`http://localhost:8091/api/security-users/${email}`);
+    fetch(url, {
+      method: "GET",
+      headers: {
+          "access-token": token,
+          "Content-Type": "application/json",
+      }
+    })
+    .then(function(response) {
+        return response.ok ? response.json() : Promise.reject();
+    })
+    .then(function(data) {
+        localStorage.setItem("User", data[0].User);
+        localStorage.setItem("Id_Vendor", data[0].Id_Vendor)
+        localStorage.setItem("Id_Role", data[0].Id_Role)
+        localStorage.setItem("Token", token)
+        localStorage.setItem("Logged", true)
+        //Comparar fechas
+        var f1 = new Date();
+        var f2 = new Date(data[0].Final_Effective_Date)
+        if(data[0].Temporal_Password===true)
+        {
+          history.push(ambiente + "/auth/edit-password");
+        }
+        else if (data[0].Final_Effective_Date === "NULL")
+        {
+          history.push(ambiente + "/auth/edit-password");      
+        }
+        else if(f2 < f1)
+        {
+          history.push(ambiente + "/auth/edit-password");
+        }
+        else{
+          history.push(ambiente + "/admin/dashboard");
+        }
+        
+    })
+    .catch(function(err) {
+        alert("No se pudo consultar la informacion del usuario" + err);
+    });
+  }
 
   return (
     <div className="sample-form">
       <h3>Login</h3>
-      <form onSubmit={e => e.preventDefault()}>
+      <form onSubmit={onSubmitForm}>
         <div className="description">Por favor ingresa tu correo y contraseña para iniciar sesión</div>
         <div className='form-group'>
           <label className="form-control-label">Email</label>
@@ -37,17 +124,14 @@ function Login(){
               account_circle
               </i>
             </span>
-            <input className="form-control rounded-right"
+            <input 
+              className="form-control rounded-right"
               placeholder=''
               type="email"
               name="email"
+              onChange={onChangeEmail}
             />
           </div>
-          {/*field.errors.map((error, i) => (
-            <div key={i} className="form-text text-danger">
-              {error}
-            </div>
-          ))*/}
         </div>
         <div className='form-group'>
           <label className="form-control-label">Contraseña</label>
@@ -57,23 +141,21 @@ function Login(){
               lock_outline
               </i>
             </span>
-            <input className="form-control rounded-right"
+            <input 
+              className="form-control rounded-right"
               placeholder=''
               type="password"
               name="password"
+              onChange={onChangePassword}
             />
           </div>
-          {/*field.errors.map((error, i) => (
-            <div key={i} className="form-text text-danger">
-              {error}
-            </div>
-          ))*/}
         </div>
+        {errorMessage}
         <div className="form-group">
           <button
             className="btn btn-primary btn-rounded btn-outline"
             type="submit"
-            onClick={() => console.log("")}>
+          >
             Enviar
           </button>
         </div>

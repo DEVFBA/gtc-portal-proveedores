@@ -9,9 +9,9 @@ function App() {
         <div>
             <BrowserRouter>
                 <Switch>
-                  <Route path="/auth" render={(props) => <AuthLayout {...props} />} />
-                  <Route path="/admin" render={(props) => <AdminLayout {...props} />} />
-                  <Redirect to="/auth/login" />
+                  <Route path="/DEV/auth" render={(props) => <AuthLayout {...props} />} />
+                  <Route path="/DEV/admin" render={(props) => <AdminLayout {...props} />} />
+                  <Redirect to="/DEV/auth/login" />
                 </Switch>
             </BrowserRouter>
         </div>
