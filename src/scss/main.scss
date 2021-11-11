@@ -8,6 +8,7 @@
 @import "layouts/top-navigation-1";
 @import "layouts/empty-view-1";
 @import "layouts/home";
+@import "react-table";
 
 body,
 html,
@@ -483,3 +484,5 @@ $colors: map-merge(
     }
   }
 }
+
+

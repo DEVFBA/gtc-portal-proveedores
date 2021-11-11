@@ -4,7 +4,7 @@ import { Link, useHistory } from "react-router-dom";
 import '../../css/pages/form.css'
 
 function Login(){
-  const ambiente = "/DEV"
+  const ambiente = "/DEV-Vendors"
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const history = useHistory();
@@ -38,7 +38,7 @@ function Login(){
       pvPassword: password
     };
 
-    fetch(`http://localhost:8091/api/security-users/login/`, {
+    fetch(`http://129.159.99.152/develop-vendors/api/security-users/login/`, {
         method: "POST",
         body: JSON.stringify(catRegister),
         headers: {
@@ -69,7 +69,7 @@ function Login(){
 
   function getUser(email, token){
 
-    var url = new URL(`http://localhost:8091/api/security-users/${email}`);
+    var url = new URL(`http://129.159.99.152/develop-vendors/api/security-users/${email}`);
     fetch(url, {
       method: "GET",
       headers: {

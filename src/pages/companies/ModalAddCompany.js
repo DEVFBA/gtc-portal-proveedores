@@ -154,7 +154,7 @@ function ModalAddCompany({modalAddRecord, setModalAddRecord, dataCountries, upda
             pvIP : ip
         };
     
-        fetch(`http://localhost:8091/api/companies/create-company/`, {
+        fetch(`http://129.159.99.152/develop-vendors/api/companies/create-company/`, {
             method: "POST",
             body: JSON.stringify(catRegister),
             headers: {

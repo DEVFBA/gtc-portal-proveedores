@@ -122,7 +122,7 @@ function ModalUpdateRol({abierto, toggleModalUpdateRecord, record, updateAddData
             pvIP: ip
         };
 
-        fetch(`http://localhost:8091/api/security-roles/update-rol/`, {
+        fetch(`http://129.159.99.152/develop-vendors/api/security-roles/update-rol/`, {
             method: "PUT",
             body: JSON.stringify(catRegister),
             headers: {

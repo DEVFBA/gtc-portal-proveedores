@@ -89,12 +89,12 @@ function ModalUpdateVoucherTypes({abierto, toggleModalUpdateRecord, record, ip, 
 
         verifyInputs()
         if (
-            updateShortDescState !== "text-danger" &&
-            updateLongDescState !== "text-danger"
+            updateShortDescState !== "has-success" &&
+            updateLongDescState !== "has-success"
         ) {
-            return true;
+            return false;
         } else {
-          return false;
+          return true;
         }
       };
 
@@ -118,7 +118,7 @@ function ModalUpdateVoucherTypes({abierto, toggleModalUpdateRecord, record, ip, 
             pvIP: ip
         };
 
-        fetch(`http://localhost:8091/api/cat-catalogs/update-sat/`, {
+        fetch(`http://129.159.99.152/develop-vendors/api/cat-catalogs/update-sat/`, {
             method: "PUT",
             body: JSON.stringify(catRegister),
             headers: {

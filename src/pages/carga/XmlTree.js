@@ -15,9 +15,6 @@ import {
 
 function XmlTree({dataString}) {
 
-  //Para guardar el archivo
-  const [arbol, setArbol] = useState("");
-
   const treeStyles = {
     position: 'absolute',
     top: 40,
@@ -34,8 +31,9 @@ function XmlTree({dataString}) {
 
   var componente = ""
   recorrerArbol(dataString)
-
+  
   function recorrerArbol(json)		{
+    //console.log("TAMAÑO : " + json.length)
     var type;
     var resultado
     var nombre=""
@@ -86,7 +84,7 @@ function XmlTree({dataString}) {
         }
         tabla = tabla + "</Table>"
         componente = componente + tabla
-
+        //console.log("si entro")
         /*for(var x = 0; x< filas; x++)
         {
             if(x===0)

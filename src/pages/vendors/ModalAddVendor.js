@@ -130,7 +130,7 @@ function ModalAddVendor({modalAddRecord, setModalAddRecord, ip, autoCloseAlert, 
             pvIP : ip
         };
     
-        fetch(`http://localhost:8091/api/vendors/create-vendor/`, {
+        fetch(`http://129.159.99.152/develop-vendors/api/vendors/create-vendor/`, {
             method: "POST",
             body: JSON.stringify(catRegister),
             headers: {

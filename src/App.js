@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import { BrowserRouter, Route, Switch, Redirect, useHistory } from "react-router-dom";
 
 import AuthLayout from "./layouts/Auth.js";
 import AdminLayout from "./layouts/Admin.js";
@@ -9,9 +9,9 @@ function App() {
         <div>
             <BrowserRouter>
                 <Switch>
-                  <Route path="/DEV/auth" render={(props) => <AuthLayout {...props} />} />
-                  <Route path="/DEV/admin" render={(props) => <AdminLayout {...props} />} />
-                  <Redirect to="/DEV/auth/login" />
+                  <Route path="/DEV-Vendors/auth" render={(props) => <AuthLayout {...props} />} />
+                  <Route path="/DEV-Vendors/admin" render={(props) => <AdminLayout {...props} />} />
+                  <Redirect to="/DEV-Vendors/auth/login" />
                 </Switch>
             </BrowserRouter>
         </div>

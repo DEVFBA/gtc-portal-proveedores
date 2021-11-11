@@ -20,7 +20,7 @@ import {
     Row
 } from "reactstrap";
 
-function ModalAddUser({modalAddRecord, setModalAddRecord, dataRoles, dataVendors, updateAddData, pathImage, ip, autoCloseAlert, validDays}) {
+function ModalAddUser({modalAddRecord, setModalAddRecord, dataRoles, dataVendors, updateAddData, ip, autoCloseAlert, validDays, pathImage}) {
         // register form
     const [registerEmail, setregisterEmail] = React.useState("");
     const [registerFullName, setregisterFullName] = React.useState("");
@@ -204,7 +204,7 @@ function ModalAddUser({modalAddRecord, setModalAddRecord, dataRoles, dataVendors
             pvIP: ip
         };
     
-        fetch(`http://localhost:8091/api/security-users/create-user/`, {
+        fetch(`http://129.159.99.152/develop-vendors/api/security-users/create-user/`, {
             method: "POST",
             body: JSON.stringify(catRegister),
             headers: {
@@ -225,12 +225,14 @@ function ModalAddUser({modalAddRecord, setModalAddRecord, dataRoles, dataVendors
                     setErrorMessage(data[0].Code_Message_User)
                     setErrorState("has-danger")
                     autoCloseAlert(data[0].Code_Message_User)
+                    console.log(data[0].Code_Message_User)
                 }
                 else if(data[0].Code_Type === "Error")
                 {
                     setErrorMessage(data[0].Code_Message_User)
                     autoCloseAlert(data[0].Code_Message_User)
                     setErrorState("has-danger")
+                    console.log(data[0].Code_Message_User)
                 }
                 else{
                     setErrorState("has-success");
@@ -239,6 +241,7 @@ function ModalAddUser({modalAddRecord, setModalAddRecord, dataRoles, dataVendors
                     //Cerramos el modal
                     handleModalClick()
                     autoCloseAlert(data[0].Code_Message_User)
+                    console.log(data[0].Code_Message_User)
                 }
             }
         });

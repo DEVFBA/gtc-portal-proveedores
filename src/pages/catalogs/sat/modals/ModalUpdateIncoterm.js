@@ -89,12 +89,12 @@ function ModalUpdateIncoterm({abierto, toggleModalUpdateRecord, record, ip, auto
 
         verifyInputs()
         if (
-            updateShortDescState !== "text-danger" &&
-            updateLongDescState !== "text-danger"
+            updateShortDescState !== "has-success" &&
+            updateLongDescState !== "has-success"
         ) {
-            return true;
+            return false;
         } else {
-          return false;
+          return true;
         }
       };
 
@@ -118,7 +118,7 @@ function ModalUpdateIncoterm({abierto, toggleModalUpdateRecord, record, ip, auto
             pvIP: ip
         };
 
-        fetch(`http://localhost:8091/api/cat-catalogs/update-sat/`, {
+        fetch(`http://129.159.99.152/develop-vendors/api/cat-catalogs/update-sat/`, {
             method: "PUT",
             body: JSON.stringify(catRegister),
             headers: {
@@ -157,13 +157,6 @@ function ModalUpdateIncoterm({abierto, toggleModalUpdateRecord, record, ip, auto
             }
         });
         
-    }
-
-    /* Función que suma o resta días a una fecha, si el parámetro
-   días es negativo restará los días*/
-    function sumarDias(fecha, dias){
-        fecha.setDate(fecha.getDate() + dias);
-        return fecha;
     }
 
     return (

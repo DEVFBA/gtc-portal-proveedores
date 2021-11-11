@@ -8,6 +8,24 @@ import Skeleton from '@yisheng90/react-loading';
 
 import CompaniesTable from './CompaniesTable';
 
+import {
+    Button,
+    Card,
+    CardHeader,
+    CardBody,
+    CardTitle,
+    Row,
+    Col,
+    FormGroup,
+    Form,
+    Label,
+    Input,
+    Modal, 
+    ModalBody, 
+    ModalFooter,
+    CardFooter
+} from "reactstrap";
+
 function Companies({autoCloseAlert}){
     //Para guardar los datos de los usuarios
     const [dataCompanies, setDataCompanies] = useState([]);
@@ -37,7 +55,7 @@ function Companies({autoCloseAlert}){
           pvOptionCRUD: "R"
         };
     
-        var url = new URL(`http://localhost:8091/api/companies/`);
+        var url = new URL(`http://129.159.99.152/develop-vendors/api/companies/`);
     
         Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
     
@@ -66,7 +84,7 @@ function Companies({autoCloseAlert}){
           pSpCatalog : "spSAT_Cat_Countries_CRUD_Records",
         };
     
-        var url = new URL(`http://localhost:8091/api/cat-catalogs/catalog`);
+        var url = new URL(`http://129.159.99.152/develop-vendors/api/cat-catalogs/catalog`);
         Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
     
         fetch(url, {
@@ -108,7 +126,7 @@ function Companies({autoCloseAlert}){
         pvOptionCRUD: "R"
         };
 
-        var url = new URL(`http://localhost:8091/api/companies/`);
+        var url = new URL(`http://129.159.99.152/develop-vendors/api/companies/`);
 
         Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
 
@@ -131,15 +149,20 @@ function Companies({autoCloseAlert}){
     }
 
     return dataCompanies.length === 0 ? (
-        <Widget title="Catálogo de Compañías">
+        <div>
             <Skeleton height={25} />
             <Skeleton height="25px" />
             <Skeleton height="3rem" />
-        </Widget>
+        </div>
     ) : (
-        <Widget title="Catálogo de Compañías">
-            <CompaniesT />
-        </Widget>
+        <Card>
+            <CardHeader>
+                <CardTitle tag="h4">Catálogo de Compañías</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CompaniesT />
+            </CardBody>
+        </Card>
     )
 
 }

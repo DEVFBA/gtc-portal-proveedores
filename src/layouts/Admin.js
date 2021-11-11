@@ -4,6 +4,7 @@ import { Route, Switch, useLocation } from "react-router-dom";
 // javascript plugin used to create scrollbars on windows
 import { Link, useHistory } from "react-router-dom";
 import ReactBSAlert from "react-bootstrap-sweetalert";
+import IdleTimer from 'react-idle-timer';
 
 //global css
 import '../css/bootstrap/bootstrap.css'
@@ -25,6 +26,7 @@ import Vendors from '../pages/vendors/Vendors'
 import Portal from '../pages/catalogs/portal/Portal'
 import Sat from '../pages/catalogs/sat/Sat'
 import Carga from "../pages/carga/Carga.js"
+import CargaXML from "../pages/carga/CargaXML"
 
 import urls from "./navigation2"
 
@@ -35,7 +37,7 @@ function Admin(props) {
     const [logo, setLogo] = useState("info")
     const [leftSidebar, setLeftSidebar] = useState("dark")
 
-    const ambiente = "/DEV"
+    const ambiente = "/DEV-Vendors"
     const history = useHistory();
 
     const logged = localStorage.getItem("Logged");
@@ -47,8 +49,39 @@ function Admin(props) {
     //GUARDAR EL ESTADO PARA LAS RUTAS
     const [dbRoutes, setDbRoutes] = useState([]);
 
+    //GUARDAR EL ESTADO PARA LAS RUTAS QUE NO VAN EN EL SIDEBAR
+    const [dbRoutesS, setDbRoutesS] = useState([]);
+
     //Para mostrar una alerta al actualizar o insertar registro
     const [alert, setAlert] = React.useState(null);
+
+    //Para el cierre de sesión cuando no hay actividad
+    const [timeout, setTimeout] = useState(1800000); //despues de media hora se cierra la sesión
+    const [showModal, setShowModal] = useState(false);
+    const [userLoggedIn, setUserLoggedIn] = useState(false);
+    const [isTimedOut, setIsTimedOut] = useState(false);
+    const [idleTimer, setIdleTimer] = useState(false);
+
+    const [pathFile, setPathFile] = useState("");
+    
+    function _onAction(e) {
+      //console.log('user did something', e)
+      setIsTimedOut(false)
+    }
+    
+    function _onActive(e) {
+      //console.log('user is active', e)
+      setIsTimedOut(false)
+    }
+    
+    function _onIdle(e) {
+      localStorage.setItem("Logged", false);
+      localStorage.removeItem("User");
+      localStorage.removeItem("Id_Role");
+      localStorage.removeItem("Id_Customer");
+      localStorage.removeItem("Token");
+      history.push(ambiente + "/auth/login")
+    }
 
     useEffect(() => {
       //Si el usuario no ha iniciado sesión que se le redirija al login
@@ -66,7 +99,7 @@ function Admin(props) {
         pvIdRole : role
       };
   
-      var url = new URL(`http://localhost:8091/api/security-access/`);
+      var url = new URL(`http://129.159.99.152/develop-vendors/api/security-access/`);
   
       Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
       //console.log(url)
@@ -82,7 +115,18 @@ function Admin(props) {
           return response.ok ? response.json() : Promise.reject();
       })
       .then(function(data) {
-        console.log(data)
+
+        if(data.mensaje === 'Token inválida')
+        {
+          localStorage.setItem("Logged", false);
+          localStorage.removeItem("User");
+          localStorage.removeItem("Id_Role");
+          localStorage.removeItem("Id_Customer");
+          localStorage.removeItem("Token");
+          history.push(ambiente + "/auth/login")
+        }
+        else{
+          console.log(data)
           var routesAux = [];
 
           /*if(role == "ADMIN")
@@ -220,7 +264,7 @@ function Admin(props) {
                       {
                         path: data[i].Url,
                         name: data[i].SubModule_Desc,
-                        component: Analytics,
+                        component: "CartaPorte",
                         layout: ambiente + data[i].Layout_SubModule,
                         views: []
                       }
@@ -378,6 +422,28 @@ function Admin(props) {
               }
             }
           }
+
+
+          
+         
+          //Agregar rutas solo para roles en específico
+          //Se van a agregar en otro arreglo de rutas
+          var routesAux2 = [];
+          if(params.pvIdRole == "ADMIN" || params.pvIdRole == "SYSADMIN")
+          {
+            routesAux2.push(
+              {
+                collapse: false,
+                path: "/xml-tree/:uUID/",
+                name: "Árbol XML",
+                icon: 'dashboard',
+                component: "CargaXML",
+                layout: ambiente + "/admin",
+                views: []
+              }
+            )
+          }
+
           //FINALIZAMOS RUTAS PARA EL MENU
           setDbRoutes([
             {
@@ -386,26 +452,47 @@ function Admin(props) {
               views: routesAux
             }
           ])
-         
-          //Agregar rutas solo para roles en específico
-          //Se van a agregar en otro arreglo de rutas
-          /*if(role == "ADMIN")
-          {
-            routesAux.push(
-              {
-                collapse: false,
-                path: "dashboard",
-                name: "Dashboard",
-                icon: 'dashboard',
-                component: Analytics,
-                layout: ambiente + "/admin",
-                views: []
-              }
-            )
-          }*/
+
+          setDbRoutesS([
+            {
+              collapse: true,
+              name: 'GTC Portal Proveedores',
+              views: routesAux2
+            }
+          ])
+        }
       })
       .catch(function(err) {
           alert("No se pudo consultar la informacion de las rutas" + err);
+      });
+    }, []);
+
+    useEffect(() => {
+      //Aqui vamos a descargar la lista de general parameters para revisar la vigencia del password
+      const params = {
+        pvOptionCRUD: "R"
+      };
+    
+      var url = new URL(`http://129.159.99.152/develop-vendors/api/general-parameters/`);
+    
+      Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
+    
+      fetch(url, {
+          method: "GET",
+          headers: {
+              "access-token": token,
+              "Content-Type": "application/json",
+          }
+      })
+      .then(function(response) {
+          return response.ok ? response.json() : Promise.reject();
+      })
+      .then(function(data) {
+          var aux = data.find( o => o.Id_Catalog === 9 )
+          setPathFile(aux.Value)
+      })
+      .catch(function(err) {
+          alert("No se pudo consultar la informacion de los general parameters" + err);
       });
     }, []);
 
@@ -487,6 +574,26 @@ function Admin(props) {
                 </Route>
               );
             }
+            else if(prop.component === "CartaPorte")
+            {
+              return (
+                <Route
+                  path={prop.layout + prop.path}
+                >
+                  <Carga autoCloseAlert = {autoCloseAlert}/>
+                </Route>
+              );
+            }
+            else if(prop.component === "CargaXML")
+            {
+              return (
+                <Route
+                  path={prop.layout + prop.path}
+                >
+                  <CargaXML pathFile = {pathFile}/>
+                </Route>
+              );
+            }
             else{
               return (
                 <Route
@@ -521,7 +628,9 @@ function Admin(props) {
             {mensaje}
             </ReactBSAlert>
         );
-        setTimeout(hideAlert, 3000);
+        window.setTimeout(()=>{
+          hideAlert()
+        },3000)
     };
   
     const hideAlert = () => {
@@ -535,6 +644,16 @@ function Admin(props) {
             data-logo={logo}
             data-left-sidebar={leftSidebar}
         >
+            <IdleTimer
+              ref={ref => { setIdleTimer(ref) }}
+              element={document}
+              onActive={_onActive}
+              onIdle={_onIdle}
+              onAction={_onAction}
+              debounce={250}
+              timeout={timeout} 
+            />
+
             {alert}
             <Navbar1 layout = {layout} setLayout = {setLayout}/>
             <div className={isEmptyView ? '' : 'container-fluid'}>
@@ -544,6 +663,7 @@ function Admin(props) {
                         {/*<Jumbotron />*/}
                         <Switch>
                           {getRoutes(dbRoutes)}
+                          {getRoutes(dbRoutesS)}
                         </Switch>
                         {/*<Routes />*/}
                     </div>

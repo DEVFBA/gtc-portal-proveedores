@@ -2,12 +2,29 @@ import React from 'react'
 import { useState, useEffect} from "react";
 import { Link, useHistory } from "react-router-dom";
 import axios from 'axios'
-import ReactBSAlert from "react-bootstrap-sweetalert";
 import '../../css/pages/form.css'
 import Widget from '../../elements/Widget'
 import Skeleton from '@yisheng90/react-loading';
 
 import UsersTable from './UsersTable';
+
+import {
+    Button,
+    Card,
+    CardHeader,
+    CardBody,
+    CardTitle,
+    Row,
+    Col,
+    FormGroup,
+    Form,
+    Label,
+    Input,
+    Modal, 
+    ModalBody, 
+    ModalFooter,
+    CardFooter
+} from "reactstrap";
 
 function Users({autoCloseAlert}){
     //Para guardar los datos de los usuarios
@@ -27,6 +44,11 @@ function Users({autoCloseAlert}){
 
     //Para los dias de vigencia de la contraseña
     const [validDays, setValidDays] = useState();
+
+    //Para guardar el path de las imágenes
+    const [pathImage, setPathImage] = useState([]);
+
+    const [profilePath, setProfilePath] = useState("")
 
     const getData = async () => {
         //const res = await axios.get('https://geolocation-db.com/json/')
@@ -58,7 +80,7 @@ function Users({autoCloseAlert}){
           pvOptionCRUD: "R"
         };
     
-        var url = new URL(`http://localhost:8091/api/security-users/`);
+        var url = new URL(`http://129.159.99.152/develop-vendors/api/security-users/`);
     
         Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
     
@@ -86,7 +108,7 @@ function Users({autoCloseAlert}){
           pvOptionCRUD: "R"
         };
     
-        var url = new URL(`http://localhost:8091/api/security-roles/`);
+        var url = new URL(`http://129.159.99.152/develop-vendors/api/security-roles/`);
     
         Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
     
@@ -123,7 +145,7 @@ function Users({autoCloseAlert}){
           pvOptionCRUD: "R"
         };
     
-        var url = new URL(`http://localhost:8091/api/vendors/`);
+        var url = new URL(`http://129.159.99.152/develop-vendors/api/vendors/`);
     
         Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
     
@@ -160,7 +182,7 @@ function Users({autoCloseAlert}){
           pvOptionCRUD: "R"
         };
     
-        var url = new URL(`http://localhost:8091/api/general-parameters/`);
+        var url = new URL(`http://129.159.99.152/develop-vendors/api/general-parameters/`);
     
         Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
     
@@ -177,7 +199,11 @@ function Users({autoCloseAlert}){
         .then(function(data) {
             console.log(data)
             var aux = data.find( o => o.Id_Catalog === 1 )
+            var aux2 = data.find( o => o.Id_Catalog === 4 )
+            var aux3 = data.find( o => o.Id_Catalog === 6 )
             setValidDays(parseInt(aux.Value,10))
+            setPathImage(aux2.Value)
+            setProfilePath(aux3.Value)
         })
         .catch(function(err) {
             alert("No se pudo consultar la informacion de los general parameters" + err);
@@ -186,7 +212,7 @@ function Users({autoCloseAlert}){
 
      //Renderizado condicional
     function UsersT() {
-        return <UsersTable dataTable = {dataUsers} ip = {ip} dataRoles = {dataRoles} dataVendors = {dataVendors} autoCloseAlert = {autoCloseAlert} updateAddData = {updateAddData} validDays={validDays}/>
+        return <UsersTable dataTable = {dataUsers} ip = {ip} dataRoles = {dataRoles} dataVendors = {dataVendors} autoCloseAlert = {autoCloseAlert} updateAddData = {updateAddData} validDays={validDays} pathImage = {pathImage} profilePath ={profilePath}/>
     }
 
     //Para actualizar la tabla al insertar registro
@@ -195,7 +221,7 @@ function Users({autoCloseAlert}){
         pvOptionCRUD: "R"
         };
 
-        var url = new URL(`http://localhost:8091/api/security-users/`);
+        var url = new URL(`http://129.159.99.152/develop-vendors/api/security-users/`);
 
         Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
 
@@ -219,17 +245,20 @@ function Users({autoCloseAlert}){
     }
 
     return dataUsers.length === 0 ? (
-        <Widget title="Catálogo de Usuarios">
+        <div>
             <Skeleton height={25} />
             <Skeleton height="25px" />
             <Skeleton height="3rem" />
-        </Widget>
-    ) : (
-        <div>
-            <Widget title="Catálogo de Usuarios">
-                <UsersT />
-            </Widget>
         </div>
+    ) : (   
+        <Card>
+            <CardHeader>
+                <CardTitle tag="h4">Catálogo de Usuarios</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <UsersT />
+            </CardBody>
+        </Card>
     )
 
 }

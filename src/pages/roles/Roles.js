@@ -9,6 +9,24 @@ import Skeleton from '@yisheng90/react-loading';
 
 import RolesTable from './RolesTable';
 
+import {
+    Button,
+    Card,
+    CardHeader,
+    CardBody,
+    CardTitle,
+    Row,
+    Col,
+    FormGroup,
+    Form,
+    Label,
+    Input,
+    Modal, 
+    ModalBody, 
+    ModalFooter,
+    CardFooter
+  } from "reactstrap";
+
 function Roles({autoCloseAlert}){
     //Para guardar los datos de los usuarios
     const [dataRoles, setDataRoles] = useState([]);
@@ -35,7 +53,7 @@ function Roles({autoCloseAlert}){
           pvOptionCRUD: "R"
         };
     
-        var url = new URL(`http://localhost:8091/api/security-roles/`);
+        var url = new URL(`http://129.159.99.152/develop-vendors/api/security-roles/`);
     
         Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
     
@@ -69,7 +87,7 @@ function Roles({autoCloseAlert}){
         pvOptionCRUD: "R"
         };
 
-        var url = new URL(`http://localhost:8091/api/security-roles/`);
+        var url = new URL(`http://129.159.99.152/develop-vendors/api/security-roles/`);
 
         Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
 
@@ -93,15 +111,20 @@ function Roles({autoCloseAlert}){
     }
 
     return dataRoles.length === 0 ? (
-        <Widget title="Catálogo de Roles">
+        <div>
             <Skeleton height={25} />
             <Skeleton height="25px" />
             <Skeleton height="3rem" />
-        </Widget>
+        </div>
     ) : (
-        <Widget title="Catálogo de Roles">
-            <RolesT />
-        </Widget>
+        <Card>
+            <CardHeader>
+                <CardTitle tag="h4">Catálogo de Roles</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <RolesT />
+            </CardBody>
+        </Card>
     )
 
 }

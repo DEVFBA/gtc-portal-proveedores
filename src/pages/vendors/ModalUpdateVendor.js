@@ -88,13 +88,13 @@ function ModalUpdateVendor({modalUpdateRecord, setModalUpdateRecord, record, dat
     const isValidated = () => {
         verifyInputs()
         if (
-            updateFullNameState !== "has-danger" &&
-            updateRfcState !== "has-danger" &&
-            updateCountryState !== "has-danger"
+            updateFullNameState !== "has-success" &&
+            updateRfcState !== "has-success" &&
+            updateCountryState !== "has-success"
         ) {
-          return true;
-        } else {
           return false;
+        } else {
+          return true;
         }
     };
 
@@ -102,9 +102,6 @@ function ModalUpdateVendor({modalUpdateRecord, setModalUpdateRecord, record, dat
         if(isValidated()===true)
         {
             updateRegister()
-        }
-        else{
-            console.log("no entre")
         }
     };
 
@@ -145,7 +142,7 @@ function ModalUpdateVendor({modalUpdateRecord, setModalUpdateRecord, record, dat
             pvIP : ip
         };
     
-        fetch(`http://localhost:8091/api/vendors/update-vendor/`, {
+        fetch(`http://129.159.99.152/develop-vendors/api/vendors/update-vendor/`, {
             method: "PUT",
             body: JSON.stringify(catRegister),
             headers: {

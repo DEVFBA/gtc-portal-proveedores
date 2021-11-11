@@ -73,7 +73,7 @@ function CatalogosSat({autoCloseAlert}) {
         piIdCatalogType : 2,
         };
 
-        var url = new URL(`http://localhost:8091/api/cat-catalogs/`);
+        var url = new URL(`http://129.159.99.152/develop-vendors/api/cat-catalogs/`);
 
         Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
         //console.log(url)
@@ -400,7 +400,7 @@ function CatalogosSat({autoCloseAlert}) {
         pSpCatalog : datos.CRUD_References,
         };
 
-        var url = new URL(`http://localhost:8091/api/cat-catalogs/catalog`);
+        var url = new URL(`http://129.159.99.152/develop-vendors/api/cat-catalogs/catalog`);
         Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
 
         fetch(url, {
@@ -430,7 +430,7 @@ function CatalogosSat({autoCloseAlert}) {
         pSpCatalog : datos.CRUD_References,
         };
 
-        var url = new URL(`http://localhost:8091/api/cat-catalogs/catalog`);
+        var url = new URL(`http://129.159.99.152/develop-vendors/api/cat-catalogs/catalog`);
         Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
 
         fetch(url, {
@@ -452,21 +452,26 @@ function CatalogosSat({autoCloseAlert}) {
     }
 
     return (
-        <Widget title="Catálogos del SAT">
-            <Select 
-                name=""
-                className="react-select"
-                placeholder = "Selecciona un catálogo para administrar sus configuraciones"
-                classNamePrefix="react-select"
-                options = {options}
-                onChange={(e) => {
-                    setCatalog(e.value);
-                    updateData(dataTable.find(o => o.Component === e.value))
-                }}
-            />
-            &nbsp;
-            <Catalog component = {catalog} />
-        </Widget>
+        <Card>
+            <CardHeader>
+                <CardTitle tag="h4">Catálogos del SAT</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Select 
+                    name=""
+                    className="react-select"
+                    placeholder = "Selecciona un catálogo para administrar sus configuraciones"
+                    classNamePrefix="react-select"
+                    options = {options}
+                    onChange={(e) => {
+                        setCatalog(e.value);
+                        updateData(dataTable.find(o => o.Component === e.value))
+                    }}
+                />
+                &nbsp;
+                <Catalog component = {catalog} />
+            </CardBody>
+        </Card>
     )
 }
 

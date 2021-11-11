@@ -1,33 +1,12 @@
 import React, {Component} from 'react'
-import Table from '../../../tables/reactable/DefaultTable'
+import ReactTable from "../../../reacttable/ReactTable";
 import { useState, useEffect} from "react";
 
 import ModalAddKeyUnit from "./modals/ModalAddKeyUnit.js";
 import ModalUpdateKeyUnit from "./modals/ModalUpdateKeyUnit.js";
 
 function KeyUnit({dataTable, ip, autoCloseAlert, updateAddData}) {
-
-    const [columns, setColumns] = useState(
-        [
-            'idR',
-            'shortDescription',
-            'longDescription',
-            'status',
-            'actions'
-        ]
-    )
-    const [columnNames, setColumnNames] = useState(
-        [
-            'Id',
-            'Desc. Corta',
-            'Desc. Larga',
-            'Estatus',
-            'Acciones'
-        ]
-    )
-
-    //const [items, setItems] = useState(Array.from(countries))
-    const [items, setItems] = useState(
+    const [dataState, setDataState] = useState(
         dataTable.map((prop, key) => {
             var status;
             if(prop.Status === true){
@@ -87,7 +66,7 @@ function KeyUnit({dataTable, ip, autoCloseAlert, updateAddData}) {
 
     function getRegistro(key)
     {
-        var registro = items.find((o) => o.id === key)
+        var registro = dataState.find((o) => o.id === key)
         setRecord(registro) 
     }
 
@@ -117,16 +96,37 @@ function KeyUnit({dataTable, ip, autoCloseAlert, updateAddData}) {
                 </button>
             </span>
             &nbsp;
-            <Table
-                items={items}
-                columns={columns}
-                columnNames={columnNames}
-                itemsPerPage={itemsPerPage}
-                search={search}
-                onSearch={onSearch}
-                onChangeItemsPerPage={onChangeItemsPerPage}
+            <ReactTable
+                data={dataState}
+                columns={[
+                    {
+                        Header: "Id",
+                        accessor: "idR",
+                    },
+                    {
+                        Header: "Desc. Corta",
+                        accessor: "shortDescription",
+                    },
+                    {
+                        Header: "Desc. Larga",
+                        accessor: "longDescription",
+                    },
+                    {
+                        Header: "Estado",
+                        accessor: "status",
+                    },
+                    {
+                        Header: "Acciones",
+                        accessor: "actions",
+                        sortable: false,
+                        filterable: false,
+                    },
+                ]}
+                /*
+                    You can choose between primary-pagination, info-pagination, success-pagination, warning-pagination, danger-pagination or none - which will make the pagination buttons gray
+                    */
+                className="-striped -highlight primary-pagination"
             />
-
             {/*MODAL PARA AÑADIR REGISTROS*/}
             <ModalAddKeyUnit modalAddRecord = {modalAddRecord} setModalAddRecord = {setModalAddRecord}  ip = {ip} autoCloseAlert = {autoCloseAlert} updateAddData = {updateAddData}/>
 

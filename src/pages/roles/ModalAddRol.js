@@ -106,7 +106,7 @@ function ModalAddRol({modalAddRecord, setModalAddRecord, updateAddData, ip, auto
             pvIP: ip
         };
     
-        fetch(`http://localhost:8091/api/security-roles/create-rol/`, {
+        fetch(`http://129.159.99.152/develop-vendors/api/security-roles/create-rol/`, {
             method: "POST",
             body: JSON.stringify(catRegister),
             headers: {

@@ -3,7 +3,7 @@ import '../../css/elements/dropdown-user.css'
 import { useLocation } from "react-router-dom";
 import { Link, useHistory } from "react-router-dom";
 
-function DropdownUser()
+function DropdownUser({name})
 {
   let items = [
     {
@@ -16,7 +16,7 @@ function DropdownUser()
     }
   ]
 
-  const ambiente = "/DEV"
+  const ambiente = "/DEV-Vendors"
   const location = useLocation();
   const history = useHistory();
 
@@ -31,8 +31,8 @@ function DropdownUser()
 
   return (
     <div className="navbar-dropdown dropdown-user">
-      <div className="dropdown-title">My account</div>
-        <div className="dropdown-item">
+      <div className="dropdown-title">{name}</div>
+        {/*<div className="dropdown-item">
           <i className="sli-envelope" />
           <span className="title">Inbox</span>
           <div className="separator" />
@@ -53,7 +53,7 @@ function DropdownUser()
           <i className="sli-clock" />
           <span className="title">Lock Screen</span>
           <div className="separator" />
-        </div>
+        </div>*/}
         <div className="dropdown-item" onClick={logout}>
           <i className="sli-power" />
           <span className="title">Logout</span>

@@ -2,12 +2,28 @@ import React from 'react'
 import { useState, useEffect} from "react";
 import { Link, useHistory } from "react-router-dom";
 import axios from 'axios'
-import ReactBSAlert from "react-bootstrap-sweetalert";
 import '../../css/pages/form.css'
-import Widget from '../../elements/Widget'
 import Skeleton from '@yisheng90/react-loading';
 
 import VendorsTable from './VendorsTable';
+
+import {
+    Button,
+    Card,
+    CardHeader,
+    CardBody,
+    CardTitle,
+    Row,
+    Col,
+    FormGroup,
+    Form,
+    Label,
+    Input,
+    Modal, 
+    ModalBody, 
+    ModalFooter,
+    CardFooter
+} from "reactstrap";
 
 function Vendors({autoCloseAlert}){
     //Para guardar los datos de los usuarios
@@ -38,7 +54,7 @@ function Vendors({autoCloseAlert}){
           pvOptionCRUD: "R"
         };
     
-        var url = new URL(`http://localhost:8091/api/vendors/`);
+        var url = new URL(`http://129.159.99.152/develop-vendors/api/vendors/`);
     
         Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
     
@@ -72,7 +88,7 @@ function Vendors({autoCloseAlert}){
         pvOptionCRUD: "R"
         };
 
-        var url = new URL(`http://localhost:8091/api/vendors/`);
+        var url = new URL(`http://129.159.99.152/develop-vendors/api/vendors/`);
 
         Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
 
@@ -101,7 +117,7 @@ function Vendors({autoCloseAlert}){
           pSpCatalog : "spSAT_Cat_Countries_CRUD_Records",
         };
     
-        var url = new URL(`http://localhost:8091/api/cat-catalogs/catalog`);
+        var url = new URL(`http://129.159.99.152/develop-vendors/api/cat-catalogs/catalog`);
         Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
     
         fetch(url, {
@@ -132,15 +148,20 @@ function Vendors({autoCloseAlert}){
     }, []);
 
     return dataVendors.length === 0 ? (
-        <Widget title="Catálogo de Proveedores">
+        <div>
             <Skeleton height={25} />
             <Skeleton height="25px" />
             <Skeleton height="3rem" />
-        </Widget>
+        </div>
     ) : (
-        <Widget title="Catálogo de Proveedores">
-            <VendorsT />
-        </Widget>
+        <Card>
+            <CardHeader>
+                <CardTitle tag="h4">Catálogo de Proveedores</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <VendorsT />
+            </CardBody>
+        </Card>
     )
 
 }

@@ -104,7 +104,7 @@ function ModalAddTaxes({modalAddRecord, setModalAddRecord, updateAddData, ip, au
             pvIP: ip
         };
     
-        fetch(`http://localhost:8091/api/cat-catalogs/create-sat`, {
+        fetch(`http://129.159.99.152/develop-vendors/api/cat-catalogs/create-sat`, {
             method: "POST",
             body: JSON.stringify(catRegister),
             headers: {

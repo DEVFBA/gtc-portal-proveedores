@@ -7,8 +7,8 @@ function Logo(){
     <Link
       to="/"
       className="logo d-flex justify-content-start align-items-center flex-nowrap">
-      <i className="fa fa-code" />
-      <span className="title">GTC PROVEEDORES</span>
+      <i className="ion-document-text" />
+      <span className="title">CARTA PORTE</span>
     </Link>
   )
 }

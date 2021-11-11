@@ -20,7 +20,7 @@ import {
     Col,
 } from "reactstrap";
 
-function ModalUpdateUser({abierto, toggleModalUpdateRecord, record, dataRoles, dataVendors, updateAddData, validDays, pathImage, ip, profilePath, autoCloseAlert}) {
+function ModalUpdateUser({abierto, toggleModalUpdateRecord, record, dataRoles, dataVendors, updateAddData, validDays, ip, autoCloseAlert, pathImage, profilePath}) {
         // register form
     const [updateEmail, setupdateEmail] = React.useState("");
     const [updateFullName, setupdateFullName] = React.useState("");
@@ -62,6 +62,7 @@ function ModalUpdateUser({abierto, toggleModalUpdateRecord, record, dataRoles, d
     };
 
     useEffect(() => {
+        console.log(record)
         setupdateEmail(record.email);
         setupdateFullName(record.name)
         setupdateRol({
@@ -140,44 +141,40 @@ function ModalUpdateUser({abierto, toggleModalUpdateRecord, record, dataRoles, d
 
         verifyInputs()
         if (
-            updateFullNameState !== "text-danger"
+            updateFullNameState !== "has-success"
         ) {
           if(updateChangePassword === true)
           {
             if(
-              updatePasswordState !== "has-danger" &&
-              updateConfirmPasswordState !== "has-danger"
+              updatePasswordState !== "has-success" &&
+              updateConfirmPasswordState !== "has-success"
             )
             {
-              return true;
+              return false;
             }
             else{
-              return false;
+              return true;
             }
           }
           else{
-            return true;
+            return false;
           }
         } else {
-          return false;
+          return true;
         }
       };
 
     const updateClick = () => {
         if(isValidated()===true)
         {
-            //haremos el fetch a la base de datos para actualizar el registro
-            //El password deberá encriptarse en SHA256
-            //console.log(sha256(registerPassword));
-            /*setLoaded(false)*/
             updateRegister()
-            //Cerramos el modal
-            //handleModalClick()
         }
     };
 
     function updateRegister(){
         var finalDate2=""
+
+        console.log(pathImage)
 
         //EL USUARIO HAY QUE CAMBIARLO POR EL QUE SE HAYA LOGGEADO
         if(updateChangePassword === true)
@@ -207,7 +204,7 @@ function ModalUpdateUser({abierto, toggleModalUpdateRecord, record, dataRoles, d
             
             const catRegister = {
                 pvOptionCRUD: "U",
-                piIdCustomer: updateVendor.value,
+                piIdVendor: updateVendor.value,
                 pvIdUser: updateEmail,
                 pvIdRole: updateRol.value,
                 pvPassword: updatePassword,
@@ -221,7 +218,7 @@ function ModalUpdateUser({abierto, toggleModalUpdateRecord, record, dataRoles, d
                 pvIP: ip
             };
         
-            fetch(`http://129.159.99.152/develop-api/api/security-users/update-user/`, {
+            fetch(`http://129.159.99.152/develop-vendors/api/security-users/update-user/`, {
                 method: "PUT",
                 body: JSON.stringify(catRegister),
                 headers: {
@@ -263,7 +260,7 @@ function ModalUpdateUser({abierto, toggleModalUpdateRecord, record, dataRoles, d
         else{
             const catRegister = {
                 pvOptionCRUD: "U",
-                piIdCustomer: updateVendor.value,
+                piIdVendor: updateVendor.value,
                 pvIdUser: updateEmail,
                 pvIdRole: updateRol.value,
                 pvProfilePicPath: updateImage,
@@ -275,7 +272,7 @@ function ModalUpdateUser({abierto, toggleModalUpdateRecord, record, dataRoles, d
                 pvIP: ip
             };
         
-            fetch(`http://129.159.99.152/develop-api/api/security-users/update-user-wp/`, {
+            fetch(`http://129.159.99.152/develop-vendors/api/security-users/update-user-wp/`, {
                 method: "PUT",
                 body: JSON.stringify(catRegister),
                 headers: {

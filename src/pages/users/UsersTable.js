@@ -1,33 +1,13 @@
 import React, {Component} from 'react'
-import Table from '../../tables/reactable/DefaultTable'
 import { useState, useEffect} from "react";
+import ReactTable from "../../reacttable/ReactTable";
+
 
 import ModalAddUser from "./ModalAddUser.js";
 import ModalUpdateUser from "./ModalUpdateUser.js";
 
-function UsersTable({dataTable, ip, dataRoles, dataVendors, autoCloseAlert, updateAddData, validDays}) {
-
-    const [columns, setColumns] = useState(
-        [
-            'name',
-            'email',
-            'rol',
-            'status',
-            'actions'
-        ]
-    )
-    const [columnNames, setColumnNames] = useState(
-        [
-            'Nombre',
-            'Email',
-            'Rol',
-            'Estatus',
-            'Acciones'
-        ]
-    )
-
-    //const [items, setItems] = useState(Array.from(countries))
-    const [items, setItems] = useState(
+function UsersTable({dataTable, ip, dataRoles, dataVendors, autoCloseAlert, updateAddData, validDays, pathImage, profilePath}) {
+    const [dataState, setDataState] = useState(
         dataTable.map((prop, key) => {
             var status;
             if(prop.Status === true){
@@ -55,7 +35,10 @@ function UsersTable({dataTable, ip, dataRoles, dataVendors, autoCloseAlert, upda
                   <abbr title="Editar">
                     <button
                       onClick={() => {
-                        getRegistro(key);
+                        let obj = dataState.find((o) => o.id === key);
+                        //console.log(obj)
+                        setRecord(obj)
+                        //getRegistro(key);
                         toggleModalUpdateRecord()
                       }}
                       color="warning"
@@ -69,21 +52,7 @@ function UsersTable({dataTable, ip, dataRoles, dataVendors, autoCloseAlert, upda
               ),
             };
         })
-    )
-    const [search, setSearch] = useState("")
-    const [itemsPerPage, setItemsPerPage] = useState(10)
-  
-    function onSearch(e) {
-        e.preventDefault()
-        setSearch(e.target.value)
-        return false
-    }
-
-    function onChangeItemsPerPage(e) {
-        e.preventDefault()
-        setItemsPerPage(e.target.value)
-        return false
-    }
+    );
 
     const [modalAddRecord, setModalAddRecord] = useState(false);
     const [modalUpdateRecord, setModalUpdateRecord] = useState(false);
@@ -93,7 +62,7 @@ function UsersTable({dataTable, ip, dataRoles, dataVendors, autoCloseAlert, upda
 
     function getRegistro(key)
     {
-        var registro = items.find((o) => o.id === key)
+        var registro = dataState.find((o) => o.id === key)
         setRecord(registro) 
     }
 
@@ -123,21 +92,43 @@ function UsersTable({dataTable, ip, dataRoles, dataVendors, autoCloseAlert, upda
                 </button>
             </span>
             &nbsp;
-            <Table
-                items={items}
-                columns={columns}
-                columnNames={columnNames}
-                itemsPerPage={itemsPerPage}
-                search={search}
-                onSearch={onSearch}
-                onChangeItemsPerPage={onChangeItemsPerPage}
+            <ReactTable
+                data={dataState}
+                columns={[
+                    {
+                        Header: "Nombre",
+                        accessor: "name",
+                    },
+                    {
+                        Header: "Email",
+                        accessor: "email",
+                    },
+                    {
+                        Header: "Rol",
+                        accessor: "rol",
+                    },
+                    {
+                        Header: "Estatus",
+                        accessor: "status",
+                    },
+                    {
+                        Header: "Acciones",
+                        accessor: "actions",
+                        sortable: false,
+                        filterable: false,
+                    },
+                ]}
+                /*
+                    You can choose between primary-pagination, info-pagination, success-pagination, warning-pagination, danger-pagination or none - which will make the pagination buttons gray
+                    */
+                className="-striped -highlight primary-pagination"
             />
 
             {/*MODAL PARA AÑADIR REGISTROS*/}
-            <ModalAddUser modalAddRecord = {modalAddRecord} setModalAddRecord = {setModalAddRecord} dataRoles = {dataRoles} dataVendors = {dataVendors} ip = {ip} autoCloseAlert = {autoCloseAlert} updateAddData = {updateAddData} validDays = {validDays}/>
+            <ModalAddUser modalAddRecord = {modalAddRecord} setModalAddRecord = {setModalAddRecord} dataRoles = {dataRoles} dataVendors = {dataVendors} ip = {ip} autoCloseAlert = {autoCloseAlert} updateAddData = {updateAddData} validDays = {validDays} pathImage = {pathImage}/>
 
             {/*MODAL PARA MODIFICAR REGISTRO*/}
-            <ModalUpdateUser abierto = {modalUpdateRecord} toggleModalUpdateRecord = {toggleModalUpdateRecord} record = {record} dataRoles ={dataRoles} ip = {ip} dataVendors = {dataVendors} autoCloseAlert = {autoCloseAlert} updateAddData = {updateAddData} validDays = {validDays}/>
+            <ModalUpdateUser abierto = {modalUpdateRecord} toggleModalUpdateRecord = {toggleModalUpdateRecord} record = {record} dataRoles ={dataRoles} ip = {ip} dataVendors = {dataVendors} autoCloseAlert = {autoCloseAlert} updateAddData = {updateAddData} validDays = {validDays} pathImage = {pathImage} profilePath ={profilePath}/>
         </div>
     )
     

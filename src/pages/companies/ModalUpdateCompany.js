@@ -109,13 +109,13 @@ function ModalUpdateCompany({modalUpdateRecord, setModalUpdateRecord, record, da
     const isValidated = () => {
         verifyInputs()
         if (
-            updateFullNameState !== "has-danger" &&
-            updateRfcState !== "has-danger" &&
-            updateCountryState !== "has-danger"
+            updateFullNameState !== "has-success" &&
+            updateRfcState !== "has-success" &&
+            updateCountryState !== "has-success"
         ) {
-          return true;
-        } else {
           return false;
+        } else {
+          return true;
         }
     };
 
@@ -174,7 +174,7 @@ function ModalUpdateCompany({modalUpdateRecord, setModalUpdateRecord, record, da
             pvIP : ip
         };
     
-        fetch(`http://localhost:8091/api/companies/update-company/`, {
+        fetch(`http://129.159.99.152/develop-vendors/api/companies/update-company/`, {
             method: "PUT",
             body: JSON.stringify(catRegister),
             headers: {

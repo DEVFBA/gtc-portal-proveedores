@@ -39,7 +39,6 @@ import ReactDatetime from './forms/react-datetime'
 import ReactSelect from './forms/react-select'
 
 //icons
-import Flags from './icons/flags'
 import FontAwesome from './icons/font-awesome'
 import Ionicons from './icons/ionicons'
 import MaterialDesignIcons from './icons/material-design-icons'
@@ -61,10 +60,6 @@ import ResetPassword from './pages/reset-password'
 import Subscribe from './pages/subscribe'
 import UnderMaintenance from './pages/under-maintenance'
 import UnlockAccount from './pages/unlock-account'
-
-//tables
-import DefaultTables from './tables/default-tables'
-import Reactable from './tables/reactable'
 
 //ui-elements
 import Badges from './ui-elements/badges'
@@ -124,7 +119,6 @@ function Routes(){
       <Route path="/forms/react-select" component={ReactSelect} />
       <Route path="/forms/sliders" component={Sliders} />
       <Route path="/forms/validation" component={Validation} />
-      <Route path="/icons/flags" component={Flags} />
       <Route path="/icons/font-awesome" component={FontAwesome} />
       <Route path="/icons/ionicons" component={Ionicons} />
       <Route
@@ -149,8 +143,6 @@ function Routes(){
       <Route path="/pages/subscribe" component={Subscribe} />
       <Route path="/pages/under-maintenance" component={UnderMaintenance} />
       <Route path="/pages/unlock-account" component={UnlockAccount} />
-      <Route path="/tables/default-tables" component={DefaultTables} />
-      <Route path="/tables/reactable" component={Reactable} />
       <Route path="/ui-elements/alerts" component={Alerts} />
       <Route path="/ui-elements/badges" component={Badges} />
       <Route path="/ui-elements/breadcrumbs" component={Breadcrumbs} />

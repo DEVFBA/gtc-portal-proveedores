@@ -7,12 +7,11 @@ import Login from '../pages/login/Login.js'
 function Pages() {
     const [dbRoutes, setDbRoutes] = useState([]);
     const [isEmptyView, setIsEmptyView] = useState(true)
-    const ambiente = "/DEV"
+    const ambiente = "/DEV-Vendors"
     const [layout, setLayout] = useState('empty-view-1')
     useEffect(() => {
         var routesAux = [];
         //Agregando las rutas del auth
-        //const ambiente = "/QSDEV"
         
         routesAux.push(
           {

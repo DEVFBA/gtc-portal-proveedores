@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import Table from '../../../tables/reactable/DefaultTable'
+import ReactTable from "../../../reacttable/ReactTable";
 import { useState, useEffect} from "react";
 
 import ModalAddCustoms from "./modals/ModalAddCustoms";
@@ -8,28 +8,7 @@ import ModalUpdateCustoms from "./modals/ModalUpdateCustoms";
 function Customs({dataTable, ip, autoCloseAlert, updateAddData}) {
      //Para saber que usuario se va a editar
      const [record, setRecord] = useState({});
-
-    const [columns, setColumns] = useState(
-        [
-            'idR',
-            'shortDescription',
-            'longDescription',
-            'status',
-            'actions'
-        ]
-    )
-    const [columnNames, setColumnNames] = useState(
-        [
-            'Id',
-            'Desc. Corta',
-            'Desc. Larga',
-            'Estatus',
-            'Acciones'
-        ]
-    )
-
-    //const [items, setItems] = useState(Array.from(countries))
-    const [items, setItems] = useState(
+    const [dataState, setDataState] = useState(
         dataTable.map((prop, key) => {
             var status;
             if(prop.Status === true){
@@ -86,7 +65,7 @@ function Customs({dataTable, ip, autoCloseAlert, updateAddData}) {
 
     function getRegistro(key)
     {
-        var registro = items.find((o) => o.id === key)
+        var registro = dataState.find((o) => o.id === key)
         setRecord(registro) 
     }
 
@@ -116,14 +95,36 @@ function Customs({dataTable, ip, autoCloseAlert, updateAddData}) {
                 </button>
             </span>
             &nbsp;
-            <Table
-                items={items}
-                columns={columns}
-                columnNames={columnNames}
-                itemsPerPage={itemsPerPage}
-                search={search}
-                onSearch={onSearch}
-                onChangeItemsPerPage={onChangeItemsPerPage}
+            <ReactTable
+                data={dataState}
+                columns={[
+                    {
+                        Header: "Id",
+                        accessor: "idR",
+                    },
+                    {
+                        Header: "Desc. Corta",
+                        accessor: "shortDescription",
+                    },
+                    {
+                        Header: "Desc. Larga",
+                        accessor: "longDescription",
+                    },
+                    {
+                        Header: "Estado",
+                        accessor: "status",
+                    },
+                    {
+                        Header: "Acciones",
+                        accessor: "actions",
+                        sortable: false,
+                        filterable: false,
+                    },
+                ]}
+                /*
+                    You can choose between primary-pagination, info-pagination, success-pagination, warning-pagination, danger-pagination or none - which will make the pagination buttons gray
+                    */
+                className="-striped -highlight primary-pagination"
             />
 
             {/*MODAL PARA AÑADIR REGISTROS*/}

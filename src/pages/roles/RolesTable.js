@@ -1,33 +1,12 @@
 import React, {Component} from 'react'
-import Table from '../../tables/reactable/DefaultTable'
+import ReactTable from "../../reacttable/ReactTable";
 import { useState, useEffect} from "react";
 
 import ModalAddRol from "./ModalAddRol.js";
 import ModalUpdateRol from "./ModalUpdateRol";
 
 function RolesTable({dataTable, ip, autoCloseAlert, updateAddData}) {
-
-    const [columns, setColumns] = useState(
-        [
-            'idRole',
-            'shortDesc',
-            'longDesc',
-            'status',
-            //'actions'
-        ]
-    )
-    const [columnNames, setColumnNames] = useState(
-        [
-            'Id Rol',
-            'Descripción Corta',
-            'Descripción Larga',
-            'Estatus',
-            //'Acciones'
-        ]
-    )
-
-    //const [items, setItems] = useState(Array.from(countries))
-    const [items, setItems] = useState(
+    const [dataState, setDataState] = useState(
         dataTable.map((prop, key) => {
             var status;
             if(prop.Status === true){
@@ -88,7 +67,7 @@ function RolesTable({dataTable, ip, autoCloseAlert, updateAddData}) {
 
     function getRegistro(key)
     {
-        var registro = items.find((o) => o.id === key)
+        var registro = dataState.find((o) => o.id === key)
         setRecord(registro) 
     }
 
@@ -118,14 +97,36 @@ function RolesTable({dataTable, ip, autoCloseAlert, updateAddData}) {
                 </button>
             </span>
             &nbsp;*/}
-            <Table
-                items={items}
-                columns={columns}
-                columnNames={columnNames}
-                itemsPerPage={itemsPerPage}
-                search={search}
-                onSearch={onSearch}
-                onChangeItemsPerPage={onChangeItemsPerPage}
+            <ReactTable
+                data={dataState}
+                columns={[
+                    {
+                        Header: "Id Rol",
+                        accessor: "idRole",
+                    },
+                    {
+                        Header: "Descripción Corta",
+                        accessor: "shortDesc",
+                    },
+                    {
+                        Header: "Descripción Larga",
+                        accessor: "longDesc",
+                    },
+                    {
+                        Header: "Estatus",
+                        accessor: "status",
+                    },
+                    /*{
+                        Header: "Acciones",
+                        accessor: "actions",
+                        sortable: false,
+                        filterable: false,
+                    },*/
+                ]}
+                /*
+                    You can choose between primary-pagination, info-pagination, success-pagination, warning-pagination, danger-pagination or none - which will make the pagination buttons gray
+                    */
+                className="-striped -highlight primary-pagination"
             />
 
             {/*MODAL PARA AÑADIR REGISTROS*/}
