@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import { useState, useEffect} from "react";
 import ReactTable from "../../reacttable/ReactTable";
-
+import Skeleton from '@yisheng90/react-loading';
 
 import ModalAddUser from "./ModalAddUser.js";
 import ModalUpdateUser from "./ModalUpdateUser.js";
@@ -35,10 +35,7 @@ function UsersTable({dataTable, ip, dataRoles, dataVendors, autoCloseAlert, upda
                   <abbr title="Editar">
                     <button
                       onClick={() => {
-                        let obj = dataState.find((o) => o.id === key);
-                        //console.log(obj)
-                        setRecord(obj)
-                        //getRegistro(key);
+                        getRegistro(key);
                         toggleModalUpdateRecord()
                       }}
                       color="warning"
@@ -58,7 +55,7 @@ function UsersTable({dataTable, ip, dataRoles, dataVendors, autoCloseAlert, upda
     const [modalUpdateRecord, setModalUpdateRecord] = useState(false);
 
     //Para saber que usuario se va a editar
-    const [record, setRecord] = useState({});
+    const [record, setRecord] = useState([]);
 
     function getRegistro(key)
     {
@@ -84,7 +81,18 @@ function UsersTable({dataTable, ip, dataRoles, dataVendors, autoCloseAlert, upda
         }
     }
 
-    return (
+    return dataTable.length === 0 ? (
+        <div>
+            <span className="input-group-btn rounded-left" onClick={toggleModalAddRecord}>
+                <button className="btn btn-primary" type="button">
+                    Añadir Usuario 
+                </button>
+                <Skeleton height={25} />
+                <Skeleton height="25px" />
+                <Skeleton height="3rem" />
+            </span>
+        </div>
+    ) : (
         <div>
             <span className="input-group-btn rounded-left" onClick={toggleModalAddRecord}>
                 <button className="btn btn-primary" type="button">
@@ -128,7 +136,7 @@ function UsersTable({dataTable, ip, dataRoles, dataVendors, autoCloseAlert, upda
             <ModalAddUser modalAddRecord = {modalAddRecord} setModalAddRecord = {setModalAddRecord} dataRoles = {dataRoles} dataVendors = {dataVendors} ip = {ip} autoCloseAlert = {autoCloseAlert} updateAddData = {updateAddData} validDays = {validDays} pathImage = {pathImage}/>
 
             {/*MODAL PARA MODIFICAR REGISTRO*/}
-            <ModalUpdateUser abierto = {modalUpdateRecord} toggleModalUpdateRecord = {toggleModalUpdateRecord} record = {record} dataRoles ={dataRoles} ip = {ip} dataVendors = {dataVendors} autoCloseAlert = {autoCloseAlert} updateAddData = {updateAddData} validDays = {validDays} pathImage = {pathImage} profilePath ={profilePath}/>
+            <ModalUpdateUser abierto = {modalUpdateRecord} toggleModalUpdateRecord = {toggleModalUpdateRecord} record = {record} dataRoles ={dataRoles} ip = {ip} dataVendors = {dataVendors} updateAddData = {updateAddData} validDays = {validDays} pathImage = {pathImage} profilePath ={profilePath} autoCloseAlert = {autoCloseAlert}/>
         </div>
     )
     

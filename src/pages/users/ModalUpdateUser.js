@@ -20,7 +20,7 @@ import {
     Col,
 } from "reactstrap";
 
-function ModalUpdateUser({abierto, toggleModalUpdateRecord, record, dataRoles, dataVendors, updateAddData, validDays, ip, autoCloseAlert, pathImage, profilePath}) {
+function ModalUpdateUser({abierto, toggleModalUpdateRecord, record, dataRoles, ip, dataVendors, updateAddData, validDays, pathImage, profilePath, autoCloseAlert}) {
         // register form
     const [updateEmail, setupdateEmail] = React.useState("");
     const [updateFullName, setupdateFullName] = React.useState("");
@@ -33,6 +33,7 @@ function ModalUpdateUser({abierto, toggleModalUpdateRecord, record, dataRoles, d
     const [updateStatus, setupdateStatus] = useState();
     const [updateConfirmPassword, setupdateConfirmPassword] = React.useState("");
     const [updateFinalEffectiveDate, setupdateFinalEffectiveDate] = useState();
+    const [changeImage, setChangeImage] = useState(false);
 
     const [updateEmailState, setupdateEmailState] = React.useState("");
     const [updateFullNameState, setupdateFullNameState] = React.useState("");
@@ -62,7 +63,6 @@ function ModalUpdateUser({abierto, toggleModalUpdateRecord, record, dataRoles, d
     };
 
     useEffect(() => {
-        console.log(record)
         setupdateEmail(record.email);
         setupdateFullName(record.name)
         setupdateRol({
@@ -174,7 +174,17 @@ function ModalUpdateUser({abierto, toggleModalUpdateRecord, record, dataRoles, d
     function updateRegister(){
         var finalDate2=""
 
+        console.log(updateVendor.value)
+        console.log(updateEmail)
+        console.log(updateRol.value)
+        console.log(updateImage)
+        console.log(updateFullName)
+        console.log(updateStatus)
+        console.log(changeImage)
+        console.log(finalDate2)
+        console.log(user)
         console.log(pathImage)
+        console.log(ip)
 
         //EL USUARIO HAY QUE CAMBIARLO POR EL QUE SE HAYA LOGGEADO
         if(updateChangePassword === true)
@@ -215,7 +225,8 @@ function ModalUpdateUser({abierto, toggleModalUpdateRecord, record, dataRoles, d
                 pvFinalEffectiveDate: finalDate2,
                 pvUser: user,
                 pathImage : pathImage,
-                pvIP: ip
+                pvIP: ip,
+                pvChangeImage: changeImage
             };
         
             fetch(`http://129.159.99.152/develop-vendors/api/security-users/update-user/`, {
@@ -269,7 +280,8 @@ function ModalUpdateUser({abierto, toggleModalUpdateRecord, record, dataRoles, d
                 pvFinalEffectiveDate: finalDate2,
                 pvUser: user,
                 pathImage : pathImage,
-                pvIP: ip
+                pvIP: ip,
+                pvChangeImage: changeImage
             };
         
             fetch(`http://129.159.99.152/develop-vendors/api/security-users/update-user-wp/`, {
@@ -328,7 +340,7 @@ function ModalUpdateUser({abierto, toggleModalUpdateRecord, record, dataRoles, d
             </button>
             </div>
             <ModalBody>
-            <Form id="RegisterValidation">
+            <Form method="">
                 <Row className="justify-content-center">
                     <Col className="mt-3" lg="10">
                         <FormGroup>
@@ -457,7 +469,7 @@ function ModalUpdateUser({abierto, toggleModalUpdateRecord, record, dataRoles, d
                         </FormGroup>
                     </Col>
                     <Col sm="4">
-                        <UploadUserImage registerImage = {updateImage} setregisterImage={setupdateImage} image = {updateImage} path = {profilePath}/>
+                        <UploadUserImage registerImage = {updateImage} setregisterImage={setupdateImage} image = {record.image} path = {profilePath} setChangeImage = {setChangeImage}/>
                     </Col>
                     <Col sm="6">
                         <FormGroup className={`form-group ${updateVendorState}`}>

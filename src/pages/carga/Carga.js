@@ -126,7 +126,7 @@ function Carga({autoCloseAlert}) {
   }, []);
 
   useEffect(() => {
-    //Aqui vamos a descargar la lista de usuarios de la base de datos por primera vez
+    //Aqui vamos a descargar la lista de registros de la base de datos por primera vez
     const params = {
       pvOptionCRUD: "R"
     };
@@ -146,6 +146,7 @@ function Carga({autoCloseAlert}) {
         return response.ok ? response.json() : Promise.reject();
     })
     .then(function(data) {
+      console.log(data)
       setDataCartaPorte(data)
     })
     .catch(function(err) {
@@ -154,7 +155,7 @@ function Carga({autoCloseAlert}) {
   }, []);
 
   useEffect(() => {
-    //Aqui vamos a descargar la lista de roles de la base de datos por primera vez
+    //Aqui vamos a descargar la lista de vendors de la base de datos 
     const params = {
       pvOptionCRUD: "R"
     };
@@ -183,7 +184,7 @@ function Carga({autoCloseAlert}) {
 }, []);
 
 useEffect(() => {
-  //Aqui vamos a descargar la lista de roles de la base de datos por primera vez
+  //Aqui vamos a descargar la lista de companies de la base de datos
   const params = {
     pvOptionCRUD: "R"
   };
@@ -212,7 +213,7 @@ useEffect(() => {
 }, []);
 
 useEffect(() => {
-  //Aqui vamos a descargar la lista de roles de la base de datos por primera vez
+  //Aqui vamos a descargar la lista de companies vendors de la base de datos
   const params = {
     pvOptionCRUD: "R"
   };

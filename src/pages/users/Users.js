@@ -197,7 +197,6 @@ function Users({autoCloseAlert}){
             return response.ok ? response.json() : Promise.reject();
         })
         .then(function(data) {
-            console.log(data)
             var aux = data.find( o => o.Id_Catalog === 1 )
             var aux2 = data.find( o => o.Id_Catalog === 4 )
             var aux3 = data.find( o => o.Id_Catalog === 6 )

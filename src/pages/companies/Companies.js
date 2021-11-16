@@ -39,6 +39,12 @@ function Companies({autoCloseAlert}){
     //Para guardar la direccion IP del usuario
     const [ip, setIP] = React.useState("");
 
+    //Para guardar el path del logo
+    const [pathLogo, setPathLogo] = React.useState("");
+
+    //Para guardar el Retrieve del logo
+    const [profilePath, setProfilePath] = React.useState("");
+
     const getData = async () => {
         const res = await axios.get('https://geolocation-db.com/json/')
         setIP(res.data.IPv4)
@@ -113,11 +119,42 @@ function Companies({autoCloseAlert}){
         .catch(function(err) {
             alert("No se pudo consultar la informacion de los catálogos" + err);
         });
-      }, []);
+    }, []);
+
+    useEffect(() => {
+        //Aqui vamos a descargar la lista de general parameters para revisar la vigencia del password
+        const params = {
+          pvOptionCRUD: "R"
+        };
+    
+        var url = new URL(`http://129.159.99.152/develop-vendors/api/general-parameters/`);
+    
+        Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
+    
+        fetch(url, {
+            method: "GET",
+            headers: {
+                "access-token": token,
+                "Content-Type": "application/json",
+            }
+        })
+        .then(function(response) {
+            return response.ok ? response.json() : Promise.reject();
+        })
+        .then(function(data) {
+            var aux = data.find( o => o.Id_Catalog === 5 )
+            var aux2 = data.find( o => o.Id_Catalog === 7 )
+            setPathLogo(aux.Value)
+            setProfilePath(aux2.Value)
+        })
+        .catch(function(err) {
+            alert("No se pudo consultar la informacion de los general parameters" + err);
+        });
+    }, []);
 
      //Renderizado condicional
     function CompaniesT() {
-        return <CompaniesTable dataTable = {dataCompanies} ip = {ip} autoCloseAlert = {autoCloseAlert} updateAddData = {updateAddData} dataCountries = {dataCountries}/>
+        return <CompaniesTable dataTable = {dataCompanies} ip = {ip} autoCloseAlert = {autoCloseAlert} updateAddData = {updateAddData} dataCountries = {dataCountries} pathLogo = {pathLogo} profilePath = {profilePath}/>
     }
 
     //Para actualizar la tabla al insertar registro

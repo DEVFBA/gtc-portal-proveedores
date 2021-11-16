@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 // javascript plugin used to create scrollbars on windows
 import { Route, Switch } from "react-router-dom";
 import Login from '../pages/login/Login.js'
+import ChangePassword from '../pages/change-password/ChangePassword'
 
 function Pages() {
     const [dbRoutes, setDbRoutes] = useState([]);
@@ -20,6 +21,16 @@ function Pages() {
             name: "Login",
             icon: "nc-icon nc-bank",
             component: Login,
+            layout:  ambiente + "/auth",
+          },
+        )
+        routesAux.push(
+          {
+            invisible: true,
+            path: "/edit-password/",
+            name: "Edit Password",
+            icon: "nc-icon nc-bank",
+            component: ChangePassword,
             layout:  ambiente + "/auth",
           },
         )

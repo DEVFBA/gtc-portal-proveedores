@@ -5,7 +5,7 @@ import { useState, useEffect} from "react";
 import ModalAddCompany from "./ModalAddCompany";
 import ModalUpdateCompany from "./ModalUpdateCompany";
 
-function CompaniesTable({dataTable, ip, autoCloseAlert, updateAddData, dataCountries}) {
+function CompaniesTable({dataTable, ip, autoCloseAlert, updateAddData, dataCountries, pathLogo, profilePath}) {
 
     const [dataState, setDataState] = useState(
         dataTable.map((prop, key) => {
@@ -158,10 +158,10 @@ function CompaniesTable({dataTable, ip, autoCloseAlert, updateAddData, dataCount
             />
 
             {/*MODAL PARA AÑADIR REGISTROS*/}
-            <ModalAddCompany modalAddRecord = {modalAddRecord} setModalAddRecord = {setModalAddRecord}  ip = {ip} autoCloseAlert = {autoCloseAlert} updateAddData = {updateAddData} dataCountries = {dataCountries}/>
+            <ModalAddCompany modalAddRecord = {modalAddRecord} setModalAddRecord = {setModalAddRecord} dataCountries = {dataCountries} updateAddData = {updateAddData} pathLogo = {pathLogo} ip = {ip} autoCloseAlert = {autoCloseAlert}  />
 
             {/*MODAL PARA MODIFICAR REGISTRO*/}
-            <ModalUpdateCompany modalUpdateRecord = {modalUpdateRecord} setModalUpdateRecord = {toggleModalUpdateRecord} record = {record}  dataCountries = {dataCountries} ip = {ip} autoCloseAlert = {autoCloseAlert} updateAddData = {updateAddData}/>
+            <ModalUpdateCompany modalUpdateRecord = {modalUpdateRecord} setModalUpdateRecord = {toggleModalUpdateRecord} record = {record}  dataCountries = {dataCountries} pathLogo = {pathLogo} updateAddData = {updateAddData} ip = {ip} autoCloseAlert = {autoCloseAlert} profilePath = {profilePath}/>
         </div>
     )
     

@@ -463,7 +463,7 @@ function Admin(props) {
         }
       })
       .catch(function(err) {
-          alert("No se pudo consultar la informacion de las rutas" + err);
+          console.log(err)
       });
     }, []);
 
@@ -492,7 +492,7 @@ function Admin(props) {
           setPathFile(aux.Value)
       })
       .catch(function(err) {
-          alert("No se pudo consultar la informacion de los general parameters" + err);
+          console.log(err)
       });
     }, []);
 

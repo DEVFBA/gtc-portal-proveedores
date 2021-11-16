@@ -20,7 +20,7 @@ import {
     Col,
 } from "reactstrap";
 
-function ModalUpdateCompany({modalUpdateRecord, setModalUpdateRecord, record, dataCountries, updateAddData, pathLogo, ip, profilePath, autoCloseAlert}) {
+function ModalUpdateCompany({modalUpdateRecord, setModalUpdateRecord, record, dataCountries, updateAddData, pathLogo, ip, autoCloseAlert, profilePath}) {
 
     const user = localStorage.getItem("User");
     const token = localStorage.getItem("Token");
@@ -41,6 +41,7 @@ function ModalUpdateCompany({modalUpdateRecord, setModalUpdateRecord, record, da
     const [updateWebPage, setupdateWebPage] = React.useState("");
     const [updateLogo, setupdateLogo] = React.useState("");
     const [updateStatus, setupdateStatus] = useState(false);
+    const [changeImage, setChangeImage] = useState(false)
 
     //Mandar error en caso de que ya exista el Country/TaxId
     const [updateError, setregisterError] = useState("");
@@ -65,7 +66,6 @@ function ModalUpdateCompany({modalUpdateRecord, setModalUpdateRecord, record, da
     const [errorMessage, setErrorMessage] = React.useState("");
 
     useEffect(() => {
-        console.log(record.idCountry)
         setupdateIdCompany(record.idCompany)
         setupdateFullName(record.nombre)
         setupdateRfc(record.taxId)
@@ -95,6 +95,7 @@ function ModalUpdateCompany({modalUpdateRecord, setModalUpdateRecord, record, da
     const handleModalClick = () => {
         setupdateFullNameState("")
         setupdateRfcState("")
+        setupdateCountryState("")
         setModalUpdateRecord(!modalUpdateRecord);
     };
 
@@ -150,8 +151,6 @@ function ModalUpdateCompany({modalUpdateRecord, setModalUpdateRecord, record, da
     }
 
     function updateRegister(){
-
-        console.log(updateCountry.value)
         const catRegister = {
             pvOptionCRUD: "U",
             piIdCompany: updateIdCompany,
@@ -171,7 +170,8 @@ function ModalUpdateCompany({modalUpdateRecord, setModalUpdateRecord, record, da
             pbStatus : updateStatus,
             pvUser : user,
             pathLogo : pathLogo,
-            pvIP : ip
+            pvIP : ip,
+            pvChangeImage: changeImage
         };
     
         fetch(`http://129.159.99.152/develop-vendors/api/companies/update-company/`, {
@@ -309,7 +309,12 @@ function ModalUpdateCompany({modalUpdateRecord, setModalUpdateRecord, record, da
                                 name="country"
                                 className="react-select"
                                 classNamePrefix="react-select"
-                                defaultValue = {updateCountry}
+                                defaultValue = {
+                                    {
+                                        value: record.idCountry,
+                                        label: record.country
+                                    }
+                                }
                                 onChange={(value) => {
                                     setupdateCountry(value)
                                 }}
@@ -375,7 +380,7 @@ function ModalUpdateCompany({modalUpdateRecord, setModalUpdateRecord, record, da
                         </FormGroup>
                     </Col>
                     <Col sm="4">
-                        <UploadLogo registerLogo = {updateLogo} setregisterLogo={setupdateLogo} registerCountry = {updateCountry} registerRfc = {updateRfc} logo = {updateLogo} path = {profilePath}/>
+                        <UploadLogo registerLogo = {updateLogo} setregisterLogo={setupdateLogo} registerCountry = {updateCountry} registerRfc = {updateRfc} logo = {record.logo} path = {profilePath} setChangeImage = {setChangeImage}/>
                     </Col>
                     <Col sm="6">
                         <FormGroup>

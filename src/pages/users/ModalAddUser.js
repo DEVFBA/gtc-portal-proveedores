@@ -199,7 +199,7 @@ function ModalAddUser({modalAddRecord, setModalAddRecord, dataRoles, dataVendors
             pvFinalEffectiveDate: finalDate2,
             pvProfilePicPath: registerImage,
             pbStatus: registerStatus,
-            pvUser: "ANGUTIERRE",
+            pvUser: user,
             pathImage : pathImage,
             pvIP: ip
         };

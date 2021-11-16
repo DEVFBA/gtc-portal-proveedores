@@ -159,7 +159,7 @@ function CatalogosPortal({autoCloseAlert}) {
     return (
         <Card>
             <CardHeader>
-                <CardTitle tag="h4">Catálogos del SAT</CardTitle>
+                <CardTitle tag="h4">Catálogos del Portal</CardTitle>
             </CardHeader>
             <CardBody>
                 <Select 

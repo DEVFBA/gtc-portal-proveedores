@@ -2,6 +2,7 @@ import React from "react";
 import fs from 'fs';
 
 import defaultImage from "../../assets/img/default-avatar.png";
+import { property } from "lodash";
 
 function UploadUserImage(props) {
   const [fileState, setFileState] = React.useState(null);
@@ -30,6 +31,7 @@ function UploadUserImage(props) {
       
       setFileState(file);
       props.setregisterImage(reader.result)
+      props.setChangeImage(true)
       setImagePreviewUrl(reader.result);
       //console.log(reader.result)
     };

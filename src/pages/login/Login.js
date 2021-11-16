@@ -89,6 +89,7 @@ function Login(){
         //Comparar fechas
         var f1 = new Date();
         var f2 = new Date(data[0].Final_Effective_Date)
+        console.log(data)
         if(data[0].Temporal_Password===true)
         {
           history.push(ambiente + "/auth/edit-password");

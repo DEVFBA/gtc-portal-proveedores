@@ -266,7 +266,12 @@ function ModalUpdateVendor({modalUpdateRecord, setModalUpdateRecord, record, dat
                                 name="country"
                                 className="react-select"
                                 classNamePrefix="react-select"
-                                defaultValue = {updateCountry}
+                                defaultValue = {
+                                    {
+                                        value: record.idCountry,
+                                        label: record.country
+                                    }
+                                }
                                 onChange={(value) => {
                                     setupdateCountry(value)
                                 }}

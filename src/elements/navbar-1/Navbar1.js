@@ -41,7 +41,7 @@ function Navbar1({layout, setLayout})
           //console.log(data)
       })
       .catch(function(err) {
-          alert("No se pudo consultar la informacion del usuario en sidebar" + err);
+          console.log(err)
       });
     }  
   },[]);
@@ -75,7 +75,7 @@ function Navbar1({layout, setLayout})
           setRouteProfile(aux.Value)
       })
       .catch(function(err) {
-          alert("No se pudo consultar la informacion de la Profile_Picture" + err);
+         console.log(err)
       });
     }
   }, []);

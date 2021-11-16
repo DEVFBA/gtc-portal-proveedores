@@ -29,6 +29,7 @@ function UploadLogo(props) {
       
       setFileState(file);
       props.setregisterLogo(reader.result)
+      props.setChangeImage(true)
       setImagePreviewUrl(reader.result);
       //console.log(reader.result)
     };
