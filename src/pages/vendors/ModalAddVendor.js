@@ -174,10 +174,10 @@ function ModalAddVendor({modalAddRecord, setModalAddRecord, ip, autoCloseAlert, 
     return (
         <Modal isOpen={modalAddRecord} toggle={handleModalClick} size="lg">
             <div className="modal-header justify-content-center">
-            <h5 className="modal-title">Agregar Proveedor</h5>
-            <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={handleModalClick}>
-                <span aria-hidden="true">×</span>
-            </button>
+                <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={handleModalClick}>
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h5 className="modal-title">Agregar Proveedor</h5>
             </div>
             <ModalBody>
             <Form id="RegisterValidation">
@@ -337,10 +337,10 @@ function ModalAddVendor({modalAddRecord, setModalAddRecord, ip, autoCloseAlert, 
             </ModalBody>
             <ModalFooter>
                 <div className="center-side">
-                <Button className="buttons" color="secondary" onClick={handleModalClick}>
+                <Button className="buttons button-close btn-gtc" color="secondary" onClick={handleModalClick}>
                     Cerrar 
                 </Button>
-                <Button className="buttons" color="primary" onClick={registerClick}>
+                <Button className="buttons btn-gtc" color="primary" onClick={registerClick}>
                     Guardar cambios
                 </Button>
                 </div>

@@ -3109,13 +3109,25 @@ button.close {
     opacity: 0.5; }
 
 .modal-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 15px;
-  border-bottom: 1px solid #eeeeee; }
-  .modal-header .close {
-    margin-left: auto; }
+  border-bottom: 1px solid #DDDDDD;
+  padding: 20px;
+  text-align: center;
+  display: block !important; }
+  .modal-header.no-border-header {
+    border-bottom: 0 none !important; }
+    .modal-header.no-border-header .modal-title {
+      margin-top: 20px; }
+  .modal-header .close:focus {
+    outline: none; }
+  .modal-header .modal-profile {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 6.4;
+    border: 1px solid rgba(0, 0, 0, 0.3); }
+    .modal-header .modal-profile i {
+      font-size: 30px; }
 
 .modal-title {
   margin-bottom: 0;

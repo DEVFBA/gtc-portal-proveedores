@@ -1,6 +1,6 @@
 a,
 .btn {
-  font-family: "Montserrat", sans-serif; }
+  font-family: "Montserrat", "Helvetica", Arial, sans-serif; }
   a:hover, a:focus, a:active, a.focus, a.active,
   .btn:hover,
   .btn:focus,
@@ -89,7 +89,7 @@ a,
 
 [data-background="light"] pre,
 [data-background="light"] code {
-  font-family: "Inconsolata", monospace;
+  font-family: "Montserrat", sans-serif;
   font-size: 0.875rem;
   background: #f7f7f7;
   color: #d32f2f; }
@@ -99,7 +99,7 @@ a,
 
 [data-background="dark"] pre,
 [data-background="dark"] code {
-  font-family: "Inconsolata", monospace;
+  font-family: "Montserrat", sans-serif;
   font-size: 0.875rem;
   background: #292929;
   color: #ffa000; }
@@ -109,7 +109,7 @@ a,
 
 [data-background="primary"] pre,
 [data-background="primary"] code {
-  font-family: "Inconsolata", monospace;
+  font-family: "Montserrat", sans-serif;
   font-size: 0.875rem;
   background: #3444ab;
   color: #ffa000; }

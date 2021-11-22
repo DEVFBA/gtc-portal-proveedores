@@ -185,10 +185,10 @@ function ModalUpdateVendor({modalUpdateRecord, setModalUpdateRecord, record, dat
     return (
         <Modal isOpen={modalUpdateRecord} toggle={handleModalClick} size="lg">
             <div className="modal-header justify-content-center">
-            <h5 className="modal-title">Actualizar Proveedor</h5>
-            <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={handleModalClick}>
-                <span aria-hidden="true">×</span>
-            </button>
+                <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={handleModalClick}>
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h5 className="modal-title">Actualizar Proveedor</h5>
             </div>
             <ModalBody>
             <Form id="RegisterValidation">
@@ -346,10 +346,10 @@ function ModalUpdateVendor({modalUpdateRecord, setModalUpdateRecord, record, dat
             </ModalBody>
             <ModalFooter>
                 <div className="center-side">
-                <Button className="buttons" color="secondary" onClick={handleModalClick}>
+                <Button className="buttons button-close btn-gtc" color="secondary" onClick={handleModalClick}>
                     Cerrar
                 </Button>
-                <Button className="buttons" color="primary" onClick={updateClick}>
+                <Button className="buttons btn-gtc" color="primary" onClick={updateClick}>
                     Guardar cambios
                 </Button>
                 </div>

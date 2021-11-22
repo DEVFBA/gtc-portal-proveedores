@@ -250,7 +250,7 @@ function ModalAddUser({modalAddRecord, setModalAddRecord, dataRoles, dataVendors
     return (
         <Modal isOpen={modalAddRecord} toggle={handleModalClick} size="lg">
             <div className="modal-header justify-content-center">
-            <h5 className="modal-title">Añadir Usuario</h5>
+            <h5 className="modal-title">Agregar Usuario</h5>
             <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={handleModalClick}>
                 <span aria-hidden="true">×</span>
             </button>
@@ -419,10 +419,10 @@ function ModalAddUser({modalAddRecord, setModalAddRecord, dataRoles, dataVendors
             </ModalBody>
             <ModalFooter>
                 <div className="center-side">
-                <Button className="buttons" color="secondary" onClick={handleModalClick}>
+                <Button className="buttons button-close btn-gtc" color="secondary" onClick={handleModalClick}>
                     Cerrar
                 </Button>
-                <Button className="buttons" color="primary" onClick={registerClick}>
+                <Button className="buttons btn-gtc" color="primary" onClick={registerClick}>
                    Guardar Cambios
                 </Button>
                 </div>

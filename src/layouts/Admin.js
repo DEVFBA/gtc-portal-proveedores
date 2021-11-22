@@ -294,6 +294,18 @@ function Admin(props) {
                       }
                     )
                   }
+                  else if(data[i].Component_Submodule === "CompaniesVendors")
+                  {
+                    views.push(
+                      {
+                        path: data[i].Url,
+                        name: data[i].SubModule_Desc,
+                        component: "CompaniesVendors",
+                        layout: ambiente + data[i].Layout_SubModule,
+                        views: []
+                      }
+                    )
+                  }
                   var j= i+1;
                   while(j<data.length)
                   {
@@ -391,6 +403,19 @@ function Admin(props) {
                             path: data[j].Url,
                             name: data[j].SubModule_Desc,
                             component: "SATCatalogs",
+                            layout: ambiente + data[j].Layout_SubModule,
+                            views: []
+                          }
+                        )
+                      }
+                      else if(data[j].Component_Submodule === "CompaniesVendors")
+                      {
+                        console.log("eentreeeeee")
+                        views.push(
+                          {
+                            path: data[j].Url,
+                            name: data[j].SubModule_Desc,
+                            component: "CompaniesVendors",
                             layout: ambiente + data[j].Layout_SubModule,
                             views: []
                           }
@@ -539,6 +564,18 @@ function Admin(props) {
               );
             }
             else if(prop.component === "Vendors")
+            {
+              return (
+                <Route
+                  path={prop.layout + prop.path}
+                  //element={<Users autoCloseAlert = {autoCloseAlert}/>}
+                  //key={key}
+                >
+                  <Vendors autoCloseAlert = {autoCloseAlert}/>
+                </Route>
+              );
+            }
+            else if(prop.component === "CompaniesVendors")
             {
               return (
                 <Route

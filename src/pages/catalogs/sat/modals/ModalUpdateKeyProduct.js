@@ -158,14 +158,7 @@ function ModalUpdateKeyProduct({abierto, toggleModalUpdateRecord, record, ip, au
         });
         
     }
-
-    /* Función que suma o resta días a una fecha, si el parámetro
-   días es negativo restará los días*/
-    function sumarDias(fecha, dias){
-        fecha.setDate(fecha.getDate() + dias);
-        return fecha;
-    }
-
+    
     return (
         <Modal isOpen={abierto} toggle={handleModalClick} size="lg">
             <div className="modal-header justify-content-center">
@@ -263,10 +256,10 @@ function ModalUpdateKeyProduct({abierto, toggleModalUpdateRecord, record, ip, au
             </ModalBody>
             <ModalFooter>
                 <div className="center-side">
-                <Button className="buttons" color="secondary" onClick={handleModalClick}>
+                <Button className="buttons button-close btn-gtc" color="secondary" onClick={handleModalClick}>
                     Cerrar
                 </Button>
-                <Button className="buttons" color="primary" onClick={updateClick}>
+                <Button className="buttons btn-gtc" color="primary" onClick={updateClick}>
                     Guardar cambios
                 </Button>
                 </div>

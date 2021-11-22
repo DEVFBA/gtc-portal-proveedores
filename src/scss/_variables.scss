@@ -3,8 +3,8 @@
 @import "animations";
 
 //fonts
-$font-family: "Montserrat", sans-serif;
-$monospace-font-family: "Inconsolata", monospace;
+$font-family: "Montserrat", "Helvetica", Arial, sans-serif;
+$monospace-font-family: "Montserrat", sans-serif;
 
 //z-index
 $zindex-navbar-fixed: 1030;
@@ -41,6 +41,8 @@ $border-radius: 12px;
 
 //responsive breakpoint
 $breakpoint: 768px;
+
+$border-radius-extreme:         12px !default;
 
 //transform
 $default-transform: transform 0.25s ease;

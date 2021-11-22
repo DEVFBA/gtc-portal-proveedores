@@ -40,7 +40,23 @@ function XmlTree({dataString}) {
     for (var i=0; i<json.length; i++)
     {
       nombre = json[i].name
-      componente = componente + "<Tree key ='"+json[i].name+i+"' content='"+nombre.substr(5)+"'>"
+      var nombreF;
+      if(nombre.includes("cfdi:"))
+      {
+        nombreF = nombre.substr(5)
+        nombreF = nombreF.replace(/([A-Z])/g, ' $1').trim()
+      }
+      else if(nombre.includes("cartaporte20:"))
+      {
+        nombreF = nombre.substr(13)
+        nombreF = nombreF.replace(/([A-Z])/g, ' $1').trim()
+      }
+      else 
+      {
+        nombreF = nombre.substr(4)
+        nombreF = nombreF.replace(/([A-Z])/g, ' $1').trim()
+      }
+      componente = componente + "<Tree style={treeStyles} key ='"+json[i].name+i+"' content='"+nombreF+"'>"
       type = typeof json[i].elements;
       if (type=="undefined")
       {
@@ -50,7 +66,7 @@ function XmlTree({dataString}) {
         var filas = 2
         var tabla = ""
 
-        tabla = tabla + "<Table responsive>"
+        tabla = tabla + '<Table responsive className = "horizontal-scroll">'
         for(var x = 0; x< filas; x++)
         {
             if(x===0)
@@ -66,7 +82,9 @@ function XmlTree({dataString}) {
             if(x===0)
             {
                 //pintamos el encabezado
-                tabla = tabla + "<th scope='col'>"+ Object.keys(json[i].attributes)[y] + "</th>"
+                var encabezado = Object.keys(json[i].attributes)[y]
+                encabezado = encabezado.replace(/([A-Z])/g, ' $1').trim()
+                tabla = tabla + "<th scope='col'>"+ encabezado + "</th>"
             }
             else
             {
@@ -128,7 +146,7 @@ function XmlTree({dataString}) {
           var tabla = ""
           var filas = 2
 
-            tabla = tabla + "<Table responsive>"
+            tabla = tabla + '<Table responsive className="horizontal-scroll">'
             for(var x = 0; x< filas; x++)
             {
                 if(x===0)
@@ -144,7 +162,9 @@ function XmlTree({dataString}) {
                 if(x===0)
                 {
                     //pintamos el encabezado
-                    tabla = tabla + "<th scope='col'>"+ Object.keys(json[i].attributes)[y] + "</th>"
+                    var encabezado = Object.keys(json[i].attributes)[y]
+                    encabezado = encabezado.replace(/([A-Z])/g, ' $1').trim()
+                    tabla = tabla + "<th scope='col'>"+ encabezado + "</th>"
                 }
                 else
                 {

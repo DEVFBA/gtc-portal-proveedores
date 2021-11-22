@@ -201,7 +201,7 @@ function Table({ columns, data }) {
                       "-sort-desc": column.isSorted && column.isSortedDesc,
                     })}
                   >
-                    <div className="rt-resizable-header-content">
+                    <div className="rt-resizable-header-content header-table">
                       {column.render("Header")}
                     </div>
                     {/* Render the columns filter UI */}

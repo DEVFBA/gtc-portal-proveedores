@@ -111,7 +111,7 @@ function CargaXML({pathFile}) {
           <Col md="12">
             <Card>
               <CardHeader>
-                <CardTitle tag="h4">Árbol del XML</CardTitle>
+                <CardTitle tag="h4">CFDI Carta Porte</CardTitle>
               </CardHeader>
               <CardBody>
                     <XmlTreeData />

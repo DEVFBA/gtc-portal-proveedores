@@ -103,9 +103,10 @@ function CompaniesTable({dataTable, ip, autoCloseAlert, updateAddData, dataCount
 
     return (
         <div>
-            <span className="input-group-btn rounded-left" onClick={toggleModalAddRecord}>
-                <button className="btn btn-primary" type="button">
-                    Añadir Compañía 
+            <span className="input-group-btn rounded-left">
+                <button className="btn btn-primary btn-gtc" onClick={toggleModalAddRecord}>
+                    <i className="ion-plus btn-icon"/>
+                     Agregar Compañía 
                 </button>
             </span>
             &nbsp;
@@ -141,7 +142,7 @@ function CompaniesTable({dataTable, ip, autoCloseAlert, updateAddData, dataCount
                         accessor: "country",
                     },
                     {
-                        Header: "Estado",
+                        Header: "Estatus",
                         accessor: "status",
                     },
                     {

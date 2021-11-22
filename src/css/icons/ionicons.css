@@ -28,7 +28,7 @@
     .ionicons .icon .icon-class {
       display: block;
       font-size: 13px;
-      font-family: "Montserrat", sans-serif; }
+      font-family: "Montserrat", "Helvetica", Arial, sans-serif; }
 
 [data-background="light"] .ionicons .icon {
   color: #212121; }

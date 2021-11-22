@@ -83,9 +83,10 @@ function UsersTable({dataTable, ip, dataRoles, dataVendors, autoCloseAlert, upda
 
     return dataTable.length === 0 ? (
         <div>
-            <span className="input-group-btn rounded-left" onClick={toggleModalAddRecord}>
-                <button className="btn btn-primary" type="button">
-                    Añadir Usuario 
+            <span className="input-group-btn rounded-left">
+                <button className="btn btn-primary btn-gtc" onClick={toggleModalAddRecord}>
+                    <i className="ion-plus btn-icon"/>
+                    Agregar Usuario 
                 </button>
                 <Skeleton height={25} />
                 <Skeleton height="25px" />
@@ -94,9 +95,10 @@ function UsersTable({dataTable, ip, dataRoles, dataVendors, autoCloseAlert, upda
         </div>
     ) : (
         <div>
-            <span className="input-group-btn rounded-left" onClick={toggleModalAddRecord}>
-                <button className="btn btn-primary" type="button">
-                    Añadir Usuario 
+            <span className="input-group-btn rounded-left">
+                <button className="btn btn-primary btn-gtc" onClick={toggleModalAddRecord}>
+                    <i className="ion-plus btn-icon"/>
+                    Agregar Usuario 
                 </button>
             </span>
             &nbsp;

@@ -527,10 +527,10 @@ function ModalUpdateUser({abierto, toggleModalUpdateRecord, record, dataRoles, i
             </ModalBody>
             <ModalFooter>
                 <div className="center-side">
-                <Button className="buttons" color="secondary" onClick={handleModalClick}>
+                <Button className="buttons button-close btn-gtc" color="secondary" onClick={handleModalClick}>
                     Cerrar
                 </Button>
-                <Button className="buttons" color="primary" onClick={updateClick}>
+                <Button className="buttons btn-gtc" color="primary" onClick={updateClick}>
                     Guardar cambios
                 </Button>
                 </div>

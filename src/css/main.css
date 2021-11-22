@@ -3109,13 +3109,25 @@ button.close {
     opacity: 0.5; }
 
 .modal-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 15px;
-  border-bottom: 1px solid #eeeeee; }
-  .modal-header .close {
-    margin-left: auto; }
+  border-bottom: 1px solid #DDDDDD;
+  padding: 20px;
+  text-align: center;
+  display: block !important; }
+  .modal-header.no-border-header {
+    border-bottom: 0 none !important; }
+    .modal-header.no-border-header .modal-title {
+      margin-top: 20px; }
+  .modal-header .close:focus {
+    outline: none; }
+  .modal-header .modal-profile {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 6.4;
+    border: 1px solid rgba(0, 0, 0, 0.3); }
+    .modal-header .modal-profile i {
+      font-size: 30px; }
 
 .modal-title {
   margin-bottom: 0;
@@ -7452,7 +7464,7 @@ html,
   min-height: 100%; }
 
 body {
-  font-family: "Montserrat", sans-serif;
+  font-family: "Montserrat", "Helvetica", Arial, sans-serif;
   font-weight: normal;
   -webkit-font-smoothing: antialiased;
   -moz-font-smoothing: antialiased;
@@ -7504,7 +7516,7 @@ body,
 
 input,
 select {
-  font-family: "Montserrat", sans-serif; }
+  font-family: "Montserrat", "Helvetica", Arial, sans-serif; }
 
 .hidden {
   display: none; }
@@ -8540,3 +8552,56 @@ select {
 
 .react-select.react-select--is-disabled .react-select__control--is-disabled {
   background-color: #f9f9f9; }
+
+.horizontal-scroll {
+  overflow-x: auto !important; }
+
+.button-close {
+  margin-right: 10px; }
+
+.btn-gtc {
+  border-radius: 3px;
+  font-size: 13px !important;
+  font-weight: bold !important; }
+
+.header-table {
+  font-size: 14px !important;
+  font-weight: bold !important; }
+
+.btn-carta-porte {
+  padding-top: 12px;
+  padding-bottom: 11px; }
+
+.btn-icon {
+  margin-right: 5px; }
+
+.modal-title {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  font-size: 20px !important; }
+
+.modal-content {
+  border-radius: 10px; }
+
+.modal-body {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-left: 50px;
+  padding-right: 50px; }
+
+.form-control {
+  border-radius: 3px; }
+
+.form-check-input {
+  width: 18px;
+  height: 18px;
+  line-height: 26px !important; }
+
+.form-check-label {
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+  line-height: 26px !important; }
+
+.close {
+  margin-top: 15px; }

@@ -160,11 +160,11 @@ function ModalUpdateEntityTypes({abierto, toggleModalUpdateRecord, record, ip, a
 
     return (
         <Modal isOpen={abierto} toggle={handleModalClick} size="lg">
-            <div className="modal-header justify-content-center">
-            <h5 className="modal-title">Actualizar Rol</h5>
-            <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={handleModalClick}>
-                <span aria-hidden="true">×</span>
-            </button>
+           <div className="modal-header justify-content-center">
+                <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={handleModalClick}>
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h5 className="modal-title">Actualizar Registro</h5>
             </div>
             <ModalBody>
             <Form id="RegisterValidation">
@@ -253,10 +253,10 @@ function ModalUpdateEntityTypes({abierto, toggleModalUpdateRecord, record, ip, a
             </ModalBody>
             <ModalFooter>
                 <div className="center-side">
-                <Button className="buttons" color="secondary" onClick={handleModalClick}>
+                <Button className="buttons button-close btn-gtc" color="secondary" onClick={handleModalClick}>
                     Cerrar
                 </Button>
-                <Button className="buttons" color="primary" onClick={updateClick}>
+                <Button className="buttons btn-gtc" color="primary" onClick={updateClick}>
                     Guardar cambios
                 </Button>
                 </div>

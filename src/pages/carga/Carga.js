@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import XmlTree from "./XmlTree";
 
 import convert from 'xml-js';
 import axios from 'axios'
@@ -31,9 +30,6 @@ function Carga({autoCloseAlert}) {
   //Para guardar el archivo
   const [xml, setXml] = useState(null);
 
-  //Para guardar los datos de los usuarios
-  const [dataXml, setDataXml] = useState();
-
   const [xmlState, setXmlState] = useState("")
 
   //Para guardar el token de la sesión
@@ -46,9 +42,6 @@ function Carga({autoCloseAlert}) {
 
   //Para guardar el path de los documentos
   const [pathFile, setPathFile] = useState("");
-
-  //Para guardar los workflow status
-  const [workflowStatus, setWorflowStatus] = useState([]);
 
   //Para guardar los workflow types
   const [workflowTypes, setWorflowTypes] = useState([]);
@@ -100,6 +93,9 @@ function Carga({autoCloseAlert}) {
 
   //Para guardar los datos de las companies - vendors
   const [dataCompaniesVendors, setDataCompaniesVendors] = useState([]);
+
+  //Para guardar los workflow tracker
+  const [workflowTracker, setWorkflowTracker] = useState([]);
   
   const getData = async () => {
     //const res = await axios.get('https://geolocation-db.com/json/')
@@ -154,7 +150,7 @@ function Carga({autoCloseAlert}) {
     });
   }, []);
 
-  useEffect(() => {
+useEffect(() => {
     //Aqui vamos a descargar la lista de vendors de la base de datos 
     const params = {
       pvOptionCRUD: "R"
@@ -175,7 +171,6 @@ function Carga({autoCloseAlert}) {
         return response.ok ? response.json() : Promise.reject();
     })
     .then(function(data) {
-      console.log(data)
         setDataVendors(data)
     })
     .catch(function(err) {
@@ -204,7 +199,6 @@ useEffect(() => {
       return response.ok ? response.json() : Promise.reject();
   })
   .then(function(data) {
-    console.log(data)
       setDataCompanies(data)
   })
   .catch(function(err) {
@@ -233,7 +227,6 @@ useEffect(() => {
       return response.ok ? response.json() : Promise.reject();
   })
   .then(function(data) {
-      console.log(data)
       setDataCompaniesVendors(data)
   })
   .catch(function(err) {
@@ -271,35 +264,7 @@ useEffect(() => {
 }, []);
 
 useEffect(() => {
-  //Aqui vamos a descargar la lista de general parameters para revisar la vigencia del password
-  const params = {
-    pvOptionCRUD: "R"
-  };
-
-  var url = new URL(`http://129.159.99.152/develop-vendors/api/cat-workflow-status/`);
-
-  Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
-
-  fetch(url, {
-      method: "GET",
-      headers: {
-          "access-token": token,
-          "Content-Type": "application/json",
-      }
-  })
-  .then(function(response) {
-      return response.ok ? response.json() : Promise.reject();
-  })
-  .then(function(data) {
-    setWorflowStatus(data)
-  })
-  .catch(function(err) {
-      alert("No se pudo consultar la informacion de los workflow status" + err);
-  });
-}, []);
-
-useEffect(() => {
-  //Aqui vamos a descargar la lista de general parameters para revisar la vigencia del password
+  //Aqui vamos a descargar la lista de general parameters para revisar los workflow type
   const params = {
     pvOptionCRUD: "R"
   };
@@ -319,165 +284,191 @@ useEffect(() => {
       return response.ok ? response.json() : Promise.reject();
   })
   .then(function(data) {
-    setWorflowTypes(data)
+    var aux = data.find( o => o.Id_Catalog === "WF-CP" )
+    setWorflowTypes(aux)
   })
   .catch(function(err) {
       alert("No se pudo consultar la informacion de los workflow types" + err);
   });
 }, []);
 
-  //Renderizado condicional
-  function XmlTreeData() {
-    return <XmlTree dataString = {dataXml}/>;
-  }
+useEffect(() => {
+  //Aqui vamos a descargar la lista de general parameters para revisar los workflow type
+  const params = {
+    pvOptionCRUD: "R"
+  };
 
-  /*function uploadXml()
+  var url = new URL(`http://129.159.99.152/develop-vendors/api/workflow-tracker/`);
+
+  Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
+
+  fetch(url, {
+      method: "GET",
+      headers: {
+          "access-token": token,
+          "Content-Type": "application/json",
+      }
+  })
+  .then(function(response) {
+      return response.ok ? response.json() : Promise.reject();
+  })
+  .then(function(data) {
+    setWorkflowTracker(data)
+  })
+  .catch(function(err) {
+      alert("No se pudo consultar la informacion de los workflow tracker" + err);
+  });
+}, []);
+
+function registerClick(){
+  if(xml !== null)
   {
-    if(xml !== null)
+    let reader = new FileReader();
+    let file = xml;
+
+    reader.onloadend = () => { 
+      setFileState(file);
+      setFileUpload(reader.result)
+      preData(reader.result, xml)
+    };
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  }
+  else {
+    if (xmlState !== "has-success") {
+      setXmlState("text-danger");
+    }
+  }
+}
+
+function preData(file, xml){
+  //1. Leemos los datos del xml que nos serviran para el SP
+  let fileReader = new FileReader();
+  fileReader.readAsText(xml);
+  fileReader.onload = (event) => {
+    //
+    var options = {compact: false, ignoreComment: true, spaces: 4};
+    const jsonString = convert.xml2json(event.target.result, options);
+    const jsonData = JSON.parse(jsonString)
+
+    //Sacamos del documento algunos valores que necesitamos
+    var elements = jsonData.elements[0].elements
+
+    //Sacamos el UUID
+    var complemento = elements.find( o => o.name === "cfdi:Complemento")
+    var uuid;
+    for(var i=0; i<complemento.elements.length; i++)
     {
-      let fileReader = new FileReader();
-      fileReader.readAsText(xml);
-      fileReader.onload = (event) => {
-        //
-        var options = {compact: false, ignoreComment: true, spaces: 4};
-        const jsonString = convert.xml2json(event.target.result, options);
-        const jsonData = JSON.parse(jsonString)
-        setDataXml(jsonData.elements)
-      };
+      if(complemento.elements[i].name === "tfd:TimbreFiscalDigital")
+      {
+        uuid = complemento.elements[i].attributes.UUID
+        setUuid(complemento.elements[i].attributes.UUID)
+      }
+    }
+
+    //Para verificar que exista en Complemento el Tema de Carta Porte
+    var cartaPorte = false
+    for(var i=0; i<complemento.elements.length; i++)
+    {
+      if(complemento.elements[i].name === "cartaporte20:CartaPorte")
+      {
+        console.log("SI ENTRE A CARTA PORTE")
+        cartaPorte = true
+      }
+    }
+
+    //Sacamos el Rfc Emisor
+    var emisor = elements.find( o => o.name === "cfdi:Emisor")
+    setIdVendor(emisor.attributes.Rfc)
+
+    //Sacamos el Rfc Receptor
+    var receptor = elements.find( o => o.name === "cfdi:Receptor")
+    setIdCompany(receptor.attributes.Rfc)
+
+    //Sacamos el Id_Receipt_Type
+    setIdReceiptType(jsonData.elements[0].attributes.TipoDeComprobante)
+
+    //Sacamos el Id_Entity_Type
+    var entity;
+    if(emisor.attributes.Rfc.length === 12)
+    {
+      entity = "M"
+    }
+    else 
+    {
+      entity = "F"
+    }
+
+    //Sacamos la serie
+    setSerie(jsonData.elements[0].attributes.Serie)
+
+    //Sacamos el folio
+    setFolio(jsonData.elements[0].attributes.Folio)
+
+    //Sacamos la fecha
+    setInvoiceDate(jsonData.elements[0].attributes.Fecha)
+
+    //El estado por defecto del documento
+    setIdWorkflowStatus(5)
+
+    //Validamos que la compañia y el proveedor sea correcto, ademas que exista la relacion entre Companies - Vendors y sea activa
+    var companyValid = false;
+    var companyId;
+    var vendorValid = false;
+    var vendorId;
+    for(var i = 0; i < dataCompanies.length; i++)
+    {
+      if(dataCompanies[i].Tax_Id === receptor.attributes.Rfc)
+      {
+        companyId = dataCompanies[i].Id_Company
+        companyValid = true;
+      }
+    }
+
+    for(var j = 0; j < dataVendors.length; j++)
+    {
+      if(dataVendors[j].Tax_Id === emisor.attributes.Rfc)
+      {
+        vendorId = dataVendors[j].Id_Vendor
+        vendorValid = true;
+      }
+    }
+
+    if(cartaPorte !== true)
+    {
+      autoCloseAlert("Error. El documento no es de Carta Porte. Verifique.")
+    }
+    else if(companyValid === false)
+    {
+      autoCloseAlert("Error. El Receptor no es válido. Verifique.")
+    }
+    else if(vendorValid === false)
+    {
+      autoCloseAlert("Error. El Emisor no es válido. Verifique.")
     }
     else{
-      if (xmlState !== "has-success") {
-        setXmlState("text-danger");
+      var companiesVendorsValid = false
+      for(var k = 0; k < dataCompaniesVendors.length; k++)
+      {
+        if(dataCompaniesVendors[k].Id_Company === companyId && dataCompaniesVendors[k].Id_Vendor === vendorId && dataCompaniesVendors[k].Status === true)
+        {
+          companiesVendorsValid = true
+          //uploadXml(file, complemento.elements[0].attributes.UUID, emisor.attributes.Rfc, receptor.attributes.Rfc, jsonData.elements[0].attributes.TipoDeComprobante, entity, jsonData.elements[0].attributes.Serie, jsonData.elements[0].attributes.Folio, jsonData.elements[0].attributes.Fecha)
+        }
+      }
+
+      if(companiesVendorsValid === true)
+      {
+        uploadXml(file, uuid, vendorId, companyId, jsonData.elements[0].attributes.TipoDeComprobante, entity, jsonData.elements[0].attributes.Serie, jsonData.elements[0].attributes.Folio, jsonData.elements[0].attributes.Fecha)
+
+      }
+      else {
+        autoCloseAlert("La relación entre Companies / Vendors es incorrecta. Valide.")
       }
     }
-  }*/
-
-  function registerClick(){
-    if(xml !== null)
-    {
-      let reader = new FileReader();
-      let file = xml;
-
-      reader.onloadend = () => { 
-        setFileState(file);
-        setFileUpload(reader.result)
-        preData(reader.result, xml)
-      };
-      if (file) {
-        reader.readAsDataURL(file);
-      }
-    }
-    else {
-      if (xmlState !== "has-success") {
-        setXmlState("text-danger");
-      }
-    }
-  }
-
-  function preData(file, xml){
-    //1. Leemos los datos del xml que nos serviran para el SP
-    let fileReader = new FileReader();
-    fileReader.readAsText(xml);
-    fileReader.onload = (event) => {
-      //
-      var options = {compact: false, ignoreComment: true, spaces: 4};
-      const jsonString = convert.xml2json(event.target.result, options);
-      const jsonData = JSON.parse(jsonString)
-
-      //Sacamos del documento algunos valores que necesitamos
-      var elements = jsonData.elements[0].elements
-
-      //Sacamos el UUID
-      var complemento = elements.find( o => o.name === "cfdi:Complemento")
-      setUuid(complemento.elements[0].attributes.UUID)
-
-      //Sacamos el Rfc Emisor
-      var emisor = elements.find( o => o.name === "cfdi:Emisor")
-      setIdVendor(emisor.attributes.Rfc)
-
-      //Sacamos el Rfc Receptor
-      var receptor = elements.find( o => o.name === "cfdi:Receptor")
-      setIdCompany(receptor.attributes.Rfc)
-
-      //Sacamos el Id_Receipt_Type
-      setIdReceiptType(jsonData.elements[0].attributes.TipoDeComprobante)
-
-      //Sacamos el Id_Entity_Type
-      var entity;
-      if(emisor.attributes.Rfc.length === 12)
-      {
-        entity = "M"
-      }
-      else 
-      {
-        entity = "F"
-      }
-
-      //Sacamos la serie
-      setSerie(jsonData.elements[0].attributes.Serie)
-
-      //Sacamos el folio
-      setFolio(jsonData.elements[0].attributes.Folio)
-
-      //Sacamos la fecha
-      setInvoiceDate(jsonData.elements[0].attributes.Fecha)
-
-      //El estado por defecto del documento
-      setIdWorkflowStatus(5)
-
-      //Validamos que la compañia y el proveedor sea correcto, ademas que exista la relacion entre Companies - Vendors y sea activa
-      var companyValid = false;
-      var companyId;
-      var vendorValid = false;
-      var vendorId;
-      for(var i = 0; i < dataCompanies.length; i++)
-      {
-        if(dataCompanies[i].Tax_Id === receptor.attributes.Rfc)
-        {
-          companyId = dataCompanies[i].Id_Company
-          companyValid = true;
-        }
-      }
-
-      for(var j = 0; j < dataCompanies.length; j++)
-      {
-        if(dataVendors[j].Tax_Id === emisor.attributes.Rfc)
-        {
-          vendorId = dataVendors[j].Id_Vendor
-          vendorValid = true;
-        }
-      }
-
-      if(companyValid === false)
-      {
-        autoCloseAlert("Error. El Receptor no es válido. Verifique.")
-      }
-      else if(vendorValid === false)
-      {
-        autoCloseAlert("Error. El Emisor no es válido. Verifique.")
-      }
-      else{
-        var companiesVendorsValid = false
-        for(var k = 0; k < dataCompaniesVendors.length; k++)
-        {
-          if(dataCompaniesVendors[k].Id_Company === companyId && dataCompaniesVendors[k].Id_Vendor === vendorId && dataCompaniesVendors[k].Status === true)
-          {
-            companiesVendorsValid = true
-            //uploadXml(file, complemento.elements[0].attributes.UUID, emisor.attributes.Rfc, receptor.attributes.Rfc, jsonData.elements[0].attributes.TipoDeComprobante, entity, jsonData.elements[0].attributes.Serie, jsonData.elements[0].attributes.Folio, jsonData.elements[0].attributes.Fecha)
-          }
-        }
-
-        if(companiesVendorsValid === true)
-        {
-          uploadXml(file, complemento.elements[0].attributes.UUID, vendorId, companyId, jsonData.elements[0].attributes.TipoDeComprobante, entity, jsonData.elements[0].attributes.Serie, jsonData.elements[0].attributes.Folio, jsonData.elements[0].attributes.Fecha)
-
-        }
-        else {
-          autoCloseAlert("La relación entre Companies / Vendors es incorrecta. Valide.")
-        }
-      }
-    };
-  }
+  };
+}
 
   function uploadXml(file, uuid, idVendor, idCompany, idReceiptType, idEntityType, serie, folio, fecha)
   {
@@ -569,7 +560,7 @@ useEffect(() => {
 
   //Renderizado condicional
   function CargaT() {
-    return <CargaTable dataTable = {dataCartaPorte} ip = {ip} autoCloseAlert = {autoCloseAlert} updateAddData = {updateAddData} pathFile ={pathFile}/>
+    return <CargaTable dataTable = {dataCartaPorte} ip = {ip} autoCloseAlert = {autoCloseAlert} updateAddData = {updateAddData} workflowTypes = {workflowTypes} workflowTracker ={workflowTracker}/>
   }
 
   //Para actualizar la tabla al insertar registro
@@ -631,11 +622,10 @@ useEffect(() => {
                       </FormGroup>
                     </Col>
                     <Col>
-                      <span className="input-group-btn rounded-left">
-                        <button className="btn btn-primary" type="button" onClick={registerClick}>
-                          Cargar CFDI
-                        </button>
-                      </span>
+                      <button className="btn btn-primary btn-gtc btn-carta-porte" onClick={registerClick}>
+                        <i className="ion-ios-upload-outline btn-icon"/>
+                        Cargar CFDI
+                      </button>
                     </Col>
                   </Row>
                 </Form>
@@ -681,11 +671,10 @@ useEffect(() => {
                       </FormGroup>
                     </Col>
                     <Col>
-                      <span className="input-group-btn rounded-left">
-                        <button className="btn btn-primary" type="button" onClick={registerClick}>
-                          Cargar CFDI
-                        </button>
-                      </span>
+                      <button className="btn btn-primary btn-gtc btn-carta-porte" onClick={registerClick}>
+                        <i className="ion-ios-upload-outline btn-icon"/>
+                        Cargar CFDI
+                      </button>
                     </Col>
                   </Row>
                 </Form>
