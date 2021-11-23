@@ -1,4 +1,6 @@
 import React from "react";
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+
 import { BrowserRouter, Route, Switch, Redirect, useHistory } from "react-router-dom";
 
 import AuthLayout from "./layouts/Auth.js";

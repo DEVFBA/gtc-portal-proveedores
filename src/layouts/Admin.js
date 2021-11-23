@@ -27,6 +27,7 @@ import Portal from '../pages/catalogs/portal/Portal'
 import Sat from '../pages/catalogs/sat/Sat'
 import Carga from "../pages/carga/Carga.js"
 import CargaXML from "../pages/carga/CargaXML"
+import CompaniesVendors from "../pages/companies-vendors/CompaniesVendors"
 
 import urls from "./navigation2"
 
@@ -410,7 +411,7 @@ function Admin(props) {
                       }
                       else if(data[j].Component_Submodule === "CompaniesVendors")
                       {
-                        console.log("eentreeeeee")
+                        console.log("estoy dentro")
                         views.push(
                           {
                             path: data[j].Url,
@@ -583,7 +584,7 @@ function Admin(props) {
                   //element={<Users autoCloseAlert = {autoCloseAlert}/>}
                   //key={key}
                 >
-                  <Vendors autoCloseAlert = {autoCloseAlert}/>
+                  <CompaniesVendors autoCloseAlert = {autoCloseAlert}/>
                 </Route>
               );
             }
@@ -667,7 +668,7 @@ function Admin(props) {
         );
         window.setTimeout(()=>{
           hideAlert()
-        },3000)
+        },6000)
     };
   
     const hideAlert = () => {

@@ -1,4 +1,9 @@
 import React, { useState, useEffect } from "react";
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+import $ from 'jquery';
+import Popper from 'popper.js';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
 
 import convert from 'xml-js';
 import axios from 'axios'
@@ -321,6 +326,7 @@ useEffect(() => {
 }, []);
 
 function registerClick(){
+  event.preventDefault();
   if(xml !== null)
   {
     let reader = new FileReader();
@@ -419,6 +425,7 @@ function preData(file, xml){
     var vendorId;
     for(var i = 0; i < dataCompanies.length; i++)
     {
+      console.log(receptor.attributes.Rfc)
       if(dataCompanies[i].Tax_Id === receptor.attributes.Rfc)
       {
         companyId = dataCompanies[i].Id_Company
@@ -435,6 +442,7 @@ function preData(file, xml){
       }
     }
 
+    console.log(vendorId)
     if(cartaPorte !== true)
     {
       autoCloseAlert("Error. El documento no es de Carta Porte. Verifique.")
@@ -445,7 +453,7 @@ function preData(file, xml){
     }
     else if(vendorValid === false)
     {
-      autoCloseAlert("Error. El Emisor no es válido. Verifique.")
+      autoCloseAlert("Error: Proveedor inexistente. Verifique’")
     }
     else{
       var companiesVendorsValid = false
@@ -457,7 +465,7 @@ function preData(file, xml){
           //uploadXml(file, complemento.elements[0].attributes.UUID, emisor.attributes.Rfc, receptor.attributes.Rfc, jsonData.elements[0].attributes.TipoDeComprobante, entity, jsonData.elements[0].attributes.Serie, jsonData.elements[0].attributes.Folio, jsonData.elements[0].attributes.Fecha)
         }
       }
-
+      
       if(companiesVendorsValid === true)
       {
         uploadXml(file, uuid, vendorId, companyId, jsonData.elements[0].attributes.TipoDeComprobante, entity, jsonData.elements[0].attributes.Serie, jsonData.elements[0].attributes.Folio, jsonData.elements[0].attributes.Fecha)
@@ -552,7 +560,7 @@ function preData(file, xml){
           else{
               //Para actualizar la tabla en componente principal
               updateAddData()
-              autoCloseAlert(data[0].Code_Message_User)
+              autoCloseAlert("CFDI cargado con éxito")
           }
       }
     });
@@ -593,102 +601,120 @@ function preData(file, xml){
   }
 
   return dataCartaPorte.length === 0 ? (
-    <div>
-      <div className="content">
-        <Row>
-          <Col md="12">
-            <Card>
-              <CardHeader>
-                <CardTitle tag="h4">Cargar archivo</CardTitle>
-              </CardHeader>
-              <CardBody>
-                <Form> 
-                  <Row> 
-                    <Col>
-                      <FormGroup className={`form-group ${xmlState}`}>
-                        <Input 
-                          className="form-control" 
-                          type="file" id="fileUpload" 
-                          accept=".xml" 
-                          onChange={(e) => {
-                            setXml(e.target.files[0]);
-                            setXmlState("has-success")
-                          }}/>
-                        {xmlState === "text-danger" ? (
-                          <label className="error">
-                            Selecciona un documento válido.
-                          </label>
-                        ) : null}
-                      </FormGroup>
-                    </Col>
-                    <Col>
-                      <button className="btn btn-primary btn-gtc btn-carta-porte" onClick={registerClick}>
-                        <i className="ion-ios-upload-outline btn-icon"/>
-                        Cargar CFDI
-                      </button>
-                    </Col>
-                  </Row>
-                </Form>
-              </CardBody>
-            </Card>
-            &nbsp;
-            <Widget title="Carta Porte">
-              <Skeleton height={25} />
-              <Skeleton height="25px" />
-              <Skeleton height="3rem" />
-            </Widget>
-          </Col>
-        </Row>
-      </div>
+    <div className="content">
+      <Row>
+        <Col md="12">
+          <div className="accordion" id="accordionExample">
+            <div className="accordion-item">
+              <h2 className="accordion-header" id="headingOne">
+                  <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                    Cargar archivo 
+                  </button>
+              </h2>
+              <div id="collapseOne" className="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                <div className="accordion-body">
+                  <Card>
+                    <CardHeader>
+                      <CardTitle tag="h4">Cargar archivo</CardTitle>
+                    </CardHeader>
+                    <CardBody>
+                      <Form> 
+                        <Row> 
+                          <Col>
+                            <FormGroup className={`form-group ${xmlState}`}>
+                              <Input 
+                                className="form-control" 
+                                type="file" id="fileUpload" 
+                                accept=".xml" 
+                                onChange={(e) => {
+                                  setXml(e.target.files[0]);
+                                  setXmlState("has-success")
+                                }}/>
+                              {xmlState === "text-danger" ? (
+                                <label className="error">
+                                  Selecciona un documento válido.
+                                </label>
+                              ) : null}
+                            </FormGroup>
+                          </Col>
+                          <Col>
+                            <button className="btn btn-primary btn-gtc btn-carta-porte" onClick={registerClick}>
+                              <i className="ion-ios-upload-outline btn-icon"/>
+                              Cargar CFDI
+                            </button>
+                          </Col>
+                        </Row>
+                      </Form>
+                    </CardBody>
+                  </Card>
+                </div>
+              </div>
+            </div>
+          </div>
+          &nbsp;
+          <Widget title="Carta Porte">
+            <Skeleton height={25} />
+            <Skeleton height="25px" />
+            <Skeleton height="3rem" />
+          </Widget>
+        </Col>
+      </Row>
     </div>
   ):(
-    <div>
-      <div className="content">
-        <Row>
-          <Col md="12">
-            <Card>
-              <CardHeader>
-                <CardTitle tag="h4">Cargar archivo</CardTitle>
-              </CardHeader>
-              <CardBody>
-                <Form> 
-                  <Row> 
-                    <Col>
-                      <FormGroup className={`form-group ${xmlState}`}>
-                        <Input 
-                          className="form-control" 
-                          type="file" id="fileUpload" 
-                          accept=".xml" 
-                          onChange={(e) => {
-                            setXml(e.target.files[0]);
-                            setXmlState("has-success")
-                          }}/>
-                        {xmlState === "text-danger" ? (
-                          <label className="error">
-                            Selecciona un documento válido.
-                          </label>
-                        ) : null}
-                      </FormGroup>
-                    </Col>
-                    <Col>
-                      <button className="btn btn-primary btn-gtc btn-carta-porte" onClick={registerClick}>
-                        <i className="ion-ios-upload-outline btn-icon"/>
-                        Cargar CFDI
-                      </button>
-                    </Col>
-                  </Row>
-                </Form>
-              </CardBody>
-            </Card>
-            &nbsp;
-            <Card>
-              <CardBody>
-                <CargaT />
-              </CardBody>
-            </Card>
-          </Col>
-        </Row>
-      </div>
+    <div className="content">
+      <Row>
+        <Col md="12">
+          <div className="accordion" id="accordionExample">
+            <div className="accordion-item">
+              <h2 className="accordion-header" id="headingOne">
+                <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                  Cargar archivo
+                </button>
+              </h2>
+              <div id="collapseOne" className="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                <div className="accordion-body">
+                  <Form> 
+                    <Row> 
+                      <Col>
+                        <FormGroup className={`form-group ${xmlState}`}>
+                          <Input 
+                            className="form-control" 
+                            type="file"
+                            accept=".xml" 
+                            onChange={(e) => {
+                              setXml(e.target.files[0]);
+                              setXmlState("has-success")
+                            }}/>
+                          {xmlState === "text-danger" ? (
+                            <label className="error">
+                              Selecciona un documento.
+                            </label>
+                          ) : null}
+                        </FormGroup>
+                      </Col>
+                      <Col>
+                        <button className="btn btn-primary btn-gtc btn-carta-porte" onClick={registerClick}>
+                          <i className="ion-ios-upload-outline btn-icon"/>
+                          Cargar CFDI
+                        </button>
+                      </Col>
+                    </Row>
+                  </Form>
+                  </div>
+                </div>
+            </div>
+          </div>
+          &nbsp;
+          <Card>
+            <CardHeader>
+                <CardTitle tag="h4">Monitor Carta Porte</CardTitle>
+            </CardHeader>
+            <CardBody>
+              <CargaT />
+            </CardBody>
+          </Card>
+        </Col>
+      </Row>
     </div>
   );
 }

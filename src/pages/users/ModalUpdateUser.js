@@ -189,6 +189,7 @@ function ModalUpdateUser({abierto, toggleModalUpdateRecord, record, dataRoles, i
         //EL USUARIO HAY QUE CAMBIARLO POR EL QUE SE HAYA LOGGEADO
         if(updateChangePassword === true)
         {
+            console.log("Entre porque voy a cambiar el password")
             var d = new Date();
             var finalDate = sumarDias(d, validDays);
             var date = finalDate.getDate();

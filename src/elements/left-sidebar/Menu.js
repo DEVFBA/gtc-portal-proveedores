@@ -15,7 +15,7 @@ function Menu({views}){
           to={views.layout + views.path}
           className="btn btn-default btn-flat btn-sidebar btn-sidebar-1">
           <i className="material-icons">{views.icon}</i>
-          <span className="title">{views.name}</span>
+          <span className="title menu-sidebar-gtc">{views.name}</span>
           {views.badge && (
             <span className={`ml-auto ${views.badge.className}`}>
               {views.badge.title}
@@ -33,7 +33,7 @@ function Menu({views}){
           }
           onClick={toggle}>
           <i className="material-icons">{views.icon}</i>
-          <span className="title">{views.name}</span>
+          <span className="title menu-sidebar-gtc">{views.name}</span>
           {views.badge && (
             <span className={`ml-auto ${views.badge.className}`}>
               {views.badge.title}
@@ -47,7 +47,7 @@ function Menu({views}){
                 to={view.layout + view.path}
                 className="btn btn-default btn-flat btn-sidebar btn-sidebar-2">
                 <i className="material-icons">{view.icon}</i>
-                <span className="title">{view.name}</span>
+                <span className="title ">{view.name}</span>
               </Link>
             </li>
           ))}

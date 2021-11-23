@@ -20,7 +20,7 @@ function LeftSidebar({navigation}){
               <div key={i} className="section">
                 {/*<div className="section-title">{menu.name}</div>*/}
                 <div className="section-title"></div>
-                <ul className="list-unstyled">
+                <ul className="list-unstyled menu-sidebar-gtc">
                   {menu.views.map((views, i) => <Menu key={i} views={views} />)}
                 </ul>
               </div>

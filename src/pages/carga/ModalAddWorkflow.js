@@ -27,6 +27,10 @@ function ModalAddWorkflow({modalAddRecord, setModalAddRecord, record, ip, autoCl
     const [recordIdentifier, setRecordIdentifier] = useState("");
     const [comments, setComments] = useState("");
 
+    const [vendor, setVendor] = useState("");
+    const [serie, setSerie] = useState("");
+    const [folio, setFolio] = useState("");
+
     const [workflowStatusChangeState, setWorkflowStatusChangeState] = React.useState("");
 
     const [error, setError] = React.useState();
@@ -47,10 +51,14 @@ function ModalAddWorkflow({modalAddRecord, setModalAddRecord, record, ip, autoCl
     };
 
     useEffect(() => {
+        setVendor(record.vendor)
         setWorkflowType(workflowTypes)
     },[]);
 
     useEffect(() => {
+        setVendor(record.emisor)
+        setSerie(record.serie)
+        setFolio(record.folio)
         setRecordIdentifier(record.uuid)
         if(record.workflow !== undefined && record.workflowTracker !== undefined)
         {
@@ -179,6 +187,46 @@ function ModalAddWorkflow({modalAddRecord, setModalAddRecord, record, ip, autoCl
             <Form id="RegisterValidation">
                 <Row className="justify-content-center">
                     <Col className="mt-3" lg="10">
+                        <FormGroup>
+                            <label>Proveedor</label>
+                            <Input
+                                name="shortdesc"
+                                id="shortdesc"
+                                type="text"
+                                value = {vendor}
+                                readOnly
+                            />
+                        </FormGroup>
+                        <FormGroup>
+                            <label>Serie</label>
+                            <Input
+                                name="shortdesc"
+                                id="shortdesc"
+                                type="text"
+                                value = {serie}
+                                readOnly
+                            />
+                        </FormGroup>
+                        <FormGroup>
+                            <label>Folio</label>
+                            <Input
+                                name="shortdesc"
+                                id="shortdesc"
+                                type="text"
+                                value = {folio}
+                                readOnly
+                            />
+                        </FormGroup>
+                        <FormGroup>
+                            <label>UUID</label>
+                            <Input
+                                name="shortdesc"
+                                id="shortdesc"
+                                type="text"
+                                value = {recordIdentifier}
+                                readOnly
+                            />
+                        </FormGroup>
                         <FormGroup>
                             <label>Estatus Inicial</label>
                             <Input

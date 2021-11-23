@@ -7,8 +7,8 @@ function Logo(){
     <Link
       to="/"
       className="logo d-flex justify-content-start align-items-center flex-nowrap">
-      <i className="ion-document-text" />
-      <span className="title">CARTA PORTE</span>
+      <i className="ion-android-home" />
+      <span className="title gtc-title">PORTAL PROVEEDORES</span>
     </Link>
   )
 }

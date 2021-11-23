@@ -32,7 +32,7 @@ function CargaTable({dataTable, ip, autoCloseAlert, updateAddData, workflowTypes
                 // ACCIONES A REALIZAR EN CADA REGISTRO
                 <div className="actions-center">
                   {/*IMPLEMENTAR EDICION PARA CADA REGISTRO */}
-                  <abbr title="Ver Árbol XML">
+                  <abbr title="Ver Contenido CFDI">
                     <button
                       onClick={() => {
                         let obj = dataState.find((o) => o.id === key); 
