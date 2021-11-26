@@ -197,6 +197,8 @@ function ModalAddWorkflow({modalAddRecord, setModalAddRecord, record, ip, autoCl
                                 readOnly
                             />
                         </FormGroup>
+                    </Col>
+                    <Col sm="5">
                         <FormGroup>
                             <label>Serie</label>
                             <Input
@@ -207,16 +209,20 @@ function ModalAddWorkflow({modalAddRecord, setModalAddRecord, record, ip, autoCl
                                 readOnly
                             />
                         </FormGroup>
-                        <FormGroup>
-                            <label>Folio</label>
-                            <Input
-                                name="shortdesc"
-                                id="shortdesc"
-                                type="text"
-                                value = {folio}
-                                readOnly
-                            />
-                        </FormGroup>
+                    </Col>
+                    <Col sm="5">    
+                            <FormGroup>
+                                <label>Folio</label>
+                                <Input
+                                    name="shortdesc"
+                                    id="shortdesc"
+                                    type="text"
+                                    value = {folio}
+                                    readOnly
+                                />
+                            </FormGroup>
+                    </Col>
+                    <Col className="mt-3" lg="10">
                         <FormGroup>
                             <label>UUID</label>
                             <Input

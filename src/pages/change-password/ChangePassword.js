@@ -37,6 +37,14 @@ function ChangePassword() {
     }
 
     useEffect(() => {
+        //Si el usuario ya ha iniciado sesión que se le redirija al dashboard
+        if(Logged==="true")
+        {
+          history.push(ambiente + "/admin/dashboard");
+        }
+    }, []);
+
+    useEffect(() => {
         //Descargamos la IP del usuario
         getData()
     }, []);
@@ -72,8 +80,6 @@ function ChangePassword() {
 
     useEffect(() => {
         //Si el usuario no está loggeado no se va a descargar la imagen
-        if(Logged === "true")
-        {
           var url = new URL(`http://129.159.99.152/develop-vendors/api/security-users/${user}`);
           fetch(url, {
             method: "GET",
@@ -92,7 +98,6 @@ function ChangePassword() {
           .catch(function(err) {
               alert("No se pudo consultar la informacion del usuario" + err);
           });
-        }  
     },[]);
 
     // function that verifies if two strings are equal
@@ -214,6 +219,7 @@ function ChangePassword() {
                 }
                 else{
                     setErrorState("has-success");
+                    localStorage.setItem("Logged", true)
                     history.push(ambiente + "/admin/dashboard");
                 }
             }
@@ -224,6 +230,7 @@ function ChangePassword() {
         <div className="sample-form">
             <h3>Cambiar contraseña</h3>
             <form method="">
+                <div className="description">Tu contraseña ha vencido. Por favor ingresa una nueva.</div>
                 <div className='form-group'>
                     <label className="form-control-label">Contraseña *</label>
                     <div className="input-group">

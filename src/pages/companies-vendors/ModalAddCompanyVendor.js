@@ -17,13 +17,10 @@ import {
 //React plugin used to create DropdownMenu for selecting items
 import Select from "react-select";
 
-import ModalAddCompany from "../companies/ModalAddCompany";
-import ModalAddVendor from "../vendors/ModalAddVendor";
-
-function ModalAddCompanyVendor({modalAddRecord, setModalAddRecord, ip, autoCloseAlert, updateAddData, dataCompanies, dataVendors, dataCountries, pathLogo, profilePath, updateVendors}) {
+function ModalAddCompanyVendor({modalAddRecord, setModalAddRecord, ip, autoCloseAlert, updateAddData, dataCompanies, dataVendors, toggleModalAddCompany, mensajeAdd, companyE, toggleModalAddVendor, vendorE, setCompanyE, setVendorE, mensajeAdd2}) {
         // register form
-    const [company, setCompany] = React.useState("");
-    const [vendor, setVendor] = useState("")
+    const [company, setCompany] = React.useState({});
+    const [vendor, setVendor] = useState({})
     const [status, setStatus] = useState(true)
 
     const [companyState, setCompanyState] = React.useState("");
@@ -36,21 +33,51 @@ function ModalAddCompanyVendor({modalAddRecord, setModalAddRecord, ip, autoClose
     const user = localStorage.getItem("User");
     const token = localStorage.getItem("Token");
 
+    useEffect(() => {
+        setVendor(vendorE);
+        if(vendorE.value === undefined)
+        {
+            setVendorState("");
+        }
+        else {
+            setVendorState("has-success");
+        }
+    },[vendorE]);
+
+    useEffect(() => {
+        setCompany(companyE);
+        if(companyE.value === undefined)
+        {
+            setCompanyState("");
+        }
+        else {
+            setCompanyState("has-success");
+        }
+    },[companyE])
+
     const handleModalClick = () => {
         setCompanyState("") 
         setVendorState("")
         setError("")
         setErrorState("")
         setErrorMessage("")
+        setCompanyE({})
+        setVendorE({})
         setModalAddRecord(!modalAddRecord);
     };
     
     const isValidated = () => {
-        if (companyState === "has-success" &&
-            vendorState === "has-success"
+        console.log(company)
+        console.log(vendor)
+        if ((companyState === "has-success") &&
+            (vendorState === "has-success")
         ) {
             return true;
         } else {
+            if(company.value !== undefined && vendor.value !== undefined)
+            {
+                return true;
+            }
             if (companyState !== "has-success") {
                 setCompanyState("text-danger");
             }
@@ -120,31 +147,38 @@ function ModalAddCompanyVendor({modalAddRecord, setModalAddRecord, ip, autoClose
         });
     }
 
-    const [modalAddCompany, setModalAddCompany] = useState(false);
-    const [modalAddVendor, setModalAddVendor] = useState(false);
+    const [visible, setIsVisible] = useState(false)
+    useEffect(() => {
+        // message is empty (meaning no errors). Adjust as needed
+        if(!mensajeAdd){
+            setIsVisible(false)
+            return
+        }
+        // error exists. Display the message and hide after 5 secs
+        setIsVisible(true)
+        const timer = setTimeout(() => {
+            setIsVisible(false)
+        }, 5000);
+        return () => clearTimeout(timer);
+    }, [mensajeAdd])
 
-    function toggleModalAddCompany(){
-        event.preventDefault();
-        if(modalAddCompany == false){
-            setModalAddCompany(true);
+    const [visible2, setIsVisible2] = useState(false)
+    useEffect(() => {
+        // message is empty (meaning no errors). Adjust as needed
+        if(!mensajeAdd2){
+            setIsVisible2(false)
+            return
         }
-        else{
-            setModalAddCompany(false);
-        }
-    }
-
-    function toggleModalAddVendor(){
-        event.preventDefault();
-        if(modalAddVendor == false){
-            setModalAddVendor(true);
-        }
-        else{
-            setModalAddVendor(false);
-        }
-    }
+        // error exists. Display the message and hide after 5 secs
+        setIsVisible2(true)
+        const timer = setTimeout(() => {
+            setIsVisible2(false)
+        }, 5000);
+        return () => clearTimeout(timer);
+    }, [mensajeAdd2])
 
     return (
-        <Modal isOpen={modalAddRecord} toggle={handleModalClick} size="lg">
+        <Modal isOpen={modalAddRecord} toggle={handleModalClick} size="lg" aria-labelledby="contained-modal-title-vcenter">
            <div className="modal-header justify-content-center">
                 <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={handleModalClick}>
                     <span aria-hidden="true">×</span>
@@ -159,7 +193,11 @@ function ModalAddCompanyVendor({modalAddRecord, setModalAddRecord, ip, autoClose
                             <Label for="exampleSelect">Compañía * </Label>
                             <abbr title="Agregar compañía">
                                 <button
-                                    onClick={toggleModalAddCompany}
+                                    onClick={() => {
+                                        setModalAddRecord(!modalAddRecord)
+                                        toggleModalAddCompany()
+                                      }
+                                    }
                                     color="warning"
                                     size="sm"
                                     className="btn-icon btn-link edit"
@@ -168,7 +206,8 @@ function ModalAddCompanyVendor({modalAddRecord, setModalAddRecord, ip, autoClose
                                 </button>
                             </abbr>
                             <Select
-                                name=""
+                                name="companies"
+                                id = "companies"
                                 className="react-select"
                                 placeholder="Selecciona una compañía"
                                 classNamePrefix="react-select"
@@ -183,11 +222,21 @@ function ModalAddCompanyVendor({modalAddRecord, setModalAddRecord, ip, autoClose
                                 <label className="form-text text-danger">Selecciona una compañía.</label>
                             ) : null}
                         </FormGroup>
+                        {visible === true ? (
+                            <div className = "badge-success badge-rounded company-message">
+                                {mensajeAdd}
+                            </div>
+                            ) : (
+                                null
+                        )}
                         <FormGroup className={`form-group ${vendorState}`}>
                             <Label for="exampleSelect">Proveedor * </Label>
                             <abbr title="Agregar proveedor">
                                 <button
-                                    onClick={toggleModalAddVendor}
+                                    onClick={() => {
+                                        setModalAddRecord(!modalAddRecord)
+                                        toggleModalAddVendor()
+                                    }}
                                     color="warning"
                                     size="sm"
                                     className="btn-icon btn-link edit"
@@ -196,7 +245,8 @@ function ModalAddCompanyVendor({modalAddRecord, setModalAddRecord, ip, autoClose
                                 </button>
                             </abbr>
                             <Select
-                                name=""
+                                name="vendors"
+                                id = "vendors"
                                 className="react-select"
                                 placeholder="Selecciona un proveedor"
                                 classNamePrefix="react-select"
@@ -211,6 +261,13 @@ function ModalAddCompanyVendor({modalAddRecord, setModalAddRecord, ip, autoClose
                                 <label className="form-text text-danger">Selecciona proveedor.</label>
                             ) : null}
                         </FormGroup>
+                        {visible2 === true ? (
+                            <div className = "badge-success badge-rounded company-message">
+                                {mensajeAdd2}
+                            </div>
+                            ) : (
+                                null
+                        )}
                         <FormGroup check>
                             <Label check>
                             <Input 
@@ -240,8 +297,7 @@ function ModalAddCompanyVendor({modalAddRecord, setModalAddRecord, ip, autoClose
                                 </label>
                             ) : null}
                         </FormGroup>
-                    </Col>    
-                    {error}
+                    </Col>
                 </Row>
             </Form>
             </ModalBody>
@@ -255,12 +311,6 @@ function ModalAddCompanyVendor({modalAddRecord, setModalAddRecord, ip, autoClose
                 </Button>
                 </div>
             </ModalFooter>
-
-            {/*MODAL PARA AÑADIR REGISTROS*/}
-            <ModalAddCompany modalAddRecord = {modalAddCompany} setModalAddRecord = {setModalAddCompany} dataCountries = {dataCountries} updateAddData = {updateAddData} pathLogo = {pathLogo} ip = {ip} autoCloseAlert = {autoCloseAlert}  />
-
-            {/*MODAL PARA AÑADIR REGISTROS*/}
-            <ModalAddVendor modalAddRecord = {modalAddVendor} setModalAddRecord = {setModalAddVendor}  ip = {ip} autoCloseAlert = {autoCloseAlert} updateAddData = {updateVendors} dataCountries = {dataCountries}/>
         </Modal>
     );
 }

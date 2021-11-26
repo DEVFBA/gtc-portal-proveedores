@@ -5,8 +5,10 @@ import Skeleton from '@yisheng90/react-loading';
 
 import ModalAddCompanyVendor from "./ModalAddCompanyVendor.js";
 import ModalUpdateCompanyVendor from "./ModalUpdateCompanyVendor.js";
+import ModalAddCompany2 from "./ModalAddCompany2";
+import ModalAddVendor from ".//ModalAddVendor2";
 
-function CompaniesVendorsTable({dataTable, ip, autoCloseAlert, updateAddData, dataCompanies, dataVendors, dataCountries, pathLogo, profilePath, updateCompany, updateVendors}) {
+function CompaniesVendorsTable({dataTable, ip, autoCloseAlert, updateAddData, dataCountries, pathLogo}) {
     const [dataState, setDataState] = useState(
         dataTable.map((prop, key) => {
             var status;
@@ -52,6 +54,8 @@ function CompaniesVendorsTable({dataTable, ip, autoCloseAlert, updateAddData, da
     //Para saber que usuario se va a editar
     const [record, setRecord] = useState([]);
 
+    const token = localStorage.getItem("Token");
+
     function getRegistro(key)
     {
         var registro = dataState.find((o) => o.id === key)
@@ -60,11 +64,12 @@ function CompaniesVendorsTable({dataTable, ip, autoCloseAlert, updateAddData, da
 
     function toggleModalAddRecord(){
         if(modalAddRecord == false){
-        setModalAddRecord(true);
+            setModalAddRecord(true);
         }
         else{
-        setModalAddRecord(false);
+            setModalAddRecord(false);
         }
+        console.log(modalAddRecord)
     }
 
     function toggleModalUpdateRecord(){
@@ -74,6 +79,185 @@ function CompaniesVendorsTable({dataTable, ip, autoCloseAlert, updateAddData, da
         else{
         setModalUpdateRecord(false);
         }
+    }
+
+    const [modalAddCompany, setModalAddCompany] = useState(false);
+    const [modalAddVendor, setModalAddVendor] = useState(false);
+
+    function toggleModalAddCompany(){
+        event.preventDefault();
+        if(modalAddCompany == false){
+            setModalAddCompany(true);
+        }
+        else{
+            setModalAddCompany(false);
+        }
+    }
+
+    function toggleModalAddVendor(){
+        event.preventDefault();
+        if(modalAddVendor == false){
+            setModalAddVendor(true);
+        }
+        else{
+            setModalAddVendor(false);
+        }
+    }
+
+    const [mensajeAdd, setMensajeAdd] = useState("")
+    const [mensajeAdd2, setMensajeAdd2] = useState("")
+
+    //Para actualizar el vendor en el select si es que se agrega una compañia o proveedor desde aqui
+    const [companyE, setCompanyE] = useState({});
+    const [vendorE, setVendorE] = useState({});
+
+    const [dataCompanies, setDataCompanies] = useState([])
+
+     //Para guardar los datos de los vendors
+     const [dataVendors, setDataVendors] = useState([]);
+
+    useEffect(() => {
+        //Aqui vamos a descargar la lista de roles de la base de datos por primera vez
+        const params = {
+          pvOptionCRUD: "R"
+        };
+    
+        var url = new URL(`http://129.159.99.152/develop-vendors/api/companies/`);
+    
+        Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
+    
+        fetch(url, {
+            method: "GET",
+            headers: {
+                "access-token": token,
+                "Content-Type": "application/json",
+            }
+        })
+        .then(function(response) {
+            return response.ok ? response.json() : Promise.reject();
+        })
+        .then(function(data) {
+            var optionsAux = [];
+            var i;
+            for(i=0; i<data.length; i++)
+            {
+              optionsAux.push({
+                value: data[i].Id_Company, label: data[i].Name
+              })
+            }
+            setDataCompanies(optionsAux)
+        })
+        .catch(function(err) {
+            alert("No se pudo consultar la informacion de las companies" + err);
+        });
+    }, []);
+
+    function updateCompanies(){
+        //Aqui vamos a descargar la lista de roles de la base de datos por primera vez
+        const params = {
+            pvOptionCRUD: "R"
+        };
+      
+        var url = new URL(`http://129.159.99.152/develop-vendors/api/companies/`);
+    
+        Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
+    
+        fetch(url, {
+            method: "GET",
+            headers: {
+                "access-token": token,
+                "Content-Type": "application/json",
+            }
+        })
+        .then(function(response) {
+            return response.ok ? response.json() : Promise.reject();
+        })
+        .then(function(data) {
+            var optionsAux = [];
+            var i;
+            for(i=0; i<data.length; i++)
+            {
+            optionsAux.push({
+                value: data[i].Id_Company, label: data[i].Name
+            })
+            }
+            setDataCompanies(optionsAux)
+        })
+        .catch(function(err) {
+            alert("No se pudo consultar la informacion de las companies" + err);
+        });
+    }
+
+    useEffect(() => {
+        //Aqui vamos a descargar la lista de roles de la base de datos por primera vez
+        const params = {
+          pvOptionCRUD: "R"
+        };
+    
+        var url = new URL(`http://129.159.99.152/develop-vendors/api/vendors/`);
+    
+        Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
+    
+        fetch(url, {
+            method: "GET",
+            headers: {
+                "access-token": token,
+                "Content-Type": "application/json",
+            }
+        })
+        .then(function(response) {
+            return response.ok ? response.json() : Promise.reject();
+        })
+        .then(function(data) {
+            var optionsAux = [];
+            var i;
+            for(i=0; i<data.length; i++)
+            {
+              optionsAux.push({
+                value: data[i].Id_Vendor, label: data[i].Name
+              })
+            }
+            setDataVendors(optionsAux)
+        })
+        .catch(function(err) {
+            alert("No se pudo consultar la informacion de las vendors" + err);
+        });
+    }, []);
+
+    function updateVendors(){
+        //Aqui vamos a descargar la lista de roles de la base de datos por primera vez
+        const params = {
+            pvOptionCRUD: "R"
+          };
+      
+          var url = new URL(`http://129.159.99.152/develop-vendors/api/vendors/`);
+      
+          Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
+      
+          fetch(url, {
+              method: "GET",
+              headers: {
+                  "access-token": token,
+                  "Content-Type": "application/json",
+              }
+          })
+          .then(function(response) {
+              return response.ok ? response.json() : Promise.reject();
+          })
+          .then(function(data) {
+              var optionsAux = [];
+              var i;
+              for(i=0; i<data.length; i++)
+              {
+                optionsAux.push({
+                  value: data[i].Id_Vendor, label: data[i].Name
+                })
+              }
+              setDataVendors(optionsAux)
+          })
+          .catch(function(err) {
+              alert("No se pudo consultar la informacion de las vendors" + err);
+          });
     }
 
     return dataTable.length === 0 ? (
@@ -126,10 +310,16 @@ function CompaniesVendorsTable({dataTable, ip, autoCloseAlert, updateAddData, da
             />
 
             {/*MODAL PARA AÑADIR REGISTROS*/}
-            <ModalAddCompanyVendor modalAddRecord = {modalAddRecord} setModalAddRecord = {setModalAddRecord}  ip = {ip} autoCloseAlert = {autoCloseAlert} updateAddData = {updateCompany} dataCompanies = {dataCompanies} dataVendors = {dataVendors} dataCountries = {dataCountries} pathLogo ={pathLogo} profilePath = {profilePath} updateVendors = {updateVendors}/>
+            <ModalAddCompanyVendor modalAddRecord = {modalAddRecord} setModalAddRecord = {setModalAddRecord}  ip = {ip} autoCloseAlert = {autoCloseAlert} updateAddData = {updateAddData} dataCompanies = {dataCompanies} dataVendors = {dataVendors} updateVendors = {updateVendors} companyE = {companyE} vendorE = {vendorE} toggleModalAddCompany = {toggleModalAddCompany} mensajeAdd = {mensajeAdd} toggleModalAddVendor = {toggleModalAddVendor} setCompanyE = {setCompanyE} setVendorE = {setVendorE} mensajeAdd2 = {mensajeAdd2}/>
 
             {/*MODAL PARA MODIFICAR REGISTRO*/}
             <ModalUpdateCompanyVendor modalUpdateRecord = {modalUpdateRecord} setModalUpdateRecord = {toggleModalUpdateRecord} record = {record} ip = {ip}  updateAddData = {updateAddData} autoCloseAlert = {autoCloseAlert}/>
+
+            {/*MODAL PARA AÑADIR REGISTROS*/}
+            <ModalAddCompany2 modalAddCompany = {modalAddCompany} setModalAddCompany= {setModalAddCompany} dataCountries = {dataCountries} updateCompanies = {updateCompanies} pathLogo = {pathLogo} ip = {ip} autoCloseAlert = {autoCloseAlert}  setCompanyE = {setCompanyE} toggleModalAddRecord = {toggleModalAddRecord} setModalAddRecord = {setModalAddRecord} setMensajeAdd = {setMensajeAdd}/>
+
+            {/*MODAL PARA AÑADIR REGISTROS*/}
+            <ModalAddVendor modalAddVendor = {modalAddVendor} setModalAddVendor = {setModalAddVendor}  ip = {ip} autoCloseAlert = {autoCloseAlert} updateVendors = {updateVendors} dataCountries = {dataCountries} setVendorE = {setVendorE} toggleModalAddRecord = {toggleModalAddRecord} setModalAddRecord = {setModalAddRecord} setMensajeAdd2 = {setMensajeAdd2} updateVendors = {updateVendors}/>
         </div>
     )
     

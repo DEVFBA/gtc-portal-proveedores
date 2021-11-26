@@ -423,6 +423,7 @@ function CatalogosSat({autoCloseAlert}) {
 
     //Para actualizar la tabla al insertar registro
     function updateAddData(){
+        setDataCatalog([])
         var datos = dataTable.find(o => o.Component === catalog)
     
         const params = {
@@ -464,6 +465,7 @@ function CatalogosSat({autoCloseAlert}) {
                     classNamePrefix="react-select"
                     options = {options}
                     onChange={(e) => {
+                        setDataCatalog([])
                         setCatalog(e.value);
                         updateData(dataTable.find(o => o.Component === e.value))
                     }}

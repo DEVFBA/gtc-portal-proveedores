@@ -88,7 +88,6 @@ function Navbar1({layout, setLayout})
       <ul className="nav nav-inline nav-inline-2">
         <li className="nav-item nav-item-dropdown">
           <a className="nav-link nav-link-avatar">
-            <span className="badge badge-sm badge-rounded badge-warning">1</span>
             {image !== "" ? (
               <div className="photo">
                 <img 

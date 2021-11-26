@@ -668,7 +668,7 @@ function Admin(props) {
         );
         window.setTimeout(()=>{
           hideAlert()
-        },6000)
+        },3000)
     };
   
     const hideAlert = () => {

@@ -37,8 +37,20 @@ function XmlTree({dataString}) {
     var type;
     var resultado
     var nombre=""
+    
+
     for (var i=0; i<json.length; i++)
     {
+      /*for(var j=0; j<json.length-1; i++)
+      {
+        if(json[j].name === json[j+1].name)
+        {
+          console.log(json[j].name)
+          console.log(json[j+1].name)
+          console.log("si son iguales")
+        }
+      }*/
+
       nombre = json[i].name
       var nombreF;
       if(nombre.includes("cfdi:"))
@@ -102,41 +114,6 @@ function XmlTree({dataString}) {
         }
         tabla = tabla + "</Table>"
         componente = componente + tabla
-        //console.log("si entro")
-        /*for(var x = 0; x< filas; x++)
-        {
-            if(x===0)
-            {
-            lista = lista + "<ul className='list-group'>"
-            }
-            for(var y=0; y< columnas; y++)
-            {
-            lista = lista + "<li className='list-group-item'>"+ Object.keys(json[i].attributes)[y] + "</li>"
-            }
-            
-        }*/
-
-        /*lista = lista + "<div className='row'>"
-        lista = lista + "<div className='col-3 izquierda'>"
-        lista = lista + "<ul className='list-group list-left'>" 
-        for(var y=0; y< columnas; y++)
-        {
-          lista = lista + "<li className='list-group-item list-group-item-warning'><strong>"+ Object.keys(json[i].attributes)[y] + "</strong></li>"
-        }
-        lista = lista + "</ul>"
-        lista = lista + "</div>"
-        lista = lista + "<div className='col-5 derecha'>"
-        lista = lista + "<ul className='list-group list-right'>" 
-        for(var y=0; y< columnas; y++)
-        {
-          lista = lista + "<li className='list-group-item'>"+ Object.values(json[i].attributes)[y] + "</li>"
-        }
-        lista = lista + "</ul>"
-        //Cerramos la columna
-        lista = lista + "</div>"
-        //Cerramos el row
-        lista = lista + "</div>"
-        componente = componente + lista*/
       }
       else{ 
         if(json[i].attributes !== undefined && json[i].name !== "cfdi:Comprobante")
@@ -182,28 +159,6 @@ function XmlTree({dataString}) {
             }
             tabla = tabla + "</Table>"
             componente = componente + tabla
-      
-          /*lista = lista + "<div className='row'>"
-          lista = lista + "<div className='col-3 izquierda'>"
-          lista = lista + "<ul className='list-group list-left'>" 
-          for(var y=0; y< columnas; y++)
-          {
-            lista = lista + "<li className='list-group-item list-group-item-warning'><strong>"+ Object.keys(json[i].attributes)[y] + "</strong></li>"
-          }
-          lista = lista + "</ul>"
-          lista = lista + "</div>"
-          lista = lista + "<div className='col-5 derecha'>"
-          lista = lista + "<ul className='list-group list-right'>"
-          for(var y=0; y< columnas; y++)
-          {
-            lista = lista + "<li className='list-group-item'>"+ Object.values(json[i].attributes)[y] + "</li>"
-          }
-          lista = lista + "</ul>"
-          //Cerramos la columna
-          lista = lista + "</div>"
-          //Cerramos el row
-          lista = lista + "</div>"
-          componente = componente + lista*/
         }
         resultado = recorrerArbol(json[i].elements);
       }
@@ -211,7 +166,6 @@ function XmlTree({dataString}) {
     }
     return resultado;
   }
-
 
   return (
     <div className="content">

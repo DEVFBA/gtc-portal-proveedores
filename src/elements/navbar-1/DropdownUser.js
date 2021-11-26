@@ -56,7 +56,7 @@ function DropdownUser({name})
         </div>*/}
         <div className="dropdown-item" onClick={logout}>
           <i className="sli-power" />
-          <span className="title">Logout</span>
+          <span className="title">Cerrar Sesión</span>
           <div className="separator" />
         </div>
     </div>

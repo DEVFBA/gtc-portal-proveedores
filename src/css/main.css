@@ -6720,7 +6720,7 @@ a.text-dark:focus, a.text-dark:hover {
   left: 0;
   right: 0;
   z-index: 1030;
-  width: calc(100% - 80px);
+  width: 100%;
   padding-left: 0;
   padding-right: 20px;
   transform: translate3d(0, 0, 0);
@@ -8570,8 +8570,8 @@ select {
   font-weight: bold !important; }
 
 .btn-carta-porte {
-  padding-top: 12px;
-  padding-bottom: 11px; }
+  padding-top: 10px;
+  padding-bottom: 10px; }
 
 .btn-icon {
   margin-right: 5px; }
@@ -8611,4 +8611,138 @@ select {
   font-weight: bold !important; }
 
 .gtc-title {
-  font-size: 17px !important; }
+  font-size: 16px !important; }
+
+.accordion-button {
+  font-size: 20px !important; }
+
+.accordion-button:focus {
+  border-color: #383838 !important;
+  box-shadow: black !important; }
+
+.accordion-button:not(collapsed) {
+  color: #383838 !important;
+  background-color: #f2f2f3 !important; }
+
+.btn-filter {
+  margin-top: 30px  !important;
+  width: 100% !important; }
+
+.company-message {
+  padding: 7px !important;
+  border-radius: 3px;
+  margin: 5px !important; }
+
+.login-page .content .container {
+  margin-top: 8vh; }
+
+.login-page .card-login {
+  border-radius: 6px;
+  padding-bottom: 0.7rem; }
+  .login-page .card-login .btn-wd {
+    min-width: 180px; }
+  .login-page .card-login .logo-container {
+    width: 65px;
+    margin: 0 auto;
+    margin-bottom: 55px; }
+    .login-page .card-login .logo-container img {
+      width: 100%; }
+  .login-page .card-login .input-group:last-child {
+    margin-bottom: 40px; }
+  .login-page .card-login.card-plain .input-group-addon,
+  .login-page .card-login.card-plain .form-group.no-border .input-group-addon,
+  .login-page .card-login.card-plain .input-group.no-border .input-group-addon {
+    color: rgba(255, 255, 255, 0.8); }
+
+.login-page .link {
+  font-size: 10px;
+  color: #FFFFFF;
+  text-decoration: none; }
+
+.full-page > .content,
+.full-page > .footer {
+  position: relative;
+  z-index: 4; }
+
+.full-page.section-image {
+  position: initial; }
+
+.full-page > .content {
+  padding-top: 21vh; }
+
+.full-page .footer {
+  position: absolute;
+  width: 100%;
+  bottom: 0; }
+  .full-page .footer .container {
+    color: #FFFFFF; }
+
+.full-page .full-page-background {
+  position: absolute;
+  z-index: 1;
+  height: 100%;
+  width: 100%;
+  display: block;
+  top: 0;
+  left: 0;
+  background-size: cover;
+  background-position: center center; }
+
+.full-page:after {
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  display: block;
+  left: 0;
+  top: 0;
+  content: "";
+  background-color: rgba(0, 0, 0, 0.6); }
+
+.full-page.pricing-page .description {
+  margin-bottom: 65px; }
+
+.full-page.register-page .content > .container {
+  margin-top: 5vh; }
+
+.full-page.register-page .info-horizontal {
+  padding: 0px 0px 20px; }
+
+.full-page.register-page .info-horizontal {
+  text-align: left !important; }
+  .full-page.register-page .info-horizontal .icon {
+    margin-top: 0; }
+    .full-page.register-page .info-horizontal .icon > i {
+      font-size: 2em; }
+    .full-page.register-page .info-horizontal .icon.icon-circle {
+      width: 65px;
+      height: 65px;
+      max-width: 65px;
+      margin-top: 8px; }
+      .full-page.register-page .info-horizontal .icon.icon-circle i {
+        display: table;
+        margin: 0 auto;
+        line-height: 3.5;
+        font-size: 1.9em; }
+  .full-page.register-page .info-horizontal .description {
+    overflow: hidden; }
+
+.full-page.lock-page .content > .container {
+  margin-top: 10vh; }
+
+.register-page .navbar .navbar-collapse .nav-item .nav-link,
+.login-page .navbar .navbar-collapse .nav-item .nav-link,
+.lock-page .navbar .navbar-collapse .nav-item .nav-link {
+  text-transform: capitalize;
+  color: #FFFFFF !important; }
+
+.register-page .navbar.navbar-transparent,
+.login-page .navbar.navbar-transparent,
+.lock-page .navbar.navbar-transparent {
+  border-bottom: 1px solid transparent;
+  margin-top: 25px; }
+
+.register-page .navbar .navbar-brand,
+.login-page .navbar .navbar-brand,
+.lock-page .navbar .navbar-brand {
+  color: #FFFFFF !important; }

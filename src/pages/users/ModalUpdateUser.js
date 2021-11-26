@@ -174,22 +174,9 @@ function ModalUpdateUser({abierto, toggleModalUpdateRecord, record, dataRoles, i
     function updateRegister(){
         var finalDate2=""
 
-        console.log(updateVendor.value)
-        console.log(updateEmail)
-        console.log(updateRol.value)
-        console.log(updateImage)
-        console.log(updateFullName)
-        console.log(updateStatus)
-        console.log(changeImage)
-        console.log(finalDate2)
-        console.log(user)
-        console.log(pathImage)
-        console.log(ip)
-
         //EL USUARIO HAY QUE CAMBIARLO POR EL QUE SE HAYA LOGGEADO
         if(updateChangePassword === true)
         {
-            console.log("Entre porque voy a cambiar el password")
             var d = new Date();
             var finalDate = sumarDias(d, validDays);
             var date = finalDate.getDate();
@@ -458,7 +445,6 @@ function ModalUpdateUser({abierto, toggleModalUpdateRecord, record, dataRoles, i
                                 classNamePrefix="react-select"
                                 value={updateRol}
                                 onChange={(value) => {
-                                    console.log(value)
                                     setupdateRol(value)
                                     setupdateRolState("has-success");
                                 }}

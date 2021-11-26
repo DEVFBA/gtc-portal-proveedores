@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
-
-import $ from 'jquery';
-import Popper from 'popper.js';
+import ConnectedDatePicker from '../../forms/react-datetime/ConnectedDatePicker'
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 
 import convert from 'xml-js';
 import axios from 'axios'
 import Widget from '../../elements/Widget'
 import Skeleton from '@yisheng90/react-loading';
-
+import '../../css/forms/react-datetime.css'
 import CargaTable from './CargaTable';
 // reactstrap components
 import {
@@ -29,6 +27,8 @@ import {
   ModalFooter,
   CardFooter
 } from "reactstrap";
+
+import ReactDatetime from "../../forms/react-datetime/ReactDatetime";
 
 function Carga({autoCloseAlert}) {
 
@@ -101,6 +101,15 @@ function Carga({autoCloseAlert}) {
 
   //Para guardar los workflow tracker
   const [workflowTracker, setWorkflowTracker] = useState([]);
+
+  //Variables para el filtro
+  const [filterRfcCompany, setFilterRfcCompany] = useState("")
+  const [filterRfcEmisor, setFilterRfcEmisor] = useState("")
+  const [filterSerie, setFilterSerie] = useState("")
+  const [filterFolio, setFilterFolio] = useState("")
+  const [dateTo, setDateTo] = useState("")
+  const [dateFrom, setDateFrom] = useState("")
+  const [filterUuid, setFilterUuid] = useState("")
   
   const getData = async () => {
     //const res = await axios.get('https://geolocation-db.com/json/')
@@ -125,6 +134,14 @@ function Carga({autoCloseAlert}) {
       //Descargamos la IP del usuario
       getData()
   }, []);
+
+  function _onChangeDateFrom(e) {
+    setDateFrom(e.format('DD-MM-YYYY'))  
+  }
+
+  function _onChangeDateTo(e) {
+    setDateTo(e.format('DD-MM-YYYY'))
+  }
 
   useEffect(() => {
     //Aqui vamos a descargar la lista de registros de la base de datos por primera vez
@@ -407,10 +424,23 @@ function preData(file, xml){
     }
 
     //Sacamos la serie
-    setSerie(jsonData.elements[0].attributes.Serie)
+    if(jsonData.elements[0].attributes.Serie !== undefined)
+    {
+      setSerie(jsonData.elements[0].attributes.Serie)
+    }
+    else {
+      setSerie("")
+    }
 
     //Sacamos el folio
-    setFolio(jsonData.elements[0].attributes.Folio)
+    if(jsonData.elements[0].attributes.Folio !== undefined)
+    {
+      setFolio(jsonData.elements[0].attributes.Folio)
+    }
+    else{
+      setFolio("")
+    }
+    
 
     //Sacamos la fecha
     setInvoiceDate(jsonData.elements[0].attributes.Fecha)
@@ -468,8 +498,19 @@ function preData(file, xml){
       
       if(companiesVendorsValid === true)
       {
-        uploadXml(file, uuid, vendorId, companyId, jsonData.elements[0].attributes.TipoDeComprobante, entity, jsonData.elements[0].attributes.Serie, jsonData.elements[0].attributes.Folio, jsonData.elements[0].attributes.Fecha)
-
+        if(jsonData.elements[0].attributes.Serie === undefined)
+        {
+          if(jsonData.elements[0].attributes.Folio === undefined)
+          {
+            uploadXml(file, uuid, vendorId, companyId, jsonData.elements[0].attributes.TipoDeComprobante, entity, "", "", jsonData.elements[0].attributes.Fecha)
+          }
+          else{
+            uploadXml(file, uuid, vendorId, companyId, jsonData.elements[0].attributes.TipoDeComprobante, entity, "", jsonData.elements[0].attributes.Folio, jsonData.elements[0].attributes.Fecha)
+          }
+        }
+        else {
+          uploadXml(file, uuid, vendorId, companyId, jsonData.elements[0].attributes.TipoDeComprobante, entity, jsonData.elements[0].attributes.Serie, jsonData.elements[0].attributes.Folio, jsonData.elements[0].attributes.Fecha)
+        }
       }
       else {
         autoCloseAlert("La relación entre Companies / Vendors es incorrecta. Valide.")
@@ -574,7 +615,7 @@ function preData(file, xml){
   //Para actualizar la tabla al insertar registro
   function updateAddData(){
     const params = {
-    pvOptionCRUD: "R"
+      pvOptionCRUD: "R"
     };
 
     var url = new URL(`http://129.159.99.152/develop-vendors/api/carta-porte/`);
@@ -594,6 +635,50 @@ function preData(file, xml){
     .then(function(data) {
     //setLoaded(true)
     setDataCartaPorte(data)
+    })
+    .catch(function(err) {
+        alert("No se pudo consultar la informacion de carta porte" + err);
+    });
+  }
+
+  function filterClick()
+  {
+    console.log(filterRfcCompany)
+    console.log(filterRfcEmisor)
+    console.log(filterSerie)
+    console.log(filterFolio)
+    console.log(dateFrom)
+    console.log(dateTo)
+    console.log(filterUuid)
+
+    const params = {
+      pvOptionCRUD : "R",
+      pvUUID : filterUuid,
+      pvCompanyTaxId : filterRfcCompany,
+      pvVendorTaxId : filterRfcEmisor,
+      pvSerie : filterSerie,
+      pvFolio : filterFolio,
+      pvInvoiceDate : dateFrom,
+      pvInvoiceDateFinal : dateTo
+    };
+
+    var url = new URL(`http://localhost:8091/api/carta-porte/filter`);
+
+    fetch(url, {
+        method: "POST",
+        body: JSON.stringify(params),
+        headers: {
+            "access-token": token,
+            "Content-Type": "application/json",
+        }
+    })
+    .then(function(response) {
+        return response.ok ? response.json() : Promise.reject();
+    })
+    .then(function(data) {
+    //setLoaded(true)
+      console.log(data)
+      setDataCartaPorte(data)
     })
     .catch(function(err) {
         alert("No se pudo consultar la informacion de carta porte" + err);
@@ -710,6 +795,88 @@ function preData(file, xml){
                 <CardTitle tag="h4">Monitor Carta Porte</CardTitle>
             </CardHeader>
             <CardBody>
+              <Form>
+                  <Row className="justify-content-center">
+                      <Col sm = "3">
+                        <FormGroup>
+                            <label>RFC Compañía</label>
+                            <Input
+                                name="name"
+                                type="text"
+                                autoComplete="off"
+                                onChange={(e) => {
+                                    setFilterRfcCompany(e.target.value)
+                                }}
+                            />
+                        </FormGroup>
+                      </Col>
+                      <Col sm = "3">
+                        <FormGroup>
+                            <label>RFC Emisor</label>
+                            <Input
+                                name="street"
+                                type="text"
+                                autoComplete="off"
+                                onChange={(e) => {
+                                    setFilterRfcEmisor(e.target.value)
+                                }}
+                            />
+                        </FormGroup>
+                      </Col>
+                      <Col sm = "3">
+                        <FormGroup>
+                            <label>Serie</label>
+                            <Input
+                                name="noInterior"
+                                type="text"
+                                autoComplete="off"
+                                onChange={(e) => {
+                                    setFilterSerie(e.target.value)
+                                }}
+                            />
+                        </FormGroup>
+                      </Col>
+                      <Col sm = "3">
+                        <FormGroup>
+                            <label>Folio</label>
+                            <Input
+                                name="city"
+                                type="text"
+                                autoComplete="off"
+                                onChange={(e) => {
+                                    setFilterFolio(e.target.value)
+                                }}
+                            />
+                        </FormGroup>
+                      </Col>
+                      <Col sm = "3">
+                        <FormGroup >
+                            <label>UUID</label>
+                            <Input
+                                name="noExterior"
+                                type="text"
+                                autoComplete="off"
+                                onChange={(e) => {
+                                    setFilterUuid(e.target.value)
+                                }}
+                            />
+                        </FormGroup>
+                      </Col>
+                      <Col sm = "6">
+                        <ConnectedDatePicker
+                            onChangeFrom={e => _onChangeDateFrom(e)}
+                            onChangeTo={e => _onChangeDateTo(e)}
+                            dateFrom={dateFrom}
+                            dateTo={dateTo}
+                        />
+                      </Col>
+                      <Col sm = "3">
+                        <Button className="buttons btn-gtc btn-filter" color="primary" onClick={filterClick}>
+                          Filtrar
+                        </Button>
+                      </Col>
+                  </Row>
+              </Form>
               <CargaT />
             </CardBody>
           </Card>

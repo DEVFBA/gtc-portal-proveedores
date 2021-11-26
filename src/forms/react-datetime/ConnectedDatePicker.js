@@ -6,19 +6,19 @@ const ConnectedDatePicker = ({onChangeFrom, onChangeTo, dateFrom, dateTo}) => (
     <div className="form-row">
       <div className="col">
         <div className="form-group">
-          <label>From: {dateFrom}</label>
+          <label>Desde: {dateFrom}</label>
           <DefaultDatepicker onChange={onChangeFrom} />
           <small className="form-text text-muted">
-            Please pick a start date
+            Elige una fecha de inicio
           </small>
         </div>
       </div>
       <div className="col">
         <div className="form-group">
-          <label>To: {dateTo}</label>
+          <label>Hasta: {dateTo}</label>
           <DefaultDatepicker onChange={onChangeTo} />
           <small className="form-text text-muted">
-            Please pick an end date
+            Elige una fecha de finalización
           </small>
         </div>
       </div>

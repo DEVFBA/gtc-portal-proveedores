@@ -31,9 +31,6 @@ function CompaniesVendors({autoCloseAlert}){
     //Para guardar los datos de las companies - vendors
     const [dataCompaniesVendors, setDataCompaniesVendors] = useState([]);
 
-    //Para guardar los datos de los vendors
-    const [dataVendors, setDataVendors] = useState([]);
-
     //Para guardar los datos de las compañias
     const [dataCompanies, setDataCompanies] = useState([]);
 
@@ -139,42 +136,6 @@ function CompaniesVendors({autoCloseAlert}){
     }, []);
 
     useEffect(() => {
-        //Aqui vamos a descargar la lista de roles de la base de datos por primera vez
-        const params = {
-          pvOptionCRUD: "R"
-        };
-    
-        var url = new URL(`http://129.159.99.152/develop-vendors/api/vendors/`);
-    
-        Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
-    
-        fetch(url, {
-            method: "GET",
-            headers: {
-                "access-token": token,
-                "Content-Type": "application/json",
-            }
-        })
-        .then(function(response) {
-            return response.ok ? response.json() : Promise.reject();
-        })
-        .then(function(data) {
-            var optionsAux = [];
-            var i;
-            for(i=0; i<data.length; i++)
-            {
-              optionsAux.push({
-                value: data[i].Id_Vendor, label: data[i].Name
-              })
-            }
-            setDataVendors(optionsAux)
-        })
-        .catch(function(err) {
-            alert("No se pudo consultar la informacion de las vendors" + err);
-        });
-    }, []);
-
-    useEffect(() => {
         const params = {
           pvOptionCRUD: "R",
           pSpCatalog : "spSAT_Cat_Countries_CRUD_Records",
@@ -243,7 +204,7 @@ function CompaniesVendors({autoCloseAlert}){
 
      //Renderizado condicional
     function CompaniesVendorsT() {
-        return <CompaniesVendorsTable dataTable = {dataCompaniesVendors} ip = {ip}  autoCloseAlert = {autoCloseAlert} updateAddData = {updateAddData} dataCompanies = {dataCompanies} dataVendors = {dataVendors} dataCountries = {dataCountries} pathLogo = {pathLogo} profilePath = {profilePath} updateCompany = {updateCompany} updateVendors = {updateVendors}/>
+        return <CompaniesVendorsTable dataTable = {dataCompaniesVendors} ip = {ip}  autoCloseAlert = {autoCloseAlert} updateAddData = {updateAddData}  dataCountries = {dataCountries} pathLogo = {pathLogo} profilePath = {profilePath}/>
     }
 
     //Para actualizar la tabla al insertar registro
@@ -275,7 +236,7 @@ function CompaniesVendors({autoCloseAlert}){
         });
     }
 
-    function updateCompany(){
+    function updateCompanies(){
         //Aqui vamos a descargar la lista de roles de la base de datos por primera vez
         const params = {
             pvOptionCRUD: "R"
@@ -309,42 +270,6 @@ function CompaniesVendors({autoCloseAlert}){
         .catch(function(err) {
             alert("No se pudo consultar la informacion de las companies" + err);
         });
-    }
-
-    function updateVendors(){
-        //Aqui vamos a descargar la lista de roles de la base de datos por primera vez
-        const params = {
-            pvOptionCRUD: "R"
-          };
-      
-          var url = new URL(`http://129.159.99.152/develop-vendors/api/vendors/`);
-      
-          Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
-      
-          fetch(url, {
-              method: "GET",
-              headers: {
-                  "access-token": token,
-                  "Content-Type": "application/json",
-              }
-          })
-          .then(function(response) {
-              return response.ok ? response.json() : Promise.reject();
-          })
-          .then(function(data) {
-              var optionsAux = [];
-              var i;
-              for(i=0; i<data.length; i++)
-              {
-                optionsAux.push({
-                  value: data[i].Id_Vendor, label: data[i].Name
-                })
-              }
-              setDataVendors(optionsAux)
-          })
-          .catch(function(err) {
-              alert("No se pudo consultar la informacion de las vendors" + err);
-          });
     }
 
     return dataCompaniesVendors.length === 0 ? (

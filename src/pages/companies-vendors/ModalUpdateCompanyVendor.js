@@ -63,7 +63,7 @@ function ModalUpdateCompanyVendor({modalUpdateRecord, setModalUpdateRecord, reco
             pvIP: ip,
         };
 
-        fetch(`http://localhost:8091/api/companies-vendors/update/`, {
+        fetch(`http://129.159.99.152/develop-vendors/api/companies-vendors/update/`, {
             method: "POST",
             body: JSON.stringify(catRegister),
             headers: {

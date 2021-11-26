@@ -1,9 +1,9 @@
 import React from "react";
 import fs from 'fs';
 
-import defaultImage from "../../assets/img/default-logo.png";
+import defaultImage from "../../assets/img/default-avatar.png";
 
-function AddLogo(props) {
+function AddLogo2(props) {
   const [fileState, setFileState] = React.useState(null);
   const [imagePreviewUrl, setImagePreviewUrl] = React.useState(defaultImage);
 
@@ -59,4 +59,4 @@ function AddLogo(props) {
   );
 }
 
-export default AddLogo;
+export default AddLogo2;

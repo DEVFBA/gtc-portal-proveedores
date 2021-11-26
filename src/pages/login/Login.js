@@ -3,6 +3,25 @@ import { useState, useEffect} from "react";
 import { Link, useHistory } from "react-router-dom";
 import '../../css/pages/form.css'
 
+// reactstrap components
+import {
+  Button,
+  Card,
+  CardHeader,
+  CardBody,
+  CardFooter,
+  Label,
+  FormGroup,
+  Form,
+  Input,
+  InputGroupAddon,
+  InputGroupText,
+  InputGroup,
+  Container,
+  Col,
+  Row,
+} from "reactstrap";
+
 function Login(){
   const ambiente = "/DEV-Vendors"
   const [email, setEmail] = useState("");
@@ -85,11 +104,10 @@ function Login(){
         localStorage.setItem("Id_Vendor", data[0].Id_Vendor)
         localStorage.setItem("Id_Role", data[0].Id_Role)
         localStorage.setItem("Token", token)
-        localStorage.setItem("Logged", true)
+      
         //Comparar fechas
         var f1 = new Date();
         var f2 = new Date(data[0].Final_Effective_Date)
-        console.log(data)
         if(data[0].Temporal_Password===true)
         {
           history.push(ambiente + "/auth/edit-password");
@@ -103,6 +121,7 @@ function Login(){
           history.push(ambiente + "/auth/edit-password");
         }
         else{
+          localStorage.setItem("Logged", true)
           history.push(ambiente + "/admin/dashboard");
         }
         
@@ -113,54 +132,56 @@ function Login(){
   }
 
   return (
-    <div className="sample-form">
-      <h3>Login</h3>
-      <form onSubmit={onSubmitForm}>
-        <div className="description">Por favor ingresa tu correo y contraseña para iniciar sesión</div>
-        <div className='form-group'>
-          <label className="form-control-label">Email</label>
-          <div className="input-group">
-            <span className="input-group-addon rounded-left">
-              <i className={'material-icons'}>
-              account_circle
-              </i>
-            </span>
-            <input 
-              className="form-control rounded-right"
-              placeholder=''
-              type="email"
-              name="email"
-              onChange={onChangeEmail}
-            />
+    <div>
+      <div className="sample-form">
+        <h3>Login</h3>
+        <form onSubmit={onSubmitForm}>
+          <div className="description">Por favor ingresa tu correo y contraseña para iniciar sesión</div>
+          <div className='form-group'>
+            <label className="form-control-label">Email</label>
+            <div className="input-group">
+              <span className="input-group-addon rounded-left">
+                <i className={'material-icons'}>
+                account_circle
+                </i>
+              </span>
+              <input 
+                className="form-control rounded-right"
+                placeholder=''
+                type="email"
+                name="email"
+                onChange={onChangeEmail}
+              />
+            </div>
           </div>
-        </div>
-        <div className='form-group'>
-          <label className="form-control-label">Contraseña</label>
-          <div className="input-group">
-            <span className="input-group-addon rounded-left">
-              <i className={'material-icons'}>
-              lock_outline
-              </i>
-            </span>
-            <input 
-              className="form-control rounded-right"
-              placeholder=''
-              type="password"
-              name="password"
-              onChange={onChangePassword}
-            />
+          <div className='form-group'>
+            <label className="form-control-label">Contraseña</label>
+            <div className="input-group">
+              <span className="input-group-addon rounded-left">
+                <i className={'material-icons'}>
+                lock_outline
+                </i>
+              </span>
+              <input 
+                className="form-control rounded-right"
+                placeholder=''
+                type="password"
+                name="password"
+                onChange={onChangePassword}
+              />
+            </div>
           </div>
-        </div>
-        {errorMessage}
-        <div className="form-group">
-          <button
-            className="btn btn-primary btn-rounded btn-outline"
-            type="submit"
-          >
-            Enviar
-          </button>
-        </div>
-      </form>
+          {errorMessage}
+          <div className="form-group">
+            <button
+              className="btn btn-primary btn-rounded btn-outline"
+              type="submit"
+            >
+              Enviar
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }
