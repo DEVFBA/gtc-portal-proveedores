@@ -11,7 +11,7 @@ import DropdownUser from './DropdownUser'
 import '../../css/elements/navbar-1.css'
 import defaultImage from "../../assets/img/default-avatar.png";
 
-function Navbar1({layout, setLayout})
+function Navbar1({layout, setLayout, changeImageP})
 {
   const [image, setImage] = React.useState("");
   const [name, setName] = React.useState("");
@@ -19,6 +19,7 @@ function Navbar1({layout, setLayout})
   const [routeProfile, setRouteProfile] = React.useState("");
 
   useEffect(() => {
+    ("CAMBIO LA IMAGEN")
     //Si el usuario no está loggeado no se va a descargar la imagen
     if(Logged === "true")
     {
@@ -44,7 +45,7 @@ function Navbar1({layout, setLayout})
           console.log(err)
       });
     }  
-  },[]);
+  },[changeImageP]);
 
   useEffect(() => {
     if(Logged === "true")

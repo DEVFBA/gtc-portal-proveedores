@@ -1,11 +1,11 @@
 import React, {Component} from 'react'
-import ReactTable from "../../reacttable/ReactTable";
+
 import { useState, useEffect} from "react";
+import ReactTable from "../../../reacttable/ReactTable";
 
-import ModalUpdateVendor from "./ModalUpdateVendor";
+import ModalReadZipCodes from "./modals/ModalReadZipCodes";
 
-function VendorsTable({dataTable, ip, autoCloseAlert, updateAddData, dataCountries}) {
-
+function ZipCodes({dataTable, ip, autoCloseAlert, updateAddData}) {
     const [dataState, setDataState] = useState(
         dataTable.map((prop, key) => {
             var status;
@@ -17,32 +17,33 @@ function VendorsTable({dataTable, ip, autoCloseAlert, updateAddData, dataCountri
             }
             return {
               id: key,
-                idVendor: prop.Id_Vendor,
-                name: prop.Name,
-                taxId: prop.Tax_Id,
-                street: prop.Street,
-                state: prop.State,
-                country: prop.Country_Desc,
-                idCountry: prop.Id_Country,
-                status: status,
-                phone1: prop.Phone_1,
-                phone2: prop.Phone_2,
-                webPage: prop.Web_Page,
+              idCountry: prop.Id_Country,
+              countryDesc: prop.Country_Desc,
+              idState: prop.Id_State,
+              stateDesc: prop.State_Desc,
+              idMunicipality: prop.Id_Municipality,
+              municipalityDesc: prop.Municipality_Desc,
+              idLocation: prop.Id_Location,
+              locationDesc: prop.Location_Desc,
+              zipCode: prop.Zip_Code,
+              idCounty: prop.Id_County,
+              description: prop.Description,
+              status: status,
               actions: (
                 // ACCIONES A REALIZAR EN CADA REGISTRO
                 <div className="actions-center">
                   {/*IMPLEMENTAR EDICION PARA CADA REGISTRO */}
-                  <abbr title="Editar">
+                  <abbr title="Ver Detalle">
                     <button
                       onClick={() => {
                         getRegistro(key);
-                        toggleModalUpdateRecord()
+                        toggleModalReadRecord()
                       }}
                       color="warning"
                       size="sm"
                       className="btn-icon btn-link edit"
                     >
-                      <i className="fa fa-edit" />
+                      <i className="fa fa-info-circle" />
                     </button>
                   </abbr>
                 </div>
@@ -50,8 +51,8 @@ function VendorsTable({dataTable, ip, autoCloseAlert, updateAddData, dataCountri
             };
         })
     )
-   
-    const [modalUpdateRecord, setModalUpdateRecord] = useState(false);
+
+    const [modalReadRecord, setModalReadRecord] = useState(false);
 
     //Para saber que usuario se va a editar
     const [record, setRecord] = useState({});
@@ -62,12 +63,12 @@ function VendorsTable({dataTable, ip, autoCloseAlert, updateAddData, dataCountri
         setRecord(registro) 
     }
 
-    function toggleModalUpdateRecord(){
-        if(modalUpdateRecord == false){
-        setModalUpdateRecord(true);
+    function toggleModalReadRecord(){
+        if(modalReadRecord == false){
+            setModalReadRecord(true);
         }
         else{
-        setModalUpdateRecord(false);
+            setModalReadRecord(false);
         }
     }
 
@@ -77,28 +78,24 @@ function VendorsTable({dataTable, ip, autoCloseAlert, updateAddData, dataCountri
                 data={dataState}
                 columns={[
                     {
-                        Header: "Nombre",
-                        accessor: "name",
+                        Header: "Id País",
+                        accessor: "idCountry",
                     },
                     {
-                        Header: "RFC",
-                        accessor: "taxId",
+                        Header: "Nombre País",
+                        accessor: "countryDesc",
                     },
                     {
-                        Header: "Calle",
-                        accessor: "street",
+                        Header: "Código Postal",
+                        accessor: "zipCode",
                     },
                     {
-                        Header: "Estado",
-                        accessor: "state",
+                        Header: "Id Colonia",
+                        accessor: "idCounty",
                     },
                     {
-                        Header: "País",
-                        accessor: "country",
-                    },
-                    {
-                        Header: "Estatus",
-                        accessor: "status",
+                        Header: "Nombre Colonia",
+                        accessor: "description",
                     },
                     {
                         Header: "Acciones",
@@ -113,10 +110,10 @@ function VendorsTable({dataTable, ip, autoCloseAlert, updateAddData, dataCountri
                 className="-striped -highlight primary-pagination"
             />
 
-            {/*MODAL PARA MODIFICAR REGISTRO*/}
-            <ModalUpdateVendor modalUpdateRecord = {modalUpdateRecord} setModalUpdateRecord = {toggleModalUpdateRecord} record = {record}  dataCountries = {dataCountries} updateAddData = {updateAddData} ip = {ip} autoCloseAlert = {autoCloseAlert}/>
+            {/*MODAL PARA VER REGISTROS*/}
+            <ModalReadZipCodes modalReadRecord = {modalReadRecord} setModalReadRecord = {setModalReadRecord} record = {record}/>
         </div>
     )
     
 }
-export default VendorsTable
+export default ZipCodes

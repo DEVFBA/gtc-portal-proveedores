@@ -20,8 +20,8 @@
 }
 
 @mixin make-row() {
-  display: flex;
-  flex-wrap: wrap;
+  display: flex !important;
+  flex-wrap: wrap !important;
   margin-right: ($grid-gutter-width / -2);
   margin-left: ($grid-gutter-width / -2);
 }

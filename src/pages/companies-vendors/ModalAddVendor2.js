@@ -162,7 +162,7 @@ function ModalAddVendor2({modalAddVendor, setModalAddVendor, ip, autoCloseAlert,
 
     function getVendor(name){
 
-        var url = new URL(`http://localhost:8091/api/vendors/${name}`);
+        var url = new URL(`http://129.159.99.152/develop-vendors/api/vendors/${name}`);
         fetch(url, {
           method: "GET",
           headers: {

@@ -6,6 +6,7 @@ import '../../css/pages/form.css'
 import Skeleton from '@yisheng90/react-loading';
 
 import VendorsTable from './VendorsTable';
+import ModalAddVendor from "./ModalAddVendor";
 
 import {
     Button,
@@ -37,6 +38,8 @@ function Vendors({autoCloseAlert}){
 
     //Para guardar los lista de paises
     const [dataCountries, setDataCountries] = useState([]);
+
+    const [dataFind, setDataFind] = useState(true)
 
     const getData = async () => {
         const res = await axios.get('https://geolocation-db.com/json/')
@@ -71,6 +74,7 @@ function Vendors({autoCloseAlert}){
         .then(function(data) {
             console.log(data)
             setDataVendors(data)
+            setDataFind(false)
         })
         .catch(function(err) {
             alert("No se pudo consultar la informacion de las vendors" + err);
@@ -84,6 +88,8 @@ function Vendors({autoCloseAlert}){
 
     //Para actualizar la tabla al insertar registro
     function updateAddData(){
+        setDataFind(true)
+
         const params = {
         pvOptionCRUD: "R"
         };
@@ -105,6 +111,7 @@ function Vendors({autoCloseAlert}){
         .then(function(data) {
             console.log(data)
             setDataVendors(data)
+            setDataFind(false)
         })
         .catch(function(err) {
             alert("No se pudo consultar la informacion de las vendors" + err);
@@ -147,20 +154,61 @@ function Vendors({autoCloseAlert}){
         });
     }, []);
 
-    return dataVendors.length === 0 ? (
-        <div>
-            <Skeleton height={25} />
-            <Skeleton height="25px" />
-            <Skeleton height="3rem" />
-        </div>
+    const [modalAddRecord, setModalAddRecord] = useState(false);
+
+    function toggleModalAddRecord(){
+        if(modalAddRecord == false){
+        setModalAddRecord(true);
+        }
+        else{
+        setModalAddRecord(false);
+        }
+    }
+
+
+    return dataFind === true ? (
+        <Card>
+            <CardHeader>
+                <CardTitle tag="h4">Catálogo de Proveedores</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <span className="input-group-btn rounded-left" >
+                    <button className="btn btn-primary btn-gtc" onClick={toggleModalAddRecord}>
+                        <i className="ion-plus btn-icon"/>
+                        Agregar Proveedor 
+                    </button>
+                </span>
+                &nbsp;
+                <Skeleton height={25} />
+                <Skeleton height="25px" />
+                <Skeleton height="3rem" />
+            </CardBody>
+             {/*MODAL PARA AÑADIR REGISTROS*/}
+             <ModalAddVendor modalAddRecord = {modalAddRecord} setModalAddRecord = {setModalAddRecord}  ip = {ip} autoCloseAlert = {autoCloseAlert} updateAddData = {updateAddData} dataCountries = {dataCountries}/>
+        </Card>
     ) : (
         <Card>
             <CardHeader>
                 <CardTitle tag="h4">Catálogo de Proveedores</CardTitle>
             </CardHeader>
             <CardBody>
-                <VendorsT />
+                <span className="input-group-btn rounded-left" >
+                    <button className="btn btn-primary btn-gtc" onClick={toggleModalAddRecord}>
+                        <i className="ion-plus btn-icon"/>
+                        Agregar Proveedor 
+                    </button>
+                </span>
+                &nbsp;
+                {dataVendors.length === 0 ? (
+                  <div className ="no-data">
+                    <h3>No hay datos</h3>
+                  </div>
+                ): 
+                    <VendorsT />
+                }
             </CardBody>
+             {/*MODAL PARA AÑADIR REGISTROS*/}
+             <ModalAddVendor modalAddRecord = {modalAddRecord} setModalAddRecord = {setModalAddRecord}  ip = {ip} autoCloseAlert = {autoCloseAlert} updateAddData = {updateAddData} dataCountries = {dataCountries}/>
         </Card>
     )
 

@@ -7,6 +7,7 @@ import Widget from '../../elements/Widget'
 import Skeleton from '@yisheng90/react-loading';
 
 import UsersTable from './UsersTable';
+import ModalAddUser from "./ModalAddUser.js";
 
 import {
     Button,
@@ -26,7 +27,7 @@ import {
     CardFooter
 } from "reactstrap";
 
-function Users({autoCloseAlert}){
+function Users({autoCloseAlert, changeImageP, setChangeImageP}){
     //Para guardar los datos de los usuarios
     const [dataUsers, setDataUsers] = useState([]);
 
@@ -49,6 +50,10 @@ function Users({autoCloseAlert}){
     const [pathImage, setPathImage] = useState([]);
 
     const [profilePath, setProfilePath] = useState("")
+
+    const [dataFind, setDataFind] = useState(true)
+
+    const [modalAddRecord, setModalAddRecord] = useState(false);
 
     const getData = async () => {
         //const res = await axios.get('https://geolocation-db.com/json/')
@@ -95,7 +100,9 @@ function Users({autoCloseAlert}){
             return response.ok ? response.json() : Promise.reject();
         })
         .then(function(data) {
+          console.log(data)
           setDataUsers(data)
+          setDataFind(false)
         })
         .catch(function(err) {
             alert("No se pudo consultar la informacion de los usuarios" + err);
@@ -211,11 +218,12 @@ function Users({autoCloseAlert}){
 
      //Renderizado condicional
     function UsersT() {
-        return <UsersTable dataTable = {dataUsers} ip = {ip} dataRoles = {dataRoles} dataVendors = {dataVendors} autoCloseAlert = {autoCloseAlert} updateAddData = {updateAddData} validDays={validDays} pathImage = {pathImage} profilePath ={profilePath}/>
+        return <UsersTable dataTable = {dataUsers} ip = {ip} dataRoles = {dataRoles} dataVendors = {dataVendors} autoCloseAlert = {autoCloseAlert} updateAddData = {updateAddData} validDays={validDays} pathImage = {pathImage} profilePath ={profilePath} changeImageP = {changeImageP} setChangeImageP = {setChangeImageP}/>
     }
 
     //Para actualizar la tabla al insertar registro
     function updateAddData(){
+        setDataFind(true)
         const params = {
         pvOptionCRUD: "R"
         };
@@ -236,27 +244,66 @@ function Users({autoCloseAlert}){
         })
         .then(function(data) {
         //setLoaded(true)
-        setDataUsers(data)
+            setDataUsers(data)
+            setDataFind(false)
         })
         .catch(function(err) {
             alert("No se pudo consultar la informacion de los usuarios" + err);
         });
     }
 
-    return dataUsers.length === 0 ? (
-        <div>
-            <Skeleton height={25} />
-            <Skeleton height="25px" />
-            <Skeleton height="3rem" />
-        </div>
+    function toggleModalAddRecord(){
+        if(modalAddRecord == false){
+        setModalAddRecord(true);
+        }
+        else{
+        setModalAddRecord(false);
+        }
+    }
+
+    return dataFind === true ? (
+        <Card>
+            <CardHeader>
+                <CardTitle tag="h4">Catálogo de Usuarios</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <span className="input-group-btn rounded-left">
+                    <button className="btn btn-primary btn-gtc" onClick={toggleModalAddRecord}>
+                        <i className="ion-plus btn-icon"/>
+                        Agregar Usuario 
+                    </button>
+                </span>
+                &nbsp;
+                <Skeleton height={25} />
+                <Skeleton height="25px" />
+                <Skeleton height="3rem" />
+            </CardBody>
+            {/*MODAL PARA AÑADIR REGISTROS*/}
+            <ModalAddUser modalAddRecord = {modalAddRecord} setModalAddRecord = {setModalAddRecord} dataRoles = {dataRoles} dataVendors = {dataVendors} ip = {ip} autoCloseAlert = {autoCloseAlert} updateAddData = {updateAddData} validDays = {validDays} pathImage = {pathImage}/>
+        </Card>
     ) : (   
         <Card>
             <CardHeader>
                 <CardTitle tag="h4">Catálogo de Usuarios</CardTitle>
             </CardHeader>
             <CardBody>
-                <UsersT />
+                <span className="input-group-btn rounded-left">
+                    <button className="btn btn-primary btn-gtc" onClick={toggleModalAddRecord}>
+                        <i className="ion-plus btn-icon"/>
+                        Agregar Usuario 
+                    </button>
+                </span>
+                &nbsp;
+                {dataUsers.length === 0 ? (
+                  <div className ="no-data">
+                    <h3>No hay datos</h3>
+                  </div>
+                ): 
+                    <UsersT />
+                }
             </CardBody>
+            {/*MODAL PARA AÑADIR REGISTROS*/}
+            <ModalAddUser modalAddRecord = {modalAddRecord} setModalAddRecord = {setModalAddRecord} dataRoles = {dataRoles} dataVendors = {dataVendors} ip = {ip} autoCloseAlert = {autoCloseAlert} updateAddData = {updateAddData} validDays = {validDays} pathImage = {pathImage}/>
         </Card>
     )
 

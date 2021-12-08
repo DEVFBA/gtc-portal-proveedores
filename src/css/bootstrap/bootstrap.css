@@ -489,8 +489,8 @@ pre {
   width: 100%; }
 
 .row {
-  display: flex;
-  flex-wrap: wrap;
+  display: flex !important;
+  flex-wrap: wrap !important;
   margin-right: -10px;
   margin-left: -10px; }
 

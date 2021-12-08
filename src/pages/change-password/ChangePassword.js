@@ -227,12 +227,12 @@ function ChangePassword() {
     }
     
     return (
-        <div className="sample-form">
-            <h3>Cambiar contraseña</h3>
+        <div className="change-password">
+            <h3 className="title-password">CAMBIAR CONTRASEÑA</h3>
             <form method="">
-                <div className="description">Tu contraseña ha vencido. Por favor ingresa una nueva.</div>
+                <div className="description-password">Tu contraseña ha vencido. Por favor ingresa una nueva.</div>
                 <div className='form-group'>
-                    <label className="form-control-label">Contraseña *</label>
+                    <label className="labels-password">Contraseña *</label>
                     <div className="input-group">
                     <span className="input-group-addon rounded-left">
                         <i className={'material-icons'}>
@@ -255,11 +255,11 @@ function ChangePassword() {
                     />
                     </div>
                     {registerPasswordState === "text-danger" ? (
-                        <label className="error">La contraseña debe tener una longitud mínima de 10 caracteres, al menos un número, una letra mayúscula y minúscula, y un caracter especial.</label>
+                        <label className="error-password">La contraseña debe tener una longitud mínima de 10 caracteres, al menos un número, una letra mayúscula y minúscula, y un caracter especial.</label>
                     ) : null}
                 </div>
                 <div className='form-group'>
-                    <label className="form-control-label">Confirmar contraseña *</label>
+                    <label className="labels-password">Confirmar contraseña *</label>
                     <div className="input-group">
                     <span className="input-group-addon rounded-left">
                         <i className={'material-icons'}>
@@ -284,7 +284,7 @@ function ChangePassword() {
                     />
                     </div>
                     {registerConfirmPasswordState === "text-danger" ? (
-                        <label className="error">La contraseña no coincide.</label>
+                        <label className="error-password">La contraseña no coincide.</label>
                     ) : null}
                 </div>
                 <div className="form-group">

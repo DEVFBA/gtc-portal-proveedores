@@ -3,6 +3,7 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
 import { BrowserRouter, Route, Switch, Redirect, useHistory } from "react-router-dom";
 import { ToastProvider, useToasts } from "./toast-manager";
+import "react-datetime/css/react-datetime.css";
 
 
 import AuthLayout from "./layouts/Auth.js";

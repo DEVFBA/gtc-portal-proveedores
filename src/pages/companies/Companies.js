@@ -7,6 +7,7 @@ import Widget from '../../elements/Widget'
 import Skeleton from '@yisheng90/react-loading';
 
 import CompaniesTable from './CompaniesTable';
+import ModalAddCompany from "./ModalAddCompany";
 
 import {
     Button,
@@ -45,6 +46,8 @@ function Companies({autoCloseAlert}){
     //Para guardar el Retrieve del logo
     const [profilePath, setProfilePath] = React.useState("");
 
+    const [dataFind, setDataFind] = useState(true)
+
     const getData = async () => {
         const res = await axios.get('https://geolocation-db.com/json/')
         setIP(res.data.IPv4)
@@ -78,6 +81,7 @@ function Companies({autoCloseAlert}){
         .then(function(data) {
             console.log(data)
             setDataCompanies(data)
+            setDataFind(false)
         })
         .catch(function(err) {
             alert("No se pudo consultar la informacion de las companies" + err);
@@ -159,6 +163,7 @@ function Companies({autoCloseAlert}){
 
     //Para actualizar la tabla al insertar registro
     function updateAddData(){
+        setDataFind(true)
         const params = {
         pvOptionCRUD: "R"
         };
@@ -179,26 +184,67 @@ function Companies({autoCloseAlert}){
         })
         .then(function(data) {
             setDataCompanies(data)
+            setDataFind(false)
         })
         .catch(function(err) {
             alert("No se pudo consultar la informacion de las companies" + err);
         });
     }
 
-    return dataCompanies.length === 0 ? (
-        <div>
-            <Skeleton height={25} />
-            <Skeleton height="25px" />
-            <Skeleton height="3rem" />
-        </div>
+    const [modalAddRecord, setModalAddRecord] = useState(false);
+
+    function toggleModalAddRecord(){
+        if(modalAddRecord == false){
+        setModalAddRecord(true);
+        }
+        else{
+        setModalAddRecord(false);
+        }
+    }
+
+    return dataFind === true ? (
+        <Card>
+            <CardHeader>
+                <CardTitle tag="h4">Catálogo de Compañías</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <span className="input-group-btn rounded-left">
+                    <button className="btn btn-primary btn-gtc" onClick={toggleModalAddRecord}>
+                        <i className="ion-plus btn-icon"/>
+                        Agregar Compañía 
+                    </button>
+                </span>
+                &nbsp;
+                <Skeleton height={25} />
+                <Skeleton height="25px" />
+                <Skeleton height="3rem" />
+            </CardBody>
+            {/*MODAL PARA AÑADIR REGISTROS*/}
+            <ModalAddCompany modalAddRecord = {modalAddRecord} setModalAddRecord = {setModalAddRecord} dataCountries = {dataCountries} updateAddData = {updateAddData} pathLogo = {pathLogo} ip = {ip} autoCloseAlert = {autoCloseAlert}  />
+        </Card>
     ) : (
         <Card>
             <CardHeader>
                 <CardTitle tag="h4">Catálogo de Compañías</CardTitle>
             </CardHeader>
             <CardBody>
-                <CompaniesT />
+                <span className="input-group-btn rounded-left">
+                    <button className="btn btn-primary btn-gtc" onClick={toggleModalAddRecord}>
+                        <i className="ion-plus btn-icon"/>
+                        Agregar Compañía 
+                    </button>
+                </span>
+                &nbsp;
+                {dataCompanies.length === 0 ? (
+                  <div className ="no-data">
+                    <h3>No hay datos</h3>
+                  </div>
+                ): 
+                    <CompaniesT />
+                }
             </CardBody>
+            {/*MODAL PARA AÑADIR REGISTROS*/}
+            <ModalAddCompany modalAddRecord = {modalAddRecord} setModalAddRecord = {setModalAddRecord} dataCountries = {dataCountries} updateAddData = {updateAddData} pathLogo = {pathLogo} ip = {ip} autoCloseAlert = {autoCloseAlert}  />
         </Card>
     )
 

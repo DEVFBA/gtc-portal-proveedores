@@ -57,25 +57,28 @@ function Pages() {
     };
   
     return (
-      <div
-        data-layout={layout}
-        data-background="light"
-        data-navbar="light"
-        data-top-navigation="light"
-        data-logo="info"
-        data-left-sidebar="dark"
-        data-collapsed="false"
-      >
-        <div className={isEmptyView ? '' : 'container-fluid'}>
-            <div className={isEmptyView ? '' : 'row'}>
-                <div className="col main">
-                    {/*<Jumbotron />*/}
-                    <Switch>{getRoutes(dbRoutes)}</Switch>
-                    {/*<Routes />*/}
-                </div>
-            </div>
-        </div>
+      <div className="login-page">
+        <div
+          data-layout={layout}
+          data-background="light"
+          data-navbar="light"
+          data-top-navigation="light"
+          data-logo="info"
+          data-left-sidebar="dark"
+          data-collapsed="false"
         
+        >
+          <div className={isEmptyView ? '' : 'container-fluid'}>
+              <div className={isEmptyView ? '' : 'row'}>
+                  <div className="col main">
+                      {/*<Jumbotron />*/}
+                      <Switch>{getRoutes(dbRoutes)}</Switch>
+                      {/*<Routes />*/}
+                  </div>
+              </div>
+          </div>
+          
+        </div>
       </div>  
     );
 }

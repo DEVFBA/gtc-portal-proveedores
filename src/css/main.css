@@ -489,8 +489,8 @@ pre {
   width: 100%; }
 
 .row {
-  display: flex;
-  flex-wrap: wrap;
+  display: flex !important;
+  flex-wrap: wrap !important;
   margin-right: -10px;
   margin-left: -10px; }
 
@@ -8746,3 +8746,84 @@ select {
 .login-page .navbar .navbar-brand,
 .lock-page .navbar .navbar-brand {
   color: #FFFFFF !important; }
+
+.tree-rows {
+  margin-top: 10px;
+  font-size: 15px;
+  font-weight: bold;
+  text-align: center;
+  border-style: solid;
+  border-width: thin;
+  border-color: #000000; }
+
+.tree-cols {
+  font-size: 15px;
+  padding: 5px; }
+
+.tree-rows-content-first {
+  padding: 5px;
+  background-color: #cdcdcd;
+  text-align: center;
+  align-items: center; }
+
+.tree-rows-content-late {
+  margin-top: 20px;
+  padding: 5px;
+  background-color: #cdcdcd;
+  text-align: center;
+  align-items: center; }
+
+.tree-table-rows {
+  margin-top: 20px;
+  text-align: center;
+  border-style: solid;
+  border-width: thin;
+  border-color: #000000; }
+
+.tree-table-rows-content {
+  background-color: #eeeeee;
+  text-align: center;
+  align-items: center; }
+
+.no-data {
+  border-radius: 3px;
+  padding: 10px;
+  background-color: #eeeeee;
+  text-align: center;
+  align-items: center;
+  font-weight: bold !important; }
+
+.login-page {
+  background-color: #000000 !important; }
+
+.change-password {
+  width: 100%;
+  height: 100%;
+  min-height: 400px;
+  max-height: 400px !important;
+  min-width: 518px;
+  max-width: 518px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 40px;
+  padding-right: 40px;
+  background-color: white;
+  align-items: start; }
+
+.description-password {
+  margin-bottom: 20px;
+  font-size: 0.9375rem; }
+
+.title-password {
+  font-size: 1.0625rem;
+  margin-bottom: 10px; }
+
+.labels-password {
+  margin-bottom: 15px; }
+
+.error-password {
+  margin-top: 10px;
+  font-size: 11px;
+  color: red; }

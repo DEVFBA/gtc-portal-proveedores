@@ -1,8 +1,6 @@
 import React, {Component} from 'react'
 import ReactTable from "../../reacttable/ReactTable";
 import { useState, useEffect} from "react";
-
-import ModalAddCompany from "./ModalAddCompany";
 import ModalUpdateCompany from "./ModalUpdateCompany";
 
 function CompaniesTable({dataTable, ip, autoCloseAlert, updateAddData, dataCountries, pathLogo, profilePath}) {
@@ -56,22 +54,7 @@ function CompaniesTable({dataTable, ip, autoCloseAlert, updateAddData, dataCount
             };
         })
     )
-    const [search, setSearch] = useState("")
-    const [itemsPerPage, setItemsPerPage] = useState(10)
-  
-    function onSearch(e) {
-        e.preventDefault()
-        setSearch(e.target.value)
-        return false
-    }
 
-    function onChangeItemsPerPage(e) {
-        e.preventDefault()
-        setItemsPerPage(e.target.value)
-        return false
-    }
-
-    const [modalAddRecord, setModalAddRecord] = useState(false);
     const [modalUpdateRecord, setModalUpdateRecord] = useState(false);
 
     //Para saber que usuario se va a editar
@@ -81,15 +64,6 @@ function CompaniesTable({dataTable, ip, autoCloseAlert, updateAddData, dataCount
     {
         var registro = dataState.find((o) => o.id === key)
         setRecord(registro) 
-    }
-
-    function toggleModalAddRecord(){
-        if(modalAddRecord == false){
-        setModalAddRecord(true);
-        }
-        else{
-        setModalAddRecord(false);
-        }
     }
 
     function toggleModalUpdateRecord(){
@@ -103,13 +77,6 @@ function CompaniesTable({dataTable, ip, autoCloseAlert, updateAddData, dataCount
 
     return (
         <div>
-            <span className="input-group-btn rounded-left">
-                <button className="btn btn-primary btn-gtc" onClick={toggleModalAddRecord}>
-                    <i className="ion-plus btn-icon"/>
-                     Agregar Compañía 
-                </button>
-            </span>
-            &nbsp;
             <ReactTable
                 data={dataState}
                 columns={[
@@ -157,10 +124,6 @@ function CompaniesTable({dataTable, ip, autoCloseAlert, updateAddData, dataCount
                     */
                 className="-striped -highlight primary-pagination"
             />
-
-            {/*MODAL PARA AÑADIR REGISTROS*/}
-            <ModalAddCompany modalAddRecord = {modalAddRecord} setModalAddRecord = {setModalAddRecord} dataCountries = {dataCountries} updateAddData = {updateAddData} pathLogo = {pathLogo} ip = {ip} autoCloseAlert = {autoCloseAlert}  />
-
             {/*MODAL PARA MODIFICAR REGISTRO*/}
             <ModalUpdateCompany modalUpdateRecord = {modalUpdateRecord} setModalUpdateRecord = {toggleModalUpdateRecord} record = {record}  dataCountries = {dataCountries} pathLogo = {pathLogo} updateAddData = {updateAddData} ip = {ip} autoCloseAlert = {autoCloseAlert} profilePath = {profilePath}/>
         </div>

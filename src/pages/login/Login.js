@@ -2,6 +2,8 @@ import React from 'react'
 import { useState, useEffect} from "react";
 import { Link, useHistory } from "react-router-dom";
 import '../../css/pages/form.css'
+import ReactBSAlert from "react-bootstrap-sweetalert";
+import Cargando from "../../assets/img/loading_icon.gif";
 
 // reactstrap components
 import {
@@ -49,9 +51,43 @@ function Login(){
     setEmail(event.target.value);
   }
 
+  //Para el alert de cargando login
+  const [alert2, setAlert2] = React.useState(null);
+
+  const autoCloseAlert2 = (mensaje) => {
+    console.log("entre al alert")
+    setAlert2(
+      <ReactBSAlert
+        style={{ display: "block", display: "flex", justifyContent: "center", alignItems: "center" }}
+        title=""
+        onConfirm={() => hideAlert2()}
+        showConfirm={false}
+      >
+        <Row>
+          <Col sm="4">
+          </Col>
+          <Col sm="4">
+            <img 
+              src = {Cargando} 
+              style ={{ width: "50px", height: "50px" }}
+            />
+          </Col>
+          <Col sm="4">
+          </Col>
+        </Row>
+        &nbsp;
+        {mensaje}
+      </ReactBSAlert>
+    );
+  };
+
+  const hideAlert2 = () => {
+    setAlert2(null);
+  };
+
   function onSubmitForm(event) {
     event.preventDefault();
-
+    autoCloseAlert2("Iniciando Sesión...")
     const catRegister = {
       pvIdUser: email,
       pvPassword: password
@@ -67,6 +103,7 @@ function Login(){
     .then((response) => response.json())
     .then((data) => {
         if (data.errors) {
+            hideAlert2()
             setError(
                 <p>Hubo un error al realizar tu solicitud</p>
             );
@@ -74,8 +111,9 @@ function Login(){
         else{
             if(data[0].Code_Type === "Error")
             {
-                setErrorState("has-danger")
-                setErrorMessage(data[0].Code_Message_User)
+              hideAlert2()
+              setErrorState("has-danger")
+              setErrorMessage(data[0].Code_Message_User)
             }
             else{
                 setErrorState("has-success");
@@ -100,6 +138,7 @@ function Login(){
         return response.ok ? response.json() : Promise.reject();
     })
     .then(function(data) {
+        hideAlert2()
         localStorage.setItem("User", data[0].User);
         localStorage.setItem("Id_Vendor", data[0].Id_Vendor)
         localStorage.setItem("Id_Role", data[0].Id_Role)
@@ -182,6 +221,7 @@ function Login(){
           </div>
         </form>
       </div>
+      {alert2}
     </div>
   );
 }

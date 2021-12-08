@@ -3,10 +3,10 @@ import { useState, useEffect} from "react";
 import ReactTable from "../../reacttable/ReactTable";
 import Skeleton from '@yisheng90/react-loading';
 
-import ModalAddUser from "./ModalAddUser.js";
+
 import ModalUpdateUser from "./ModalUpdateUser.js";
 
-function UsersTable({dataTable, ip, dataRoles, dataVendors, autoCloseAlert, updateAddData, validDays, pathImage, profilePath}) {
+function UsersTable({dataTable, ip, dataRoles, dataVendors, autoCloseAlert, updateAddData, validDays, pathImage, profilePath, changeImageP, setChangeImageP}) {
     const [dataState, setDataState] = useState(
         dataTable.map((prop, key) => {
             var status;
@@ -51,7 +51,7 @@ function UsersTable({dataTable, ip, dataRoles, dataVendors, autoCloseAlert, upda
         })
     );
 
-    const [modalAddRecord, setModalAddRecord] = useState(false);
+    
     const [modalUpdateRecord, setModalUpdateRecord] = useState(false);
 
     //Para saber que usuario se va a editar
@@ -63,15 +63,6 @@ function UsersTable({dataTable, ip, dataRoles, dataVendors, autoCloseAlert, upda
         setRecord(registro) 
     }
 
-    function toggleModalAddRecord(){
-        if(modalAddRecord == false){
-        setModalAddRecord(true);
-        }
-        else{
-        setModalAddRecord(false);
-        }
-    }
-
     function toggleModalUpdateRecord(){
         if(modalUpdateRecord == false){
         setModalUpdateRecord(true);
@@ -81,27 +72,8 @@ function UsersTable({dataTable, ip, dataRoles, dataVendors, autoCloseAlert, upda
         }
     }
 
-    return dataTable.length === 0 ? (
+    return (
         <div>
-            <span className="input-group-btn rounded-left">
-                <button className="btn btn-primary btn-gtc" onClick={toggleModalAddRecord}>
-                    <i className="ion-plus btn-icon"/>
-                    Agregar Usuario 
-                </button>
-                <Skeleton height={25} />
-                <Skeleton height="25px" />
-                <Skeleton height="3rem" />
-            </span>
-        </div>
-    ) : (
-        <div>
-            <span className="input-group-btn rounded-left">
-                <button className="btn btn-primary btn-gtc" onClick={toggleModalAddRecord}>
-                    <i className="ion-plus btn-icon"/>
-                    Agregar Usuario 
-                </button>
-            </span>
-            &nbsp;
             <ReactTable
                 data={dataState}
                 columns={[
@@ -133,12 +105,8 @@ function UsersTable({dataTable, ip, dataRoles, dataVendors, autoCloseAlert, upda
                     */
                 className="-striped -highlight primary-pagination"
             />
-
-            {/*MODAL PARA AÑADIR REGISTROS*/}
-            <ModalAddUser modalAddRecord = {modalAddRecord} setModalAddRecord = {setModalAddRecord} dataRoles = {dataRoles} dataVendors = {dataVendors} ip = {ip} autoCloseAlert = {autoCloseAlert} updateAddData = {updateAddData} validDays = {validDays} pathImage = {pathImage}/>
-
             {/*MODAL PARA MODIFICAR REGISTRO*/}
-            <ModalUpdateUser abierto = {modalUpdateRecord} toggleModalUpdateRecord = {toggleModalUpdateRecord} record = {record} dataRoles ={dataRoles} ip = {ip} dataVendors = {dataVendors} updateAddData = {updateAddData} validDays = {validDays} pathImage = {pathImage} profilePath ={profilePath} autoCloseAlert = {autoCloseAlert}/>
+            <ModalUpdateUser abierto = {modalUpdateRecord} toggleModalUpdateRecord = {toggleModalUpdateRecord} record = {record} dataRoles ={dataRoles} ip = {ip} dataVendors = {dataVendors} updateAddData = {updateAddData} validDays = {validDays} pathImage = {pathImage} profilePath ={profilePath} autoCloseAlert = {autoCloseAlert} changeImageP = {changeImageP} setChangeImageP = {setChangeImageP}/>
         </div>
     )
     

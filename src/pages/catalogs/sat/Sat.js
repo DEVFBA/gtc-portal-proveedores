@@ -39,7 +39,10 @@ import PetitionTypes from "./PetitionTypes";
 import EntityTypes from "./EntityTypes";
 import RelationshipTypes from "./RelationshipTypes";
 import CustomsUnits from "./CustomsUnits";
-import CFDIUses from "./CFDIUses";
+import Localities from "./Localities";
+import Municipalities from "./Municipalities";
+import States from "./States";
+import ZipCodes from "./ZipCodes";
 
 function CatalogosSat({autoCloseAlert}) {
     //Para guardar los datos de los catálogos
@@ -89,7 +92,7 @@ function CatalogosSat({autoCloseAlert}) {
             return response.ok ? response.json() : Promise.reject();
         })
         .then(function(data) {
-       
+            
             data.sort(function (a, b) {
                 if (a.Short_Desc > b.Short_Desc) {
                   return 1;
@@ -100,7 +103,7 @@ function CatalogosSat({autoCloseAlert}) {
                 // a must be equal to b
                 return 0;
               });
-        
+            console.log(data)
             //Creamos el arreglo de opciones para el select
             var optionsAux = [];
             var i;
@@ -388,6 +391,62 @@ function CatalogosSat({autoCloseAlert}) {
             }
             else {
                 return <CFDIUses dataTable = {dataCatalog} updateAddData = {updateAddData} ip = {ip} autoCloseAlert = {autoCloseAlert}/>;
+            }
+        }
+        else if(catalog === "Municipalities")
+        {
+            if(dataCatalog.length === 0)
+            {
+                return  <div>
+                            <Skeleton height={25} />
+                            <Skeleton height="25px" />
+                            <Skeleton height="3rem" />
+                        </div>
+            }
+            else {
+                return <Municipalities dataTable = {dataCatalog} updateAddData = {updateAddData} ip = {ip} autoCloseAlert = {autoCloseAlert}/>;
+            }
+        }
+        else if(catalog === "Locations")
+        {
+            if(dataCatalog.length === 0)
+            {
+                return  <div>
+                            <Skeleton height={25} />
+                            <Skeleton height="25px" />
+                            <Skeleton height="3rem" />
+                        </div>
+            }
+            else {
+                return <Localities dataTable = {dataCatalog} updateAddData = {updateAddData} ip = {ip} autoCloseAlert = {autoCloseAlert}/>;
+            }
+        }
+        else if(catalog === "States")
+        {
+            if(dataCatalog.length === 0)
+            {
+                return  <div>
+                            <Skeleton height={25} />
+                            <Skeleton height="25px" />
+                            <Skeleton height="3rem" />
+                        </div>
+            }
+            else {
+                return <States dataTable = {dataCatalog} updateAddData = {updateAddData} ip = {ip} autoCloseAlert = {autoCloseAlert}/>;
+            }
+        }
+        else if(catalog === "ZipCodes")
+        {
+            if(dataCatalog.length === 0)
+            {
+                return  <div>
+                            <Skeleton height={25} />
+                            <Skeleton height="25px" />
+                            <Skeleton height="3rem" />
+                        </div>
+            }
+            else {
+                return <ZipCodes dataTable = {dataCatalog} updateAddData = {updateAddData} ip = {ip} autoCloseAlert = {autoCloseAlert}/>;
             }
         }
         return <div></div>

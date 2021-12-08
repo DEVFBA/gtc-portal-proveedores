@@ -195,7 +195,7 @@ function ModalAddCompany2({modalAddCompany, setModalAddCompany, dataCountries, u
 
     function getCompany(name){
 
-        var url = new URL(`http://localhost:8091/api/companies/${name}`);
+        var url = new URL(`http://129.159.99.152/develop-vendors/api/companies/${name}`);
         fetch(url, {
           method: "GET",
           headers: {

@@ -37,6 +37,8 @@ function Roles({autoCloseAlert}){
     //Para guardar la direccion IP del usuario
     const [ip, setIP] = React.useState("");
 
+    const [dataFind, setDataFind] = useState(true)
+
     const getData = async () => {
         const res = await axios.get('https://geolocation-db.com/json/')
         setIP(res.data.IPv4)
@@ -70,6 +72,7 @@ function Roles({autoCloseAlert}){
         .then(function(data) {
             console.log(data)
             setDataRoles(data)
+            setDataFind(false)
         })
         .catch(function(err) {
             alert("No se pudo consultar la informacion de los roles" + err);
@@ -104,25 +107,37 @@ function Roles({autoCloseAlert}){
         .then(function(data) {
             console.log(data)
             setDataRoles(data)
+            setDataFind(false)
         })
         .catch(function(err) {
             alert("No se pudo consultar la informacion de los roles" + err);
         });
     }
 
-    return dataRoles.length === 0 ? (
-        <div>
-            <Skeleton height={25} />
-            <Skeleton height="25px" />
-            <Skeleton height="3rem" />
-        </div>
+    return dataFind === true ? (
+        <Card>
+            <CardHeader>
+                <CardTitle tag="h4">Catálogo de Roles</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Skeleton height={25} />
+                <Skeleton height="25px" />
+                <Skeleton height="3rem" />
+            </CardBody>
+        </Card>
     ) : (
         <Card>
             <CardHeader>
                 <CardTitle tag="h4">Catálogo de Roles</CardTitle>
             </CardHeader>
             <CardBody>
-                <RolesT />
+                {dataRoles.length === 0 ? (
+                  <div className ="no-data">
+                    <h3>No hay datos</h3>
+                  </div>
+                ): 
+                    <RolesT />
+                }
             </CardBody>
         </Card>
     )

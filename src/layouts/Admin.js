@@ -29,8 +29,6 @@ import Carga from "../pages/carga/Carga.js"
 import CargaXML from "../pages/carga/CargaXML"
 import CompaniesVendors from "../pages/companies-vendors/CompaniesVendors"
 
-import urls from "./navigation2"
-
 function Admin(props) {
     const [isEmptyView, setIsEmptyView] = useState(false)
     const [layout, setLayout] = useState('default-sidebar-1')
@@ -43,7 +41,7 @@ function Admin(props) {
 
     const logged = localStorage.getItem("Logged");
     //const role = localStorage.getItem("Id_Role");
-    const role = "ADMIN";
+    const role = localStorage.getItem("Id_Role");
     const user = localStorage.getItem("User");
     const token = localStorage.getItem("Token");
 
@@ -64,6 +62,9 @@ function Admin(props) {
     const [idleTimer, setIdleTimer] = useState(false);
 
     const [pathFile, setPathFile] = useState("");
+
+    //Para actualizar la imagen automaticamente cada que la actualicemos
+    const [changeImageP, setChangeImageP] = useState(false)
     
     function _onAction(e) {
       //console.log('user did something', e)
@@ -536,7 +537,7 @@ function Admin(props) {
                   //element={<Users autoCloseAlert = {autoCloseAlert}/>}
                   //key={key}
                 >
-                  <Users autoCloseAlert = {autoCloseAlert}/>
+                  <Users autoCloseAlert = {autoCloseAlert} changeImageP = {changeImageP} setChangeImageP = {setChangeImageP}/>
                 </Route>
               );
             }
@@ -659,6 +660,7 @@ function Admin(props) {
     const autoCloseAlert = (mensaje) => {
         setAlert(
             <ReactBSAlert
+                style={{ display: "block", display: "flex", justifyContent: "center", alignItems: "center" }}
                 title="Mensaje"
                 onConfirm={() => hideAlert()}
                 showConfirm={false}
@@ -693,7 +695,7 @@ function Admin(props) {
             />
 
             {alert}
-            <Navbar1 layout = {layout} setLayout = {setLayout}/>
+            <Navbar1 layout = {layout} setLayout = {setLayout} changeImageP = {changeImageP}/>
             <div className={isEmptyView ? '' : 'container-fluid'}>
                 <div className={isEmptyView ? '' : 'row'}>
                     <LeftSidebar navigation = {dbRoutes}/>
