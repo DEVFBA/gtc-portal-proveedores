@@ -783,7 +783,7 @@ function XmlTree({dataString, dataMunicipios, dataLocalities, dataColonias}) {
                           if(county !== undefined)
                           {
                             divs = divs + '<Col>';
-                            divs = divs + county[0].Description
+                            divs = divs + Object.values(childs[listaU].attributes)[y] + " - " + county[0].Description
                             divs = divs + '</Col>'
                           }
                           else {
@@ -800,7 +800,7 @@ function XmlTree({dataString, dataMunicipios, dataLocalities, dataColonias}) {
                           if(localidades !== undefined)
                           {
                             divs = divs + '<Col>';
-                            divs = divs + localidades.Location_Desc
+                            divs = divs + Object.values(childs[listaU].attributes)[y] + " - " + localidades.Location_Desc
                             divs = divs + '</Col>'
                           }
                           else {
@@ -815,7 +815,7 @@ function XmlTree({dataString, dataMunicipios, dataLocalities, dataColonias}) {
                           if(municipio !== undefined)
                           {
                             divs = divs + '<Col>';
-                            divs = divs + municipio.Municipality_Desc
+                            divs = divs + Object.values(childs[listaU].attributes)[y] + " - " + municipio.Municipality_Desc
                             divs = divs + '</Col>'
                           }
                           else {
@@ -845,7 +845,7 @@ function XmlTree({dataString, dataMunicipios, dataLocalities, dataColonias}) {
                           if(county !== undefined)
                           {
                             divs = divs + '<Col>';
-                            divs = divs + county[0].Description
+                            divs = divs + Object.values(childs[listaU].attributes)[y] + " - " + county[0].Description
                             divs = divs + '</Col>'
                           }
                           else {
@@ -860,7 +860,7 @@ function XmlTree({dataString, dataMunicipios, dataLocalities, dataColonias}) {
                           if(localidades !== undefined)
                           {
                             divs = divs + '<Col>';
-                            divs = divs + localidades.Location_Desc
+                            divs = divs + Object.values(childs[listaU].attributes)[y] + " - " + localidades.Location_Desc
                             divs = divs + '</Col>'
                           }
                           else {
@@ -875,7 +875,7 @@ function XmlTree({dataString, dataMunicipios, dataLocalities, dataColonias}) {
                           if(municipio !== undefined)
                           {
                             divs = divs + '<Col>';
-                            divs = divs + municipio.Municipality_Desc
+                            divs = divs + Object.values(childs[listaU].attributes)[y] + " - " + municipio.Municipality_Desc
                             divs = divs + '</Col>'
                           }
                           else {
@@ -935,7 +935,7 @@ function XmlTree({dataString, dataMunicipios, dataLocalities, dataColonias}) {
                           if(county !== undefined)
                           {
                             divs = divs + '<Col>';
-                            divs = divs + county[0].Description
+                            divs = divs + Object.values(childs[listaU].attributes)[y] + " - " + county[0].Description
                             divs = divs + '</Col>'
                           }
                           else {
@@ -950,7 +950,7 @@ function XmlTree({dataString, dataMunicipios, dataLocalities, dataColonias}) {
                           if(localidades!== undefined)
                           {
                             divs = divs + '<Col>';
-                            divs = divs + localidades.Location_Desc
+                            divs = divs + Object.values(childs[listaU].attributes)[y] + " - " + localidades.Location_Desc
                             divs = divs + '</Col>'
                           }
                           else {
@@ -965,7 +965,7 @@ function XmlTree({dataString, dataMunicipios, dataLocalities, dataColonias}) {
                           if(municipio !== undefined)
                           {
                             divs = divs + '<Col>';
-                            divs = divs + municipio.Municipality_Desc
+                            divs = divs + Object.values(childs[listaU].attributes)[y] + " - " + municipio.Municipality_Desc
                             divs = divs + '</Col>'
                           }
                           else {
@@ -995,7 +995,7 @@ function XmlTree({dataString, dataMunicipios, dataLocalities, dataColonias}) {
                           if(county !== undefined)
                           {
                             divs = divs + '<Col>';
-                            divs = divs + county[0].Description
+                            divs = divs + Object.values(childs[listaU].attributes)[y] + " - " + county[0].Description
                             divs = divs + '</Col>'
                           }
                           else {
@@ -1007,16 +1007,32 @@ function XmlTree({dataString, dataMunicipios, dataLocalities, dataColonias}) {
                         else if(y===4)
                         {
                           var localidades = dataLocalities.find((o) => o.Id_Location === Object.values(childs[listaU].attributes)[y]);
-                          divs = divs + '<Col>';
-                          divs = divs + localidades.Location_Desc
-                          divs = divs + '</Col>'
+                          if(localidades!== undefined)
+                          {
+                            divs = divs + '<Col>';
+                            divs = divs + Object.values(childs[listaU].attributes)[y] + " - " + localidades.Location_Desc
+                            divs = divs + '</Col>'
+                          }
+                          else {
+                            divs = divs + '<Col>';
+                            divs = divs + Object.values(childs[listaU].attributes)[y]
+                            divs = divs + '</Col>'
+                          }
                         }
                         else if(y===5)
                         {
                           var municipio = dataMunicipios.find((o) => o.Id_Municipality === Object.values(childs[listaU].attributes)[y]);
-                          divs = divs + '<Col>';
-                          divs = divs + municipio.Municipality_Desc
-                          divs = divs + '</Col>'
+                          if(municipio !== undefined)
+                          {
+                            divs = divs + '<Col>';
+                            divs = divs + Object.values(childs[listaU].attributes)[y] + " - " + municipio.Municipality_Desc
+                            divs = divs + '</Col>'
+                          }
+                          else {
+                            divs = divs + '<Col>';
+                            divs = divs + Object.values(childs[listaU].attributes)[y]
+                            divs = divs + '</Col>'
+                          }
                         }
                         else {
                           divs = divs + '<Col>';
