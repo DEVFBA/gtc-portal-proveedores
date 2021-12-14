@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Tree from 'react-animated-tree'
 import JsxParser from 'react-jsx-parser'
-import TreeMenu from 'react-simple-tree-menu';
+import Skeleton from '@yisheng90/react-loading';
+//import {store, useGlobalState} from 'state-pool';
 
 
 // reactstrap components
@@ -15,17 +16,30 @@ import {
     Col,
   } from "reactstrap";
 
-function XmlTree({dataString}) {
+
+//store.setState("componente", "");
+
+function XmlTree({dataString, dataMunicipios, dataLocalities, dataColonias}) {
+
+  //Para guardar el token de la sesión
+  const token = localStorage.getItem("Token");
   
   const typeStyles = {
     fontSize: '2em',
     verticalAlign: 'middle'
   }
 
+  //Para obtener los nombres de las colonias del xml
+  var complemento = dataString[0].elements.find( o => o.name === "cfdi:Complemento")
+  var cartaPorte = complemento.elements.find( o => o.name === "cartaporte20:CartaPorte")
+  var ubicaciones = cartaPorte.elements.find( o => o.name === "cartaporte20:Ubicaciones")
+
   var componente = ""
-  recorrerArbol(dataString)
   
-  function recorrerArbol(json)		{
+  recorrerArbol(dataString)
+
+  async function recorrerArbol(json)
+  {
     //console.log("TAMAÑO : " + json.length)
     var type;
     var resultado
@@ -58,6 +72,7 @@ function XmlTree({dataString}) {
       if(nombre !== "cfdi:Concepto" && nombre !== "cfdi:Retencion" && nombre !== "cfdi:Traslado" && nombre !== "cartaporte20:Ubicacion" && nombre !== "cartaporte20:Mercancia" && nombre !== "cartaporte20:Remolque")
       {
         componente = componente + "<Tree  key ='"+json[i].name+i+"' content='"+nombreF+"' style={{ whiteSpace: 'normal' }}>"
+        //setComponente(componente + "<Tree  key ='"+json[i].name+i+"' content='"+nombreF+"' style={{ whiteSpace: 'normal' }}>")
         type = typeof json[i].elements;
         if (type=="undefined")
         {				
@@ -101,6 +116,7 @@ function XmlTree({dataString}) {
               }
           }
           tabla = tabla + "</Table>"
+          //setComponente(componente + tabla)
           componente = componente + tabla
         }
         else{ 
@@ -155,6 +171,7 @@ function XmlTree({dataString}) {
               }
               tabla = tabla + "</Table>"
               componente = componente + tabla
+              //setComponente(componente + tabla)
 
               //Posteriormente vamos a pintar la tabla de Mercancias
               var conceptos = json[i]
@@ -332,6 +349,7 @@ function XmlTree({dataString}) {
               var divs =  divs + '</div>'
               //console.log(divs)
               componente = componente + divs
+              //setComponente(componente + divs)
             }
             else {
               var columnas  = Object.keys(json[i].attributes).length;
@@ -374,6 +392,7 @@ function XmlTree({dataString}) {
                   }
               }
               tabla = tabla + "</Table>"
+              //setComponente(componente + tabla)
               componente = componente + tabla
             }
           }
@@ -612,6 +631,7 @@ function XmlTree({dataString}) {
 
             divs = divs + "</div>"
             //console.log(divs)
+            //setComponente(componente + divs)
             componente = componente + divs
           }
           else if(json[i].name === "cfdi:Retenciones"){
@@ -657,6 +677,7 @@ function XmlTree({dataString}) {
               }
             }
             divs = divs + '</div>'
+            //setComponente(componente + divs)
             componente = componente + divs
           }
           else if(json[i].name === "cfdi:Traslados")
@@ -701,6 +722,7 @@ function XmlTree({dataString}) {
               }
             }
             divs = divs + '</div>'
+            //setComponente(componente + divs)
             componente = componente + divs
           }
           else if(json[i].name === "cartaporte20:Ubicaciones")
@@ -752,9 +774,61 @@ function XmlTree({dataString}) {
                       divs = divs + '<Row className="tree-table-rows-content">'
                       for(var y=0; y< columnas; y++)
                       {
-                        divs = divs + '<Col>';
-                        divs = divs + Object.values(childs[listaU].attributes)[y]
-                        divs = divs + '</Col>'
+                        if(y===3)
+                        {
+                          //console.log(Object.values(childs[listaU].attributes))
+                          //var county = dataZipCodes.find((o) => o.Id_State === Object.values(childs[listaU].attributes)[6] && o.Id_County === Object.values(childs[listaU].attributes)[y]);
+                          var county = dataColonias[x]
+                          //console.log(county)
+                          if(county !== undefined)
+                          {
+                            divs = divs + '<Col>';
+                            divs = divs + county[0].Description
+                            divs = divs + '</Col>'
+                          }
+                          else {
+                            divs = divs + '<Col>';
+                            divs = divs + Object.values(childs[listaU].attributes)[y]
+                            divs = divs + '</Col>'
+                          }
+                        }
+                        else if(y===4)
+                        {
+                          //console.log(dataLocalities)
+                          var localidades = dataLocalities.find((o) => o.Id_Location === Object.values(childs[listaU].attributes)[y]);
+                          //console.log(localidades)
+                          if(localidades !== undefined)
+                          {
+                            divs = divs + '<Col>';
+                            divs = divs + localidades.Location_Desc
+                            divs = divs + '</Col>'
+                          }
+                          else {
+                            divs = divs + '<Col>';
+                            divs = divs + Object.values(childs[listaU].attributes)[y]
+                            divs = divs + '</Col>'
+                          }
+                        }
+                        else if(y===5)
+                        {
+                          var municipio = dataMunicipios.find((o) => o.Id_Municipality === Object.values(childs[listaU].attributes)[y]);
+                          if(municipio !== undefined)
+                          {
+                            divs = divs + '<Col>';
+                            divs = divs + municipio.Municipality_Desc
+                            divs = divs + '</Col>'
+                          }
+                          else {
+                            divs = divs + '<Col>';
+                            divs = divs + Object.values(childs[listaU].attributes)[y]
+                            divs = divs + '</Col>'
+                          }
+                        }
+                        else {
+                          divs = divs + '<Col>';
+                          divs = divs + Object.values(childs[listaU].attributes)[y]
+                          divs = divs + '</Col>'
+                        }
                       }
                       divs = divs + '</Row>'
                     }
@@ -762,9 +836,59 @@ function XmlTree({dataString}) {
                       divs = divs + '<Row className="tree-table-rows-content">'
                       for(var y=0; y< columnas; y++)
                       {
-                        divs = divs + '<Col>';
-                        divs = divs + Object.values(childs[listaU].attributes)[y]
-                        divs = divs + '</Col>'
+                        if(y===3)
+                        {
+                          //console.log(Object.values(childs[listaU].attributes))
+                          //var county = dataZipCodes.find((o) => o.Id_State === Object.values(childs[listaU].attributes)[6] && o.Id_County === Object.values(childs[listaU].attributes)[y]);
+                          var county = dataColonias[x]
+                          //console.log(county)
+                          if(county !== undefined)
+                          {
+                            divs = divs + '<Col>';
+                            divs = divs + county[0].Description
+                            divs = divs + '</Col>'
+                          }
+                          else {
+                            divs = divs + '<Col>';
+                            divs = divs + Object.values(childs[listaU].attributes)[y]
+                            divs = divs + '</Col>'
+                          }
+                        }
+                        else if(y===4)
+                        {
+                          var localidades = dataLocalities.find((o) => o.Id_Location === Object.values(childs[listaU].attributes)[y]);
+                          if(localidades !== undefined)
+                          {
+                            divs = divs + '<Col>';
+                            divs = divs + localidades.Location_Desc
+                            divs = divs + '</Col>'
+                          }
+                          else {
+                            divs = divs + '<Col>';
+                            divs = divs + Object.values(childs[listaU].attributes)[y]
+                            divs = divs + '</Col>'
+                          }
+                        }
+                        else if(y===5)
+                        {
+                          var municipio = dataMunicipios.find((o) => o.Id_Municipality === Object.values(childs[listaU].attributes)[y]);
+                          if(municipio !== undefined)
+                          {
+                            divs = divs + '<Col>';
+                            divs = divs + municipio.Municipality_Desc
+                            divs = divs + '</Col>'
+                          }
+                          else {
+                            divs = divs + '<Col>';
+                            divs = divs + Object.values(childs[listaU].attributes)[y]
+                            divs = divs + '</Col>'
+                          }
+                        }
+                        else {
+                          divs = divs + '<Col>';
+                          divs = divs + Object.values(childs[listaU].attributes)[y]
+                          divs = divs + '</Col>'
+                        }
                       }
                       divs = divs + '</Row>'
                     }
@@ -802,9 +926,59 @@ function XmlTree({dataString}) {
                       divs = divs + '<Row className="tree-table-rows-content">'
                       for(var y=0; y< columnas; y++)
                       {
-                        divs = divs + '<Col>';
-                        divs = divs + Object.values(childs[listaU].attributes)[y]
-                        divs = divs + '</Col>'
+                        if(y===3)
+                        {
+                          //console.log(Object.values(childs[listaU].attributes))
+                          //var county = dataZipCodes.find((o) => o.Id_State === Object.values(childs[listaU].attributes)[6] && o.Id_County === Object.values(childs[listaU].attributes)[y]);
+                          var county = dataColonias[x]
+                          //console.log(county)
+                          if(county !== undefined)
+                          {
+                            divs = divs + '<Col>';
+                            divs = divs + county[0].Description
+                            divs = divs + '</Col>'
+                          }
+                          else {
+                            divs = divs + '<Col>';
+                            divs = divs + Object.values(childs[listaU].attributes)[y]
+                            divs = divs + '</Col>'
+                          }
+                        }
+                        else if(y===4)
+                        {
+                          var localidades = dataLocalities.find((o) => o.Id_Location === Object.values(childs[listaU].attributes)[y]);
+                          if(localidades!== undefined)
+                          {
+                            divs = divs + '<Col>';
+                            divs = divs + localidades.Location_Desc
+                            divs = divs + '</Col>'
+                          }
+                          else {
+                            divs = divs + '<Col>';
+                            divs = divs + Object.values(childs[listaU].attributes)[y]
+                            divs = divs + '</Col>'
+                          }
+                        }
+                        else if(y===5)
+                        {
+                          var municipio = dataMunicipios.find((o) => o.Id_Municipality === Object.values(childs[listaU].attributes)[y]);
+                          if(municipio !== undefined)
+                          {
+                            divs = divs + '<Col>';
+                            divs = divs + municipio.Municipality_Desc
+                            divs = divs + '</Col>'
+                          }
+                          else {
+                            divs = divs + '<Col>';
+                            divs = divs + Object.values(childs[listaU].attributes)[y]
+                            divs = divs + '</Col>'
+                          }
+                        }
+                        else {
+                          divs = divs + '<Col>';
+                          divs = divs + Object.values(childs[listaU].attributes)[y]
+                          divs = divs + '</Col>'
+                        }
                       }
                       divs = divs + '</Row>'
                     }
@@ -812,9 +986,43 @@ function XmlTree({dataString}) {
                       divs = divs + '<Row className="tree-table-rows-content">'
                       for(var y=0; y< columnas; y++)
                       {
-                        divs = divs + '<Col>';
-                        divs = divs + Object.values(childs[listaU].attributes)[y]
-                        divs = divs + '</Col>'
+                        if(y===3)
+                        {
+                          //console.log(Object.values(childs[listaU].attributes))
+                          //var county = dataZipCodes.find((o) => o.Id_State === Object.values(childs[listaU].attributes)[6] && o.Id_County === Object.values(childs[listaU].attributes)[y]);
+                          var county = dataColonias[x]
+                          //console.log(county)
+                          if(county !== undefined)
+                          {
+                            divs = divs + '<Col>';
+                            divs = divs + county[0].Description
+                            divs = divs + '</Col>'
+                          }
+                          else {
+                            divs = divs + '<Col>';
+                            divs = divs + Object.values(childs[listaU].attributes)[y]
+                            divs = divs + '</Col>'
+                          }
+                        }
+                        else if(y===4)
+                        {
+                          var localidades = dataLocalities.find((o) => o.Id_Location === Object.values(childs[listaU].attributes)[y]);
+                          divs = divs + '<Col>';
+                          divs = divs + localidades.Location_Desc
+                          divs = divs + '</Col>'
+                        }
+                        else if(y===5)
+                        {
+                          var municipio = dataMunicipios.find((o) => o.Id_Municipality === Object.values(childs[listaU].attributes)[y]);
+                          divs = divs + '<Col>';
+                          divs = divs + municipio.Municipality_Desc
+                          divs = divs + '</Col>'
+                        }
+                        else {
+                          divs = divs + '<Col>';
+                          divs = divs + Object.values(childs[listaU].attributes)[y]
+                          divs = divs + '</Col>'
+                        }
                       }
                       divs = divs + '</Row>'
                     }
@@ -823,6 +1031,7 @@ function XmlTree({dataString}) {
               }
             }
             divs = divs + '</div>'
+            //setComponente(componente + divs)
             componente = componente + divs
           }
           else if(json[i].name === "cartaporte20:Remolques")
@@ -881,23 +1090,31 @@ function XmlTree({dataString}) {
                 }
               }
               divs =  divs + '</div>'
+              //setComponente(componente + divs)
               componente = componente + divs
           }
           resultado = recorrerArbol(json[i].elements);
         }
-        
+        //setComponente(componente + "</Tree>")
         componente = componente + "</Tree>"
       }
     }
   }
-  return (
+
+  return componente.length === 0 ?(
    <div>
+      <Skeleton height={25} />
+      <Skeleton height="25px" />
+      <Skeleton height="3rem" />
+    </div>
+  ) : (
+    <div>
       <JsxParser
           components={{ Tree, Table, Row, Col }}
           jsx={componente}
       />
-    </div>
-  );
+   </div>
+  )
 }
 
 export default XmlTree;

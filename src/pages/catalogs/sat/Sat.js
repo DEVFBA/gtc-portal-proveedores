@@ -454,9 +454,10 @@ function CatalogosSat({autoCloseAlert}) {
 
     //Nos servirá para pasarle los datos a la tabla ya descargados
     function updateData(datos){
+        console.log(datos.CRUD_References)
         const params = {
-        pvOptionCRUD: "R",
-        pSpCatalog : datos.CRUD_References,
+            pvOptionCRUD: "R",
+            pSpCatalog : datos.CRUD_References,
         };
 
         var url = new URL(`http://129.159.99.152/develop-vendors/api/cat-catalogs/catalog`);
@@ -473,7 +474,8 @@ function CatalogosSat({autoCloseAlert}) {
             return response.ok ? response.json() : Promise.reject();
         })
         .then(function(data) {
-        setDataCatalog(data)
+            console.log(data)
+            setDataCatalog(data)
         })
         .catch(function(err) {
             alert("No se pudo consultar la informacion de los catálogos" + err);
@@ -484,7 +486,6 @@ function CatalogosSat({autoCloseAlert}) {
     function updateAddData(){
         setDataCatalog([])
         var datos = dataTable.find(o => o.Component === catalog)
-    
         const params = {
         pvOptionCRUD: "R",
         pSpCatalog : datos.CRUD_References,

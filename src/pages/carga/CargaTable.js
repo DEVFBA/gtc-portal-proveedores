@@ -11,6 +11,7 @@ function CargaTable({dataTable, ip, autoCloseAlert, updateAddData, workflowTypes
     const history = useHistory();
     const token = localStorage.getItem("Token");
     const role = localStorage.getItem("Id_Role");
+    const vendor = localStorage.getItem("Id_Vendor");
 
     const [dataState, setDataState] = useState(
         dataTable.map((prop, key) => {
@@ -45,21 +46,23 @@ function CargaTable({dataTable, ip, autoCloseAlert, updateAddData, workflowTypes
                       <i className="fa fa-external-link-square" />
                     </button>
                   </abbr>
-                  <abbr title="Actualizar Estatus">
-                    <button
-                      onClick={() => {
-                        let obj = dataState.find((o) => o.id === key);
-                        //console.log(obj)
-                        getRegistro(key);
-                        toggleModalAddRecord()
-                      }}
-                      color="warning"
-                      size="sm"
-                      className="btn-icon btn-link edit"
-                    >
-                      <i className="fa fa-edit" />
-                    </button>
-                  </abbr>
+                  {vendor === "0" ? (
+                      <abbr title="Actualizar Estatus">
+                        <button
+                            onClick={() => {
+                            let obj = dataState.find((o) => o.id === key);
+                            //console.log(obj)
+                            getRegistro(key);
+                            toggleModalAddRecord()
+                            }}
+                            color="warning"
+                            size="sm"
+                            className="btn-icon btn-link edit"
+                        >
+                            <i className="fa fa-edit" />
+                        </button>
+                    </abbr>
+                  ):null}
                 </div>
               ),
             };

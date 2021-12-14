@@ -470,6 +470,20 @@ function Admin(props) {
               }
             )
           }
+          else if(params.pvIdRole == "CARRIVENDO")
+          {
+            routesAux2.push(
+              {
+                collapse: false,
+                path: "/xml-tree/:uUID/",
+                name: "Árbol XML",
+                icon: 'dashboard',
+                component: "CargaXML",
+                layout: ambiente + "/admin",
+                views: []
+              }
+            )
+          }
 
           //FINALIZAMOS RUTAS PARA EL MENU
           setDbRoutes([

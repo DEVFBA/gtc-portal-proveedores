@@ -30,6 +30,7 @@ import {
 
 // react plugin used to create datetimepicker
 import ReactDatetime from "react-datetime";
+import Select from "react-select";
 import { param } from "jquery";
 
 function Carga({autoCloseAlert}) {
@@ -113,12 +114,15 @@ function Carga({autoCloseAlert}) {
   const [dateTo, setDateTo] = useState("")
   const [dateFrom, setDateFrom] = useState("")
   const [filterUuid, setFilterUuid] = useState("")
+  const [filterStatus, setFilterStatus] = useState("")
 
   //Para resetear el input file al enviar el archivo
   const [theInputKey, setTheInputKey] = useState("")
 
   //Para verificar si no hay datos en carta porte
   const [dataFind, setDataFind] = useState(true)
+
+  const [dataWorkFlowStatus, setDataWorkflowStatus] = useState([]);
   
   const getData = async () => {
     //const res = await axios.get('https://geolocation-db.com/json/')
@@ -196,6 +200,7 @@ function Carga({autoCloseAlert}) {
           return response.ok ? response.json() : Promise.reject();
       })
       .then(function(data) {
+        console.log(data)
         setDataCartaPorte(data)
         setDataFind(false)
       })
@@ -206,7 +211,7 @@ function Carga({autoCloseAlert}) {
     else {
       //Para guardar el valor del filterRfcEmisor
       setFilterRfcEmisor(vendorId.Tax_Id)
-      var url = new URL(`http://localhost:8091/api/carta-porte/vendor/${vendorId.Tax_Id}`);
+      var url = new URL(`http://129.159.99.152/develop-vendors/api/carta-porte/vendor/${vendorId.Tax_Id}`);
       fetch(url, {
         method: "GET",
         headers: {
@@ -218,6 +223,7 @@ function Carga({autoCloseAlert}) {
           return response.ok ? response.json() : Promise.reject();
       })
       .then(function(data) {
+        
         setDataCartaPorte(data)
         setDataFind(false)
       })
@@ -399,6 +405,61 @@ useEffect(() => {
   });
 }, []);
 
+useEffect(() => {
+  //Aqui vamos a descargar la lista de general parameters para revisar los workflow type
+  const params = {
+    pvOptionCRUD: "R"
+  };
+
+  var url = new URL(`http://129.159.99.152/develop-vendors/api/cat-workflow-status/`);
+
+  Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
+
+  fetch(url, {
+      method: "GET",
+      headers: {
+          "access-token": token,
+          "Content-Type": "application/json",
+      }
+  })
+  .then(function(response) {
+      return response.ok ? response.json() : Promise.reject();
+  })
+  .then(function(data) {
+    console.log(data)
+    data.sort(function (a, b) {
+      if (a.Long_Desc > b.Long_Desc) {
+        return 1;
+      }
+      if (a.Long_Desc < b.Long_Desc) {
+        return -1;
+      }
+      // a must be equal to b
+      return 0;
+    });
+
+    var dataAux = []
+    var contador = 0
+    for(var i=0; i< data.length; i++)
+    {
+      if(data[i].Id_Workflow_Type === "WF-CP")
+      {
+        dataAux[contador] = data[i]
+        contador++
+      }
+    }
+    var dataSelect = []
+    for(var j=0; j<dataAux.length; j++)
+    {
+      dataSelect[j] = {value: dataAux[j].Id_Workflow_Status, label: dataAux[j].Long_Desc}
+    }
+    setDataWorkflowStatus(dataSelect)
+  })
+  .catch(function(err) {
+      alert("No se pudo consultar la informacion de los workflow tracker" + err);
+  });
+}, []);
+
 function deleteClick(){
   setDataFind(true)
   //Aqui vamos a descargar la lista de registros de la base de datos por primera vez
@@ -406,6 +467,7 @@ function deleteClick(){
   setFilterSerie("")
   setFilterFolio("")
   setFilterUuid("")
+  setFilterStatus({})
 
   var vendorId = dataVendors.find( o => o.Id_Vendor === parseInt(vendor,10))
     if(vendor==="0")
@@ -438,7 +500,7 @@ function deleteClick(){
       });
     }
     else {
-      var url = new URL(`http://localhost:8091/api/carta-porte/vendor/${vendorId.Tax_Id}`);
+      var url = new URL(`http://129.159.99.152/develop-vendors/api/carta-porte/vendor/${vendorId.Tax_Id}`);
       fetch(url, {
         method: "GET",
         headers: {
@@ -1081,7 +1143,7 @@ function preData(file, xml){
       });
     }
     else {
-      var url = new URL(`http://localhost:8091/api/carta-porte/vendor/${vendorId.Tax_Id}`);
+      var url = new URL(`http://129.159.99.152/develop-vendors/api/carta-porte/vendor/${vendorId.Tax_Id}`);
       fetch(url, {
         method: "GET",
         headers: {
@@ -1168,7 +1230,17 @@ function preData(file, xml){
     console.log(finalDate1)
     console.log(finalDate2)
     console.log(filterUuid)*/
+    
 
+    var fStatus;
+    if(filterStatus === undefined)
+    {
+      fStatus = 0
+    }
+    else {
+      fStatus = filterStatus.value;
+    }
+    console.log(filterStatus)
     const params = {
       pvOptionCRUD : "R",
       pvUUID : filterUuid,
@@ -1177,10 +1249,11 @@ function preData(file, xml){
       pvSerie : filterSerie,
       pvFolio : filterFolio,
       pvInvoiceDate : finalDate1,
-      pvInvoiceDateFinal : finalDate2
+      pvInvoiceDateFinal : finalDate2,
+      piIdWorkflowStatus : fStatus
     };
     setDataFind(false)
-    var url = new URL(`http://129.159.99.152/develop-vendors/api/carta-porte/filter`);
+    var url = new URL(`http://localhost:8091/api/carta-porte/filter`);
 
     fetch(url, {
         method: "POST",
@@ -1195,6 +1268,7 @@ function preData(file, xml){
     })
     .then(function(data) {
     //setLoaded(true)
+      console.log(data)
       setDataCartaPorte(data)
       setDataFind(false)
     })
@@ -1256,16 +1330,7 @@ function preData(file, xml){
             </CardHeader>
             <CardBody>
               <Form>
-                  <Row className="justify-content-center">
-                      <Col sm = "10">
-
-                      </Col>
-                      <Col sm = "2">
-                          <Button className="btn-outline" color="primary" onClick={deleteClick}>
-                            <i className="ion-android-delete btn-icon" />
-                            Borrar Filtros
-                          </Button>
-                      </Col>
+                    <Row className="justify-content-center">
                       <Col sm = "3">
                         <FormGroup>
                             <label>RFC Compañía</label>
@@ -1335,6 +1400,8 @@ function preData(file, xml){
                             />
                         </FormGroup>
                       </Col>
+                    </Row>
+                    <Row className="justify-content-center">
                       <Col sm = "3">
                         <FormGroup >
                             <label>UUID</label>
@@ -1380,10 +1447,40 @@ function preData(file, xml){
                         />
                       </Col>
                       <Col sm = "3">
+                        <FormGroup>
+                            <Label for="exampleSelect">Estatus </Label>
+                            <Select
+                                name=""
+                                className="react-select"
+                                placeholder="Selecciona un estatus"
+                                classNamePrefix="react-select"
+                                value={filterStatus}
+                                onChange={(value) => {
+                                    setFilterStatus(value)
+                                }}
+                                options = {dataWorkFlowStatus}
+                            />
+                        </FormGroup>
+                      </Col>
+                  </Row>
+                  <Row className="justify-content-center">
+                      <Col sm = "3">
+
+                      </Col>
+                      <Col sm = "3">
+                        <Button className="btn-outline buttons btn-gtc btn-filter" color="primary" onClick={deleteClick}>
+                          <i className="ion-android-delete btn-icon" />
+                          Borrar Filtros
+                        </Button>
+                      </Col>
+                      <Col sm = "3">
                         <Button className="buttons btn-gtc btn-filter" color="primary" onClick={filterClick}>
                           <i className="fa fa-filter btn-icon" />
                           Filtrar
                         </Button>
+                      </Col>
+                      <Col sm = "3">
+
                       </Col>
                   </Row>
               </Form>
@@ -1449,15 +1546,6 @@ function preData(file, xml){
             <CardBody>
               <Form>
                   <Row className="justify-content-center">
-                      <Col sm = "10">
-
-                      </Col>
-                      <Col sm = "2">
-                          <Button className="btn-outline" color="primary" onClick={deleteClick}>
-                            <i className="ion-android-delete btn-icon" />
-                            Borrar Filtros
-                          </Button>
-                      </Col>
                       <Col sm = "3">
                         <FormGroup>
                             <label>RFC Compañía</label>
@@ -1527,6 +1615,8 @@ function preData(file, xml){
                             />
                         </FormGroup>
                       </Col>
+                    </Row> 
+                    <Row className="justify-content-center">
                       <Col sm = "3">
                         <FormGroup >
                             <label>UUID</label>
@@ -1572,10 +1662,40 @@ function preData(file, xml){
                         />
                       </Col>
                       <Col sm = "3">
+                        <FormGroup>
+                            <Label for="exampleSelect">Estatus </Label>
+                            <Select
+                                name=""
+                                className="react-select"
+                                placeholder="Selecciona un estatus"
+                                classNamePrefix="react-select"
+                                value={filterStatus}
+                                onChange={(value) => {
+                                    setFilterStatus(value)
+                                }}
+                                options = {dataWorkFlowStatus}
+                            />
+                        </FormGroup>
+                      </Col>
+                  </Row>
+                  <Row className="justify-content-center">
+                      <Col sm = "3">
+
+                      </Col>
+                      <Col sm = "3">
+                        <Button className="btn-outline buttons btn-gtc btn-filter" color="primary" onClick={deleteClick}>
+                          <i className="ion-android-delete btn-icon" />
+                          Borrar Filtros
+                        </Button>
+                      </Col>
+                      <Col sm = "3">
                         <Button className="buttons btn-gtc btn-filter" color="primary" onClick={filterClick}>
                           <i className="fa fa-filter btn-icon" />
                           Filtrar
                         </Button>
+                      </Col>
+                      <Col sm = "3">
+
                       </Col>
                   </Row>
                   &nbsp;

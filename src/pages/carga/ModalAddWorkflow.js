@@ -56,6 +56,7 @@ function ModalAddWorkflow({modalAddRecord, setModalAddRecord, record, ip, autoCl
     },[]);
 
     useEffect(() => {
+        console.log(record.workflowTracker)
         setVendor(record.emisor)
         setSerie(record.serie)
         setFolio(record.folio)
@@ -253,7 +254,6 @@ function ModalAddWorkflow({modalAddRecord, setModalAddRecord, record, ip, autoCl
                                 value={workflowStatusChange}
                                 onChange={(value) => {
                                     setWorkflowStatusChange(value)
-                                    console.log("enrtres")
                                     setWorkflowStatusChangeState("has-success");
                                 }}
                                 options={workflowStatusOptions}
