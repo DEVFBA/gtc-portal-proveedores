@@ -219,7 +219,7 @@ function CargaXML({pathFile}) {
         pvIdCounty : ubicacionesF[i].elements[0].attributes.Colonia,
       };
 
-      var url = new URL(`http://localhost:8091/api/cat-catalogs/zip-code-county/`);
+      var url = new URL(`http://129.159.99.152/develop-vendors/api/cat-catalogs/zip-code-county/`);
       Object.keys(zp).forEach(key => url.searchParams.append(key, zp[key]))
       await fetch(url, {
           method: "GET",

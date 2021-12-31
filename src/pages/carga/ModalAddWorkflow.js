@@ -177,7 +177,7 @@ function ModalAddWorkflow({modalAddRecord, setModalAddRecord, record, ip, autoCl
     }
 
     return (
-        <Modal isOpen={modalAddRecord} toggle={handleModalClick} size="lg">
+        <Modal isOpen={modalAddRecord} toggle={handleModalClick} size="lg" backdrop={false}>
            <div className="modal-header justify-content-center">
                 <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={handleModalClick}>
                     <span aria-hidden="true">×</span>

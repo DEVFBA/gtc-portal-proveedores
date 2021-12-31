@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ConnectedDatePicker from '../../forms/react-datetime/ConnectedDatePicker'
 import 'bootstrap/dist/js/bootstrap.bundle.min';
+//import ModalAddRequester from "./ModalAddRequester";
 
 import convert from 'xml-js';
 import axios from 'axios'
@@ -35,10 +36,15 @@ import { param } from "jquery";
 
 function Carga({autoCloseAlert}) {
 
-  //Para guardar el archivo
+  //Para guardar el archivo XML
   const [xml, setXml] = useState(null);
 
   const [xmlState, setXmlState] = useState("")
+
+  //Para guardar el archivo PDF
+  const [pdf, setPdf] = useState(null);
+
+  const [pdfState, setPdfState] = useState("")
 
   //Para guardar el token de la sesión
   const token = localStorage.getItem("Token");
@@ -49,20 +55,32 @@ function Carga({autoCloseAlert}) {
   //Para guardar los datos de los roles
   const [dataCartaPorte, setDataCartaPorte] = useState([]);
 
-  //Para guardar el path de los documentos
+  //Para guardar el path de los documentos XML
   const [pathFile, setPathFile] = useState("");
+
+  //Para guardar el path de los documentos PDF
+  const [pathFilePDF, setPathFilePDF] = useState("");
+
+  //Para ver si es necesario subir el archivo PDF
+  const [pdfRequired, setPdfRequired] = useState();
 
   //Para guardar los workflow types
   const [workflowTypes, setWorflowTypes] = useState([]);
 
   //Para guardar la direccion IP del usuario
   const [ip, setIP] = useState("");
-
-  //Para guardar el estado del documento
+ 
+  //Para guardar el estado del documento XML
   const [fileState, setFileState] = useState(null);
 
-  //Para guardar el documento como tal
+  //Para guardar el estado del documento
+  const [fileStatePdf, setFileStatePdf] = useState(null);
+
+  //Para guardar el documento como tal XML
   const [fileUpload, setFileUpload] = useState();
+
+  //Para guardar el documento como tal PDF
+  const [fileUploadPdf, setFileUploadPdf] = useState();
 
   //Para guardar el UUID del documento
   const [uuid, setUuid] =  useState("");
@@ -116,13 +134,22 @@ function Carga({autoCloseAlert}) {
   const [filterUuid, setFilterUuid] = useState("")
   const [filterStatus, setFilterStatus] = useState("")
 
-  //Para resetear el input file al enviar el archivo
+  //Para resetear el input file al enviar el archivo XML
   const [theInputKey, setTheInputKey] = useState("")
+
+  //Para resetear el input file al enviar el archivo XML
+  const [theInputKeyPdf, setTheInputKeyPdf] = useState("")
 
   //Para verificar si no hay datos en carta porte
   const [dataFind, setDataFind] = useState(true)
 
   const [dataWorkFlowStatus, setDataWorkflowStatus] = useState([]);
+
+  //Para agregar el número de solicitud
+  const [requester, setRequester] = useState();
+  const [requesterState, setRequesterState] = useState("");
+
+  const [modalAddRecord, setModalAddRecord] = useState(false);
   
   const getData = async () => {
     //const res = await axios.get('https://geolocation-db.com/json/')
@@ -154,7 +181,7 @@ function Carga({autoCloseAlert}) {
         pvOptionCRUD: "R"
       };
 
-      var url = new URL(`http://129.159.99.152/develop-vendors/api/vendors/`);
+      var url = new URL(`http://localhost:8091/api/vendors/`);
 
       Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
 
@@ -185,7 +212,7 @@ function Carga({autoCloseAlert}) {
         pvOptionCRUD: "R"
       };
   
-      var url = new URL(`http://129.159.99.152/develop-vendors/api/carta-porte/`);
+      var url = new URL(`http://localhost:8091/api/invoices/`);
   
       Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
   
@@ -211,7 +238,7 @@ function Carga({autoCloseAlert}) {
     else {
       //Para guardar el valor del filterRfcEmisor
       setFilterRfcEmisor(vendorId.Tax_Id)
-      var url = new URL(`http://129.159.99.152/develop-vendors/api/carta-porte/vendor/${vendorId.Tax_Id}`);
+      var url = new URL(`http://localhost:8091/api/invoices/vendor/${vendorId.Tax_Id}`);
       fetch(url, {
         method: "GET",
         headers: {
@@ -233,43 +260,13 @@ function Carga({autoCloseAlert}) {
     }
   }
 
-  /*useEffect(() => {
-    //Aqui vamos a descargar la lista de registros de la base de datos por primera vez
-    const params = {
-      pvOptionCRUD: "R"
-    };
-
-    var url = new URL(`http://129.159.99.152/develop-vendors/api/carta-porte/`);
-
-    Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
-
-    fetch(url, {
-        method: "GET",
-        headers: {
-            "access-token": token,
-            "Content-Type": "application/json",
-        }
-    })
-    .then(function(response) {
-        return response.ok ? response.json() : Promise.reject();
-    })
-    .then(function(data) {
-      setDataCartaPorte(data)
-      console.log(dataVendors)
-      setDataFind(false)
-    })
-    .catch(function(err) {
-        alert("No se pudo consultar la informacion de carta porte" + err);
-    });
-  }, []);*/
-
 useEffect(() => {
   //Aqui vamos a descargar la lista de companies de la base de datos
   const params = {
     pvOptionCRUD: "R"
   };
 
-  var url = new URL(`http://129.159.99.152/develop-vendors/api/companies/`);
+  var url = new URL(`http://localhost:8091/api/companies/`);
 
   Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
 
@@ -297,7 +294,7 @@ useEffect(() => {
     pvOptionCRUD: "R"
   };
 
-  var url = new URL(`http://129.159.99.152/develop-vendors/api/companies-vendors/`);
+  var url = new URL(`http://localhost:8091/api/companies-vendors/`);
 
   Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
 
@@ -325,7 +322,7 @@ useEffect(() => {
     pvOptionCRUD: "R"
   };
 
-  var url = new URL(`http://129.159.99.152/develop-vendors/api/general-parameters/`);
+  var url = new URL(`http://localhost:8091/api/general-parameters/`);
 
   Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
 
@@ -340,8 +337,14 @@ useEffect(() => {
       return response.ok ? response.json() : Promise.reject();
   })
   .then(function(data) {
-      var aux = data.find( o => o.Id_Catalog === 8 )
-      setPathFile(aux.Value)
+      var xmlPath = data.find( o => o.Id_Catalog === 8 )
+      setPathFile(xmlPath.Value)
+
+      var pdfPath = data.find( o => o.Id_Catalog === 10 )
+      setPathFilePDF(pdfPath.Value)
+
+      var pdfReq = data.find( o => o.Id_Catalog === 11 )
+      setPdfRequired(parseInt(pdfReq.Value, 10))
   })
   .catch(function(err) {
       alert("No se pudo consultar la informacion de los general parameters" + err);
@@ -354,7 +357,7 @@ useEffect(() => {
     pvOptionCRUD: "R"
   };
 
-  var url = new URL(`http://129.159.99.152/develop-vendors/api/cat-workflow-type/`);
+  var url = new URL(`http://localhost:8091/api/cat-workflow-type/`);
 
   Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
 
@@ -383,7 +386,7 @@ useEffect(() => {
     pvOptionCRUD: "R"
   };
 
-  var url = new URL(`http://129.159.99.152/develop-vendors/api/workflow-tracker/`);
+  var url = new URL(`http://localhost:8091/api/workflow-tracker/`);
 
   Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
 
@@ -411,7 +414,7 @@ useEffect(() => {
     pvOptionCRUD: "R"
   };
 
-  var url = new URL(`http://129.159.99.152/develop-vendors/api/cat-workflow-status/`);
+  var url = new URL(`http://localhost:8091/api/cat-workflow-status/`);
 
   Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
 
@@ -460,6 +463,15 @@ useEffect(() => {
   });
 }, []);
 
+function toggleModalAddRecord(){
+  if(modalAddRecord == false){
+    setModalAddRecord(true);
+  }
+  else{
+    setModalAddRecord(false);
+  }
+}
+
 function deleteClick(){
   setDataFind(true)
   //Aqui vamos a descargar la lista de registros de la base de datos por primera vez
@@ -477,7 +489,7 @@ function deleteClick(){
         pvOptionCRUD: "R"
       };
   
-      var url = new URL(`http://129.159.99.152/develop-vendors/api/carta-porte/`);
+      var url = new URL(`http://localhost:8091/api/invoices/`);
   
       Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
   
@@ -500,7 +512,7 @@ function deleteClick(){
       });
     }
     else {
-      var url = new URL(`http://129.159.99.152/develop-vendors/api/carta-porte/vendor/${vendorId.Tax_Id}`);
+      var url = new URL(`http://localhost:8091/api/invoices/vendor/${vendorId.Tax_Id}`);
       fetch(url, {
         method: "GET",
         headers: {
@@ -526,7 +538,13 @@ function resetFileInput() {
   setTheInputKey(randomString)
 }
 
+function resetFileInputPdf() {
+  let randomString = Math.random().toString(36);
+  setTheInputKeyPdf(randomString)
+}
+
 function registerClick(){
+  console.log(pdfRequired)
   event.preventDefault();
   if(xml !== null)
   {
@@ -536,20 +554,77 @@ function registerClick(){
     reader.onloadend = () => { 
       setFileState(file);
       setFileUpload(reader.result)
-      preData(reader.result, xml)
+      //preData(reader.result, xml)
     };
     if (file) {
       reader.readAsDataURL(file);
+    }
+
+    if(pdfRequired === 1)
+    {
+      if(pdf !== null)
+      {
+        let reader2 = new FileReader();
+        let file2 = pdf;
+
+        reader2.onloadend = () => { 
+          setFileStatePdf(file2)
+          setFileUploadPdf(reader2.result)
+          //console.log(reader.result)
+          //preData(reader.result, xml)
+        };
+        if (file2) {
+          reader2.readAsDataURL(file2);
+        }
+        preData()
+      }
+      else {
+        if (pdfState !== "has-success") {
+          setPdfState("text-danger");
+        }
+      }
+    }
+    else {
+      if(pdf !== null)
+      {
+        let reader2 = new FileReader();
+        let file2 = pdf;
+
+        reader2.onloadend = () => { 
+          setFileStatePdf(file2)
+          setFileUploadPdf(reader2.result)
+          //console.log(reader.result)
+          //preData(reader.result, xml)
+        };
+        if (file2) {
+          reader2.readAsDataURL(file2);
+        }
+        preData()
+      }
+    }
+    if(requesterState !== "has-success")
+    {
+      setRequesterState("text-danger");
     }
   }
   else {
     if (xmlState !== "has-success") {
       setXmlState("text-danger");
     }
+    if(requesterState !== "has-success")
+    {
+      setRequesterState("text-danger");
+    }
+    if (pdfRequired === 1) {
+      if (pdfState !== "has-success") {
+        setPdfState("text-danger");
+      }
+    }
   }
 }
 
-function preData(file, xml){
+function preData(){
+  
   //1. Leemos los datos del xml que nos serviran para el SP
   let fileReader = new FileReader();
   fileReader.readAsText(xml);
@@ -704,7 +779,6 @@ function preData(file, xml){
               if(jsonData.elements[0].attributes.Folio === undefined)
               {
                 var params = {
-                  file : file,
                   uuid: uuid,
                   vendorId: vendorId, 
                   companyId: companyId,
@@ -722,7 +796,6 @@ function preData(file, xml){
               }
               else{
                 var params = {
-                  file : file,
                   uuid: uuid,
                   vendorId: vendorId, 
                   companyId: companyId,
@@ -741,7 +814,6 @@ function preData(file, xml){
             }
             else {
               var params = {
-                file : file,
                 uuid: uuid,
                 vendorId: vendorId, 
                 companyId: companyId,
@@ -782,7 +854,6 @@ function preData(file, xml){
             if(jsonData.elements[0].attributes.Folio === undefined)
             {
               var params = {
-                file : file,
                 uuid: uuid,
                 vendorId: vendorId, 
                 companyId: companyId,
@@ -800,7 +871,6 @@ function preData(file, xml){
             }
             else{
               var params = {
-                file : file,
                 uuid: uuid,
                 vendorId: vendorId, 
                 companyId: companyId,
@@ -819,7 +889,6 @@ function preData(file, xml){
           }
           else {
             var params = {
-              file : file,
               uuid: uuid,
               vendorId: vendorId, 
               companyId: companyId,
@@ -855,7 +924,7 @@ function preData(file, xml){
         pvZip_Code: params.zipCodes[i].elements[0].attributes.CodigoPostal
       };
   
-      var url = new URL(`http://129.159.99.152/develop-vendors/api/cat-catalogs/zip-codes/`);
+      var url = new URL(`http://localhost:8091/api/cat-catalogs/zip-codes/`);
       Object.keys(zp).forEach(key => url.searchParams.append(key, zp[key]))
       await fetch(url, {
           method: "GET",
@@ -1013,19 +1082,19 @@ function preData(file, xml){
    
     if(cadenaError !== "Error. ")
     {
-      idWorkflowStatus = 900
-      idWorkflowStatusChange = 999
+      idWorkflowStatus = 100
+      idWorkflowStatusChange = 990
       workflowComments = cadenaError
     }
     else if(cadenaWarning !== "Precaución. ")
     {
-      idWorkflowStatus = 1
-      idWorkflowStatusChange = 10
+      idWorkflowStatus = 100
+      idWorkflowStatusChange = 950
       workflowComments = cadenaWarning
     }
     else {
-      idWorkflowStatus = 5
-      idWorkflowStatusChange = 10
+      idWorkflowStatus = 100
+      idWorkflowStatusChange = 100
       workflowComments = "CFDI registrado correctamente."
     }
 
@@ -1051,9 +1120,17 @@ function preData(file, xml){
         finalDate2 = "" + year + "" + month + "" + date;
     }
 
-    console.log(finalDate2)
+    let reader = new FileReader();
+    let file = xml;
 
-    const catRegister = {
+    reader.onloadend = () => { 
+      getData64PDF(reader.result, params, finalDate2, idWorkflowStatus, idWorkflowStatusChange, workflowComments)
+    };
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+
+    /*const catRegister = {
       pvUUID: params.uuid,
       piIdCompany: params.companyId,
       piIdVendor: params.vendorId,
@@ -1062,16 +1139,19 @@ function preData(file, xml){
       pvSerie: params.serie,
       pvFolio: params.folio,
       pvInvoiceDate : finalDate2,
+      pvPathFile: pathFile,
+      pvPathFilePDF: pathFilePDF,
+      piRequest_Number : requesterState,
       piIdWorkflowStatus : idWorkflowStatus,
       piIdWorkflowStatusChange : idWorkflowStatusChange,
       pvWorkflowComments : workflowComments,
       user : user,
       pvIP: ip,
       pvFile: params.file,
-      pvPathFile: pathFile
+      pvFilePDF : 
     };
 
-    fetch(`http://129.159.99.152/develop-vendors/api/carta-porte/create/`, {
+    /*fetch(`http://localhost:8091/api/invoices/create/`, {
         method: "POST",
         body: JSON.stringify(catRegister),
         headers: {
@@ -1102,6 +1182,77 @@ function preData(file, xml){
             autoCloseAlert("CFDI cargado con éxito")
           }
       }
+    });*/
+  }
+
+  function getData64PDF(xmlbase64, params, date, idWorkflowStatus, idWorkflowStatusChange, workflowComments)
+  {
+    let reader = new FileReader();
+    let file = pdf;
+
+    reader.onloadend = () => { 
+      sendData(xmlbase64, reader.result, params, date, idWorkflowStatus, idWorkflowStatusChange, workflowComments)
+    };
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  }
+
+  function sendData(xmlbase64, pdfbase64, params, date, idWorkflowStatus, idWorkflowStatusChange, workflowComments)
+  {
+    const catRegister = {
+      pvUUID: params.uuid,
+      piIdCompany: params.companyId,
+      piIdVendor: params.vendorId,
+      pvIdReceiptType: params.idReceiptType,
+      pvIdEntityType: params.entity,
+      pvSerie: params.serie,
+      pvFolio: params.folio,
+      pvInvoiceDate : date,
+      pvPathFile: pathFile,
+      pvPathFilePDF: pathFilePDF,
+      piRequest_Number : parseInt(requester, 10),
+      piIdWorkflowStatus : idWorkflowStatus,
+      piIdWorkflowStatusChange : idWorkflowStatusChange,
+      pvWorkflowComments : workflowComments,
+      user : user,
+      pvIP: ip,
+      pvFile: xmlbase64,
+      pvFilePDF: pdfbase64 
+    };
+
+    fetch(`http://localhost:8091/api/invoices/create/`, {
+        method: "POST",
+        body: JSON.stringify(catRegister),
+        headers: {
+            "access-token": token,
+            "Content-Type": "application/json"
+        }
+    })
+    .then((response) => response.json())
+    .then((data) => {
+        if (data.errors) {
+            console.log("Hubo un error al procesar tu solicitud")
+        }
+        else{
+          if(data[0].Code_Type === "Warning")
+          {
+            resetFileInput()
+            autoCloseAlert(data[0].Code_Message_User)
+          }
+          else if(data[0].Code_Type === "Error")
+          {
+            resetFileInput()
+            autoCloseAlert(data[0].Code_Message_User)
+          }
+          else{
+            //Para actualizar la tabla en componente principal
+            resetFileInput()
+            resetFileInputPdf()
+            updateAddData()
+            autoCloseAlert("CFDI cargado con éxito")
+          }
+      }
     });
   }
 
@@ -1120,7 +1271,7 @@ function preData(file, xml){
         pvOptionCRUD: "R"
       };
   
-      var url = new URL(`http://129.159.99.152/develop-vendors/api/carta-porte/`);
+      var url = new URL(`http://localhost:8091/api/invoices/`);
   
       Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
   
@@ -1143,7 +1294,7 @@ function preData(file, xml){
       });
     }
     else {
-      var url = new URL(`http://129.159.99.152/develop-vendors/api/carta-porte/vendor/${vendorId.Tax_Id}`);
+      var url = new URL(`http://localhost:8091/api/invoices/vendor/${vendorId.Tax_Id}`);
       fetch(url, {
         method: "GET",
         headers: {
@@ -1253,7 +1404,7 @@ function preData(file, xml){
       piIdWorkflowStatus : fStatus
     };
     setDataFind(false)
-    var url = new URL(`http://localhost:8091/api/carta-porte/filter`);
+    var url = new URL(`http://localhost:8091/api/invoices/filter`);
 
     fetch(url, {
         method: "POST",
@@ -1285,7 +1436,7 @@ function preData(file, xml){
             <div className="accordion-item">
               <h2 className="accordion-header" id="headingOne">
                   <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                    Cargar archivo 
+                    Cargar archivos 
                   </button>
               </h2>
               <div id="collapseOne" className="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
@@ -1294,8 +1445,10 @@ function preData(file, xml){
                     <Row> 
                       <Col>
                         <FormGroup className={`form-group ${xmlState}`}>
+                          <h6>Selecciona archivo XML</h6>
                           <Input 
                             className="form-control" 
+                            placeholder="Seleccionar XML"
                             type="file"
                             accept=".xml"
                             key={theInputKey || '' }
@@ -1305,7 +1458,45 @@ function preData(file, xml){
                             }}/>
                           {xmlState === "text-danger" ? (
                             <label className="error">
-                              Selecciona un documento válido.
+                              Selecciona un documento XML válido.
+                            </label>
+                          ) : null}
+                        </FormGroup>
+                      </Col>
+                      <Col>
+                        <FormGroup className={`form-group ${requesterState}`}>
+                          <Label for="exampleSelect">Número de solicitud *</Label>
+                          <Input
+                            name="requester"
+                            type="number"
+                            autoComplete="off"
+                            onChange={(e) => {
+                                setRequester(e.target.value);
+                                setRequesterState("has-success")
+                            }}
+                          />
+                          {requesterState === "text-danger" ? (
+                              <label className="form-text text-danger">Escribe un número de solicitud.</label>
+                          ) : null}
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <FormGroup className={`form-group ${pdfState}`}>
+                          <h6>Selecciona archivo PDF</h6>
+                          <Input 
+                            className="form-control" 
+                            type="file"
+                            accept=".pdf"
+                            key={theInputKeyPdf || '' }
+                            onChange={(e) => {
+                              setPdf(e.target.files[0]);
+                              setPdfState("has-success")
+                            }}/>
+                          {pdfState === "text-danger" ? (
+                            <label className="error">
+                              Selecciona un documento PDF válido.
                             </label>
                           ) : null}
                         </FormGroup>
@@ -1491,6 +1682,8 @@ function preData(file, xml){
           </Card>
         </Col>
       </Row>
+      {/*MODAL PARA AÑADIR REQUESTER*/}
+      {/*<ModalAddRequester modalAddRecord = {modalAddRecord} setModalAddRecord = {setModalAddRecord} setRequester={setRequester} resetFileInput = {resetFileInput} resetFileInputPdf = {resetFileInputPdf}/>*/}
     </div>
   ) : (
     <div className="content">
@@ -1500,17 +1693,19 @@ function preData(file, xml){
             <div className="accordion-item">
               <h2 className="accordion-header" id="headingOne">
                   <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                    Cargar archivo 
+                    Cargar archivos
                   </button>
               </h2>
               <div id="collapseOne" className="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                 <div className="accordion-body">
-                  <Form> 
+                <Form> 
                     <Row> 
                       <Col>
                         <FormGroup className={`form-group ${xmlState}`}>
+                          <h6>Selecciona archivo XML</h6>
                           <Input 
                             className="form-control" 
+                            placeholder="Seleccionar XML"
                             type="file"
                             accept=".xml"
                             key={theInputKey || '' }
@@ -1520,13 +1715,51 @@ function preData(file, xml){
                             }}/>
                           {xmlState === "text-danger" ? (
                             <label className="error">
-                              Selecciona un documento válido.
+                              Selecciona un documento XML válido.
                             </label>
                           ) : null}
                         </FormGroup>
                       </Col>
                       <Col>
-                        <button className="btn btn-primary btn-gtc btn-carta-porte" onClick={registerClick}>
+                        <FormGroup className={`form-group ${requesterState}`}>
+                          <Label for="exampleSelect">Número de solicitud *</Label>
+                          <Input
+                            name="requester"
+                            type="number"
+                            autoComplete="off"
+                            onChange={(e) => {
+                                setRequester(e.target.value);
+                                setRequesterState("has-success")
+                            }}
+                          />
+                          {requesterState === "text-danger" ? (
+                              <label className="form-text text-danger">Escribe un número de solicitud.</label>
+                          ) : null}
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <FormGroup className={`form-group ${pdfState}`}>
+                          <h6>Selecciona archivo PDF</h6>
+                          <Input 
+                            className="form-control" 
+                            type="file"
+                            accept=".pdf"
+                            key={theInputKeyPdf || '' }
+                            onChange={(e) => {
+                              setPdf(e.target.files[0]);
+                              setPdfState("has-success")
+                            }}/>
+                          {pdfState === "text-danger" ? (
+                            <label className="error">
+                              Selecciona un documento PDF válido.
+                            </label>
+                          ) : null}
+                        </FormGroup>
+                      </Col>
+                      <Col>
+                        <button className="btn btn-primary btn-gtc btn-carta-porte btn-lg btn-block" onClick={registerClick}>
                           <i className="ion-ios-upload-outline btn-icon"/>
                           Cargar CFDI
                         </button>
@@ -1712,6 +1945,8 @@ function preData(file, xml){
           </Card>
         </Col>
       </Row>
+      {/*MODAL PARA AÑADIR REQUESTER*/}
+      {/*<ModalAddRequester modalAddRecord = {modalAddRecord} setModalAddRecord = {setModalAddRecord} setRequester={setRequester} resetFileInput = {resetFileInput} resetFileInputPdf = {resetFileInputPdf}/>*/}
     </div>
   )
 }
