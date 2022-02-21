@@ -6,8 +6,8 @@ import { Link, useHistory } from "react-router-dom";
 import ModalAddWorkflow from "./ModalAddWorkflow.js";
 //import ModalUpdateUser from "./ModalUpdateUser.js";
 
-function CargaTable({dataTable, ip, autoCloseAlert, updateAddData, workflowTypes, workflowTracker}) {
-    const ambiente = "/DEV-Vendors"
+function CargaTable({dataTable, ip, autoCloseAlert, updateAddData, workflowTypes, workflowTracker, estatusCarga}) {
+    const ambiente = process.env.REACT_APP_ENVIRONMENT
     const history = useHistory();
     const token = localStorage.getItem("Token");
     const role = localStorage.getItem("Id_Role");
@@ -15,6 +15,8 @@ function CargaTable({dataTable, ip, autoCloseAlert, updateAddData, workflowTypes
 
     const [dataState, setDataState] = useState(
         dataTable.map((prop, key) => {
+            console.log(prop)
+            console.log(estatusCarga)
             return {
               id: key,
               taxId: prop.Company_RFC,
@@ -49,17 +51,47 @@ function CargaTable({dataTable, ip, autoCloseAlert, updateAddData, workflowTypes
                   {vendor === "0" ? (
                       <abbr title="Actualizar Estatus">
                         <button
-                            onClick={() => {
-                            let obj = dataState.find((o) => o.id === key);
-                            //console.log(obj)
-                            getRegistro(key);
-                            toggleModalAddRecord()
-                            }}
+                            /*onClick={() => {
+                                let obj = dataState.find((o) => o.id === key);
+                                //console.log(obj)
+                                getRegistro(key);
+                                toggleModalAddRecord()
+                            }}*/
                             color="warning"
                             size="sm"
                             className="btn-icon btn-link edit"
                         >
                             <i className="fa fa-edit" />
+                        </button>
+                    </abbr>
+                  ):null}
+                  {prop.Id_Workflow_Status === parseInt(estatusCarga[0],10) ? (
+                      <abbr title="Carga de evidencias">
+                        <button
+                            onClick={() => {
+                                let obj = dataState.find((o) => o.id === key); 
+                                history.push(ambiente + `/admin/carga-evidencias/${obj.uuid}/`);
+                            }}
+                            color="warning"
+                            size="sm"
+                            className="btn-icon btn-link edit"
+                        >
+                            <i className="fa fa-cloud-upload" />
+                        </button>
+                    </abbr>
+                  ):null}
+                  {prop.Id_Workflow_Status === parseInt(estatusCarga[1],10) ? (
+                      <abbr title="Carga de evidencias">
+                        <button
+                            onClick={() => {
+                                let obj = dataState.find((o) => o.id === key); 
+                                history.push(ambiente + `/admin/carga-evidencias/${obj.uuid}/`);
+                            }}
+                            color="warning"
+                            size="sm"
+                            className="btn-icon btn-link edit"
+                        >
+                            <i className="fa fa-cloud-upload" />
                         </button>
                     </abbr>
                   ):null}
@@ -77,7 +109,7 @@ function CargaTable({dataTable, ip, autoCloseAlert, updateAddData, workflowTypes
     function getRegistro(key)
     {
         var registro = dataState.find((o) => o.id === key)
-        var url = new URL(`http://129.159.99.152/develop-vendors/api/workflow/${registro.idWorkflow}`);
+        var url = new URL(`${process.env.REACT_APP_API_URI}workflow/${registro.idWorkflow}`);
         fetch(url, {
             method: "GET",
             headers: {
@@ -107,7 +139,7 @@ function CargaTable({dataTable, ip, autoCloseAlert, updateAddData, workflowTypes
             piIdWorkflowStatus  : status
         };
 
-        var url = new URL(`http://129.159.99.152/develop-vendors/api/workflow-tracker-roles/`);
+        var url = new URL(`${process.env.REACT_APP_API_URI}workflow-tracker-roles/`);
         Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
 
         fetch(url, {

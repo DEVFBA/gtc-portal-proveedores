@@ -104,7 +104,7 @@ function ModalAddRelationshipTypes({modalAddRecord, setModalAddRecord, updateAdd
             pvIP: ip
         };
     
-        fetch(`http://129.159.99.152/develop-vendors/api/cat-catalogs/create-sat`, {
+        fetch(`${process.env.REACT_APP_API_URI}cat-catalogs/create-sat`, {
             method: "POST",
             body: JSON.stringify(catRegister),
             headers: {

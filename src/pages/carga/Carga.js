@@ -150,6 +150,11 @@ function Carga({autoCloseAlert}) {
   const [requesterState, setRequesterState] = useState("");
 
   const [modalAddRecord, setModalAddRecord] = useState(false);
+
+  const [workflowPortal, setWorkflowPortal] = useState("");
+
+  //Para el condicionado de la carga de evidencias
+  const [estatusCarga, setEstatusCarga] = useState([]);
   
   const getData = async () => {
     //const res = await axios.get('https://geolocation-db.com/json/')
@@ -181,7 +186,7 @@ function Carga({autoCloseAlert}) {
         pvOptionCRUD: "R"
       };
 
-      var url = new URL(`http://localhost:8091/api/vendors/`);
+      var url = new URL(`${process.env.REACT_APP_API_URI}vendors/`);
 
       Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
 
@@ -204,6 +209,11 @@ function Carga({autoCloseAlert}) {
       });
   }, []);
 
+  useEffect(() => {
+    //Descargamos la IP del usuario
+    getData()
+  }, []);
+
   function getCartaPorte(vendors){
     var vendorId = vendors.find( o => o.Id_Vendor === parseInt(vendor,10))
     if(vendor==="0")
@@ -212,7 +222,7 @@ function Carga({autoCloseAlert}) {
         pvOptionCRUD: "R"
       };
   
-      var url = new URL(`http://localhost:8091/api/invoices/`);
+      var url = new URL(`${process.env.REACT_APP_API_URI}invoices/`);
   
       Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
   
@@ -238,7 +248,7 @@ function Carga({autoCloseAlert}) {
     else {
       //Para guardar el valor del filterRfcEmisor
       setFilterRfcEmisor(vendorId.Tax_Id)
-      var url = new URL(`http://localhost:8091/api/invoices/vendor/${vendorId.Tax_Id}`);
+      var url = new URL(`${process.env.REACT_APP_API_URI}invoices/vendor/${vendorId.Tax_Id}`);
       fetch(url, {
         method: "GET",
         headers: {
@@ -266,7 +276,7 @@ useEffect(() => {
     pvOptionCRUD: "R"
   };
 
-  var url = new URL(`http://localhost:8091/api/companies/`);
+  var url = new URL(`${process.env.REACT_APP_API_URI}companies/`);
 
   Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
 
@@ -294,7 +304,7 @@ useEffect(() => {
     pvOptionCRUD: "R"
   };
 
-  var url = new URL(`http://localhost:8091/api/companies-vendors/`);
+  var url = new URL(`${process.env.REACT_APP_API_URI}companies-vendors/`);
 
   Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
 
@@ -322,7 +332,7 @@ useEffect(() => {
     pvOptionCRUD: "R"
   };
 
-  var url = new URL(`http://localhost:8091/api/general-parameters/`);
+  var url = new URL(`${process.env.REACT_APP_API_URI}general-parameters/`);
 
   Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
 
@@ -345,6 +355,13 @@ useEffect(() => {
 
       var pdfReq = data.find( o => o.Id_Catalog === 11 )
       setPdfRequired(parseInt(pdfReq.Value, 10))
+
+      var workPortal = data.find( o => o.Id_Catalog === 13 )
+      setWorkflowPortal(workPortal.Value)
+
+      var estatusC = data.find( o => o.Id_Catalog === 23 )
+      setEstatusCarga(estatusC.Value.split(", "))
+
   })
   .catch(function(err) {
       alert("No se pudo consultar la informacion de los general parameters" + err);
@@ -357,7 +374,7 @@ useEffect(() => {
     pvOptionCRUD: "R"
   };
 
-  var url = new URL(`http://localhost:8091/api/cat-workflow-type/`);
+  var url = new URL(`${process.env.REACT_APP_API_URI}cat-workflow-type/`);
 
   Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
 
@@ -386,7 +403,7 @@ useEffect(() => {
     pvOptionCRUD: "R"
   };
 
-  var url = new URL(`http://localhost:8091/api/workflow-tracker/`);
+  var url = new URL(`${process.env.REACT_APP_API_URI}workflow-tracker/`);
 
   Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
 
@@ -414,7 +431,7 @@ useEffect(() => {
     pvOptionCRUD: "R"
   };
 
-  var url = new URL(`http://localhost:8091/api/cat-workflow-status/`);
+  var url = new URL(`${process.env.REACT_APP_API_URI}cat-workflow-status/`);
 
   Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
 
@@ -429,7 +446,6 @@ useEffect(() => {
       return response.ok ? response.json() : Promise.reject();
   })
   .then(function(data) {
-    console.log(data)
     data.sort(function (a, b) {
       if (a.Long_Desc > b.Long_Desc) {
         return 1;
@@ -489,7 +505,7 @@ function deleteClick(){
         pvOptionCRUD: "R"
       };
   
-      var url = new URL(`http://localhost:8091/api/invoices/`);
+      var url = new URL(`${process.env.REACT_APP_API_URI}invoices/`);
   
       Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
   
@@ -512,7 +528,7 @@ function deleteClick(){
       });
     }
     else {
-      var url = new URL(`http://localhost:8091/api/invoices/vendor/${vendorId.Tax_Id}`);
+      var url = new URL(`${process.env.REACT_APP_API_URI}invoices/vendor/${vendorId.Tax_Id}`);
       fetch(url, {
         method: "GET",
         headers: {
@@ -544,7 +560,6 @@ function resetFileInputPdf() {
 }
 
 function registerClick(){
-  console.log(pdfRequired)
   event.preventDefault();
   if(xml !== null)
   {
@@ -576,11 +591,24 @@ function registerClick(){
         if (file2) {
           reader2.readAsDataURL(file2);
         }
-        preData()
+
+        if (requesterState !== "has-success") {
+          setRequesterState("text-danger");
+        }
+        else {
+          //preData()
+          getSolicitud()
+        }
       }
       else {
         if (pdfState !== "has-success") {
           setPdfState("text-danger");
+        }
+        if (requesterState !== "has-success") {
+          setRequesterState("text-danger");
+        }
+        if (requesterState !== "has-success") {
+          setRequesterState("text-danger");
         }
       }
     }
@@ -599,7 +627,13 @@ function registerClick(){
         if (file2) {
           reader2.readAsDataURL(file2);
         }
-        preData()
+        if (requesterState !== "has-success") {
+          setRequesterState("text-danger");
+        }
+        else {
+          //preData()
+          getSolicitud()
+        }
       }
     }
     if(requesterState !== "has-success")
@@ -620,11 +654,47 @@ function registerClick(){
         setPdfState("text-danger");
       }
     }
+    if (requesterState !== "has-success") {
+      setRequesterState("text-danger");
+    }
   }
 }
 
-function preData(){
-  
+function getSolicitud()
+{
+  var url = new URL(`${process.env.REACT_APP_API_URI}carta-porte-requests/${requester}`);
+
+  fetch(url, {
+      method: "GET",
+      headers: {
+          "access-token": token,
+          "Content-Type": "application/json",
+      }
+  })
+  .then(function(response) {
+      return response.ok ? response.json() : Promise.reject();
+  })
+  .then(function(data) {
+    if(data.data.success === 0)
+    {
+      resetFileInput()
+      resetFileInputPdf()
+      setRequester()
+      autoCloseAlert("La solicitud no existe. Valide.")
+    }
+    else {
+      preData(data.data)
+    }
+    //console.log(data.data.success)
+    //console.log(data.data)
+    //preData(data.data)
+  })
+  .catch(function(err) {
+      alert("No se pudo consultar la informacion del carta porte request" + err);
+  });
+}
+
+function preData(dataRequest){
   //1. Leemos los datos del xml que nos serviran para el SP
   let fileReader = new FileReader();
   fileReader.readAsText(xml);
@@ -734,21 +804,27 @@ function preData(){
       }
     }
 
-    console.log(vendorId)
+    //console.log(vendorId)
     var vendorTaxId = dataVendors.find( o => o.Id_Vendor === parseInt(vendor,10))
     if(cartaPorte !== true)
     {
       resetFileInput()
+      resetFileInputPdf()
+      setRequester("")
       autoCloseAlert("Error. El documento no es de Carta Porte. Verifique.")
     }
     else if(companyValid === false)
     {
       resetFileInput()
+      resetFileInputPdf()
+      setRequester("")
       autoCloseAlert("Error: Compañía inexistente. Verifique")
     }
     else if(vendorValid === false)
     {
       resetFileInput()
+      resetFileInputPdf()
+      setRequester("")
       autoCloseAlert("Error: Proveedor inexistente. Verifique")
     }
     else{
@@ -758,6 +834,8 @@ function preData(){
         if(vendorTaxIdDoc !== vendorTaxId.Tax_Id)
         {
           resetFileInput()
+          resetFileInputPdf()
+          setRequester("")
           autoCloseAlert("Error: Proveedor incorrecto. Verifique")
         }
         else {
@@ -787,10 +865,13 @@ function preData(){
                   serie: "",
                   folio: "",
                   fecha: jsonData.elements[0].attributes.Fecha,
-                  zipCodes : ubicaciones.elements,
-                  ubicaciones : []
+                  /*zipCodes : ubicaciones.elements,
+                  ubicaciones : []*/
+                  pathSolicitud: dataRequest.path,
+                  jsonXml: elements
                 }
-                findUbicaciones(params)
+                parseFiles(params)
+                //findUbicaciones(params)
                 //findOriginZipCode(params)
                 //uploadXml(file, uuid, vendorId, companyId, jsonData.elements[0].attributes.TipoDeComprobante, entity, "", "", jsonData.elements[0].attributes.Fecha)
               }
@@ -804,10 +885,13 @@ function preData(){
                   serie: "",
                   folio: jsonData.elements[0].attributes.Folio,
                   fecha: jsonData.elements[0].attributes.Fecha,
-                  zipCodes: ubicaciones.elements,
-                  ubicaciones : []
+                  pathSolicitud: dataRequest.path,
+                  jsonXml: elements
+                  /*zipCodes: ubicaciones.elements,
+                  ubicaciones : []*/
                 }
-                findUbicaciones(params)
+                parseFiles(params)
+                //findUbicaciones(params)
                 //findOriginZipCode(params)
                 //uploadXml(file, uuid, vendorId, companyId, jsonData.elements[0].attributes.TipoDeComprobante, entity, "", jsonData.elements[0].attributes.Folio, jsonData.elements[0].attributes.Fecha)
               }
@@ -822,21 +906,26 @@ function preData(){
                 serie: jsonData.elements[0].attributes.Serie,
                 folio: jsonData.elements[0].attributes.Folio,
                 fecha: jsonData.elements[0].attributes.Fecha,
-                zipCodes: ubicaciones.elements,
-                ubicaciones : []
+                pathSolicitud: dataRequest.path,
+                jsonXml: elements
+                /*zipCodes: ubicaciones.elements,
+                ubicaciones : []*/
               }
-              findUbicaciones(params)
+              parseFiles(params)
+              //findUbicaciones(params)
               //uploadXml(file, uuid, vendorId, companyId, jsonData.elements[0].attributes.TipoDeComprobante, entity, jsonData.elements[0].attributes.Serie, jsonData.elements[0].attributes.Folio, jsonData.elements[0].attributes.Fecha)
             }
           }
           else {
             resetFileInput()
+            resetFileInputPdf()
+            setRequester("")
             autoCloseAlert("La relación entre Compañías / Proveedores es incorrecta. Valide.")
           }
         }
       }
       else {
-        console.log("SI ENTRE")
+       
         var companiesVendorsValid = false
         for(var k = 0; k < dataCompaniesVendors.length; k++)
         {
@@ -862,10 +951,13 @@ function preData(){
                 serie: "",
                 folio: "",
                 fecha: jsonData.elements[0].attributes.Fecha,
-                zipCodes : ubicaciones.elements,
-                ubicaciones : []
+                pathSolicitud: dataRequest.path,
+                jsonXml: elements
+                /*zipCodes : ubicaciones.elements,
+                ubicaciones : []*/
               }
-              findUbicaciones(params)
+              parseFiles(params)
+              //findUbicaciones(params)
               //findOriginZipCode(params)
               //uploadXml(file, uuid, vendorId, companyId, jsonData.elements[0].attributes.TipoDeComprobante, entity, "", "", jsonData.elements[0].attributes.Fecha)
             }
@@ -879,12 +971,15 @@ function preData(){
                 serie: "",
                 folio: jsonData.elements[0].attributes.Folio,
                 fecha: jsonData.elements[0].attributes.Fecha,
-                zipCodes: ubicaciones.elements,
-                ubicaciones : []
+                pathSolicitud: dataRequest.path,
+                jsonXml: elements
+                /*zipCodes: ubicaciones.elements,
+                ubicaciones : []*/
               }
-              findUbicaciones(params)
+              //findUbicaciones(params)
               //findOriginZipCode(params)
               //uploadXml(file, uuid, vendorId, companyId, jsonData.elements[0].attributes.TipoDeComprobante, entity, "", jsonData.elements[0].attributes.Folio, jsonData.elements[0].attributes.Fecha)
+              parseFiles(params)
             }
           }
           else {
@@ -897,15 +992,20 @@ function preData(){
               serie: jsonData.elements[0].attributes.Serie,
               folio: jsonData.elements[0].attributes.Folio,
               fecha: jsonData.elements[0].attributes.Fecha,
-              zipCodes: ubicaciones.elements,
-              ubicaciones : []
+              pathSolicitud: dataRequest.path,
+              jsonXml: elements
+              //zipCodes: ubicaciones.elements,
+              //ubicaciones : []
             }
-            findUbicaciones(params)
+            //findUbicaciones(params)
             //uploadXml(file, uuid, vendorId, companyId, jsonData.elements[0].attributes.TipoDeComprobante, entity, jsonData.elements[0].attributes.Serie, jsonData.elements[0].attributes.Folio, jsonData.elements[0].attributes.Fecha)
+            parseFiles(params)
           }
         }
         else {
           resetFileInput()
+          resetFileInputPdf()
+          setRequester("")
           autoCloseAlert("La relación entre Compañías / Proveedores es incorrecta. Valide.")
         }
       }
@@ -913,38 +1013,107 @@ function preData(){
   };
 }
 
-  async function findUbicaciones(params)
-  {
-    var i = 0
-    var ubicaciones =[]
-    while(i < params.zipCodes.length)
-    {
-      console.log(params.zipCodes[i].elements[0].attributes.CodigoPostal)
-      const zp = {
-        pvZip_Code: params.zipCodes[i].elements[0].attributes.CodigoPostal
-      };
+const parseFiles = async(params) => {
+
+  var url = params.pathSolicitud
+  let response = await axios({ url })
+  var options = {compact: false, ignoreComment: true, spaces: 4};
+  const jsonString = convert.xml2json(response.data, options);
+  const jsonData = JSON.parse(jsonString)
+
+  var complementoR = jsonData.elements[0].elements.find( o => o.name === "cfdi:Complemento")
+  var cartaPorteR = complementoR.elements.find( o => o.name === "cartaporte20:CartaPorte")
+  var ubicacionesR = cartaPorteR.elements.find( o => o.name === "cartaporte20:Ubicaciones").elements
+  var mercanciasR = cartaPorteR.elements.find( o => o.name === "cartaporte20:Mercancias").elements
   
-      var url = new URL(`http://localhost:8091/api/cat-catalogs/zip-codes/`);
-      Object.keys(zp).forEach(key => url.searchParams.append(key, zp[key]))
-      await fetch(url, {
-          method: "GET",
-          headers: {
-              "access-token": token,
-              "Content-Type": "application/json"
+  //console.log(params)
+  var complementoV = params.jsonXml.find(o => o.name === "cfdi:Complemento")
+  var cartaPorteV = complementoV.elements.find(o => o.name === "cartaporte20:CartaPorte")
+  var ubicacionesV = cartaPorteV.elements.find(o => o.name === "cartaporte20:Ubicaciones").elements
+  var mercanciasV = cartaPorteV.elements.find(o => o.name === "cartaporte20:Mercancias").elements
+
+  //1. Comparamos que las ubicaciones sean la misma cantidad.
+  if(ubicacionesV.length === ubicacionesR.length)
+  {
+    //seguimos
+    if(mercanciasV.length === mercanciasR.length)
+    {
+      //Vamos a verificar las ubicaciones
+      for(var i=0; i<ubicacionesV.length; i++)
+      {
+        var ubicacionVActual = ubicacionesV[i]
+        var ubicacionFlag = false
+        for(var j=0; j<ubicacionesR.length; j++)
+        {
+          if((ubicacionVActual.attributes.TipoUbicacion === ubicacionesR[j].attributes.TipoUbicacion)
+            && (ubicacionVActual.attributes.RFCRemitenteDestinatario === ubicacionesR[j].attributes.RFCRemitenteDestinatario)
+            && (ubicacionVActual.elements[0].attributes.Colonia === ubicacionesR[j].elements[0].attributes.Colonia)
+            && (ubicacionVActual.elements[0].attributes.Localidad === ubicacionesR[j].elements[0].attributes.Localidad)
+            && (ubicacionVActual.elements[0].attributes.Municipio === ubicacionesR[j].elements[0].attributes.Municipio)
+            && (ubicacionVActual.elements[0].attributes.Pais === ubicacionesR[j].elements[0].attributes.Pais)
+            && (ubicacionVActual.elements[0].attributes.CodigoPostal === ubicacionesR[j].elements[0].attributes.CodigoPostal) )
+          {
+            ubicacionFlag = true
           }
-      })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data)
-        ubicaciones[i] = data
-      });
-      i++
+        }
+        if(ubicacionFlag === false)
+        {
+          //EL ARCHIVO SE VA A SUBIR CON ERROR
+          uploadXmlFinal(false)
+        }
+      }
+
+      //Vamos a verificar las mercancias
+      for(var i=0; i<mercanciasV.length; i++)
+      {
+        var mercanciaVActual = mercanciasV[i]
+        var mercanciaFlag = false
+        for(var j=0; j<mercanciasR.length; j++)
+        {
+          if((mercanciaVActual.attributes.BienesTransp === mercanciasR[j].attributes.BienesTransp)
+          && (mercanciaVActual.attributes.Cantidad === mercanciasR[j].attributes.Cantidad)
+          && (mercanciaVActual.attributes.ClaveUnidad === mercanciasR[j].attributes.ClaveUnidad)
+          && (mercanciaVActual.attributes.CveMaterialPeligroso === mercanciasR[j].attributes.CveMaterialPeligroso)
+          && (mercanciaVActual.attributes.Descripcion === mercanciasR[j].attributes.Descripcion)
+          && (mercanciaVActual.attributes.Embalaje === mercanciasR[j].attributes.Embalaje)
+          && (mercanciaVActual.attributes.MaterialPeligroso === mercanciasR[j].attributes.MaterialPeligroso)
+          && (mercanciaVActual.attributes.PesoEnKg === mercanciasR[j].attributes.PesoEnKg))
+          {
+            mercanciaFlag = true
+          }
+        }
+        if(mercanciaFlag === false)
+        {
+          //EL ARCHIVO SE VA A SUBIR CON ERROR
+          uploadXmlFinal(false)
+        }
+      }
+      uploadXmlFinal(true)
     }
-    params.ubicaciones = ubicaciones
-    uploadXml(params)
+    else {
+      //EL ARCHIVO SE VA A SUBIR CON ERROR
+      uploadXmlFinal(false)
+    }
+  }
+  else {
+    //EL ARCHIVO SE VA A SUBIR CON ERROR
+    uploadXmlFinal(false)
+  }
+}
+  function uploadXmlFinal(shipmentApproval)
+  {
+    let reader = new FileReader();
+    let file = xml;
+
+    reader.onloadend = () => { 
+      getData64PDF(reader.result, shipmentApproval)
+    };
+    if (file) {
+      reader.readAsDataURL(file);
+    }
   }
 
-  function uploadXml(params)
+  /*function uploadXml(params)
   {
     console.log(params)
     var cadenaWarning = "Precaución. "
@@ -1122,6 +1291,7 @@ function preData(){
 
     let reader = new FileReader();
     let file = xml;
+    console.log(file)
 
     reader.onloadend = () => { 
       getData64PDF(reader.result, params, finalDate2, idWorkflowStatus, idWorkflowStatusChange, workflowComments)
@@ -1183,45 +1353,35 @@ function preData(){
           }
       }
     });*/
-  }
+  //}
 
-  function getData64PDF(xmlbase64, params, date, idWorkflowStatus, idWorkflowStatusChange, workflowComments)
+  function getData64PDF(xmlbase64, shipmentApproval)
   {
     let reader = new FileReader();
     let file = pdf;
 
     reader.onloadend = () => { 
-      sendData(xmlbase64, reader.result, params, date, idWorkflowStatus, idWorkflowStatusChange, workflowComments)
+      sendData(xmlbase64, reader.result, shipmentApproval)
     };
     if (file) {
       reader.readAsDataURL(file);
     }
   }
 
-  function sendData(xmlbase64, pdfbase64, params, date, idWorkflowStatus, idWorkflowStatusChange, workflowComments)
+  function sendData(xmlbase64, pdfbase64, shipmentApproval)
   {
     const catRegister = {
-      pvUUID: params.uuid,
-      piIdCompany: params.companyId,
-      piIdVendor: params.vendorId,
-      pvIdReceiptType: params.idReceiptType,
-      pvIdEntityType: params.entity,
-      pvSerie: params.serie,
-      pvFolio: params.folio,
-      pvInvoiceDate : date,
-      pvPathFile: pathFile,
-      pvPathFilePDF: pathFilePDF,
-      piRequest_Number : parseInt(requester, 10),
-      piIdWorkflowStatus : idWorkflowStatus,
-      piIdWorkflowStatusChange : idWorkflowStatusChange,
-      pvWorkflowComments : workflowComments,
-      user : user,
-      pvIP: ip,
-      pvFile: xmlbase64,
-      pvFilePDF: pdfbase64 
+      invoiceXMLBase64: xmlbase64,
+      invoicePDFBase64: pdfbase64,
+      cPorteRequestNumber: requester,
+      shipmentApproval: shipmentApproval,
+      user: user,
+      ip: ip
     };
 
-    fetch(`http://localhost:8091/api/invoices/create/`, {
+    console.log(catRegister)
+
+    fetch(`${process.env.REACT_APP_API_URI}invoices/save-invoice/`, {
         method: "POST",
         body: JSON.stringify(catRegister),
         headers: {
@@ -1234,31 +1394,52 @@ function preData(){
         if (data.errors) {
             console.log("Hubo un error al procesar tu solicitud")
         }
-        else{
+        else {
+          if(data.data.success === 1)
+          {
+            resetFileInput()
+            resetFileInputPdf()
+            setRequester()
+            autoCloseAlert(data.data.message)
+            updateAddData()
+          }
+          else {
+            resetFileInput()
+            resetFileInputPdf()
+            setRequester()
+            autoCloseAlert(data.data.message)
+          }
+        }
+        /*else{
           if(data[0].Code_Type === "Warning")
           {
             resetFileInput()
+            resetFileInputPdf()
+            setRequester()
             autoCloseAlert(data[0].Code_Message_User)
           }
           else if(data[0].Code_Type === "Error")
           {
             resetFileInput()
+            resetFileInputPdf()
+            setRequester()
             autoCloseAlert(data[0].Code_Message_User)
           }
           else{
             //Para actualizar la tabla en componente principal
             resetFileInput()
+            setRequester()
             resetFileInputPdf()
             updateAddData()
             autoCloseAlert("CFDI cargado con éxito")
           }
-      }
+      }*/
     });
   }
 
   //Renderizado condicional
   function CargaT() {
-    return <CargaTable dataTable = {dataCartaPorte} ip = {ip} autoCloseAlert = {autoCloseAlert} updateAddData = {updateAddData} workflowTypes = {workflowTypes} workflowTracker ={workflowTracker}/>
+    return <CargaTable dataTable = {dataCartaPorte} ip = {ip} autoCloseAlert = {autoCloseAlert} updateAddData = {updateAddData} workflowTypes = {workflowTypes} workflowTracker ={workflowTracker} estatusCarga = {estatusCarga}/>
   }
 
   //Para actualizar la tabla al insertar registro
@@ -1271,7 +1452,7 @@ function preData(){
         pvOptionCRUD: "R"
       };
   
-      var url = new URL(`http://localhost:8091/api/invoices/`);
+      var url = new URL(`${process.env.REACT_APP_API_URI}invoices/`);
   
       Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
   
@@ -1294,7 +1475,7 @@ function preData(){
       });
     }
     else {
-      var url = new URL(`http://localhost:8091/api/invoices/vendor/${vendorId.Tax_Id}`);
+      var url = new URL(`${process.env.REACT_APP_API_URI}invoices/vendor/${vendorId.Tax_Id}`);
       fetch(url, {
         method: "GET",
         headers: {
@@ -1404,7 +1585,7 @@ function preData(){
       piIdWorkflowStatus : fStatus
     };
     setDataFind(false)
-    var url = new URL(`http://localhost:8091/api/invoices/filter`);
+    var url = new URL(`${process.env.REACT_APP_API_URI}invoices/filter`);
 
     fetch(url, {
         method: "POST",

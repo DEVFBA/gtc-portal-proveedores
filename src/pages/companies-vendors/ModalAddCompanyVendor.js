@@ -107,7 +107,7 @@ function ModalAddCompanyVendor({modalAddRecord, setModalAddRecord, ip, autoClose
             pvIP: ip,
         };
 
-        fetch(`http://129.159.99.152/develop-vendors/api/companies-vendors/create/`, {
+        fetch(`${process.env.REACT_APP_API_URI}companies-vendors/create/`, {
             method: "POST",
             body: JSON.stringify(catRegister),
             headers: {

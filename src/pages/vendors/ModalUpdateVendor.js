@@ -142,7 +142,7 @@ function ModalUpdateVendor({modalUpdateRecord, setModalUpdateRecord, record, dat
             pvIP : ip
         };
     
-        fetch(`http://129.159.99.152/develop-vendors/api/vendors/update-vendor/`, {
+        fetch(`${process.env.REACT_APP_API_URI}vendors/update-vendor/`, {
             method: "PUT",
             body: JSON.stringify(catRegister),
             headers: {

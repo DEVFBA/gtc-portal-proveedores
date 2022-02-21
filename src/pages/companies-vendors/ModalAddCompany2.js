@@ -146,7 +146,7 @@ function ModalAddCompany2({modalAddCompany, setModalAddCompany, dataCountries, u
                 pvIP : ip
             };
         
-            fetch(`http://129.159.99.152/develop-vendors/api/companies/create-company/`, {
+            fetch(`${process.env.REACT_APP_API_URI}companies/create-company/`, {
                 method: "POST",
                 body: JSON.stringify(catRegister),
                 headers: {
@@ -195,7 +195,7 @@ function ModalAddCompany2({modalAddCompany, setModalAddCompany, dataCountries, u
 
     function getCompany(name){
 
-        var url = new URL(`http://129.159.99.152/develop-vendors/api/companies/${name}`);
+        var url = new URL(`${process.env.REACT_APP_API_URI}companies/${name}`);
         fetch(url, {
           method: "GET",
           headers: {

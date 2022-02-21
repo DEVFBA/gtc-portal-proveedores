@@ -26,8 +26,11 @@ import Vendors from '../pages/vendors/Vendors'
 import Portal from '../pages/catalogs/portal/Portal'
 import Sat from '../pages/catalogs/sat/Sat'
 import Carga from "../pages/carga/Carga.js"
+import CartaPorteRequests from "../pages/carga/CartaPorteRequests"
 import CargaXML from "../pages/carga/CargaXML"
+import CargaEvidencias from "../pages/carga/CargaEvidencias"
 import CompaniesVendors from "../pages/companies-vendors/CompaniesVendors"
+import GeneralParameters from "../pages/cat-general-parameters/GeneralParameters"
 
 function Admin(props) {
     const [isEmptyView, setIsEmptyView] = useState(false)
@@ -36,7 +39,7 @@ function Admin(props) {
     const [logo, setLogo] = useState("info")
     const [leftSidebar, setLeftSidebar] = useState("dark")
 
-    const ambiente = "/DEV-Vendors"
+    const ambiente = process.env.REACT_APP_ENVIRONMENT
     const history = useHistory();
 
     const logged = localStorage.getItem("Logged");
@@ -61,10 +64,15 @@ function Admin(props) {
     const [isTimedOut, setIsTimedOut] = useState(false);
     const [idleTimer, setIdleTimer] = useState(false);
 
+    const [dataFind, setDataFind] = useState(true);
+
     const [pathFile, setPathFile] = useState("");
 
     //Para actualizar la imagen automaticamente cada que la actualicemos
     const [changeImageP, setChangeImageP] = useState(false)
+
+    //Para los archivos que se tienen que subir en carga de evidencias
+    const [trackerEProveedor, setTrackerEProveedor] = useState([]);
     
     function _onAction(e) {
       //console.log('user did something', e)
@@ -101,7 +109,7 @@ function Admin(props) {
         pvIdRole : role
       };
   
-      var url = new URL(`http://129.159.99.152/develop-vendors/api/security-access/`);
+      var url = new URL(`${process.env.REACT_APP_API_URI}security-access/`);
   
       Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
       //console.log(url)
@@ -206,7 +214,7 @@ function Admin(props) {
                       {
                         path: data[i].Url,
                         name: data[i].SubModule_Desc,
-                        component: Analytics,
+                        component: "GeneralParameters",
                         layout: ambiente + data[i].Layout_SubModule,
                         views: []
                       }
@@ -386,13 +394,13 @@ function Admin(props) {
                           }
                         )
                       }
-                      else if(data[j].Component_Submodule === "PortalCatalogs")
+                      else if(data[j].Component_Submodule === "CartaPorteRequests")
                       {
                         views.push(
                           {
                             path: data[j].Url,
                             name: data[j].SubModule_Desc,
-                            component: Analytics,
+                            component: "CartaPorteRequests",
                             layout: ambiente + data[j].Layout_SubModule,
                             views: []
                           }
@@ -469,6 +477,17 @@ function Admin(props) {
                 views: []
               }
             )
+            routesAux2.push(
+              {
+                collapse: false,
+                path: "/carga-evidencias/:uUID/",
+                name: "Carga de Evidencias",
+                icon: 'dashboard',
+                component: "CargaEvidencias",
+                layout: ambiente + "/admin",
+                views: []
+              }
+            )
           }
           else if(params.pvIdRole == "CARRIVENDO")
           {
@@ -514,7 +533,7 @@ function Admin(props) {
         pvOptionCRUD: "R"
       };
     
-      var url = new URL(`http://129.159.99.152/develop-vendors/api/general-parameters/`);
+      var url = new URL(`${process.env.REACT_APP_API_URI}general-parameters/`);
     
       Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
     
@@ -531,11 +550,39 @@ function Admin(props) {
       .then(function(data) {
           var aux = data.find( o => o.Id_Catalog === 9 )
           setPathFile(aux.Value)
+
+          var WFTrackerFileTypes = data.find( o => o.Id_Catalog === 24 )
+          getWFTrackerFileTypes(WFTrackerFileTypes.Value)
       })
       .catch(function(err) {
           console.log(err)
       });
     }, []);
+
+  function getWFTrackerFileTypes(value)
+  {
+    var url = new URL(`${process.env.REACT_APP_API_URI}workflow-tracker-file-types/${value}`);
+    //var url = new URL(`${process.env.REACT_APP_API_URI}vendors/`);
+
+    fetch(url, {
+        method: "GET",
+        headers: {
+            "access-token": token,
+            "Content-Type": "application/json",
+        }
+    })
+    .then(function(response) {
+        return response.ok ? response.json() : Promise.reject();
+    })
+    .then(function(data) {
+        console.log(data)
+        setTrackerEProveedor(data)
+        setDataFind(false)
+    })
+    .catch(function(err) {
+        alert("No se pudo consultar la informacion del general parameter" + err);
+    });
+  }
 
     const getRoutes = (routes) => {
         return routes.map((prop, key) => {
@@ -552,6 +599,18 @@ function Admin(props) {
                   //key={key}
                 >
                   <Users autoCloseAlert = {autoCloseAlert} changeImageP = {changeImageP} setChangeImageP = {setChangeImageP}/>
+                </Route>
+              );
+            }
+            else if(prop.component === "GeneralParameters")
+            {
+              return (
+                <Route
+                  path={prop.layout + prop.path}
+                  //element={<Users autoCloseAlert = {autoCloseAlert}/>}
+                  //key={key}
+                >
+                  <GeneralParameters autoCloseAlert = {autoCloseAlert}/>
                 </Route>
               );
             }
@@ -637,6 +696,16 @@ function Admin(props) {
                 </Route>
               );
             }
+            else if(prop.component === "CartaPorteRequests")
+            {
+              return (
+                <Route
+                  path={prop.layout + prop.path}
+                >
+                  <CartaPorteRequests autoCloseAlert = {autoCloseAlert}/>
+                </Route>
+              );
+            }
             else if(prop.component === "CargaXML")
             {
               return (
@@ -644,6 +713,16 @@ function Admin(props) {
                   path={prop.layout + prop.path}
                 >
                   <CargaXML pathFile = {pathFile}/>
+                </Route>
+              );
+            }
+            else if(prop.component === "CargaEvidencias")
+            {
+              return (
+                <Route
+                  path={prop.layout + prop.path}
+                >
+                  <CargaEvidencias autoCloseAlert = {autoCloseAlert} trackerEProveedor = {trackerEProveedor}/>
                 </Route>
               );
             }
@@ -691,7 +770,7 @@ function Admin(props) {
         setAlert(null);
     };
 
-    return (
+    return dataFind === false ? (
         <div
             data-layout={layout}
            
@@ -724,6 +803,8 @@ function Admin(props) {
                 </div>
             </div>
         </div>
+    ): (
+      null
     );
 }
 

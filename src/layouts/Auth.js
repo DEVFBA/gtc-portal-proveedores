@@ -8,7 +8,7 @@ import ChangePassword from '../pages/change-password/ChangePassword'
 function Pages() {
     const [dbRoutes, setDbRoutes] = useState([]);
     const [isEmptyView, setIsEmptyView] = useState(true)
-    const ambiente = "/DEV-Vendors"
+    const ambiente = process.env.REACT_APP_ENVIRONMENT
     const [layout, setLayout] = useState('empty-view-1')
     useEffect(() => {
         var routesAux = [];

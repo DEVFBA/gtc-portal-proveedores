@@ -54,7 +54,7 @@ function CargaXML({pathFile}) {
       pvOptionCRUD: "R"
     };
 
-    var url = new URL(`http://129.159.99.152/develop-vendors/api/carta-porte/${uUID}`);
+    var url = new URL(`${process.env.REACT_APP_API_URI}invoices/${uUID}`);
 
     Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
 
@@ -84,7 +84,7 @@ function CargaXML({pathFile}) {
       pSpCatalog : "spSAT_Cat_Municipalities_CRUD_Records",
     };
 
-    var url = new URL(`http://129.159.99.152/develop-vendors/api/cat-catalogs/catalog`);
+    var url = new URL(`${process.env.REACT_APP_API_URI}cat-catalogs/catalog`);
 
     Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
 
@@ -113,7 +113,7 @@ function CargaXML({pathFile}) {
       pSpCatalog : "spSAT_Cat_Locations_CRUD_Records",
     };
 
-    var url = new URL(`http://129.159.99.152/develop-vendors/api/cat-catalogs/catalog`);
+    var url = new URL(`${process.env.REACT_APP_API_URI}cat-catalogs/catalog`);
 
     Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
 
@@ -142,7 +142,7 @@ function CargaXML({pathFile}) {
       pSpCatalog : "spSAT_Cat_Zip_Codes_Counties_CRUD_Records",
     };
 
-    var url = new URL(`http://129.159.99.152/develop-vendors/api/cat-catalogs/catalog`);
+    var url = new URL(`${process.env.REACT_APP_API_URI}cat-catalogs/catalog`);
 
     Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
 
@@ -213,13 +213,12 @@ function CargaXML({pathFile}) {
     var colonias = []
     for(var i=0; i< ubicacionesF.length; i++)
     {
-      console.log("SI ENTRE PERO ME VALE MADRE")
       const zp = {
         pvIdState: ubicacionesF[i].elements[0].attributes.Estado,
         pvIdCounty : ubicacionesF[i].elements[0].attributes.Colonia,
       };
 
-      var url = new URL(`http://129.159.99.152/develop-vendors/api/cat-catalogs/zip-code-county/`);
+      var url = new URL(`${process.env.REACT_APP_API_URI}cat-catalogs/zip-code-county/`);
       Object.keys(zp).forEach(key => url.searchParams.append(key, zp[key]))
       await fetch(url, {
           method: "GET",

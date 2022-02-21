@@ -113,7 +113,7 @@ function ModalAddVendor2({modalAddVendor, setModalAddVendor, ip, autoCloseAlert,
                 pvIP : ip
             };
         
-            fetch(`http://129.159.99.152/develop-vendors/api/vendors/create-vendor/`, {
+            fetch(`${process.env.REACT_APP_API_URI}vendors/create-vendor/`, {
                 method: "POST",
                 body: JSON.stringify(catRegister),
                 headers: {
@@ -162,7 +162,7 @@ function ModalAddVendor2({modalAddVendor, setModalAddVendor, ip, autoCloseAlert,
 
     function getVendor(name){
 
-        var url = new URL(`http://129.159.99.152/develop-vendors/api/vendors/${name}`);
+        var url = new URL(`${process.env.REACT_APP_API_URI}vendors/${name}`);
         fetch(url, {
           method: "GET",
           headers: {

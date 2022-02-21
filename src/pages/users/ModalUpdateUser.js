@@ -217,7 +217,7 @@ function ModalUpdateUser({abierto, toggleModalUpdateRecord, record, dataRoles, i
                 pvChangeImage: changeImage
             };
         
-            fetch(`http://129.159.99.152/develop-vendors/api/security-users/update-user/`, {
+            fetch(`${process.env.REACT_APP_API_URI}security-users/update-user/`, {
                 method: "PUT",
                 body: JSON.stringify(catRegister),
                 headers: {
@@ -272,7 +272,7 @@ function ModalUpdateUser({abierto, toggleModalUpdateRecord, record, dataRoles, i
                 pvChangeImage: changeImage
             };
         
-            fetch(`http://129.159.99.152/develop-vendors/api/security-users/update-user-wp/`, {
+            fetch(`${process.env.REACT_APP_API_URI}security-users/update-user-wp/`, {
                 method: "PUT",
                 body: JSON.stringify(catRegister),
                 headers: {

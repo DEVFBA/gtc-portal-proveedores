@@ -64,7 +64,7 @@ function Companies({autoCloseAlert}){
           pvOptionCRUD: "R"
         };
     
-        var url = new URL(`http://129.159.99.152/develop-vendors/api/companies/`);
+        var url = new URL(`${process.env.REACT_APP_API_URI}companies/`);
     
         Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
     
@@ -94,7 +94,7 @@ function Companies({autoCloseAlert}){
           pSpCatalog : "spSAT_Cat_Countries_CRUD_Records",
         };
     
-        var url = new URL(`http://129.159.99.152/develop-vendors/api/cat-catalogs/catalog`);
+        var url = new URL(`${process.env.REACT_APP_API_URI}cat-catalogs/catalog`);
         Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
     
         fetch(url, {
@@ -131,7 +131,7 @@ function Companies({autoCloseAlert}){
           pvOptionCRUD: "R"
         };
     
-        var url = new URL(`http://129.159.99.152/develop-vendors/api/general-parameters/`);
+        var url = new URL(`${process.env.REACT_APP_API_URI}general-parameters/`);
     
         Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
     
@@ -168,7 +168,7 @@ function Companies({autoCloseAlert}){
         pvOptionCRUD: "R"
         };
 
-        var url = new URL(`http://129.159.99.152/develop-vendors/api/companies/`);
+        var url = new URL(`${process.env.REACT_APP_API_URI}companies/`);
 
         Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
 

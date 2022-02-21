@@ -11,7 +11,7 @@ import Recharts from '../charts/recharts'
 import Analytics from '../dashboards/analytics/Analytics.js'
 import Carga from "../pages/carga/Carga.js"
 
-const ambiente = "/DEV-Vendors"
+const ambiente = process.env.REACT_APP_ENVIRONMENT
 
 const urls = [
     {

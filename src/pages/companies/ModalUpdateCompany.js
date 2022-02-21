@@ -174,7 +174,7 @@ function ModalUpdateCompany({modalUpdateRecord, setModalUpdateRecord, record, da
             pvChangeImage: changeImage
         };
     
-        fetch(`http://129.159.99.152/develop-vendors/api/companies/update-company/`, {
+        fetch(`${process.env.REACT_APP_API_URI}companies/update-company/`, {
             method: "PUT",
             body: JSON.stringify(catRegister),
             headers: {

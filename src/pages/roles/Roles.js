@@ -55,7 +55,7 @@ function Roles({autoCloseAlert}){
           pvOptionCRUD: "R"
         };
     
-        var url = new URL(`http://129.159.99.152/develop-vendors/api/security-roles/`);
+        var url = new URL(`${process.env.REACT_APP_API_URI}security-roles/`);
     
         Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
     
@@ -90,7 +90,7 @@ function Roles({autoCloseAlert}){
         pvOptionCRUD: "R"
         };
 
-        var url = new URL(`http://129.159.99.152/develop-vendors/api/security-roles/`);
+        var url = new URL(`${process.env.REACT_APP_API_URI}security-roles/`);
 
         Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
 

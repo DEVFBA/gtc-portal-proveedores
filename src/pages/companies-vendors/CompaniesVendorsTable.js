@@ -73,7 +73,7 @@ function CompaniesVendorsTable({dataTable, ip, autoCloseAlert, updateAddData, da
             pvOptionCRUD: "R"
         };
       
-        var url = new URL(`http://129.159.99.152/develop-vendors/api/companies/`);
+        var url = new URL(`${process.env.REACT_APP_API_URI}companies/`);
     
         Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
     

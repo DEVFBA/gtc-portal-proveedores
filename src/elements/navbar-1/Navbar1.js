@@ -25,7 +25,7 @@ function Navbar1({layout, setLayout, changeImageP})
     {
       var user = localStorage.getItem("User");
       const token = localStorage.getItem("Token");
-      var url = new URL(`http://129.159.99.152/develop-vendors/api/security-users/${user}`);
+      var url = new URL(`${process.env.REACT_APP_API_URI}security-users/${user}`);
       fetch(url, {
         method: "GET",
         headers: {
@@ -56,7 +56,7 @@ function Navbar1({layout, setLayout, changeImageP})
         pvOptionCRUD: "R"
       };
   
-      var url = new URL(`http://129.159.99.152/develop-vendors/api/general-parameters/`);
+      var url = new URL(`${process.env.REACT_APP_API_URI}general-parameters/`);
   
       Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
   

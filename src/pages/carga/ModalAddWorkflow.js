@@ -56,7 +56,7 @@ function ModalAddWorkflow({modalAddRecord, setModalAddRecord, record, ip, autoCl
     },[]);
 
     useEffect(() => {
-        console.log(record.workflowTracker)
+        //console.log(record.workflowTracker)
         setVendor(record.emisor)
         setSerie(record.serie)
         setFolio(record.folio)
@@ -65,8 +65,8 @@ function ModalAddWorkflow({modalAddRecord, setModalAddRecord, record, ip, autoCl
         {
             console.log(record)
             //console.log(record.workflow.Workflow_Status_Desc)
-            setIdWorkflowStatus(record.workflow.Id_Workflow_Status)
-            setIdWorkflowStatusDesc(record.workflow.Workflow_Status_Desc)
+            setIdWorkflowStatus(record.workflow.Id_Workflow_Status_Change)
+            setIdWorkflowStatusDesc(record.workflow.Workflow_Status_Change_Desc)
             setWorkflowStatusOptions(record.workflowTracker)
         }
     },[record]);
@@ -94,22 +94,26 @@ function ModalAddWorkflow({modalAddRecord, setModalAddRecord, record, ip, autoCl
 
     function updateRegister(){
         //Logica para ver cual será el piIdWorkflowStatusChange
+        console.log(workflowStatusChange.value)
+        console.log(workflowTracker)
         var workflowChange;
         var workFlowTrackerOptions = []
         var contador = 0
+
         for(var i=0; i< workflowTracker.length; i++)
         {
-            if(workflowTracker[i].Id_Workflow_Status === workflowStatusChange.value)
+            if(workflowTracker[i].Id_Workflow_Status_Change === workflowStatusChange.value)
             {
                 workFlowTrackerOptions[contador] = workflowTracker[i]
                 contador++
             }
         }
         console.log(workFlowTrackerOptions)
+
         if(workFlowTrackerOptions.length === 0)
         {
             console.log("ESTOY ENTRANDO")
-            workflowChange = 999
+            workflowChange = workFlowTrackerOptions[0].Id_Workflow_Status_Change
         }
         else if(workFlowTrackerOptions.length === 1)
         {
@@ -126,9 +130,10 @@ function ModalAddWorkflow({modalAddRecord, setModalAddRecord, record, ip, autoCl
             console.log("ESTOY ENTRANDO AL 3")
             workflowChange = workFlowTrackerOptions[1].Id_Workflow_Status_Change
         }
+
         const catRegister = {
             pvIdWorkflowType: workflowTypes.Id_Catalog,
-            piIdWorkflowStatus: workflowStatusChange.value,
+            piIdWorkflowStatus: record.workflow.Id_Workflow_Status,
             piIdWorkflowStatusChange: workflowChange,
             pvRecordIdentifier: recordIdentifier,
             pvComments: comments,
@@ -136,7 +141,9 @@ function ModalAddWorkflow({modalAddRecord, setModalAddRecord, record, ip, autoCl
             pvIP: ip
         };
 
-        fetch(`http://129.159.99.152/develop-vendors/api/workflow/create-workflow/`, {
+        console.log(catRegister)
+
+        fetch(`${process.env.REACT_APP_API_URI}workflow/create-workflow/`, {
             method: "POST",
             body: JSON.stringify(catRegister),
             headers: {

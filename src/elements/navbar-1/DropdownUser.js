@@ -16,7 +16,7 @@ function DropdownUser({name})
     }
   ]
 
-  const ambiente = "/DEV-Vendors"
+  const ambiente = process.env.REACT_APP_ENVIRONMENT
   const location = useLocation();
   const history = useHistory();
 

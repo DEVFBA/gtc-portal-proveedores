@@ -28,7 +28,7 @@ function ChangePassword() {
     const [vendor, setVendor] = React.useState("");
     const [name, setName] = React.useState("");
 
-    const ambiente = "/DEV-Vendors"
+    const ambiente = process.env.REACT_APP_ENVIRONMENT
 
     const [ip, setIP] = React.useState("");
     const getData = async () => {
@@ -55,7 +55,7 @@ function ChangePassword() {
           pvOptionCRUD: "R"
         };
     
-        var url = new URL(`http://129.159.99.152/develop-vendors/api/general-parameters/`);
+        var url = new URL(`${process.env.REACT_APP_API_URI}general-parameters/`);
     
         Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
     
@@ -80,7 +80,7 @@ function ChangePassword() {
 
     useEffect(() => {
         //Si el usuario no está loggeado no se va a descargar la imagen
-          var url = new URL(`http://129.159.99.152/develop-vendors/api/security-users/${user}`);
+          var url = new URL(`${process.env.REACT_APP_API_URI}security-users/${user}`);
           fetch(url, {
             method: "GET",
             headers: {
@@ -191,7 +191,7 @@ function ChangePassword() {
             pvIP: ip
         };
 
-        fetch(`http://129.159.99.152/develop-vendors/api/security-users/update-user-pass/`, {
+        fetch(`${process.env.REACT_APP_API_URI}security-users/update-user-pass/`, {
             method: "PUT",
             body: JSON.stringify(catRegister),
             headers: {

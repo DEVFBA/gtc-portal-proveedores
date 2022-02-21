@@ -25,7 +25,7 @@ import {
 } from "reactstrap";
 
 function Login(){
-  const ambiente = "/DEV-Vendors"
+  const ambiente = process.env.REACT_APP_ENVIRONMENT
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const history = useHistory();
@@ -93,7 +93,7 @@ function Login(){
       pvPassword: password
     };
 
-    fetch(`http://129.159.99.152/develop-vendors/api/security-users/login/`, {
+    fetch(`${process.env.REACT_APP_API_URI}security-users/login/`, {
         method: "POST",
         body: JSON.stringify(catRegister),
         headers: {
@@ -126,7 +126,7 @@ function Login(){
 
   function getUser(email, token){
 
-    var url = new URL(`http://129.159.99.152/develop-vendors/api/security-users/${email}`);
+    var url = new URL(`${process.env.REACT_APP_API_URI}security-users/${email}`);
     fetch(url, {
       method: "GET",
       headers: {

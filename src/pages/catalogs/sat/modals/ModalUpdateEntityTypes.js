@@ -117,7 +117,7 @@ function ModalUpdateEntityTypes({abierto, toggleModalUpdateRecord, record, ip, a
             pvIP: ip
         };
 
-        fetch(`http://129.159.99.152/develop-vendors/api/cat-catalogs/update-sat/`, {
+        fetch(`${process.env.REACT_APP_API_URI}cat-catalogs/update-sat/`, {
             method: "PUT",
             body: JSON.stringify(catRegister),
             headers: {
