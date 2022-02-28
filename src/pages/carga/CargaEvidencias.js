@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import Skeleton from '@yisheng90/react-loading';
 import { useParams } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 import axios from 'axios'
 import '../../css/forms/react-datetime.css'
@@ -32,30 +33,14 @@ function CargaEvidencias({autoCloseAlert, trackerEProveedor}) {
     //Para guardar el token de la sesión
     const token = localStorage.getItem("Token");
     const user = localStorage.getItem("User");
-    const role = localStorage.getItem("Id_Role");
     const { uUID } = useParams();
-    
-    const [inputs, setInputs] = useState([]);
-    
-    //Para guardar los datos de los roles
-    const [dataGeneralParameters, setDataGeneralParameters] = useState([]);
-
-    //Para guardar los datos de los groupers
-    const [dataGroupers, setDataGroupers] = useState([]);
+    const ambiente = process.env.REACT_APP_ENVIRONMENT
+    const history = useHistory();
 
     //Para guardar la direccion IP del usuario
     const [ip, setIP] = useState("");
 
-    const [dataFind, setDataFind] = useState(false);
-
-    const [filterGrouper, setFilterGrouper] = useState({});
-
-    const [xmlState, setXmlState] = useState("");
-
     const [theInputKey, setTheInputKey] = useState("");
-
-    const [files, setFiles] = useState([])
-    const [filesState, setFilesState] = useState([])
 
     const length = trackerEProveedor.length;
     const [budget, setBudget] = useState(Array.from({ length }, () => null));
@@ -192,6 +177,7 @@ function CargaEvidencias({autoCloseAlert, trackerEProveedor}) {
         })
         .then(function(data) {
             autoCloseAlert(data.data.message)
+            history.push(ambiente + `/admin/invoices/`);
         })
         .catch(function(err) {
             alert("No se pudo consultar la informacion de carta porte" + err);

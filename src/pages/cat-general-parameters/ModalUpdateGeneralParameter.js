@@ -276,6 +276,7 @@ function ModalUpdateGeneralParameter({abierto, toggleModalUpdateRecord, record, 
                                 </FormGroup>
                             </div>
                         )}
+                        <label>Status</label>
                         <FormGroup check >
                             <Label check>
                                 <Input 

@@ -2,12 +2,11 @@ import React, {Component} from 'react'
 import { useState, useEffect} from "react";
 import ReactTable from "../../reacttable/ReactTable";
 
-function CartaPorteRequestsTable({dataTable, dataCompanies}) {
+function CartaPorteRequestsTable({dataTable}) {
 
     const [dataState, setDataState] = useState(
         dataTable.map((prop, key) => {
-            var company = dataCompanies.find( o => o.Id_Company === prop.Id_Company).Name
-            console.log(company)
+            console.log(prop)
             var status;
             if(prop.Status === true)
             {
@@ -20,7 +19,8 @@ function CartaPorteRequestsTable({dataTable, dataCompanies}) {
             return {
                 id: key,
                 requestNumber: prop.Request_Number,
-                idCompany: company,
+                idCompany: prop.Company,
+                idVendor: prop.Vendor,
                 uuid: prop.UUID,
                 status: status,
             };
@@ -33,19 +33,23 @@ function CartaPorteRequestsTable({dataTable, dataCompanies}) {
                 data={dataState}
                 columns={[
                     {
-                        Header: "Request Number",
+                        Header: "Número de Solicitud",
                         accessor: "requestNumber",
                     },
                     {
-                        Header: "Company",
+                        Header: "Compañía",
                         accessor: "idCompany",
+                    },
+                    {
+                        Header: "Proveedor",
+                        accessor: "idVendor",
                     },
                     {
                         Header: "UUID",
                         accessor: "uuid",
                     },
                     {
-                        Header: "Status",
+                        Header: "Estatus",
                         accessor: "status",
                     },
                 ]}

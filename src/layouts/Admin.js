@@ -5,6 +5,7 @@ import { Route, Switch, useLocation } from "react-router-dom";
 import { Link, useHistory } from "react-router-dom";
 import ReactBSAlert from "react-bootstrap-sweetalert";
 import IdleTimer from 'react-idle-timer';
+import axios from 'axios'
 
 //global css
 import '../css/bootstrap/bootstrap.css'
@@ -31,6 +32,9 @@ import CargaXML from "../pages/carga/CargaXML"
 import CargaEvidencias from "../pages/carga/CargaEvidencias"
 import CompaniesVendors from "../pages/companies-vendors/CompaniesVendors"
 import GeneralParameters from "../pages/cat-general-parameters/GeneralParameters"
+import Pool from "../pages/carga/Pool"
+import VerEvidencias from "../pages/carga/VerEvidencias"
+import InvoicesPools from "../pages/carga/InvoicesPools"
 
 function Admin(props) {
     const [isEmptyView, setIsEmptyView] = useState(false)
@@ -57,6 +61,12 @@ function Admin(props) {
     //Para mostrar una alerta al actualizar o insertar registro
     const [alert, setAlert] = React.useState(null);
 
+    //Para mostrar una alerta al Rechazar evidencias
+    const [alert2, setAlert2] = React.useState(null);
+
+    //Para mostrar una alerta al Crear Pool
+    const [alert3, setAlert3] = React.useState(null);
+
     //Para el cierre de sesión cuando no hay actividad
     const [timeout, setTimeout] = useState(1800000); //despues de media hora se cierra la sesión
     const [showModal, setShowModal] = useState(false);
@@ -73,7 +83,34 @@ function Admin(props) {
 
     //Para los archivos que se tienen que subir en carga de evidencias
     const [trackerEProveedor, setTrackerEProveedor] = useState([]);
-    
+
+    //Para guardar la direccion IP del usuario
+    const [ip, setIP] = useState("");
+
+    const getData = async () => {
+      //const res = await axios.get('https://geolocation-db.com/json/')
+      //setIP(res.data.IPv4)
+  
+      try{
+          let response = await axios({
+              method: 'get',
+              url: "https://geolocation-db.com/json/",
+              json: true
+          })
+          setIP(response.data.IPv4)
+      } catch(err){
+              return {
+              mensaje: "Error al obtener IP",
+              error: err
+              }
+      }
+    }
+  
+    useEffect(() => {
+        //Descargamos la IP del usuario
+        getData()
+    }, []);
+
     function _onAction(e) {
       //console.log('user did something', e)
       setIsTimedOut(false)
@@ -268,7 +305,7 @@ function Admin(props) {
                       }
                     )
                   }
-                  else if(data[i].Component_Submodule === "CartaPorte")
+                  else if(data[i].Component_Submodule === "Invoices")
                   {
                     views.push(
                       {
@@ -382,7 +419,7 @@ function Admin(props) {
                           }
                         )
                       }
-                      else if(data[j].Component_Submodule === "CartaPorte")
+                      else if(data[j].Component_Submodule === "Invoices")
                       {
                         views.push(
                           {
@@ -401,6 +438,18 @@ function Admin(props) {
                             path: data[j].Url,
                             name: data[j].SubModule_Desc,
                             component: "CartaPorteRequests",
+                            layout: ambiente + data[j].Layout_SubModule,
+                            views: []
+                          }
+                        )
+                      }
+                      else if(data[j].Component_Submodule === "InvoicesPools")
+                      {
+                        views.push(
+                          {
+                            path: data[j].Url,
+                            name: data[j].SubModule_Desc,
+                            component: "InvoicesPools",
                             layout: ambiente + data[j].Layout_SubModule,
                             views: []
                           }
@@ -484,6 +533,28 @@ function Admin(props) {
                 name: "Carga de Evidencias",
                 icon: 'dashboard',
                 component: "CargaEvidencias",
+                layout: ambiente + "/admin",
+                views: []
+              }
+            )
+            routesAux2.push(
+              {
+                collapse: false,
+                path: "/create-pool/",
+                name: "Crear Pool",
+                icon: 'dashboard',
+                component: "Pool",
+                layout: ambiente + "/admin",
+                views: []
+              }
+            )
+            routesAux2.push(
+              {
+                collapse: false,
+                path: "/ver-evidencias/:uUID/",
+                name: "Ver Evidencias",
+                icon: 'dashboard',
+                component: "VerEvidencias",
                 layout: ambiente + "/admin",
                 views: []
               }
@@ -692,7 +763,7 @@ function Admin(props) {
                 <Route
                   path={prop.layout + prop.path}
                 >
-                  <Carga autoCloseAlert = {autoCloseAlert}/>
+                  <Carga autoCloseAlert = {autoCloseAlert} autoCloseAlertEvidencias = {autoCloseAlertEvidencias}/>
                 </Route>
               );
             }
@@ -703,6 +774,26 @@ function Admin(props) {
                   path={prop.layout + prop.path}
                 >
                   <CartaPorteRequests autoCloseAlert = {autoCloseAlert}/>
+                </Route>
+              );
+            }
+            else if(prop.component === "InvoicesPools")
+            {
+              return (
+                <Route
+                  path={prop.layout + prop.path}
+                >
+                  <InvoicesPools autoCloseAlert = {autoCloseAlert}/>
+                </Route>
+              );
+            }
+            else if(prop.component === "Pool")
+            {
+              return (
+                <Route
+                  path={prop.layout + prop.path}
+                >
+                  <Pool autoCloseAlert = {autoCloseAlertPool}/>
                 </Route>
               );
             }
@@ -723,6 +814,16 @@ function Admin(props) {
                   path={prop.layout + prop.path}
                 >
                   <CargaEvidencias autoCloseAlert = {autoCloseAlert} trackerEProveedor = {trackerEProveedor}/>
+                </Route>
+              );
+            }
+            else if(prop.component === "VerEvidencias")
+            {
+              return (
+                <Route
+                  path={prop.layout + prop.path}
+                >
+                  <VerEvidencias/>
                 </Route>
               );
             }
@@ -765,9 +866,94 @@ function Admin(props) {
           hideAlert()
         },3000)
     };
+
+    const autoCloseAlertPool = (mensaje) => {
+      setAlert3(
+          <ReactBSAlert
+              style={{ display: "block", display: "flex", justifyContent: "center", alignItems: "center" }}
+              title="Mensaje"
+              onConfirm={() => hideAlert()}
+              showConfirm={false}
+              >
+          {mensaje}
+          </ReactBSAlert>
+      );
+      window.setTimeout(()=>{
+        hideAlert3()
+      },6000)
+    };
+
+    const autoCloseAlertEvidencias = (cfdi) => {
+      console.log(cfdi)
+      setAlert2(
+          <ReactBSAlert
+              style={{ display: "block", display: "flex", justifyContent: "center", alignItems: "center" }}
+              warning
+              showCancel
+              cancelBtnText="CANCELAR"
+              confirmBtnText="Si, rechazar evidencia"
+              confirmBtnBsStyle="danger"
+              title="Mensaje"
+              onCancel={() => hideAlert2()}
+              onConfirm={() => rechazarEvidencia(cfdi)}
+              focusCancelBtn
+              >
+            ¿Estás seguro que quieres rechazar la evidencia?  &nbsp; Serie: {cfdi.serie} Folio: {cfdi.folio}
+          </ReactBSAlert>
+      );
+    };
+
+    function rechazarEvidencia(cfdi)
+    {
+      const catRegister = {
+        user: user,
+        ip: ip,
+        uuid: cfdi.uuid
+      };
+
+      console.log(catRegister)
+      hideAlert2()
+      var url = new URL(`${process.env.REACT_APP_API_URI}invoices/reject-invoice-evidence`);
+
+      fetch(url, {
+          method: "POST",
+          body: JSON.stringify(catRegister),
+          headers: {
+              "access-token": token,
+              "Content-Type": "application/json",
+          }
+      })
+      .then(function(response) {
+          return response.ok ? response.json() : Promise.reject();
+      })
+      .then((data) => {
+          if (data.errors) {
+              console.log("Hubo un error al procesar tu solicitud")
+          }
+          else {
+            if(data.data.success === 1)
+            {
+              autoCloseAlert(data.data.message)
+              history.push(ambiente + `/admin/invoices/`);
+            }
+            else {
+              autoCloseAlert(data.data.message)
+              history.push(ambiente + `/admin/invoices/`);
+            }
+          }
+      });
+    }
   
     const hideAlert = () => {
         setAlert(null);
+    };
+
+    const hideAlert2 = () => {
+      setAlert2(null);
+    };
+
+    const hideAlert3 = () => {
+      setAlert3(null);
     };
 
     return dataFind === false ? (
@@ -786,8 +972,8 @@ function Admin(props) {
               debounce={250}
               timeout={timeout} 
             />
-
             {alert}
+            {alert2}
             <Navbar1 layout = {layout} setLayout = {setLayout} changeImageP = {changeImageP}/>
             <div className={isEmptyView ? '' : 'container-fluid'}>
                 <div className={isEmptyView ? '' : 'row'}>

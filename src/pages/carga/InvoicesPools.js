@@ -24,16 +24,15 @@ import {
   CardFooter
 } from "reactstrap";
 
-import CartaPorteRequestsTable from "./CartaPorteRequestsTable";
+import InvoicesPoolsTable from "./InvoicesPoolsTable";
 
-function CartaPorteRequests({autoCloseAlert}) {
+function InvoicesPools({autoCloseAlert}) {
 
   //Para guardar el token de la sesión
   const token = localStorage.getItem("Token");
-  const user = localStorage.getItem("User");
- 
+  
   //Para guardar los datos de los roles
-  const [dataCartaPorteRequests, setDataCartaPorteRequests] = useState([]);
+  const [dataInvoicesPools, setDataInvoicesPools] = useState([]);
   
   const [dataFind, setDataFind] = useState(false);
 
@@ -41,22 +40,19 @@ function CartaPorteRequests({autoCloseAlert}) {
   const [ip, setIP] = useState("");
   
   const getData = async () => {
-  //const res = await axios.get('https://geolocation-db.com/json/')
-  //setIP(res.data.IPv4)
-
-      try{
-          let response = await axios({
-              method: 'get',
-              url: "https://geolocation-db.com/json/",
-              json: true
-          })
-          setIP(response.data.IPv4)
-      } catch(err){
-              return {
-              mensaje: "Error al obtener IP",
-              error: err
-              }
-      }
+    try{
+        let response = await axios({
+            method: 'get',
+            url: "https://geolocation-db.com/json/",
+            json: true
+        })
+        setIP(response.data.IPv4)
+    } catch(err){
+            return {
+            mensaje: "Error al obtener IP",
+            error: err
+            }
+    }
   }
 
   useEffect(() => {
@@ -65,33 +61,31 @@ function CartaPorteRequests({autoCloseAlert}) {
   }, []);
 
   useEffect(() => {
-      //Aqui vamos a descargar la lista de vendors de la base de datos 
-      //var url = new URL(`${process.env.REACT_APP_API_URI}vendors/`);
-      var url = new URL(`${process.env.REACT_APP_API_URI}carta-porte-requests/`);
+    //var url = new URL(`http://localhost:8091/api/invoices-pool/`);
+    var url = new URL(`${process.env.REACT_APP_API_URI}invoices-pool/`);
 
-      fetch(url, {
-          method: "GET",
-          headers: {
-              "access-token": token,
-              "Content-Type": "application/json",
-          }
-      })
-      .then(function(response) {
-        return response.ok ? response.json() : Promise.reject();
-      })
-      .then(function(data) {
-        setDataCartaPorteRequests(data)
-        console.log(data)
-        setDataFind(true)
-      })
-      .catch(function(err) {
-        alert("No se pudo consultar la informacion de las vendors" + err);
-      });
+    fetch(url, {
+        method: "GET",
+        headers: {
+            "access-token": token,
+            "Content-Type": "application/json",
+        }
+    })
+    .then(function(response) {
+      return response.ok ? response.json() : Promise.reject();
+    })
+    .then(function(data) {
+      setDataInvoicesPools(data)
+      setDataFind(true)
+    })
+    .catch(function(err) {
+      alert("No se pudo consultar la informacion de los invoices pools" + err);
+    });
   }, []);
 
   //Renderizado condicional
   function CargaT() {
-      return <CartaPorteRequestsTable dataTable = {dataCartaPorteRequests}/>
+      return <InvoicesPoolsTable dataTable = {dataInvoicesPools} autoCloseAlert = {autoCloseAlert}/>
   }
 
   return dataFind === false ? (
@@ -100,7 +94,7 @@ function CartaPorteRequests({autoCloseAlert}) {
         <Col md="12">
           <Card>
             <CardHeader>
-                <CardTitle tag="h4">Solicitud Carta Porte</CardTitle>
+                <CardTitle tag="h4">Carátulas Facturas</CardTitle>
             </CardHeader>
             <CardBody>
               <Skeleton height={25} />
@@ -117,10 +111,10 @@ function CartaPorteRequests({autoCloseAlert}) {
         <Col md="12">
           <Card>
             <CardHeader>
-                <CardTitle tag="h4">Solicitud Carta Porte</CardTitle>
+                <CardTitle tag="h4">Carátulas Facturas</CardTitle>
             </CardHeader>
             <CardBody>
-              {dataCartaPorteRequests.length === 0 ? (
+              {dataInvoicesPools.length === 0 ? (
                   <div className ="no-data">
                     <h3>No hay datos</h3>
                   </div>
@@ -135,4 +129,4 @@ function CartaPorteRequests({autoCloseAlert}) {
   )
 }
 
-export default CartaPorteRequests;
+export default InvoicesPools;

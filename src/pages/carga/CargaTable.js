@@ -4,19 +4,78 @@ import ReactTable from "../../reacttable/ReactTable";
 import { Link, useHistory } from "react-router-dom";
 
 import ModalAddWorkflow from "./ModalAddWorkflow.js";
-//import ModalUpdateUser from "./ModalUpdateUser.js";
 
-function CargaTable({dataTable, ip, autoCloseAlert, updateAddData, workflowTypes, workflowTracker, estatusCarga}) {
+import {
+    Button,
+    Modal, 
+    ModalBody, 
+    ModalFooter,
+    FormGroup,
+    Form,
+    Input,
+    Label,
+    Row,
+    Col,
+} from "reactstrap";
+
+function CargaTable({dataTable, ip, autoCloseAlert, updateAddData, workflowTypes, workflowTracker, estatusCarga, checkPool, autoCloseAlertEvidencias}) {
     const ambiente = process.env.REACT_APP_ENVIRONMENT
     const history = useHistory();
     const token = localStorage.getItem("Token");
     const role = localStorage.getItem("Id_Role");
-    const vendor = localStorage.getItem("Id_Vendor");
+
+    const length = dataTable.length;
+    const [budget, setBudget] = useState(Array.from({ length }, () => false));
+
+    const [buttonListP, setButtonListP] = useState(false)
+
+    const [invoicesPool, setInvoicesPool] = useState([])
+
+    const handleInput = (inputEv, index) => {
+        console.log(inputEv)
+        const value = inputEv
+        setBudget((state) => state.map((val, i) => (i !== index ? val : value)));
+        //setBudgetP((state) => state.map((val, i) => (i !== index ? val : value)));
+    };
+
+    useEffect(() => {
+        var dataAux = []
+        var j=0
+        for(var i=0; i<budget.length; i++)
+        {
+            if(budget[i] === true)
+            {
+                dataAux[j] = dataTable[i]
+                j++
+            }
+        }
+
+        if(dataAux.length > 0)
+        {
+            //Verificamos que todos sean de la misma empresa
+            var showButton = true
+            var vendorRFC = dataAux[0].Vendor_RFC
+            for(var i=0; i<dataAux.length; i++)
+            {
+                if(dataAux[i].Vendor_RFC !== vendorRFC)
+                {
+                    showButton = false
+                }
+            }
+            console.log("Estado del boton: " + showButton)
+            setButtonListP(showButton)
+            setInvoicesPool(dataAux)
+            //setInvoicesPool(dataAux)
+        }
+        else {
+            setButtonListP(false)
+        }
+    }, [budget])
 
     const [dataState, setDataState] = useState(
         dataTable.map((prop, key) => {
-            console.log(prop)
-            console.log(estatusCarga)
+            //console.log(checkPool)
+            //console.log(prop)
             return {
               id: key,
               taxId: prop.Company_RFC,
@@ -48,15 +107,15 @@ function CargaTable({dataTable, ip, autoCloseAlert, updateAddData, workflowTypes
                       <i className="fa fa-external-link-square" />
                     </button>
                   </abbr>
-                  {vendor === "0" ? (
+                  {/*vendor === "0" ? (
                       <abbr title="Actualizar Estatus">
                         <button
-                            /*onClick={() => {
+                            onClick={() => {
                                 let obj = dataState.find((o) => o.id === key);
                                 //console.log(obj)
                                 getRegistro(key);
                                 toggleModalAddRecord()
-                            }}*/
+                            }}
                             color="warning"
                             size="sm"
                             className="btn-icon btn-link edit"
@@ -64,36 +123,89 @@ function CargaTable({dataTable, ip, autoCloseAlert, updateAddData, workflowTypes
                             <i className="fa fa-edit" />
                         </button>
                     </abbr>
-                  ):null}
-                  {prop.Id_Workflow_Status === parseInt(estatusCarga[0],10) ? (
-                      <abbr title="Carga de evidencias">
-                        <button
-                            onClick={() => {
-                                let obj = dataState.find((o) => o.id === key); 
-                                history.push(ambiente + `/admin/carga-evidencias/${obj.uuid}/`);
-                            }}
-                            color="warning"
-                            size="sm"
-                            className="btn-icon btn-link edit"
-                        >
-                            <i className="fa fa-cloud-upload" />
-                        </button>
-                    </abbr>
-                  ):null}
-                  {prop.Id_Workflow_Status === parseInt(estatusCarga[1],10) ? (
-                      <abbr title="Carga de evidencias">
-                        <button
-                            onClick={() => {
-                                let obj = dataState.find((o) => o.id === key); 
-                                history.push(ambiente + `/admin/carga-evidencias/${obj.uuid}/`);
-                            }}
-                            color="warning"
-                            size="sm"
-                            className="btn-icon btn-link edit"
-                        >
-                            <i className="fa fa-cloud-upload" />
-                        </button>
-                    </abbr>
+                    ):null*/}
+                    {prop.Id_Workflow_Status === parseInt(estatusCarga[0],10) ? (
+                        <abbr title="Carga de evidencias">
+                            <button
+                                onClick={() => {
+                                    let obj = dataState.find((o) => o.id === key); 
+                                    history.push(ambiente + `/admin/carga-evidencias/${obj.uuid}/`);
+                                }}
+                                color="warning"
+                                size="sm"
+                                className="btn-icon btn-link edit"
+                            >
+                                <i className="fa fa-cloud-upload" />
+                            </button>
+                        </abbr>
+                    ):null}
+                    {prop.Id_Workflow_Status === parseInt(estatusCarga[1],10) ? (
+                        <abbr title="Carga de evidencias">
+                            <button
+                                onClick={() => {
+                                    let obj = dataState.find((o) => o.id === key); 
+                                    history.push(ambiente + `/admin/carga-evidencias/${obj.uuid}/`);
+                                }}
+                                color="warning"
+                                size="sm"
+                                className="btn-icon btn-link edit"
+                            >
+                                <i className="fa fa-cloud-upload" />
+                            </button>
+                        </abbr>
+                    ):null}
+                    {prop.Id_Workflow_Status === parseInt(checkPool,10) ? (
+                        <abbr title="Rechazar Evidencias">
+                            <button
+                                onClick={() => {
+                                    let obj = dataState.find((o) => o.id === key); 
+                                    autoCloseAlertEvidencias(obj)
+                                }}
+                                color="warning"
+                                size="sm"
+                                className="btn-icon btn-link edit"
+                            >
+                                <i className="fa fa-close" />
+                            </button>
+                        </abbr>
+                    ):null}
+                    {prop.Id_Workflow_Status >= parseInt(checkPool,10) ? (
+                        <abbr title="Ver Evidencias">
+                            <button
+                                onClick={() => {
+                                    let obj = dataState.find((o) => o.id === key); 
+                                    history.push(ambiente + `/admin/ver-evidencias/${obj.uuid}/`);
+                                }}
+                                color="warning"
+                                size="sm"
+                                className="btn-icon btn-link edit"
+                            >
+                                <i className="fa fa-eye" />
+                            </button>
+                        </abbr>
+                    ):null}
+                </div>
+              ),
+              actions2: (
+                // ACCIONES A REALIZAR EN CADA REGISTRO
+                <div className="actions-center">
+                    {/*IMPLEMENTAR EDICION PARA CADA REGISTRO */}
+                    {prop.Id_Workflow_Status === parseInt(checkPool,10) ? (
+                        <FormGroup check >
+                            <Label check>
+                                <Input 
+                                    id = "valor"
+                                    type="checkbox"
+                                    onChange={(e) => {
+                                        //setUpdateValue(e.target.checked)
+                                        handleInput(e.target.checked, key)
+                                    }}
+                                />{' '}
+                                <span className="form-check-sign">
+                                    <span className="check"></span>
+                                </span>
+                            </Label>
+                        </FormGroup>
                   ):null}
                 </div>
               ),
@@ -178,11 +290,42 @@ function CargaTable({dataTable, ip, autoCloseAlert, updateAddData, workflowTypes
         }
     }
 
+    function createPool()
+    {
+        history.push(ambiente + `/admin/create-pool/`);
+        history.push({
+            pathname: ambiente + `/admin/create-pool/`,
+            state: { cfdis:  invoicesPool}
+        });
+    }
+
     return (
         <div>
+            <Row>
+                <Col sm = "3">
+                </Col>
+                <Col sm = "6">
+                    {buttonListP === true ? ( 
+                        <Button className="buttons btn-gtc btn-filter" color="primary" onClick={createPool}>
+                            <i className="fa fa-angle-double-right btn-icon" />
+                            Crear Pool
+                        </Button>)
+                    : null}
+                </Col>
+                <Col sm = "3">
+                </Col>
+            </Row>
+            &nbsp;
+            &nbsp;
             <ReactTable
                 data={dataState}
                 columns={[
+                    {
+                        Header: "",
+                        accessor: "actions2",
+                        sortable: false,
+                        filterable: false,
+                    },
                     {
                         Header: "Rfc",
                         accessor: "taxId",
@@ -210,10 +353,6 @@ function CargaTable({dataTable, ip, autoCloseAlert, updateAddData, workflowTypes
                     {
                         Header: "Folio",
                         accessor: "folio",
-                    },
-                    {
-                        Header: "Fecha",
-                        accessor: "fecha",
                     },
                     {
                         Header: "Estatus",

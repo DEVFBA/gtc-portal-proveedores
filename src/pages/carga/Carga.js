@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ConnectedDatePicker from '../../forms/react-datetime/ConnectedDatePicker'
 import 'bootstrap/dist/js/bootstrap.bundle.min';
-//import ModalAddRequester from "./ModalAddRequester";
 
 import convert from 'xml-js';
 import axios from 'axios'
@@ -10,6 +9,7 @@ import Widget from '../../elements/Widget'
 import Skeleton from '@yisheng90/react-loading';
 import '../../css/forms/react-datetime.css'
 import CargaTable from './CargaTable';
+import Filtro from './Filtro';
 // reactstrap components
 import {
   Button,
@@ -34,7 +34,7 @@ import ReactDatetime from "react-datetime";
 import Select from "react-select";
 import { param } from "jquery";
 
-function Carga({autoCloseAlert}) {
+function Carga({autoCloseAlert, autoCloseAlertEvidencias}) {
 
   //Para guardar el archivo XML
   const [xml, setXml] = useState(null);
@@ -48,7 +48,6 @@ function Carga({autoCloseAlert}) {
 
   //Para guardar el token de la sesión
   const token = localStorage.getItem("Token");
-
   const user = localStorage.getItem("User");
   const vendor = localStorage.getItem("Id_Vendor");
 
@@ -85,9 +84,6 @@ function Carga({autoCloseAlert}) {
   //Para guardar el UUID del documento
   const [uuid, setUuid] =  useState("");
 
-  //Para guardar el Id Workflow del documento
-  const [idWorkflow, setIdWorkflow] =  useState("");
-
   //Para guardar el Id_Vendor del documento
   const [idVendor, setIdVendor] =  useState("");
 
@@ -96,9 +92,6 @@ function Carga({autoCloseAlert}) {
 
   //Para guardar el Id_Receipt_Type del documento
   const [idReceiptType, setIdReceiptType] =  useState("");
-
-  //Para guardar el Id_Entity_Type del documento
-  const [idEntityType, setIdEntityType] =  useState("");
 
   //Para guardar la serie del documento
   const [serie, setSerie] =  useState("");
@@ -155,6 +148,9 @@ function Carga({autoCloseAlert}) {
 
   //Para el condicionado de la carga de evidencias
   const [estatusCarga, setEstatusCarga] = useState([]);
+
+  //Para el condicionado de los checkboxes
+  const [checkPool, setCheckPool] = useState("");
   
   const getData = async () => {
     //const res = await axios.get('https://geolocation-db.com/json/')
@@ -209,11 +205,6 @@ function Carga({autoCloseAlert}) {
       });
   }, []);
 
-  useEffect(() => {
-    //Descargamos la IP del usuario
-    getData()
-  }, []);
-
   function getCartaPorte(vendors){
     var vendorId = vendors.find( o => o.Id_Vendor === parseInt(vendor,10))
     if(vendor==="0")
@@ -237,7 +228,6 @@ function Carga({autoCloseAlert}) {
           return response.ok ? response.json() : Promise.reject();
       })
       .then(function(data) {
-        console.log(data)
         setDataCartaPorte(data)
         setDataFind(false)
       })
@@ -260,7 +250,6 @@ function Carga({autoCloseAlert}) {
           return response.ok ? response.json() : Promise.reject();
       })
       .then(function(data) {
-        
         setDataCartaPorte(data)
         setDataFind(false)
       })
@@ -362,6 +351,8 @@ useEffect(() => {
       var estatusC = data.find( o => o.Id_Catalog === 23 )
       setEstatusCarga(estatusC.Value.split(", "))
 
+      var checkP = data.find( o => o.Id_Catalog === 27 )
+      setCheckPool(checkP.Value)
   })
   .catch(function(err) {
       alert("No se pudo consultar la informacion de los general parameters" + err);
@@ -390,6 +381,7 @@ useEffect(() => {
   })
   .then(function(data) {
     var aux = data.find( o => o.Id_Catalog === "WF-CP" )
+    //console.log(aux)
     setWorflowTypes(aux)
   })
   .catch(function(err) {
@@ -461,7 +453,7 @@ useEffect(() => {
     var contador = 0
     for(var i=0; i< data.length; i++)
     {
-      if(data[i].Id_Workflow_Type === "WF-CP")
+      if(data[i].Id_Workflow_Type === "WF-CPAS")
       {
         dataAux[contador] = data[i]
         contador++
@@ -472,21 +464,13 @@ useEffect(() => {
     {
       dataSelect[j] = {value: dataAux[j].Id_Workflow_Status, label: dataAux[j].Long_Desc}
     }
+    //console.log(data)
     setDataWorkflowStatus(dataSelect)
   })
   .catch(function(err) {
       alert("No se pudo consultar la informacion de los workflow tracker" + err);
   });
 }, []);
-
-function toggleModalAddRecord(){
-  if(modalAddRecord == false){
-    setModalAddRecord(true);
-  }
-  else{
-    setModalAddRecord(false);
-  }
-}
 
 function deleteClick(){
   setDataFind(true)
@@ -497,7 +481,7 @@ function deleteClick(){
   setFilterUuid("")
   setFilterStatus({})
 
-  var vendorId = dataVendors.find( o => o.Id_Vendor === parseInt(vendor,10))
+    var vendorId = dataVendors.find( o => o.Id_Vendor === parseInt(vendor,10))
     if(vendor==="0")
     {
       setFilterRfcEmisor("")
@@ -585,8 +569,6 @@ function registerClick(){
         reader2.onloadend = () => { 
           setFileStatePdf(file2)
           setFileUploadPdf(reader2.result)
-          //console.log(reader.result)
-          //preData(reader.result, xml)
         };
         if (file2) {
           reader2.readAsDataURL(file2);
@@ -621,8 +603,6 @@ function registerClick(){
         reader2.onloadend = () => { 
           setFileStatePdf(file2)
           setFileUploadPdf(reader2.result)
-          //console.log(reader.result)
-          //preData(reader.result, xml)
         };
         if (file2) {
           reader2.readAsDataURL(file2);
@@ -685,9 +665,6 @@ function getSolicitud()
     else {
       preData(data.data)
     }
-    //console.log(data.data.success)
-    //console.log(data.data)
-    //preData(data.data)
   })
   .catch(function(err) {
       alert("No se pudo consultar la informacion del carta porte request" + err);
@@ -1013,93 +990,96 @@ function preData(dataRequest){
   };
 }
 
-const parseFiles = async(params) => {
+  const parseFiles = async(params) => {
 
-  var url = params.pathSolicitud
-  let response = await axios({ url })
-  var options = {compact: false, ignoreComment: true, spaces: 4};
-  const jsonString = convert.xml2json(response.data, options);
-  const jsonData = JSON.parse(jsonString)
+    var url = params.pathSolicitud
+    console.log(params.pathSolicitud)
+    let response = await axios({ url })
+    console.log(response.data)
+    var options = {compact: false, ignoreComment: true, spaces: 4};
+    const jsonString = convert.xml2json(response.data, options);
+    const jsonData = JSON.parse(jsonString)
 
-  var complementoR = jsonData.elements[0].elements.find( o => o.name === "cfdi:Complemento")
-  var cartaPorteR = complementoR.elements.find( o => o.name === "cartaporte20:CartaPorte")
-  var ubicacionesR = cartaPorteR.elements.find( o => o.name === "cartaporte20:Ubicaciones").elements
-  var mercanciasR = cartaPorteR.elements.find( o => o.name === "cartaporte20:Mercancias").elements
-  
-  //console.log(params)
-  var complementoV = params.jsonXml.find(o => o.name === "cfdi:Complemento")
-  var cartaPorteV = complementoV.elements.find(o => o.name === "cartaporte20:CartaPorte")
-  var ubicacionesV = cartaPorteV.elements.find(o => o.name === "cartaporte20:Ubicaciones").elements
-  var mercanciasV = cartaPorteV.elements.find(o => o.name === "cartaporte20:Mercancias").elements
+    var complementoR = jsonData.elements[0].elements.find( o => o.name === "cfdi:Complemento")
+    var cartaPorteR = complementoR.elements.find( o => o.name === "cartaporte20:CartaPorte")
+    var ubicacionesR = cartaPorteR.elements.find( o => o.name === "cartaporte20:Ubicaciones").elements
+    var mercanciasR = cartaPorteR.elements.find( o => o.name === "cartaporte20:Mercancias").elements
+    
+    //console.log(params)
+    var complementoV = params.jsonXml.find(o => o.name === "cfdi:Complemento")
+    var cartaPorteV = complementoV.elements.find(o => o.name === "cartaporte20:CartaPorte")
+    var ubicacionesV = cartaPorteV.elements.find(o => o.name === "cartaporte20:Ubicaciones").elements
+    var mercanciasV = cartaPorteV.elements.find(o => o.name === "cartaporte20:Mercancias").elements
 
-  //1. Comparamos que las ubicaciones sean la misma cantidad.
-  if(ubicacionesV.length === ubicacionesR.length)
-  {
-    //seguimos
-    if(mercanciasV.length === mercanciasR.length)
+    //1. Comparamos que las ubicaciones sean la misma cantidad.
+    if(ubicacionesV.length === ubicacionesR.length)
     {
-      //Vamos a verificar las ubicaciones
-      for(var i=0; i<ubicacionesV.length; i++)
+      //seguimos
+      if(mercanciasV.length === mercanciasR.length)
       {
-        var ubicacionVActual = ubicacionesV[i]
-        var ubicacionFlag = false
-        for(var j=0; j<ubicacionesR.length; j++)
+        //Vamos a verificar las ubicaciones
+        for(var i=0; i<ubicacionesV.length; i++)
         {
-          if((ubicacionVActual.attributes.TipoUbicacion === ubicacionesR[j].attributes.TipoUbicacion)
-            && (ubicacionVActual.attributes.RFCRemitenteDestinatario === ubicacionesR[j].attributes.RFCRemitenteDestinatario)
-            && (ubicacionVActual.elements[0].attributes.Colonia === ubicacionesR[j].elements[0].attributes.Colonia)
-            && (ubicacionVActual.elements[0].attributes.Localidad === ubicacionesR[j].elements[0].attributes.Localidad)
-            && (ubicacionVActual.elements[0].attributes.Municipio === ubicacionesR[j].elements[0].attributes.Municipio)
-            && (ubicacionVActual.elements[0].attributes.Pais === ubicacionesR[j].elements[0].attributes.Pais)
-            && (ubicacionVActual.elements[0].attributes.CodigoPostal === ubicacionesR[j].elements[0].attributes.CodigoPostal) )
+          var ubicacionVActual = ubicacionesV[i]
+          var ubicacionFlag = false
+          for(var j=0; j<ubicacionesR.length; j++)
           {
-            ubicacionFlag = true
+            if((ubicacionVActual.attributes.TipoUbicacion === ubicacionesR[j].attributes.TipoUbicacion)
+              && (ubicacionVActual.attributes.RFCRemitenteDestinatario === ubicacionesR[j].attributes.RFCRemitenteDestinatario)
+              && (ubicacionVActual.elements[0].attributes.Colonia === ubicacionesR[j].elements[0].attributes.Colonia)
+              && (ubicacionVActual.elements[0].attributes.Localidad === ubicacionesR[j].elements[0].attributes.Localidad)
+              && (ubicacionVActual.elements[0].attributes.Municipio === ubicacionesR[j].elements[0].attributes.Municipio)
+              && (ubicacionVActual.elements[0].attributes.Pais === ubicacionesR[j].elements[0].attributes.Pais)
+              && (ubicacionVActual.elements[0].attributes.CodigoPostal === ubicacionesR[j].elements[0].attributes.CodigoPostal) )
+            {
+              ubicacionFlag = true
+            }
+          }
+          if(ubicacionFlag === false)
+          {
+            //EL ARCHIVO SE VA A SUBIR CON ERROR
+            uploadXmlFinal(false)
           }
         }
-        if(ubicacionFlag === false)
-        {
-          //EL ARCHIVO SE VA A SUBIR CON ERROR
-          uploadXmlFinal(false)
-        }
-      }
 
-      //Vamos a verificar las mercancias
-      for(var i=0; i<mercanciasV.length; i++)
-      {
-        var mercanciaVActual = mercanciasV[i]
-        var mercanciaFlag = false
-        for(var j=0; j<mercanciasR.length; j++)
+        //Vamos a verificar las mercancias
+        for(var i=0; i<mercanciasV.length; i++)
         {
-          if((mercanciaVActual.attributes.BienesTransp === mercanciasR[j].attributes.BienesTransp)
-          && (mercanciaVActual.attributes.Cantidad === mercanciasR[j].attributes.Cantidad)
-          && (mercanciaVActual.attributes.ClaveUnidad === mercanciasR[j].attributes.ClaveUnidad)
-          && (mercanciaVActual.attributes.CveMaterialPeligroso === mercanciasR[j].attributes.CveMaterialPeligroso)
-          && (mercanciaVActual.attributes.Descripcion === mercanciasR[j].attributes.Descripcion)
-          && (mercanciaVActual.attributes.Embalaje === mercanciasR[j].attributes.Embalaje)
-          && (mercanciaVActual.attributes.MaterialPeligroso === mercanciasR[j].attributes.MaterialPeligroso)
-          && (mercanciaVActual.attributes.PesoEnKg === mercanciasR[j].attributes.PesoEnKg))
+          var mercanciaVActual = mercanciasV[i]
+          var mercanciaFlag = false
+          for(var j=0; j<mercanciasR.length; j++)
           {
-            mercanciaFlag = true
+            if((mercanciaVActual.attributes.BienesTransp === mercanciasR[j].attributes.BienesTransp)
+            && (mercanciaVActual.attributes.Cantidad === mercanciasR[j].attributes.Cantidad)
+            && (mercanciaVActual.attributes.ClaveUnidad === mercanciasR[j].attributes.ClaveUnidad)
+            && (mercanciaVActual.attributes.CveMaterialPeligroso === mercanciasR[j].attributes.CveMaterialPeligroso)
+            && (mercanciaVActual.attributes.Descripcion === mercanciasR[j].attributes.Descripcion)
+            && (mercanciaVActual.attributes.Embalaje === mercanciasR[j].attributes.Embalaje)
+            && (mercanciaVActual.attributes.MaterialPeligroso === mercanciasR[j].attributes.MaterialPeligroso)
+            && (mercanciaVActual.attributes.PesoEnKg === mercanciasR[j].attributes.PesoEnKg))
+            {
+              mercanciaFlag = true
+            }
+          }
+          if(mercanciaFlag === false)
+          {
+            //EL ARCHIVO SE VA A SUBIR CON ERROR
+            uploadXmlFinal(false)
           }
         }
-        if(mercanciaFlag === false)
-        {
-          //EL ARCHIVO SE VA A SUBIR CON ERROR
-          uploadXmlFinal(false)
-        }
+        uploadXmlFinal(true)
       }
-      uploadXmlFinal(true)
+      else {
+        //EL ARCHIVO SE VA A SUBIR CON ERROR
+        uploadXmlFinal(false)
+      }
     }
     else {
       //EL ARCHIVO SE VA A SUBIR CON ERROR
       uploadXmlFinal(false)
     }
   }
-  else {
-    //EL ARCHIVO SE VA A SUBIR CON ERROR
-    uploadXmlFinal(false)
-  }
-}
+
   function uploadXmlFinal(shipmentApproval)
   {
     let reader = new FileReader();
@@ -1410,36 +1390,17 @@ const parseFiles = async(params) => {
             autoCloseAlert(data.data.message)
           }
         }
-        /*else{
-          if(data[0].Code_Type === "Warning")
-          {
-            resetFileInput()
-            resetFileInputPdf()
-            setRequester()
-            autoCloseAlert(data[0].Code_Message_User)
-          }
-          else if(data[0].Code_Type === "Error")
-          {
-            resetFileInput()
-            resetFileInputPdf()
-            setRequester()
-            autoCloseAlert(data[0].Code_Message_User)
-          }
-          else{
-            //Para actualizar la tabla en componente principal
-            resetFileInput()
-            setRequester()
-            resetFileInputPdf()
-            updateAddData()
-            autoCloseAlert("CFDI cargado con éxito")
-          }
-      }*/
     });
   }
 
   //Renderizado condicional
   function CargaT() {
-    return <CargaTable dataTable = {dataCartaPorte} ip = {ip} autoCloseAlert = {autoCloseAlert} updateAddData = {updateAddData} workflowTypes = {workflowTypes} workflowTracker ={workflowTracker} estatusCarga = {estatusCarga}/>
+    return <CargaTable dataTable = {dataCartaPorte} ip = {ip} autoCloseAlert = {autoCloseAlert} updateAddData = {updateAddData} workflowTypes = {workflowTypes} workflowTracker ={workflowTracker} estatusCarga = {estatusCarga} checkPool = {checkPool} autoCloseAlertEvidencias = {autoCloseAlertEvidencias}/>
+  }
+
+  //Renderizado condicional
+  function FiltroT() {
+    return <Filtro filterClick = {filterClick} deleteClick = {deleteClick} dataWorkFlowStatus = {dataWorkFlowStatus} filterRfcCompany= {filterRfcCompany} setFilterRfcCompany = {setFilterRfcCompany} filterRfcEmisor = {filterRfcEmisor} setFilterRfcEmisor = {setFilterRfcEmisor} filterSerie = {filterSerie} setFilterSerie = {setFilterSerie} filterFolio = {filterFolio} setFilterFolio = {setFilterFolio} dateTo = {dateTo} setDateTo = {setDateTo} dateFrom = {dateFrom}  setDateFrom = {setDateFrom} filterUuid = {filterUuid} setFilterUuid = {setFilterUuid} filterStatus = {filterStatus} setFilterStatus = {setFilterStatus}/>
   }
 
   //Para actualizar la tabla al insertar registro
@@ -1565,14 +1526,14 @@ const parseFiles = async(params) => {
     
 
     var fStatus;
-    if(filterStatus === undefined)
+    if(filterStatus.value === undefined)
     {
       fStatus = 0
     }
     else {
       fStatus = filterStatus.value;
     }
-    console.log(filterStatus)
+    
     const params = {
       pvOptionCRUD : "R",
       pvUUID : filterUuid,
@@ -1584,8 +1545,12 @@ const parseFiles = async(params) => {
       pvInvoiceDateFinal : finalDate2,
       piIdWorkflowStatus : fStatus
     };
+    console.log(params)
+
     setDataFind(false)
     var url = new URL(`${process.env.REACT_APP_API_URI}invoices/filter`);
+
+    console.log(url)
 
     fetch(url, {
         method: "POST",
@@ -1701,161 +1666,7 @@ const parseFiles = async(params) => {
                 <CardTitle tag="h4">Monitor Carta Porte</CardTitle>
             </CardHeader>
             <CardBody>
-              <Form>
-                    <Row className="justify-content-center">
-                      <Col sm = "3">
-                        <FormGroup>
-                            <label>RFC Compañía</label>
-                            <Input
-                                name="name"
-                                type="text"
-                                autoComplete="off"
-                                value = {filterRfcCompany}
-                                onChange={(e) => {
-                                    setFilterRfcCompany(e.target.value)
-                                }}
-                            />
-                        </FormGroup>
-                      </Col>
-                      <Col sm = "3">
-                        {vendor === "0" ? (
-                          <FormGroup>
-                            <label>RFC Emisor</label>
-                            <Input
-                                name="street"
-                                type="text"
-                                autoComplete="off"
-                                value = {filterRfcEmisor}
-                                onChange={(e) => {
-                                    setFilterRfcEmisor(e.target.value)
-                                }}
-                            />
-                          </FormGroup>
-                        ) : (
-                          <FormGroup>
-                            <label>RFC Emisor</label>
-                            <Input
-                                name="street"
-                                type="text"
-                                autoComplete="off"
-                                value = {filterRfcEmisor}
-                                readOnly
-                            />
-                          </FormGroup>
-                        )}
-                      </Col>
-                      <Col sm = "3">
-                        <FormGroup>
-                            <label>Serie</label>
-                            <Input
-                                name="noInterior"
-                                type="text"
-                                autoComplete="off"
-                                value = {filterSerie}
-                                onChange={(e) => {
-                                    setFilterSerie(e.target.value)
-                                }}
-                            />
-                        </FormGroup>
-                      </Col>
-                      <Col sm = "3">
-                        <FormGroup>
-                            <label>Folio</label>
-                            <Input
-                                name="city"
-                                type="text"
-                                autoComplete="off"
-                                value = {filterFolio}
-                                onChange={(e) => {
-                                    setFilterFolio(e.target.value)
-                                }}
-                            />
-                        </FormGroup>
-                      </Col>
-                    </Row>
-                    <Row className="justify-content-center">
-                      <Col sm = "3">
-                        <FormGroup >
-                            <label>UUID</label>
-                            <Input
-                                name="noExterior"
-                                type="text"
-                                autoComplete="off"
-                                value = {filterUuid}
-                                onChange={(e) => {
-                                    setFilterUuid(e.target.value)
-                                }}
-                            />
-                        </FormGroup>
-                      </Col>
-                      <Col sm = "3">
-                        <label>Fecha Origen</label>
-                        <ReactDatetime
-                          inputProps={{
-                            className: "form-control",
-                            placeholder: "Fecha de origen",
-                          }}
-                          timeFormat={false}
-                          
-                          onChange={(date) => {
-                              setDateFrom(date)
-                              //setregisterValidDateState("has-success");
-                          }}
-                        />
-                      </Col>
-                      <Col sm = "3">
-                        <label>Fecha Vigencia</label>
-                        <ReactDatetime
-                          inputProps={{
-                            className: "form-control",
-                            placeholder: "Fecha de vigencia",
-                          }}
-                          timeFormat={false}
-                          
-                          onChange={(date) => {
-                              setDateTo(date)
-                              //setregisterValidDateState("has-success");
-                          }}
-                        />
-                      </Col>
-                      <Col sm = "3">
-                        <FormGroup>
-                            <Label for="exampleSelect">Estatus </Label>
-                            <Select
-                                name=""
-                                className="react-select"
-                                placeholder="Selecciona un estatus"
-                                classNamePrefix="react-select"
-                                value={filterStatus}
-                                onChange={(value) => {
-                                    setFilterStatus(value)
-                                }}
-                                options = {dataWorkFlowStatus}
-                            />
-                        </FormGroup>
-                      </Col>
-                  </Row>
-                  <Row className="justify-content-center">
-                      <Col sm = "3">
-
-                      </Col>
-                      <Col sm = "3">
-                        <Button className="btn-outline buttons btn-gtc btn-filter" color="primary" onClick={deleteClick}>
-                          <i className="ion-android-delete btn-icon" />
-                          Borrar Filtros
-                        </Button>
-                      </Col>
-                      <Col sm = "3">
-                        <Button className="buttons btn-gtc btn-filter" color="primary" onClick={filterClick}>
-                          <i className="fa fa-filter btn-icon" />
-                          Filtrar
-                        </Button>
-                      </Col>
-                      <Col sm = "3">
-
-                      </Col>
-                  </Row>
-              </Form>
+              <FiltroT/>
               <Skeleton height={25} />
               <Skeleton height="25px" />
               <Skeleton height="3rem" />
@@ -1863,8 +1674,6 @@ const parseFiles = async(params) => {
           </Card>
         </Col>
       </Row>
-      {/*MODAL PARA AÑADIR REQUESTER*/}
-      {/*<ModalAddRequester modalAddRecord = {modalAddRecord} setModalAddRecord = {setModalAddRecord} setRequester={setRequester} resetFileInput = {resetFileInput} resetFileInputPdf = {resetFileInputPdf}/>*/}
     </div>
   ) : (
     <div className="content">
@@ -1958,163 +1767,9 @@ const parseFiles = async(params) => {
                 <CardTitle tag="h4">Monitor Carta Porte</CardTitle>
             </CardHeader>
             <CardBody>
-              <Form>
-                  <Row className="justify-content-center">
-                      <Col sm = "3">
-                        <FormGroup>
-                            <label>RFC Compañía</label>
-                            <Input
-                                name="name"
-                                type="text"
-                                autoComplete="off"
-                                value = {filterRfcCompany}
-                                onChange={(e) => {
-                                    setFilterRfcCompany(e.target.value)
-                                }}
-                            />
-                        </FormGroup>
-                      </Col>
-                      <Col sm = "3">
-                        {vendor === "0" ? (
-                          <FormGroup>
-                            <label>RFC Emisor</label>
-                            <Input
-                                name="street"
-                                type="text"
-                                autoComplete="off"
-                                value = {filterRfcEmisor}
-                                onChange={(e) => {
-                                    setFilterRfcEmisor(e.target.value)
-                                }}
-                            />
-                          </FormGroup>
-                        ) : (
-                          <FormGroup>
-                            <label>RFC Emisor</label>
-                            <Input
-                                name="street"
-                                type="text"
-                                autoComplete="off"
-                                value = {filterRfcEmisor}
-                                readOnly
-                            />
-                          </FormGroup>
-                        )}
-                      </Col>
-                      <Col sm = "3">
-                        <FormGroup>
-                            <label>Serie</label>
-                            <Input
-                                name="noInterior"
-                                type="text"
-                                autoComplete="off"
-                                value = {filterSerie}
-                                onChange={(e) => {
-                                    setFilterSerie(e.target.value)
-                                }}
-                            />
-                        </FormGroup>
-                      </Col>
-                      <Col sm = "3">
-                        <FormGroup>
-                            <label>Folio</label>
-                            <Input
-                                name="city"
-                                type="text"
-                                autoComplete="off"
-                                value = {filterFolio}
-                                onChange={(e) => {
-                                    setFilterFolio(e.target.value)
-                                }}
-                            />
-                        </FormGroup>
-                      </Col>
-                    </Row> 
-                    <Row className="justify-content-center">
-                      <Col sm = "3">
-                        <FormGroup >
-                            <label>UUID</label>
-                            <Input
-                                name="noExterior"
-                                type="text"
-                                autoComplete="off"
-                                value = {filterUuid}
-                                onChange={(e) => {
-                                    setFilterUuid(e.target.value)
-                                }}
-                            />
-                        </FormGroup>
-                      </Col>
-                      <Col sm = "3">
-                        <label>Fecha Origen</label>
-                        <ReactDatetime
-                          inputProps={{
-                            className: "form-control",
-                            placeholder: "Fecha de origen",
-                          }}
-                          timeFormat={false}
-                          
-                          onChange={(date) => {
-                              setDateFrom(date)
-                              //setregisterValidDateState("has-success");
-                          }}
-                        />
-                      </Col>
-                      <Col sm = "3">
-                        <label>Fecha Vigencia</label>
-                        <ReactDatetime
-                          inputProps={{
-                            className: "form-control",
-                            placeholder: "Fecha de vigencia",
-                          }}
-                          timeFormat={false}
-                          
-                          onChange={(date) => {
-                              setDateTo(date)
-                              //setregisterValidDateState("has-success");
-                          }}
-                        />
-                      </Col>
-                      <Col sm = "3">
-                        <FormGroup>
-                            <Label for="exampleSelect">Estatus </Label>
-                            <Select
-                                name=""
-                                className="react-select"
-                                placeholder="Selecciona un estatus"
-                                classNamePrefix="react-select"
-                                value={filterStatus}
-                                onChange={(value) => {
-                                    setFilterStatus(value)
-                                }}
-                                options = {dataWorkFlowStatus}
-                            />
-                        </FormGroup>
-                      </Col>
-                  </Row>
-                  <Row className="justify-content-center">
-                      <Col sm = "3">
-
-                      </Col>
-                      <Col sm = "3">
-                        <Button className="btn-outline buttons btn-gtc btn-filter" color="primary" onClick={deleteClick}>
-                          <i className="ion-android-delete btn-icon" />
-                          Borrar Filtros
-                        </Button>
-                      </Col>
-                      <Col sm = "3">
-                        <Button className="buttons btn-gtc btn-filter" color="primary" onClick={filterClick}>
-                          <i className="fa fa-filter btn-icon" />
-                          Filtrar
-                        </Button>
-                      </Col>
-                      <Col sm = "3">
-
-                      </Col>
-                  </Row>
-                  &nbsp;
-                  &nbsp;
-              </Form>
+              <FiltroT/>
+              &nbsp;
+              &nbsp;
               {dataCartaPorte.length === 0 ? (
                   <div className ="no-data">
                     <h3>No hay datos</h3>
@@ -2126,8 +1781,6 @@ const parseFiles = async(params) => {
           </Card>
         </Col>
       </Row>
-      {/*MODAL PARA AÑADIR REQUESTER*/}
-      {/*<ModalAddRequester modalAddRecord = {modalAddRecord} setModalAddRecord = {setModalAddRecord} setRequester={setRequester} resetFileInput = {resetFileInput} resetFileInputPdf = {resetFileInputPdf}/>*/}
     </div>
   )
 }
