@@ -49,6 +49,9 @@ function Users({autoCloseAlert, changeImageP, setChangeImageP}){
     //Para guardar el path de las imágenes
     const [pathImage, setPathImage] = useState([]);
 
+    //Para guardar el path de las imágenes
+    const [dataDepartments, setDataDepartments] = useState([]);
+
     const [profilePath, setProfilePath] = useState("")
 
     const [dataFind, setDataFind] = useState(true)
@@ -184,6 +187,44 @@ function Users({autoCloseAlert, changeImageP, setChangeImageP}){
     }, []);
 
     useEffect(() => {
+        //Aqui vamos a descargar la lista de customers de la base de datos por primera vez
+        const params = {
+          pvOptionCRUD: "R"
+        };
+    
+        var url = new URL(`${process.env.REACT_APP_API_URI}cat-departments/`);
+    
+        Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
+    
+        fetch(url, {
+            method: "GET",
+            headers: {
+                "access-token": token,
+                "Content-Type": "application/json",
+            }
+        })
+        .then(function(response) {
+            return response.ok ? response.json() : Promise.reject();
+        })
+        .then(function(data) {
+            console.log(data)
+            //Creamos el arreglo de customers para el select
+            var optionsAux = [];
+            var i;
+            for(i=0; i<data.length; i++)
+            {
+              optionsAux.push({
+                value: data[i].Id_Catalog, label: data[i].Short_Desc
+              })
+            }
+            setDataDepartments(optionsAux)
+        })
+        .catch(function(err) {
+            alert("No se pudo consultar la informacion de los departamentos" + err);
+        });
+    }, []);
+
+    useEffect(() => {
         //Aqui vamos a descargar la lista de general parameters para revisar la vigencia del password
         const params = {
           pvOptionCRUD: "R"
@@ -218,7 +259,7 @@ function Users({autoCloseAlert, changeImageP, setChangeImageP}){
 
      //Renderizado condicional
     function UsersT() {
-        return <UsersTable dataTable = {dataUsers} ip = {ip} dataRoles = {dataRoles} dataVendors = {dataVendors} autoCloseAlert = {autoCloseAlert} updateAddData = {updateAddData} validDays={validDays} pathImage = {pathImage} profilePath ={profilePath} changeImageP = {changeImageP} setChangeImageP = {setChangeImageP}/>
+        return <UsersTable dataTable = {dataUsers} ip = {ip} dataRoles = {dataRoles} dataVendors = {dataVendors} autoCloseAlert = {autoCloseAlert} updateAddData = {updateAddData} validDays={validDays} pathImage = {pathImage} profilePath ={profilePath} changeImageP = {changeImageP} setChangeImageP = {setChangeImageP} dataDepartments = {dataDepartments}/>
     }
 
     //Para actualizar la tabla al insertar registro
@@ -279,7 +320,7 @@ function Users({autoCloseAlert, changeImageP, setChangeImageP}){
                 <Skeleton height="3rem" />
             </CardBody>
             {/*MODAL PARA AÑADIR REGISTROS*/}
-            <ModalAddUser modalAddRecord = {modalAddRecord} setModalAddRecord = {setModalAddRecord} dataRoles = {dataRoles} dataVendors = {dataVendors} ip = {ip} autoCloseAlert = {autoCloseAlert} updateAddData = {updateAddData} validDays = {validDays} pathImage = {pathImage}/>
+            <ModalAddUser modalAddRecord = {modalAddRecord} setModalAddRecord = {setModalAddRecord} dataRoles = {dataRoles} dataVendors = {dataVendors} ip = {ip} autoCloseAlert = {autoCloseAlert} updateAddData = {updateAddData} validDays = {validDays} pathImage = {pathImage} dataDepartments = {dataDepartments}/>
         </Card>
     ) : (   
         <Card>
@@ -303,7 +344,7 @@ function Users({autoCloseAlert, changeImageP, setChangeImageP}){
                 }
             </CardBody>
             {/*MODAL PARA AÑADIR REGISTROS*/}
-            <ModalAddUser modalAddRecord = {modalAddRecord} setModalAddRecord = {setModalAddRecord} dataRoles = {dataRoles} dataVendors = {dataVendors} ip = {ip} autoCloseAlert = {autoCloseAlert} updateAddData = {updateAddData} validDays = {validDays} pathImage = {pathImage}/>
+            <ModalAddUser modalAddRecord = {modalAddRecord} setModalAddRecord = {setModalAddRecord} dataRoles = {dataRoles} dataVendors = {dataVendors} ip = {ip} autoCloseAlert = {autoCloseAlert} updateAddData = {updateAddData} validDays = {validDays} pathImage = {pathImage} dataDepartments = {dataDepartments}/>
         </Card>
     )
 

@@ -20,7 +20,7 @@ import {
     Col,
 } from "reactstrap";
 
-function ModalUpdateUser({abierto, toggleModalUpdateRecord, record, dataRoles, ip, dataVendors, updateAddData, validDays, pathImage, profilePath, autoCloseAlert, changeImageP, setChangeImageP}) {
+function ModalUpdateUser({abierto, toggleModalUpdateRecord, record, dataRoles, ip, dataVendors, updateAddData, validDays, pathImage, profilePath, autoCloseAlert, changeImageP, setChangeImageP, dataDepartments}) {
         // register form
     const [updateEmail, setupdateEmail] = React.useState("");
     const [updateFullName, setupdateFullName] = React.useState("");
@@ -34,6 +34,7 @@ function ModalUpdateUser({abierto, toggleModalUpdateRecord, record, dataRoles, i
     const [updateConfirmPassword, setupdateConfirmPassword] = React.useState("");
     const [updateFinalEffectiveDate, setupdateFinalEffectiveDate] = useState();
     const [changeImage, setChangeImage] = useState(false);
+    const [updateDepartment, setupdateDepartment] = React.useState("");
 
     const [updateEmailState, setupdateEmailState] = React.useState("");
     const [updateFullNameState, setupdateFullNameState] = React.useState("");
@@ -41,6 +42,7 @@ function ModalUpdateUser({abierto, toggleModalUpdateRecord, record, dataRoles, i
     const [updateConfirmPasswordState, setupdateConfirmPasswordState] = React.useState("");
     const [updateRolState, setupdateRolState] = React.useState("");
     const [updateVendorState, setupdateVendorState] = React.useState("");
+    const [updateDepartmentState, setupdateDepartmentState] = React.useState("");
 
     const [error, setError] = React.useState();
     const [errorState, setErrorState] = React.useState("");
@@ -59,6 +61,7 @@ function ModalUpdateUser({abierto, toggleModalUpdateRecord, record, dataRoles, i
         setError("")
         setErrorState("")
         setErrorMessage("")
+        setupdateDepartmentState("")
         toggleModalUpdateRecord(!abierto);
     };
 
@@ -73,6 +76,10 @@ function ModalUpdateUser({abierto, toggleModalUpdateRecord, record, dataRoles, i
             value: record.idVendor,
             label: record.vendor
         })
+        setupdateDepartment({
+            value: record.idDepartment,
+            label: record.departmentDesc
+        })
         if(record.status === "Habilitado")
         {
             setupdateStatus(true);
@@ -80,6 +87,7 @@ function ModalUpdateUser({abierto, toggleModalUpdateRecord, record, dataRoles, i
         else{
             setupdateStatus(false);
         }
+        console.log(dataDepartments)
         setupdateImage(record.image)
     },[record]);
 
@@ -210,6 +218,7 @@ function ModalUpdateUser({abierto, toggleModalUpdateRecord, record, dataRoles, i
                 pvProfilePicPath: updateImage,
                 pvName: updateFullName,
                 pbStatus: updateStatus,
+                pvIdDepartment: updateDepartment.value,
                 pvFinalEffectiveDate: finalDate2,
                 pvUser: user,
                 pathImage : pathImage,
@@ -265,12 +274,15 @@ function ModalUpdateUser({abierto, toggleModalUpdateRecord, record, dataRoles, i
                 pvProfilePicPath: updateImage,
                 pvName: updateFullName,
                 pbStatus: updateStatus,
+                pvIdDepartment: updateDepartment.value,
                 pvFinalEffectiveDate: finalDate2,
                 pvUser: user,
                 pathImage : pathImage,
                 pvIP: ip,
                 pvChangeImage: changeImage
             };
+
+            console.log(catRegister)
         
             fetch(`${process.env.REACT_APP_API_URI}security-users/update-user-wp/`, {
                 method: "PUT",
@@ -323,10 +335,10 @@ function ModalUpdateUser({abierto, toggleModalUpdateRecord, record, dataRoles, i
     return (
         <Modal isOpen={abierto} toggle={handleModalClick} size="lg">
             <div className="modal-header justify-content-center">
-            <h5 className="modal-title">Actualizar Usuario</h5>
-            <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={handleModalClick}>
-                <span aria-hidden="true">×</span>
-            </button>
+                <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={handleModalClick}>
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h5 className="modal-title">Actualizar Usuario</h5>
             </div>
             <ModalBody>
             <Form method="">
@@ -475,9 +487,28 @@ function ModalUpdateUser({abierto, toggleModalUpdateRecord, record, dataRoles, i
                                 options={dataVendors}
                             />
                             {updateVendorState === "text-danger" ? (
-                                <label className="form-text text-danger">Selecciona un vendor.</label>
+                                <label className="form-text text-danger">Selecciona un proveedor.</label>
                             ) : null}
                         </FormGroup>
+                        <FormGroup className={`form-group ${updateDepartmentState}`}>
+                            <Label for="exampleSelect">Departamento * </Label>
+                            <Select
+                                name=""
+                                className="react-select"
+                                defaultValue = {updateDepartment}
+                                classNamePrefix="react-select"
+                                value={updateDepartment}
+                                onChange={(value) => {
+                                    setupdateDepartment(value)
+                                    setupdateDepartmentState("has-success");
+                                }}
+                                options={dataDepartments}
+                            />
+                            {updateDepartmentState === "text-danger" ? (
+                                <label className="form-text text-danger">Selecciona un departamento.</label>
+                            ) : null}
+                        </FormGroup>
+                        <label>Estatus</label>
                         <FormGroup check >
                             <Label check>
                             <Input 

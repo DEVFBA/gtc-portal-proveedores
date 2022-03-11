@@ -146,6 +146,7 @@ function Pool({autoCloseAlert}) {
         const catRegister = {
             user: user,
             ip: ip,
+            companyId: location.state.cfdis[0].Id_Company,
             vendorId: location.state.cfdis[0].Id_Vendor,
             concept: concepto,
             coverDetailFile: pdfbase64,
@@ -153,6 +154,7 @@ function Pool({autoCloseAlert}) {
         };
 
         console.log(catRegister)
+        //var url = new URL(`http://localhost:8091/api/invoices-pool/save-invoice-pool`);
         var url = new URL(`${process.env.REACT_APP_API_URI}invoices-pool/save-invoice-pool`);
 
         fetch(url, {
@@ -167,21 +169,20 @@ function Pool({autoCloseAlert}) {
             return response.ok ? response.json() : Promise.reject();
         })
         .then((data) => {
+            console.log(data)
             if (data.errors) {
                 console.log("Hubo un error al procesar tu solicitud")
             }
             else {
-              if(data.data.success === 1)
-              {
                 autoCloseAlert(data.data.message)
                 history.push(ambiente + `/admin/invoices/`);
-              }
-              else {
-                autoCloseAlert(data.data.message)
-                history.push(ambiente + `/admin/invoices/`);
-              }
+                //setTimeout(redireccionar, 3000);
             }
         });
+    }
+
+    function redireccionar() {
+        history.push(ambiente + `/admin/invoices/`);
     }
 
     return (

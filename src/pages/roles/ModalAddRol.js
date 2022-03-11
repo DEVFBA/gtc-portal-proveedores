@@ -17,7 +17,7 @@ import {
     Row
 } from "reactstrap";
 
-function ModalAddRol({modalAddRecord, setModalAddRecord, updateAddData, ip, autoCloseAlert}) {
+function ModalAddRol({modalAddRecord, setModalAddRecord, ip, autoCloseAlert, updateAddData}) {
         // register form
     const [registerId, setregisterId] = React.useState("");
     const [registerShortDesc, setregisterShortDesc] = React.useState("");
@@ -149,10 +149,10 @@ function ModalAddRol({modalAddRecord, setModalAddRecord, updateAddData, ip, auto
     return (
         <Modal isOpen={modalAddRecord} toggle={handleModalClick} size="lg">
             <div className="modal-header justify-content-center">
-            <h5 className="modal-title">Añadir Rol</h5>
-            <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={handleModalClick}>
-                <span aria-hidden="true">×</span>
-            </button>
+                <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={handleModalClick}>
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h5 className="modal-title">Agregar Rol</h5>
             </div>
             <ModalBody>
             <Form id="RegisterValidation">
@@ -220,21 +220,23 @@ function ModalAddRol({modalAddRecord, setModalAddRecord, updateAddData, ip, auto
                         </FormGroup>
                     </Col>
                     <Col  className="mt-3" lg="10">
+                        <label>Status</label>
                         <FormGroup check>
                             <Label check>
-                            <Input 
-                                type="checkbox" 
-                                checked = {registerStatus}
-                                onChange={(e) => {
-                                    setregisterStatus(e.target.checked)
-                                }}
-                            />{' '}
-                            Habilitado
-                            <span className="form-check-sign">
-                                <span className="check"></span>
-                            </span>
+                                <Input 
+                                    type="checkbox" 
+                                    checked = {registerStatus}
+                                    onChange={(e) => {
+                                        setregisterStatus(e.target.checked)
+                                    }}
+                                />{' '}
+                                Habilitado
+                                <span className="form-check-sign">
+                                    <span className="check"></span>
+                                </span>
                             </Label>
                         </FormGroup>
+                        <label>Mostrar a los clientes</label>
                         <FormGroup check>
                             <Label check>
                             <Input 
@@ -244,7 +246,7 @@ function ModalAddRol({modalAddRecord, setModalAddRecord, updateAddData, ip, auto
                                     setregisterShowCust(e.target.checked)
                                 }}
                             />{' '}
-                            Mostrar a los clientes
+                            Habilitado
                             <span className="form-check-sign">
                                 <span className="check"></span>
                             </span>
@@ -271,10 +273,10 @@ function ModalAddRol({modalAddRecord, setModalAddRecord, updateAddData, ip, auto
             </ModalBody>
             <ModalFooter>
                 <div className="center-side">
-                <Button className="buttons" color="secondary" onClick={handleModalClick}>
+                <Button className="buttons button-close btn-gtc" color="secondary" onClick={handleModalClick}>
                     Cerrar
                 </Button>
-                <Button className="buttons" color="primary" onClick={registerClick}>
+                <Button className="buttons btn-gtc" color="primary" onClick={registerClick}>
                    Guardar Cambios
                 </Button>
                 </div>

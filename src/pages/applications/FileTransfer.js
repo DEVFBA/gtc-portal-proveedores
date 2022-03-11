@@ -1,11 +1,11 @@
 import React, {Component} from 'react'
-import ReactTable from "../../reacttable/ReactTable";
+
 import { useState, useEffect} from "react";
+import ReactTable from "../../reacttable/ReactTable";
 
-import ModalAddRol from "./ModalAddRol.js";
-import ModalUpdateRol from "./ModalUpdateRol";
+import ModalUpdateFileTransfer from "./modals/ModalUpdateFileTransfer.js";
 
-function RolesTable({dataTable, ip, autoCloseAlert, updateAddData}) {
+function FileTransfer({dataTable, ip, autoCloseAlert, updateAddData}) {
     const [dataState, setDataState] = useState(
         dataTable.map((prop, key) => {
             var status;
@@ -17,11 +17,12 @@ function RolesTable({dataTable, ip, autoCloseAlert, updateAddData}) {
             }
             return {
               id: key,
-              idRole: prop.Id_Role,
-              shortDesc: prop.Short_Desc,
-              longDesc: prop.Long_Desc,
-              status: status,
-              showCust: prop.Show_Customers,
+              idApplication: prop.Id_Application,
+              settingsKey: prop.Settings_Key,
+              settingsName: prop.Settings_Name,
+              settingsValue: prop.Settings_Value,
+              tooltip: prop.Tooltip,
+              use: prop.Use,
               actions: (
                 // ACCIONES A REALIZAR EN CADA REGISTRO
                 <div className="actions-center">
@@ -67,24 +68,21 @@ function RolesTable({dataTable, ip, autoCloseAlert, updateAddData}) {
 
     return (
         <div>
+            &nbsp;
             <ReactTable
                 data={dataState}
                 columns={[
                     {
-                        Header: "Id Rol",
-                        accessor: "idRole",
+                        Header: "Nombre",
+                        accessor: "settingsName",
                     },
                     {
-                        Header: "Descripción Corta",
-                        accessor: "shortDesc",
+                        Header: "Valor",
+                        accessor: "settingsValue",
                     },
                     {
-                        Header: "Descripción Larga",
-                        accessor: "longDesc",
-                    },
-                    {
-                        Header: "Estatus",
-                        accessor: "status",
+                        Header: "Tooltip",
+                        accessor: "tooltip",
                     },
                     {
                         Header: "Acciones",
@@ -100,9 +98,9 @@ function RolesTable({dataTable, ip, autoCloseAlert, updateAddData}) {
             />
 
             {/*MODAL PARA MODIFICAR REGISTRO*/}
-            <ModalUpdateRol abierto = {modalUpdateRecord} toggleModalUpdateRecord = {toggleModalUpdateRecord} record = {record}  ip = {ip} autoCloseAlert = {autoCloseAlert} updateAddData = {updateAddData}/>
+            <ModalUpdateFileTransfer abierto = {modalUpdateRecord} toggleModalUpdateRecord = {toggleModalUpdateRecord} record = {record}  ip = {ip} autoCloseAlert = {autoCloseAlert} updateAddData = {updateAddData}/>
         </div>
     )
     
 }
-export default RolesTable
+export default FileTransfer

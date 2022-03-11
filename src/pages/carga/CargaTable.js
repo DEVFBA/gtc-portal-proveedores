@@ -18,7 +18,7 @@ import {
     Col,
 } from "reactstrap";
 
-function CargaTable({dataTable, ip, autoCloseAlert, updateAddData, workflowTypes, workflowTracker, estatusCarga, checkPool, autoCloseAlertEvidencias}) {
+function CargaTable({dataTable, ip, autoCloseAlert, updateAddData, workflowTypes, workflowTracker, estatusCarga, checkPool, autoCloseAlertEvidencias, excepcionRechazo}) {
     const ambiente = process.env.REACT_APP_ENVIRONMENT
     const history = useHistory();
     const token = localStorage.getItem("Token");
@@ -75,7 +75,6 @@ function CargaTable({dataTable, ip, autoCloseAlert, updateAddData, workflowTypes
     const [dataState, setDataState] = useState(
         dataTable.map((prop, key) => {
             //console.log(checkPool)
-            //console.log(prop)
             return {
               id: key,
               taxId: prop.Company_RFC,
@@ -169,7 +168,7 @@ function CargaTable({dataTable, ip, autoCloseAlert, updateAddData, workflowTypes
                             </button>
                         </abbr>
                     ):null}
-                    {prop.Id_Workflow_Status >= parseInt(checkPool,10) ? (
+                    {prop.Id_Workflow_Status >= parseInt(checkPool,10) && prop.Id_Workflow_Status !== parseInt(excepcionRechazo,10) ? (
                         <abbr title="Ver Evidencias">
                             <button
                                 onClick={() => {
@@ -279,15 +278,6 @@ function CargaTable({dataTable, ip, autoCloseAlert, updateAddData, workflowTypes
         .catch(function(err) {
             console.log("No se pudo consultar la informacion del workflow tracker roles" + err);
         }); 
-    }
-
-    function toggleModalAddRecord(){
-        if(modalAddRecord == false){
-        setModalAddRecord(true);
-        }
-        else{
-        setModalAddRecord(false);
-        }
     }
 
     function createPool()

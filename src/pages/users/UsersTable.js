@@ -3,10 +3,9 @@ import { useState, useEffect} from "react";
 import ReactTable from "../../reacttable/ReactTable";
 import Skeleton from '@yisheng90/react-loading';
 
-
 import ModalUpdateUser from "./ModalUpdateUser.js";
 
-function UsersTable({dataTable, ip, dataRoles, dataVendors, autoCloseAlert, updateAddData, validDays, pathImage, profilePath, changeImageP, setChangeImageP}) {
+function UsersTable({dataTable, ip, dataRoles, dataVendors, autoCloseAlert, updateAddData, validDays, pathImage, profilePath, changeImageP, setChangeImageP, dataDepartments}) {
     const [dataState, setDataState] = useState(
         dataTable.map((prop, key) => {
             var status;
@@ -26,6 +25,8 @@ function UsersTable({dataTable, ip, dataRoles, dataVendors, autoCloseAlert, upda
               vendor: prop.Vendor,
               idVendor: prop.Id_Vendor,
               password: prop.Password,
+              idDepartment: prop.Id_Department,
+              departmentDesc: prop.Department_Desc,
               finalEffectiveDate: prop.Final_Effective_Date,
               image: prop.Profile_Pic_Path,
               actions: (
@@ -106,7 +107,7 @@ function UsersTable({dataTable, ip, dataRoles, dataVendors, autoCloseAlert, upda
                 className="-striped -highlight primary-pagination"
             />
             {/*MODAL PARA MODIFICAR REGISTRO*/}
-            <ModalUpdateUser abierto = {modalUpdateRecord} toggleModalUpdateRecord = {toggleModalUpdateRecord} record = {record} dataRoles ={dataRoles} ip = {ip} dataVendors = {dataVendors} updateAddData = {updateAddData} validDays = {validDays} pathImage = {pathImage} profilePath ={profilePath} autoCloseAlert = {autoCloseAlert} changeImageP = {changeImageP} setChangeImageP = {setChangeImageP}/>
+            <ModalUpdateUser abierto = {modalUpdateRecord} toggleModalUpdateRecord = {toggleModalUpdateRecord} record = {record} dataRoles ={dataRoles} ip = {ip} dataVendors = {dataVendors} updateAddData = {updateAddData} validDays = {validDays} pathImage = {pathImage} profilePath ={profilePath} autoCloseAlert = {autoCloseAlert} changeImageP = {changeImageP} setChangeImageP = {setChangeImageP} dataDepartments = {dataDepartments}/>
         </div>
     )
     

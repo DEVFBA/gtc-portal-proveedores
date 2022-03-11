@@ -12,9 +12,7 @@ import AdminLayout from "./layouts/Admin.js";
 function App() {
 
     const ambiente = process.env.REACT_APP_ENVIRONMENT
-    console.log(ambiente)
     const auth = ambiente + "/auth"
-    console.log(auth)
     const admin = ambiente + "/admin"
     const login = ambiente + "/auth/login"
     return(

@@ -127,6 +127,7 @@ function CatalogosSat({autoCloseAlert}) {
     //Renderizado condicional
     function Catalog(props) {
         const catalog = props.component;
+        console.log(catalog)
         if(catalog === "Customs")
         {
             if(dataCatalog.length === 0)

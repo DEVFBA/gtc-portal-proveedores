@@ -8,6 +8,7 @@ import Widget from '../../elements/Widget'
 import Skeleton from '@yisheng90/react-loading';
 
 import RolesTable from './RolesTable';
+import ModalAddRol from "./ModalAddRol";
 
 import {
     Button,
@@ -38,6 +39,8 @@ function Roles({autoCloseAlert}){
     const [ip, setIP] = React.useState("");
 
     const [dataFind, setDataFind] = useState(true)
+
+    const [modalAddRecord, setModalAddRecord] = useState(false);
 
     const getData = async () => {
         const res = await axios.get('https://geolocation-db.com/json/')
@@ -84,6 +87,15 @@ function Roles({autoCloseAlert}){
         return <RolesTable dataTable = {dataRoles} ip = {ip} autoCloseAlert = {autoCloseAlert} updateAddData = {updateAddData}/>
     }
 
+    function toggleModalAddRecord(){
+        if(modalAddRecord == false){
+        setModalAddRecord(true);
+        }
+        else{
+        setModalAddRecord(false);
+        }
+    }
+
     //Para actualizar la tabla al insertar registro
     function updateAddData(){
         const params = {
@@ -120,10 +132,18 @@ function Roles({autoCloseAlert}){
                 <CardTitle tag="h4">Catálogo de Roles</CardTitle>
             </CardHeader>
             <CardBody>
+                <span className="input-group-btn rounded-left">
+                    <button className="btn btn-primary btn-gtc" onClick={toggleModalAddRecord}>
+                        <i className="ion-plus btn-icon"/>
+                        Agregar Rol 
+                    </button>
+                </span>
+                &nbsp;
                 <Skeleton height={25} />
                 <Skeleton height="25px" />
                 <Skeleton height="3rem" />
             </CardBody>
+            <ModalAddRol modalAddRecord = {modalAddRecord} setModalAddRecord = {setModalAddRecord} ip = {ip} autoCloseAlert = {autoCloseAlert} updateAddData = {updateAddData} />
         </Card>
     ) : (
         <Card>
@@ -131,6 +151,13 @@ function Roles({autoCloseAlert}){
                 <CardTitle tag="h4">Catálogo de Roles</CardTitle>
             </CardHeader>
             <CardBody>
+                <span className="input-group-btn rounded-left">
+                    <button className="btn btn-primary btn-gtc" onClick={toggleModalAddRecord}>
+                        <i className="ion-plus btn-icon"/>
+                        Agregar Rol 
+                    </button>
+                </span>
+                &nbsp;
                 {dataRoles.length === 0 ? (
                   <div className ="no-data">
                     <h3>No hay datos</h3>
@@ -139,6 +166,7 @@ function Roles({autoCloseAlert}){
                     <RolesT />
                 }
             </CardBody>
+            <ModalAddRol modalAddRecord = {modalAddRecord} setModalAddRecord = {setModalAddRecord} ip = {ip} autoCloseAlert = {autoCloseAlert} updateAddData = {updateAddData} />
         </Card>
     )
 

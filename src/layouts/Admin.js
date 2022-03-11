@@ -35,6 +35,12 @@ import GeneralParameters from "../pages/cat-general-parameters/GeneralParameters
 import Pool from "../pages/carga/Pool"
 import VerEvidencias from "../pages/carga/VerEvidencias"
 import InvoicesPools from "../pages/carga/InvoicesPools"
+import DashboardAdmin from '../dashboards/admin'
+import DashboardSysAdmin from '../dashboards/sysadmin'
+import DashboardSalfreight from '../dashboards/salfreight'
+import DashboardPurfreight from '../dashboards/purfreight'
+import DashboardVendor from '../dashboards/vendor'
+import ExternalApplications from "../pages/applications/ExternalApplications"
 
 function Admin(props) {
     const [isEmptyView, setIsEmptyView] = useState(false)
@@ -149,7 +155,18 @@ function Admin(props) {
       var url = new URL(`${process.env.REACT_APP_API_URI}security-access/`);
   
       Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
-      //console.log(url)
+
+      /*const params2 = {
+        redirect_uri: "https://alexisherolv.com/oauth/",
+        response_type : "code",
+        client_id : "CBJCHBCAABAA2g0kN5Bzu9yHk7Kp-SX6MRsCIEE4rZ4a",
+        scope : "user_read"
+      };
+
+      var url2 = new URL(`https://secure.echosign.com/public/oauth`);
+  
+      Object.keys(params2).forEach(key => url2.searchParams.append(key, params2[key]))
+      console.log(url2)*/
   
       fetch(url, {
           method: "GET",
@@ -162,6 +179,7 @@ function Admin(props) {
           return response.ok ? response.json() : Promise.reject();
       })
       .then(function(data) {
+        //console.log(data)
 
         if(data.mensaje === 'Token inválida')
         {
@@ -173,29 +191,13 @@ function Admin(props) {
           history.push(ambiente + "/auth/login")
         }
         else{
-          console.log(data)
+          //console.log(data)
           var routesAux = [];
-
-          /*if(role == "ADMIN")
-          {
-            routesAux.push(
-              {
-                collapse: false,
-                path: "dashboard",
-                name: "Dashboard",
-                icon: 'dashboard',
-                component: Analytics,
-                layout: ambiente + "/admin",
-                views: []
-              }
-            )
-          }*/
          
           for(var i=0; i<data.length; i++)
           {
             if(data[i].Status === true)
             {
-              //console.log(data[i])
               if(data[i].Component_Module!=="")
               {
                 if(data[i].Component_Module === "DashboardAdmin")
@@ -206,13 +208,41 @@ function Admin(props) {
                       path: data[i].Url,
                       name: data[i].Module_Desc,
                       icon: "dashboard",
-                      component: Analytics,
+                      component: DashboardAdmin,
                       layout: ambiente + data[i].Layout_Module,
                       views: []
                     }
                   )
                 }
-                else if(data[i].Component_Module === "DashboardSoporte")
+                else if(data[i].Component_Module === "DashboardSalesFreight")
+                {
+                  routesAux.push(
+                    {
+                      collapse: false,
+                      path: data[i].Url,
+                      name: data[i].Module_Desc,
+                      icon: "dashboard",
+                      component: DashboardSalfreight,
+                      layout: ambiente + data[i].Layout_Module,
+                      views: []
+                    }
+                  )
+                }
+                else if(data[i].Component_Module === "DashboardSysAdmin")
+                {
+                  routesAux.push(
+                    {
+                      collapse: false,
+                      path: data[i].Url,
+                      name: data[i].Module_Desc,
+                      icon: "dashboard",
+                      component: DashboardSysAdmin,
+                      layout: ambiente + data[i].Layout_Module,
+                      views: []
+                    }
+                  )
+                }
+                else if(data[i].Component_Module === "DashboardPurchaseFreight")
                 {
                   routesAux.push(
                     {
@@ -220,7 +250,7 @@ function Admin(props) {
                       path: data[i].Url,
                       name: data[i].Module_Desc,
                       icon: String(data[i].Icon),
-                      component: Analytics,
+                      component: DashboardPurfreight,
                       layout: ambiente + data[i].Layout_Module,
                       views: []
                     }
@@ -233,7 +263,7 @@ function Admin(props) {
                       path: data[i].Url,
                       name: data[i].Module_Desc,
                       icon: String(data[i].Icon),
-                      component: Analytics,
+                      component: DashboardVendor,
                       layout: ambiente + data[i].Layout_Module,
                       views: []
                     }
@@ -312,6 +342,18 @@ function Admin(props) {
                         path: data[i].Url,
                         name: data[i].SubModule_Desc,
                         component: "CartaPorte",
+                        layout: ambiente + data[i].Layout_SubModule,
+                        views: []
+                      }
+                    )
+                  }
+                  else if(data[i].Component_Submodule === "CartaPorteRequests")
+                  {
+                    views.push(
+                      {
+                        path: data[i].Url,
+                        name: data[i].SubModule_Desc,
+                        component: "CartaPorteRequests",
                         layout: ambiente + data[i].Layout_SubModule,
                         views: []
                       }
@@ -425,7 +467,7 @@ function Admin(props) {
                           {
                             path: data[j].Url,
                             name: data[j].SubModule_Desc,
-                            component: Analytics,
+                            component: "Invoices",
                             layout: ambiente + data[j].Layout_SubModule,
                             views: []
                           }
@@ -469,12 +511,23 @@ function Admin(props) {
                       }
                       else if(data[j].Component_Submodule === "CompaniesVendors")
                       {
-                        console.log("estoy dentro")
                         views.push(
                           {
                             path: data[j].Url,
                             name: data[j].SubModule_Desc,
                             component: "CompaniesVendors",
+                            layout: ambiente + data[j].Layout_SubModule,
+                            views: []
+                          }
+                        )
+                      }
+                      else if(data[j].Component_Submodule === "ExternalApplications")
+                      {
+                        views.push(
+                          {
+                            path: data[j].Url,
+                            name: data[j].SubModule_Desc,
+                            component: "ExternalApplications",
                             layout: ambiente + data[j].Layout_SubModule,
                             views: []
                           }
@@ -513,7 +566,7 @@ function Admin(props) {
           //Agregar rutas solo para roles en específico
           //Se van a agregar en otro arreglo de rutas
           var routesAux2 = [];
-          if(params.pvIdRole == "ADMIN" || params.pvIdRole == "SYSADMIN")
+          if(params.pvIdRole == "ADMIN" || params.pvIdRole == "SYSADMIN" || params.pvIdRole == "PURFREIGHT" || params.pvIdRole == "SALFREIGHT")
           {
             routesAux2.push(
               {
@@ -560,8 +613,7 @@ function Admin(props) {
               }
             )
           }
-          else if(params.pvIdRole == "CARRIVENDO")
-          {
+          else if(params.pvIdRole == "VENDOR"){
             routesAux2.push(
               {
                 collapse: false,
@@ -569,6 +621,30 @@ function Admin(props) {
                 name: "Árbol XML",
                 icon: 'dashboard',
                 component: "CargaXML",
+                layout: ambiente + "/admin",
+                views: []
+              }
+            )
+
+            routesAux2.push(
+              {
+                collapse: false,
+                path: "/ver-evidencias/:uUID/",
+                name: "Ver Evidencias",
+                icon: 'dashboard',
+                component: "VerEvidencias",
+                layout: ambiente + "/admin",
+                views: []
+              }
+            )
+
+            routesAux2.push(
+              {
+                collapse: false,
+                path: "/carga-evidencias/:uUID/",
+                name: "Carga de Evidencias",
+                icon: 'dashboard',
+                component: "CargaEvidencias",
                 layout: ambiente + "/admin",
                 views: []
               }
@@ -616,9 +692,19 @@ function Admin(props) {
           }
       })
       .then(function(response) {
+        if(response.status === 401)
+        {
+          localStorage.setItem("Logged", false);
+          localStorage.removeItem("User");
+          localStorage.removeItem("Id_Role");
+          localStorage.removeItem("Id_Customer");
+          localStorage.removeItem("Token");
+          history.push(ambiente + "/auth/login")
+        }
           return response.ok ? response.json() : Promise.reject();
       })
       .then(function(data) {
+          //console.log(data)
           var aux = data.find( o => o.Id_Catalog === 9 )
           setPathFile(aux.Value)
 
@@ -646,7 +732,6 @@ function Admin(props) {
         return response.ok ? response.json() : Promise.reject();
     })
     .then(function(data) {
-        console.log(data)
         setTrackerEProveedor(data)
         setDataFind(false)
     })
@@ -757,7 +842,7 @@ function Admin(props) {
                 </Route>
               );
             }
-            else if(prop.component === "CartaPorte")
+            else if(prop.component === "Invoices")
             {
               return (
                 <Route
@@ -824,6 +909,16 @@ function Admin(props) {
                   path={prop.layout + prop.path}
                 >
                   <VerEvidencias/>
+                </Route>
+              );
+            }
+            else if(prop.component === "ExternalApplications")
+            {
+              return (
+                <Route
+                  path={prop.layout + prop.path}
+                >
+                  <ExternalApplications autoCloseAlert = {autoCloseAlert}/>
                 </Route>
               );
             }
@@ -974,6 +1069,7 @@ function Admin(props) {
             />
             {alert}
             {alert2}
+            {alert3}
             <Navbar1 layout = {layout} setLayout = {setLayout} changeImageP = {changeImageP}/>
             <div className={isEmptyView ? '' : 'container-fluid'}>
                 <div className={isEmptyView ? '' : 'row'}>

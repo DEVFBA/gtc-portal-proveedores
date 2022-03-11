@@ -138,6 +138,7 @@ function Login(){
         return response.ok ? response.json() : Promise.reject();
     })
     .then(function(data) {
+        console.log(data)
         hideAlert2()
         localStorage.setItem("User", data[0].User);
         localStorage.setItem("Id_Vendor", data[0].Id_Vendor)

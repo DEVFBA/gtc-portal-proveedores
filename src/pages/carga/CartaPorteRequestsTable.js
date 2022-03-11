@@ -6,7 +6,7 @@ function CartaPorteRequestsTable({dataTable}) {
 
     const [dataState, setDataState] = useState(
         dataTable.map((prop, key) => {
-            console.log(prop)
+            //console.log(prop)
             var status;
             if(prop.Status === true)
             {

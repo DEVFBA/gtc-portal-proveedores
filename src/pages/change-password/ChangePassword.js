@@ -27,6 +27,7 @@ function ChangePassword() {
     const role = localStorage.getItem("Id_Role");
     const [vendor, setVendor] = React.useState("");
     const [name, setName] = React.useState("");
+    const [idDepartment, setIdDepartment] = React.useState("");
 
     const ambiente = process.env.REACT_APP_ENVIRONMENT
 
@@ -94,6 +95,7 @@ function ChangePassword() {
           .then(function(data) {
               setVendor(data[0].Id_Vendor)
               setName(data[0].Name)
+              setIdDepartment(data[0].Id_Department)
           })
           .catch(function(err) {
               alert("No se pudo consultar la informacion del usuario" + err);
@@ -186,6 +188,7 @@ function ChangePassword() {
             pvPassword: registerPassword,
             pvName: name,
             pbTempPassword: false,
+            pvIdDepartment: idDepartment,
             pvFinalEffectiveDate: finalDate2,
             pvUser: user,
             pvIP: ip

@@ -50,9 +50,13 @@ function Carga({autoCloseAlert, autoCloseAlertEvidencias}) {
   const token = localStorage.getItem("Token");
   const user = localStorage.getItem("User");
   const vendor = localStorage.getItem("Id_Vendor");
+  const idRole = localStorage.getItem("Id_Role");
 
-  //Para guardar los datos de los roles
+  //Para guardar los datos de las facturas
   const [dataCartaPorte, setDataCartaPorte] = useState([]);
+
+  //Para guardar los datos del rol logueado
+  const [dataRol, setDataRol] = useState();
 
   //Para guardar el path de los documentos XML
   const [pathFile, setPathFile] = useState("");
@@ -133,6 +137,9 @@ function Carga({autoCloseAlert, autoCloseAlertEvidencias}) {
   //Para resetear el input file al enviar el archivo XML
   const [theInputKeyPdf, setTheInputKeyPdf] = useState("")
 
+  //Para resetear el input file al enviar el archivo XML
+  const [theInputTextKey, setTheInputTextKey] = useState("")
+
   //Para verificar si no hay datos en carta porte
   const [dataFind, setDataFind] = useState(true)
 
@@ -151,6 +158,9 @@ function Carga({autoCloseAlert, autoCloseAlertEvidencias}) {
 
   //Para el condicionado de los checkboxes
   const [checkPool, setCheckPool] = useState("");
+
+  //Para el condicionado de ver evidencia
+  const [excepcionRechazo, setExcepcionRechazo] = useState("");
   
   const getData = async () => {
     //const res = await axios.get('https://geolocation-db.com/json/')
@@ -177,6 +187,33 @@ function Carga({autoCloseAlert, autoCloseAlertEvidencias}) {
   }, []);
 
   useEffect(() => {
+    //Aqui vamos a descargar la lista de vendors de la base de datos 
+  
+    var url = new URL(`${process.env.REACT_APP_API_URI}security-roles/${idRole}`);
+
+    fetch(url, {
+        method: "GET",
+        headers: {
+            "access-token": token,
+            "Content-Type": "application/json",
+        }
+    })
+    .then(function(response) {
+        return response.ok ? response.json() : Promise.reject();
+    })
+    .then(function(data) {
+        ///console.log(data)
+        setDataRol(data)
+        getVendors(data[0])
+    })
+    .catch(function(err) {
+        alert("No se pudo consultar la informacion del rol logueado" + err);
+        
+    });
+  }, []); 
+
+  function getVendors(dataRol)
+  {
       //Aqui vamos a descargar la lista de vendors de la base de datos 
       const params = {
         pvOptionCRUD: "R"
@@ -198,16 +235,15 @@ function Carga({autoCloseAlert, autoCloseAlertEvidencias}) {
       })
       .then(function(data) {
           setDataVendors(data)
-          getCartaPorte(data)
+          getCartaPorte(data, dataRol)
       })
       .catch(function(err) {
           alert("No se pudo consultar la informacion de las vendors" + err);
       });
-  }, []);
+  }
 
-  function getCartaPorte(vendors){
-    var vendorId = vendors.find( o => o.Id_Vendor === parseInt(vendor,10))
-    if(vendor==="0")
+  function getCartaPorte(vendors, dataRole){
+    if(dataRole.Show_Customers === true)
     {
       const params = {
         pvOptionCRUD: "R"
@@ -237,6 +273,7 @@ function Carga({autoCloseAlert, autoCloseAlertEvidencias}) {
     }
     else {
       //Para guardar el valor del filterRfcEmisor
+      var vendorId = vendors.find( o => o.Id_Vendor === parseInt(vendor,10))
       setFilterRfcEmisor(vendorId.Tax_Id)
       var url = new URL(`${process.env.REACT_APP_API_URI}invoices/vendor/${vendorId.Tax_Id}`);
       fetch(url, {
@@ -353,6 +390,9 @@ useEffect(() => {
 
       var checkP = data.find( o => o.Id_Catalog === 27 )
       setCheckPool(checkP.Value)
+
+      var excepcionP = data.find( o => o.Id_Catalog === 32 )
+      setExcepcionRechazo(excepcionP.Value)
   })
   .catch(function(err) {
       alert("No se pudo consultar la informacion de los general parameters" + err);
@@ -458,13 +498,14 @@ useEffect(() => {
         dataAux[contador] = data[i]
         contador++
       }
+     
     }
     var dataSelect = []
     for(var j=0; j<dataAux.length; j++)
     {
       dataSelect[j] = {value: dataAux[j].Id_Workflow_Status, label: dataAux[j].Long_Desc}
     }
-    //console.log(data)
+    console.log(dataSelect)
     setDataWorkflowStatus(dataSelect)
   })
   .catch(function(err) {
@@ -481,56 +522,57 @@ function deleteClick(){
   setFilterUuid("")
   setFilterStatus({})
 
-    var vendorId = dataVendors.find( o => o.Id_Vendor === parseInt(vendor,10))
-    if(vendor==="0")
-    {
-      setFilterRfcEmisor("")
-      const params = {
-        pvOptionCRUD: "R"
-      };
-  
-      var url = new URL(`${process.env.REACT_APP_API_URI}invoices/`);
-  
-      Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
-  
-      fetch(url, {
-          method: "GET",
-          headers: {
-              "access-token": token,
-              "Content-Type": "application/json",
-          }
-      })
-      .then(function(response) {
-          return response.ok ? response.json() : Promise.reject();
-      })
-      .then(function(data) {
-        setDataCartaPorte(data)
-        setDataFind(false)
-      })
-      .catch(function(err) {
-          alert("No se pudo consultar la informacion de carta porte" + err);
-      });
-    }
-    else {
-      var url = new URL(`${process.env.REACT_APP_API_URI}invoices/vendor/${vendorId.Tax_Id}`);
-      fetch(url, {
+  if(dataRol[0].Show_Customers === true)
+  {
+    const params = {
+      pvOptionCRUD: "R"
+    };
+
+    var url = new URL(`${process.env.REACT_APP_API_URI}invoices/`);
+
+    Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
+
+    fetch(url, {
         method: "GET",
         headers: {
             "access-token": token,
             "Content-Type": "application/json",
         }
-      })
-      .then(function(response) {
-          return response.ok ? response.json() : Promise.reject();
-      })
-      .then(function(data) {
-        setDataCartaPorte(data)
-        setDataFind(false)
-      })
-      .catch(function(err) {
-          alert("No se pudo consultar la informacion de carta porte" + err);
-      });
-    }
+    })
+    .then(function(response) {
+        return response.ok ? response.json() : Promise.reject();
+    })
+    .then(function(data) {
+      setDataCartaPorte(data)
+      setDataFind(false)
+    })
+    .catch(function(err) {
+        alert("No se pudo consultar la informacion de carta porte" + err);
+    });
+  }
+  else {
+    //Para guardar el valor del filterRfcEmisor
+    var vendorId = vendors.find( o => o.Id_Vendor === parseInt(vendor,10))
+    setFilterRfcEmisor(vendorId.Tax_Id)
+    var url = new URL(`${process.env.REACT_APP_API_URI}invoices/vendor/${vendorId.Tax_Id}`);
+    fetch(url, {
+      method: "GET",
+      headers: {
+          "access-token": token,
+          "Content-Type": "application/json",
+      }
+    })
+    .then(function(response) {
+        return response.ok ? response.json() : Promise.reject();
+    })
+    .then(function(data) {
+      setDataCartaPorte(data)
+      setDataFind(false)
+    })
+    .catch(function(err) {
+        alert("No se pudo consultar la informacion de carta porte" + err);
+    });
+  }
 }
 
 function resetFileInput() {
@@ -541,6 +583,11 @@ function resetFileInput() {
 function resetFileInputPdf() {
   let randomString = Math.random().toString(36);
   setTheInputKeyPdf(randomString)
+}
+
+function resetFileInputText() {
+  let randomString = Math.random().toString(36);
+  setTheInputTextKey(randomString)
 }
 
 function registerClick(){
@@ -659,7 +706,8 @@ function getSolicitud()
     {
       resetFileInput()
       resetFileInputPdf()
-      setRequester()
+      resetFileInputText()
+      setRequester("")
       autoCloseAlert("La solicitud no existe. Valide.")
     }
     else {
@@ -787,6 +835,7 @@ function preData(dataRequest){
     {
       resetFileInput()
       resetFileInputPdf()
+      resetFileInputText()
       setRequester("")
       autoCloseAlert("Error. El documento no es de Carta Porte. Verifique.")
     }
@@ -794,6 +843,7 @@ function preData(dataRequest){
     {
       resetFileInput()
       resetFileInputPdf()
+      resetFileInputText()
       setRequester("")
       autoCloseAlert("Error: Compañía inexistente. Verifique")
     }
@@ -801,6 +851,7 @@ function preData(dataRequest){
     {
       resetFileInput()
       resetFileInputPdf()
+      resetFileInputText()
       setRequester("")
       autoCloseAlert("Error: Proveedor inexistente. Verifique")
     }
@@ -812,6 +863,7 @@ function preData(dataRequest){
         {
           resetFileInput()
           resetFileInputPdf()
+          resetFileInputText()
           setRequester("")
           autoCloseAlert("Error: Proveedor incorrecto. Verifique")
         }
@@ -896,6 +948,7 @@ function preData(dataRequest){
           else {
             resetFileInput()
             resetFileInputPdf()
+            resetFileInputText()
             setRequester("")
             autoCloseAlert("La relación entre Compañías / Proveedores es incorrecta. Valide.")
           }
@@ -982,6 +1035,7 @@ function preData(dataRequest){
         else {
           resetFileInput()
           resetFileInputPdf()
+          resetFileInputText()
           setRequester("")
           autoCloseAlert("La relación entre Compañías / Proveedores es incorrecta. Valide.")
         }
@@ -995,7 +1049,6 @@ function preData(dataRequest){
     var url = params.pathSolicitud
     console.log(params.pathSolicitud)
     let response = await axios({ url })
-    console.log(response.data)
     var options = {compact: false, ignoreComment: true, spaces: 4};
     const jsonString = convert.xml2json(response.data, options);
     const jsonData = JSON.parse(jsonString)
@@ -1018,6 +1071,7 @@ function preData(dataRequest){
       if(mercanciasV.length === mercanciasR.length)
       {
         //Vamos a verificar las ubicaciones
+        var ubicacionesFalse = 0; //para validar si alguna ubicacion no existe
         for(var i=0; i<ubicacionesV.length; i++)
         {
           var ubicacionVActual = ubicacionesV[i]
@@ -1038,44 +1092,78 @@ function preData(dataRequest){
           if(ubicacionFlag === false)
           {
             //EL ARCHIVO SE VA A SUBIR CON ERROR
+            console.log("LAS UBICACIONES NO SON IGUALES")
             uploadXmlFinal(false)
+            i = ubicacionesV.length
+            ubicacionesFalse++
           }
         }
 
-        //Vamos a verificar las mercancias
-        for(var i=0; i<mercanciasV.length; i++)
+        if(ubicacionesFalse === 0)
         {
-          var mercanciaVActual = mercanciasV[i]
-          var mercanciaFlag = false
-          for(var j=0; j<mercanciasR.length; j++)
+          //Vamos a verificar las mercancias
+          var mercanciaFalse = 0 //para validar si alguna mercancia no existe
+          for(var i=0; i<mercanciasV.length; i++)
           {
-            if((mercanciaVActual.attributes.BienesTransp === mercanciasR[j].attributes.BienesTransp)
-            && (mercanciaVActual.attributes.Cantidad === mercanciasR[j].attributes.Cantidad)
-            && (mercanciaVActual.attributes.ClaveUnidad === mercanciasR[j].attributes.ClaveUnidad)
-            && (mercanciaVActual.attributes.CveMaterialPeligroso === mercanciasR[j].attributes.CveMaterialPeligroso)
-            && (mercanciaVActual.attributes.Descripcion === mercanciasR[j].attributes.Descripcion)
-            && (mercanciaVActual.attributes.Embalaje === mercanciasR[j].attributes.Embalaje)
-            && (mercanciaVActual.attributes.MaterialPeligroso === mercanciasR[j].attributes.MaterialPeligroso)
-            && (mercanciaVActual.attributes.PesoEnKg === mercanciasR[j].attributes.PesoEnKg))
+            var mercanciaVActual = mercanciasV[i]
+            var mercanciaFlag = false
+            for(var j=0; j<mercanciasR.length; j++)
             {
-              mercanciaFlag = true
+              if((mercanciaVActual.attributes.BienesTransp === mercanciasR[j].attributes.BienesTransp)
+              && (mercanciaVActual.attributes.Cantidad === mercanciasR[j].attributes.Cantidad)
+              && (mercanciaVActual.attributes.ClaveUnidad === mercanciasR[j].attributes.ClaveUnidad)
+              && (mercanciaVActual.attributes.CveMaterialPeligroso === mercanciasR[j].attributes.CveMaterialPeligroso)
+              && (mercanciaVActual.attributes.Descripcion === mercanciasR[j].attributes.Descripcion)
+              && (mercanciaVActual.attributes.Embalaje === mercanciasR[j].attributes.Embalaje)
+              && (mercanciaVActual.attributes.MaterialPeligroso === mercanciasR[j].attributes.MaterialPeligroso)
+              && (mercanciaVActual.attributes.PesoEnKg === mercanciasR[j].attributes.PesoEnKg))
+              {
+                //mercanciaFlag = true
+                var pedimentoMV = mercanciaVActual.elements.find(o => o.name === "cartaporte20:Pedimentos")
+                var pedimentoMR = mercanciasR[j].elements.find(o => o.name === "cartaporte20:Pedimentos")
+                if(pedimentoMV !== undefined && pedimentoMR !== undefined)
+                {
+                  console.log(pedimentoMV.attributes.Pedimento)
+                  console.log(pedimentoMR.attributes.Pedimento)
+                  if(pedimentoMV.attributes.Pedimento === pedimentoMR.attributes.Pedimento)
+                  {
+                    mercanciaFlag = true
+                  }
+                  else {
+                    console.log("LAS MERCANCIAS NO SON IGUALES POR EL PEDIMENTO")
+                    mercanciaFlag = false
+                  }
+                }
+                else {
+                  mercanciaFlag = true
+                }
+              }
+            }
+            if(mercanciaFlag === false)
+            {
+              //EL ARCHIVO SE VA A SUBIR CON ERROR
+              console.log("LAS MERCANCIAS NO SON IGUALES")
+              uploadXmlFinal(false)
+              i = mercanciasV.length
+              mercanciaFalse++
             }
           }
-          if(mercanciaFlag === false)
+          if(mercanciaFalse === 0)
           {
-            //EL ARCHIVO SE VA A SUBIR CON ERROR
-            uploadXmlFinal(false)
+            console.log("LAS MERCANCIAS SON IGUALES")
+            uploadXmlFinal(true)
           }
         }
-        uploadXmlFinal(true)
       }
       else {
         //EL ARCHIVO SE VA A SUBIR CON ERROR
+        console.log("LAS MERCANCIAS NO TIENEN LA MISMA LONGITUD")
         uploadXmlFinal(false)
       }
     }
     else {
       //EL ARCHIVO SE VA A SUBIR CON ERROR
+      console.log("LAS UBICACIONES NO TIENEN LA MISMA LONGITUD")
       uploadXmlFinal(false)
     }
   }
@@ -1379,14 +1467,16 @@ function preData(dataRequest){
           {
             resetFileInput()
             resetFileInputPdf()
-            setRequester()
+            resetFileInputText()
+            setRequester("")
             autoCloseAlert(data.data.message)
             updateAddData()
           }
           else {
             resetFileInput()
             resetFileInputPdf()
-            setRequester()
+            resetFileInputText()
+            setRequester("")
             autoCloseAlert(data.data.message)
           }
         }
@@ -1395,7 +1485,7 @@ function preData(dataRequest){
 
   //Renderizado condicional
   function CargaT() {
-    return <CargaTable dataTable = {dataCartaPorte} ip = {ip} autoCloseAlert = {autoCloseAlert} updateAddData = {updateAddData} workflowTypes = {workflowTypes} workflowTracker ={workflowTracker} estatusCarga = {estatusCarga} checkPool = {checkPool} autoCloseAlertEvidencias = {autoCloseAlertEvidencias}/>
+    return <CargaTable dataTable = {dataCartaPorte} ip = {ip} autoCloseAlert = {autoCloseAlert} updateAddData = {updateAddData} workflowTypes = {workflowTypes} workflowTracker ={workflowTracker} estatusCarga = {estatusCarga} checkPool = {checkPool} autoCloseAlertEvidencias = {autoCloseAlertEvidencias} excepcionRechazo = {excepcionRechazo}/>
   }
 
   //Renderizado condicional
@@ -1406,8 +1496,7 @@ function preData(dataRequest){
   //Para actualizar la tabla al insertar registro
   function updateAddData(){
     setDataFind(true)
-    var vendorId = dataVendors.find( o => o.Id_Vendor === parseInt(vendor,10))
-    if(vendor==="0")
+    if(dataRol[0].Show_Customers === true)
     {
       const params = {
         pvOptionCRUD: "R"
@@ -1436,6 +1525,9 @@ function preData(dataRequest){
       });
     }
     else {
+      //Para guardar el valor del filterRfcEmisor
+      var vendorId = vendors.find( o => o.Id_Vendor === parseInt(vendor,10))
+      setFilterRfcEmisor(vendorId.Tax_Id)
       var url = new URL(`${process.env.REACT_APP_API_URI}invoices/vendor/${vendorId.Tax_Id}`);
       fetch(url, {
         method: "GET",
@@ -1616,6 +1708,7 @@ function preData(dataRequest){
                             name="requester"
                             type="number"
                             autoComplete="off"
+                            key={theInputTextKey || '' }
                             onChange={(e) => {
                                 setRequester(e.target.value);
                                 setRequesterState("has-success")
@@ -1663,7 +1756,7 @@ function preData(dataRequest){
           &nbsp;
           <Card>
             <CardHeader>
-                <CardTitle tag="h4">Monitor Carta Porte</CardTitle>
+                <CardTitle tag="h4">Monitor Facturas</CardTitle>
             </CardHeader>
             <CardBody>
               <FiltroT/>
@@ -1717,6 +1810,7 @@ function preData(dataRequest){
                             name="requester"
                             type="number"
                             autoComplete="off"
+                            key={theInputTextKey || '' }
                             onChange={(e) => {
                                 setRequester(e.target.value);
                                 setRequesterState("has-success")
@@ -1764,7 +1858,7 @@ function preData(dataRequest){
           &nbsp;
           <Card>
             <CardHeader>
-                <CardTitle tag="h4">Monitor Carta Porte</CardTitle>
+                <CardTitle tag="h4">Monitor Facturas</CardTitle>
             </CardHeader>
             <CardBody>
               <FiltroT/>

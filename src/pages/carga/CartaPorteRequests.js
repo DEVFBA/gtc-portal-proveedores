@@ -30,43 +30,46 @@ function CartaPorteRequests({autoCloseAlert}) {
 
   //Para guardar el token de la sesión
   const token = localStorage.getItem("Token");
-  const user = localStorage.getItem("User");
+  const idRole = localStorage.getItem("Id_Role");
+  const vendor = localStorage.getItem("Id_Vendor");
+
+  //Para guardar los datos del rol logueado
+  const [dataRol, setDataRol] = useState();
  
   //Para guardar los datos de los roles
   const [dataCartaPorteRequests, setDataCartaPorteRequests] = useState([]);
   
   const [dataFind, setDataFind] = useState(false);
 
-  //Para guardar la direccion IP del usuario
-  const [ip, setIP] = useState("");
-  
-  const getData = async () => {
-  //const res = await axios.get('https://geolocation-db.com/json/')
-  //setIP(res.data.IPv4)
-
-      try{
-          let response = await axios({
-              method: 'get',
-              url: "https://geolocation-db.com/json/",
-              json: true
-          })
-          setIP(response.data.IPv4)
-      } catch(err){
-              return {
-              mensaje: "Error al obtener IP",
-              error: err
-              }
-      }
-  }
-
   useEffect(() => {
-      //Descargamos la IP del usuario
-      getData()
-  }, []);
+    var url = new URL(`${process.env.REACT_APP_API_URI}security-roles/${idRole}`);
 
-  useEffect(() => {
-      //Aqui vamos a descargar la lista de vendors de la base de datos 
-      //var url = new URL(`${process.env.REACT_APP_API_URI}vendors/`);
+    fetch(url, {
+        method: "GET",
+        headers: {
+            "access-token": token,
+            "Content-Type": "application/json",
+        }
+    })
+    .then(function(response) {
+        return response.ok ? response.json() : Promise.reject();
+    })
+    .then(function(data) {
+        setDataRol(data)
+        getCartaPorteRequests(data[0])
+    })
+    .catch(function(err) {
+        alert("No se pudo consultar la informacion del rol logueado" + err);
+        
+    });
+  }, []); 
+
+  function getCartaPorteRequests(dataRole)
+  {
+    //Aqui vamos a descargar la lista de vendors de la base de datos 
+    //var url = new URL(`${process.env.REACT_APP_API_URI}vendors/`);
+    if(dataRole.Show_Customers === true)
+    {
       var url = new URL(`${process.env.REACT_APP_API_URI}carta-porte-requests/`);
 
       fetch(url, {
@@ -87,7 +90,30 @@ function CartaPorteRequests({autoCloseAlert}) {
       .catch(function(err) {
         alert("No se pudo consultar la informacion de las vendors" + err);
       });
-  }, []);
+    }
+    else {
+      var url = new URL(`${process.env.REACT_APP_API_URI}carta-porte-requests/vendor/${vendor}`);
+
+      fetch(url, {
+          method: "GET",
+          headers: {
+              "access-token": token,
+              "Content-Type": "application/json",
+          }
+      })
+      .then(function(response) {
+        return response.ok ? response.json() : Promise.reject();
+      })
+      .then(function(data) {
+        setDataCartaPorteRequests(data)
+        console.log(data)
+        setDataFind(true)
+      })
+      .catch(function(err) {
+        alert("No se pudo consultar la informacion de las vendors" + err);
+      });
+    }
+  }
 
   //Renderizado condicional
   function CargaT() {

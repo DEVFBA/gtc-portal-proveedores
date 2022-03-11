@@ -20,7 +20,7 @@ import {
     Row
 } from "reactstrap";
 
-function ModalAddUser({modalAddRecord, setModalAddRecord, dataRoles, dataVendors, updateAddData, ip, autoCloseAlert, validDays, pathImage}) {
+function ModalAddUser({modalAddRecord, setModalAddRecord, dataRoles, dataVendors, updateAddData, ip, autoCloseAlert, validDays, pathImage, dataDepartments}) {
         // register form
     const [registerEmail, setregisterEmail] = React.useState("");
     const [registerFullName, setregisterFullName] = React.useState("");
@@ -28,6 +28,7 @@ function ModalAddUser({modalAddRecord, setModalAddRecord, dataRoles, dataVendors
     const [registerRol, setregisterRol] = React.useState("");
     const [registerVendor, setregisterVendor] = React.useState();
     const [registerImage, setregisterImage] = React.useState("");
+    const [registerIdDepartment, setregisterIdDepartment] = React.useState("");
     const [registerStatus, setregisterStatus] = useState(true);
     const [registerConfirmPassword, setregisterConfirmPassword] = React.useState("");
 
@@ -36,6 +37,7 @@ function ModalAddUser({modalAddRecord, setModalAddRecord, dataRoles, dataVendors
     const [registerPasswordState, setregisterPasswordState] = React.useState("");
     const [registerConfirmPasswordState, setregisterConfirmPasswordState] = React.useState("");
     const [registerRolState, setregisterRolState] = React.useState("");
+    const [registerIdDepartmentState, setregisterIdDepartmentState] = React.useState("");
     const [registerVendorState, setregisterVendorState] = React.useState("");
 
     const [error, setError] = React.useState();
@@ -61,6 +63,7 @@ function ModalAddUser({modalAddRecord, setModalAddRecord, dataRoles, dataVendors
         setregisterRolState("");
         setregisterVendorState();
         setErrorState("")
+        setregisterIdDepartmentState("")
 
         //Cerramos el modal
         setModalAddRecord(!modalAddRecord);
@@ -105,7 +108,8 @@ function ModalAddUser({modalAddRecord, setModalAddRecord, dataRoles, dataVendors
             registerPasswordState === "has-success" &&
             registerRolState === "has-success" &&
             registerVendorState === "has-success" &&
-            registerConfirmPasswordState === "has-success"
+            registerConfirmPasswordState === "has-success" &&
+            registerIdDepartmentState === "has-success"
         ) {
           return true;
         } else {
@@ -126,6 +130,9 @@ function ModalAddUser({modalAddRecord, setModalAddRecord, dataRoles, dataVendors
           }
           if (registerVendorState !== "has-success") {
             setregisterVendorState("text-danger");
+          }
+          if (registerIdDepartmentState !== "has-success") {
+            setregisterIdDepartmentState("text-danger");
           }
           return false;
         }
@@ -177,7 +184,7 @@ function ModalAddUser({modalAddRecord, setModalAddRecord, dataRoles, dataVendors
         }
         
         //EL USUARIO HAY QUE CAMBIARLO POR EL QUE SE HAYA LOGGEADO
-        console.log("piIdVendor: "+ registerVendor.value)
+        /*console.log("piIdVendor: "+ registerVendor.value)
         console.log("pvIdUser: " + registerEmail)
         console.log("pvIdRole: "+ registerRol.value)
         console.log("pvPassword: " + registerPassword)
@@ -186,7 +193,7 @@ function ModalAddUser({modalAddRecord, setModalAddRecord, dataRoles, dataVendors
         console.log("pvFinalEffectiveDate: "+ finalDate2)
         console.log("pvProfilePicPath: " + registerImage)
         console.log("pvUser: " + "ANGUTIERRE")
-        console.log("pvIP: " + ip)
+        console.log("pvIP: " + ip)*/
 
         const catRegister = {
             pvOptionCRUD: "C",
@@ -198,11 +205,14 @@ function ModalAddUser({modalAddRecord, setModalAddRecord, dataRoles, dataVendors
             pbTempPassword: true,
             pvFinalEffectiveDate: finalDate2,
             pvProfilePicPath: registerImage,
+            pvIdDepartment: registerIdDepartment.value,
             pbStatus: registerStatus,
             pvUser: user,
             pathImage : pathImage,
             pvIP: ip
         };
+
+        console.log(catRegister)
     
         fetch(`${process.env.REACT_APP_API_URI}security-users/create-user/`, {
             method: "POST",
@@ -225,14 +235,12 @@ function ModalAddUser({modalAddRecord, setModalAddRecord, dataRoles, dataVendors
                     setErrorMessage(data[0].Code_Message_User)
                     setErrorState("has-danger")
                     autoCloseAlert(data[0].Code_Message_User)
-                    console.log(data[0].Code_Message_User)
                 }
                 else if(data[0].Code_Type === "Error")
                 {
                     setErrorMessage(data[0].Code_Message_User)
                     autoCloseAlert(data[0].Code_Message_User)
                     setErrorState("has-danger")
-                    console.log(data[0].Code_Message_User)
                 }
                 else{
                     setErrorState("has-success");
@@ -241,7 +249,6 @@ function ModalAddUser({modalAddRecord, setModalAddRecord, dataRoles, dataVendors
                     //Cerramos el modal
                     handleModalClick()
                     autoCloseAlert(data[0].Code_Message_User)
-                    console.log(data[0].Code_Message_User)
                 }
             }
         });
@@ -250,10 +257,10 @@ function ModalAddUser({modalAddRecord, setModalAddRecord, dataRoles, dataVendors
     return (
         <Modal isOpen={modalAddRecord} toggle={handleModalClick} size="lg">
             <div className="modal-header justify-content-center">
-            <h5 className="modal-title">Agregar Usuario</h5>
-            <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={handleModalClick}>
-                <span aria-hidden="true">×</span>
-            </button>
+                <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={handleModalClick}>
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h5 className="modal-title">Agregar Usuario</h5>
             </div>
             <ModalBody>
             <Form id="RegisterValidation">
@@ -383,8 +390,26 @@ function ModalAddUser({modalAddRecord, setModalAddRecord, dataRoles, dataVendors
                                 <label className="form-text text-danger">Selecciona un proveedor.</label>
                             ) : null}
                         </FormGroup>
-                        <FormGroup check>
-                            <Label check>
+                        <FormGroup className={`form-group ${registerIdDepartmentState}`}>
+                            <Label for="exampleSelect">Departamento * </Label>
+                            <Select
+                                name=""
+                                className="react-select"
+                                placeholder="Selecciona un departamento"
+                                classNamePrefix="react-select"
+                                value={registerIdDepartment}
+                                onChange={(value) => {
+                                    setregisterIdDepartment(value)
+                                    setregisterIdDepartmentState("has-success");
+                                }}
+                                options={dataDepartments}
+                            />
+                            {registerVendorState === "text-danger" ? (
+                                <label className="form-text text-danger">Selecciona un departamento.</label>
+                            ) : null}
+                        </FormGroup>
+                        <label>Estatus</label>
+                        <FormGroup check> 
                             <Input 
                                 type="checkbox" 
                                 checked = {registerStatus}
@@ -396,7 +421,6 @@ function ModalAddUser({modalAddRecord, setModalAddRecord, dataRoles, dataVendors
                             <span className="form-check-sign">
                                 <span className="check"></span>
                             </span>
-                            </Label>
                         </FormGroup>
                     </Col>
                     <Col className="mt-3" lg="10">
