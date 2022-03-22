@@ -1106,52 +1106,66 @@ function preData(dataRequest){
           for(var i=0; i<mercanciasV.length; i++)
           {
             var mercanciaVActual = mercanciasV[i]
-            var mercanciaFlag = false
-            for(var j=0; j<mercanciasR.length; j++)
+            if(mercanciaVActual.name === "cartaporte20:Mercancia")
             {
-              if((mercanciaVActual.attributes.BienesTransp === mercanciasR[j].attributes.BienesTransp)
-              && (mercanciaVActual.attributes.Cantidad === mercanciasR[j].attributes.Cantidad)
-              && (mercanciaVActual.attributes.ClaveUnidad === mercanciasR[j].attributes.ClaveUnidad)
-              && (mercanciaVActual.attributes.CveMaterialPeligroso === mercanciasR[j].attributes.CveMaterialPeligroso)
-              && (mercanciaVActual.attributes.Descripcion === mercanciasR[j].attributes.Descripcion)
-              && (mercanciaVActual.attributes.Embalaje === mercanciasR[j].attributes.Embalaje)
-              && (mercanciaVActual.attributes.MaterialPeligroso === mercanciasR[j].attributes.MaterialPeligroso)
-              && (mercanciaVActual.attributes.PesoEnKg === mercanciasR[j].attributes.PesoEnKg))
+              var mercanciaFlag = false
+              for(var j=0; j<mercanciasR.length; j++)
               {
-                //mercanciaFlag = true
-                var pedimentoMV = mercanciaVActual.elements.find(o => o.name === "cartaporte20:Pedimentos")
-                var pedimentoMR = mercanciasR[j].elements.find(o => o.name === "cartaporte20:Pedimentos")
-                if(pedimentoMV !== undefined && pedimentoMR !== undefined)
+                if(mercanciasR[j].name === "cartaporte20:Mercancia")
                 {
-                  console.log(pedimentoMV.attributes.Pedimento)
-                  console.log(pedimentoMR.attributes.Pedimento)
-                  if(pedimentoMV.attributes.Pedimento === pedimentoMR.attributes.Pedimento)
+                  if((mercanciaVActual.attributes.BienesTransp === mercanciasR[j].attributes.BienesTransp)
+                  && (mercanciaVActual.attributes.Cantidad === mercanciasR[j].attributes.Cantidad)
+                  && (mercanciaVActual.attributes.ClaveUnidad === mercanciasR[j].attributes.ClaveUnidad)
+                  && (mercanciaVActual.attributes.CveMaterialPeligroso === mercanciasR[j].attributes.CveMaterialPeligroso)
+                  && (mercanciaVActual.attributes.Descripcion === mercanciasR[j].attributes.Descripcion)
+                  && (mercanciaVActual.attributes.Embalaje === mercanciasR[j].attributes.Embalaje)
+                  && (mercanciaVActual.attributes.MaterialPeligroso === mercanciasR[j].attributes.MaterialPeligroso)
+                  && (mercanciaVActual.attributes.PesoEnKg === mercanciasR[j].attributes.PesoEnKg))
                   {
-                    mercanciaFlag = true
+                    //mercanciaFlag = true
+                    console.log(mercanciaVActual.elements)
+                    if(mercanciaVActual.elements !== undefined && mercanciasR[j].elements)
+                    {
+                      var pedimentoMV = mercanciaVActual.elements.find(o => o.name === "cartaporte20:Pedimentos")
+                      var pedimentoMR = mercanciasR[j].elements.find(o => o.name === "cartaporte20:Pedimentos")
+                      if(pedimentoMV !== undefined && pedimentoMR !== undefined)
+                      {
+                        console.log(pedimentoMV.attributes.Pedimento)
+                        console.log(pedimentoMR.attributes.Pedimento)
+                        if(pedimentoMV.attributes.Pedimento === pedimentoMR.attributes.Pedimento)
+                        {
+                          mercanciaFlag = true
+                        }
+                        else {
+                          console.log("LAS MERCANCIAS NO SON IGUALES POR EL PEDIMENTO")
+                          mercanciaFlag = false
+                        }
+                      }
+                    }
+                    else {
+                      mercanciaFlag = true
+                    }
                   }
-                  else {
-                    console.log("LAS MERCANCIAS NO SON IGUALES POR EL PEDIMENTO")
-                    mercanciaFlag = false
-                  }
-                }
-                else {
-                  mercanciaFlag = true
                 }
               }
-            }
-            if(mercanciaFlag === false)
-            {
-              //EL ARCHIVO SE VA A SUBIR CON ERROR
-              console.log("LAS MERCANCIAS NO SON IGUALES")
-              uploadXmlFinal(false)
-              i = mercanciasV.length
-              mercanciaFalse++
+              if(mercanciaFlag === false)
+              {
+                //EL ARCHIVO SE VA A SUBIR CON ERROR
+                console.log("LAS MERCANCIAS NO SON IGUALES")
+                uploadXmlFinal(false)
+                i = mercanciasV.length
+                mercanciaFalse++
+                console.log(mercanciaVActual)
+              }
             }
           }
           if(mercanciaFalse === 0)
           {
             console.log("LAS MERCANCIAS SON IGUALES")
             uploadXmlFinal(true)
+          }
+          else {
+            console.log(mercanciaFalse)
           }
         }
       }

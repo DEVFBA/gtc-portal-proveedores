@@ -93,6 +93,8 @@ function Login(){
       pvPassword: password
     };
 
+    console.log(catRegister)
+
     fetch(`${process.env.REACT_APP_API_URI}security-users/login/`, {
         method: "POST",
         body: JSON.stringify(catRegister),

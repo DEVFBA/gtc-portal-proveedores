@@ -41,6 +41,7 @@ import DashboardSalfreight from '../dashboards/salfreight'
 import DashboardPurfreight from '../dashboards/purfreight'
 import DashboardVendor from '../dashboards/vendor'
 import ExternalApplications from "../pages/applications/ExternalApplications"
+import Accounts from "../pages/cat-accounts/Accounts"
 
 function Admin(props) {
     const [isEmptyView, setIsEmptyView] = useState(false)
@@ -155,18 +156,6 @@ function Admin(props) {
       var url = new URL(`${process.env.REACT_APP_API_URI}security-access/`);
   
       Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
-
-      /*const params2 = {
-        redirect_uri: "https://alexisherolv.com/oauth/",
-        response_type : "code",
-        client_id : "CBJCHBCAABAA2g0kN5Bzu9yHk7Kp-SX6MRsCIEE4rZ4a",
-        scope : "user_read"
-      };
-
-      var url2 = new URL(`https://secure.echosign.com/public/oauth`);
-  
-      Object.keys(params2).forEach(key => url2.searchParams.append(key, params2[key]))
-      console.log(url2)*/
   
       fetch(url, {
           method: "GET",
@@ -191,7 +180,7 @@ function Admin(props) {
           history.push(ambiente + "/auth/login")
         }
         else{
-          //console.log(data)
+          console.log(data)
           var routesAux = [];
          
           for(var i=0; i<data.length; i++)
@@ -521,6 +510,18 @@ function Admin(props) {
                           }
                         )
                       }
+                      else if(data[j].Component_Submodule === "JDEAccounts")
+                      {
+                        views.push(
+                          {
+                            path: data[j].Url,
+                            name: data[j].SubModule_Desc,
+                            component: "JDEAccounts",
+                            layout: ambiente + data[j].Layout_SubModule,
+                            views: []
+                          }
+                        )
+                      }
                       else if(data[j].Component_Submodule === "ExternalApplications")
                       {
                         views.push(
@@ -815,6 +816,18 @@ function Admin(props) {
                   //key={key}
                 >
                   <CompaniesVendors autoCloseAlert = {autoCloseAlert}/>
+                </Route>
+              );
+            }
+            else if(prop.component === "JDEAccounts")
+            {
+              return (
+                <Route
+                  path={prop.layout + prop.path}
+                  //element={<Users autoCloseAlert = {autoCloseAlert}/>}
+                  //key={key}
+                >
+                  <Accounts autoCloseAlert = {autoCloseAlert}/>
                 </Route>
               );
             }
