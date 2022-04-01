@@ -270,10 +270,10 @@ function ModalAddUser({modalAddRecord, setModalAddRecord, dataRoles, dataVendors
                             <label>Correo electrónico / Id Usuario *</label>
                             <Input
                                 name="email"
-                                type="email"
+                                type="text"
                                 autoComplete="off"
                                 onChange={(e) => {
-                                if (!verifyEmail(e.target.value)) {
+                                if (!verifyLength(e.target.value, 1)) {
                                     setregisterEmailState("text-danger");
                                 } else {
                                     setregisterEmailState("has-success");

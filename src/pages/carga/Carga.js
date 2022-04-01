@@ -1,18 +1,17 @@
 import React, { useState, useEffect, useRef } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import ConnectedDatePicker from '../../forms/react-datetime/ConnectedDatePicker'
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 
 import convert from 'xml-js';
 import axios from 'axios'
-import Widget from '../../elements/Widget'
 import Skeleton from '@yisheng90/react-loading';
 import '../../css/forms/react-datetime.css'
 import CargaTable from './CargaTable';
 import Filtro from './Filtro';
+import ReactBSAlert from "react-bootstrap-sweetalert";
+
 // reactstrap components
 import {
-  Button,
   Card,
   CardHeader,
   CardBody,
@@ -23,18 +22,9 @@ import {
   Form,
   Label,
   Input,
-  Modal, 
-  ModalBody, 
-  ModalFooter,
-  CardFooter
 } from "reactstrap";
 
-// react plugin used to create datetimepicker
-import ReactDatetime from "react-datetime";
-import Select from "react-select";
-import { param } from "jquery";
-
-function Carga({autoCloseAlert, autoCloseAlertEvidencias}) {
+function Carga({autoCloseAlert, autoCloseAlertEvidencias, autoCloseAlertCarga, hideAlert4}) {
 
   //Para guardar el archivo XML
   const [xml, setXml] = useState(null);
@@ -689,6 +679,7 @@ function registerClick(){
 
 function getSolicitud()
 {
+  autoCloseAlertCarga("Cargando...")
   var url = new URL(`${process.env.REACT_APP_API_URI}carta-porte-requests/${requester}`);
 
   fetch(url, {
@@ -704,6 +695,7 @@ function getSolicitud()
   .then(function(data) {
     if(data.data.success === 0)
     {
+      hideAlert4()
       resetFileInput()
       resetFileInputPdf()
       resetFileInputText()
@@ -833,6 +825,7 @@ function preData(dataRequest){
     var vendorTaxId = dataVendors.find( o => o.Id_Vendor === parseInt(vendor,10))
     if(cartaPorte !== true)
     {
+      hideAlert4()
       resetFileInput()
       resetFileInputPdf()
       resetFileInputText()
@@ -841,6 +834,7 @@ function preData(dataRequest){
     }
     else if(companyValid === false)
     {
+      hideAlert4()
       resetFileInput()
       resetFileInputPdf()
       resetFileInputText()
@@ -849,6 +843,7 @@ function preData(dataRequest){
     }
     else if(vendorValid === false)
     {
+      hideAlert4()
       resetFileInput()
       resetFileInputPdf()
       resetFileInputText()
@@ -861,6 +856,7 @@ function preData(dataRequest){
       {
         if(vendorTaxIdDoc !== vendorTaxId.Tax_Id)
         {
+          hideAlert4()
           resetFileInput()
           resetFileInputPdf()
           resetFileInputText()
@@ -946,6 +942,7 @@ function preData(dataRequest){
             }
           }
           else {
+            hideAlert4()
             resetFileInput()
             resetFileInputPdf()
             resetFileInputText()
@@ -1033,6 +1030,7 @@ function preData(dataRequest){
           }
         }
         else {
+          hideAlert4()
           resetFileInput()
           resetFileInputPdf()
           resetFileInputText()
@@ -1474,11 +1472,13 @@ function preData(dataRequest){
     .then((response) => response.json())
     .then((data) => {
         if (data.errors) {
+            hideAlert4()
             console.log("Hubo un error al procesar tu solicitud")
         }
         else {
           if(data.data.success === 1)
           {
+            hideAlert4()
             resetFileInput()
             resetFileInputPdf()
             resetFileInputText()
@@ -1487,6 +1487,7 @@ function preData(dataRequest){
             updateAddData()
           }
           else {
+            hideAlert4()
             resetFileInput()
             resetFileInputPdf()
             resetFileInputText()

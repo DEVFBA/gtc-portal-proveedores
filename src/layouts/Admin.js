@@ -43,6 +43,13 @@ import DashboardVendor from '../dashboards/vendor'
 import ExternalApplications from "../pages/applications/ExternalApplications"
 import Accounts from "../pages/cat-accounts/Accounts"
 
+import Cargando from "../assets/img/loading_icon.gif";
+
+import {
+  Row,
+  Col,
+} from "reactstrap";
+
 function Admin(props) {
     const [isEmptyView, setIsEmptyView] = useState(false)
     const [layout, setLayout] = useState('default-sidebar-1')
@@ -73,6 +80,9 @@ function Admin(props) {
 
     //Para mostrar una alerta al Crear Pool
     const [alert3, setAlert3] = React.useState(null);
+
+    //Para el alert de cargando carga
+    const [alert4, setAlert4] = React.useState(null);
 
     //Para el cierre de sesión cuando no hay actividad
     const [timeout, setTimeout] = useState(1800000); //despues de media hora se cierra la sesión
@@ -861,7 +871,7 @@ function Admin(props) {
                 <Route
                   path={prop.layout + prop.path}
                 >
-                  <Carga autoCloseAlert = {autoCloseAlert} autoCloseAlertEvidencias = {autoCloseAlertEvidencias}/>
+                  <Carga autoCloseAlert = {autoCloseAlert} autoCloseAlertEvidencias = {autoCloseAlertEvidencias} autoCloseAlertCarga = {autoCloseAlertCarga} hideAlert4 = {hideAlert4}/>
                 </Route>
               );
             }
@@ -1051,6 +1061,33 @@ function Admin(props) {
           }
       });
     }
+
+    const autoCloseAlertCarga = (mensaje) => {
+      console.log("entre al alert")
+      setAlert4(
+        <ReactBSAlert
+          style={{ display: "block", display: "flex", justifyContent: "center", alignItems: "center" }}
+          title=""
+          onConfirm={() => hideAlert4()}
+          showConfirm={false}
+        >
+          <Row>
+            <Col sm="4">
+            </Col>
+            <Col sm="4">
+              <img 
+                src = {Cargando} 
+                style ={{ width: "50px", height: "50px" }}
+              />
+            </Col>
+            <Col sm="4">
+            </Col>
+          </Row>
+          &nbsp;
+          {mensaje}
+        </ReactBSAlert>
+      );
+    };
   
     const hideAlert = () => {
         setAlert(null);
@@ -1062,6 +1099,10 @@ function Admin(props) {
 
     const hideAlert3 = () => {
       setAlert3(null);
+    };
+
+    const hideAlert4 = () => {
+      setAlert4(null);
     };
 
     return dataFind === false ? (
@@ -1083,6 +1124,7 @@ function Admin(props) {
             {alert}
             {alert2}
             {alert3}
+            {alert4}
             <Navbar1 layout = {layout} setLayout = {setLayout} changeImageP = {changeImageP}/>
             <div className={isEmptyView ? '' : 'container-fluid'}>
                 <div className={isEmptyView ? '' : 'row'}>

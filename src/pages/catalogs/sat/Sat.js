@@ -43,6 +43,7 @@ import Localities from "./Localities";
 import Municipalities from "./Municipalities";
 import States from "./States";
 import ZipCodes from "./ZipCodes";
+import CFDIUses from "./CFDIUses";
 
 function CatalogosSat({autoCloseAlert}) {
     //Para guardar los datos de los catálogos
@@ -56,9 +57,13 @@ function CatalogosSat({autoCloseAlert}) {
 
     //Para guardar los datos del catalogo seleccionado
     const [dataCatalog, setDataCatalog] = useState([]);
+
     const token = localStorage.getItem("Token");
 
     const [ip, setIP] = React.useState("");
+
+    const [dataFind, setDataFind] = useState(true);
+
     const getData = async () => {
         const res = await axios.get('https://geolocation-db.com/json/')
         setIP(res.data.IPv4)
@@ -130,12 +135,18 @@ function CatalogosSat({autoCloseAlert}) {
         console.log(catalog)
         if(catalog === "Customs")
         {
-            if(dataCatalog.length === 0)
+            if(dataFind === true)
             {
                 return  <div>
                             <Skeleton height={25} />
                             <Skeleton height="25px" />
                             <Skeleton height="3rem" />
+                        </div>
+            }
+            else if(dataCatalog.length === 0)
+            {
+                return  <div className ="no-data">
+                            <h3>No hay datos</h3>
                         </div>
             }
             else {
@@ -144,12 +155,18 @@ function CatalogosSat({autoCloseAlert}) {
         }
         else if(catalog === "KeyProduct")
         {
-            if(dataCatalog.length === 0)
+            if(dataFind === true)
             {
                 return  <div>
                             <Skeleton height={25} />
                             <Skeleton height="25px" />
                             <Skeleton height="3rem" />
+                        </div>
+            }
+            else if(dataCatalog.length === 0)
+            {
+                return  <div className ="no-data">
+                            <h3>No hay datos</h3>
                         </div>
             }
             else {
@@ -158,12 +175,18 @@ function CatalogosSat({autoCloseAlert}) {
         }
         else if(catalog === "PaymentWays")
         {
-            if(dataCatalog.length === 0)
+            if(dataFind === true)
             {
                 return  <div>
                             <Skeleton height={25} />
                             <Skeleton height="25px" />
                             <Skeleton height="3rem" />
+                        </div>
+            }
+            else if(dataCatalog.length === 0)
+            {
+                return  <div className ="no-data">
+                            <h3>No hay datos</h3>
                         </div>
             }
             else {
@@ -172,12 +195,18 @@ function CatalogosSat({autoCloseAlert}) {
         }
         else if(catalog === "KeyUnit")
         {
-            if(dataCatalog.length === 0)
+            if(dataFind === true)
             {
                 return  <div>
                             <Skeleton height={25} />
                             <Skeleton height="25px" />
                             <Skeleton height="3rem" />
+                        </div>
+            }
+            else if(dataCatalog.length === 0)
+            {
+                return  <div className ="no-data">
+                            <h3>No hay datos</h3>
                         </div>
             }
             else {
@@ -186,12 +215,18 @@ function CatalogosSat({autoCloseAlert}) {
         }
         else if(catalog === "TariffFractions")
         {
-            if(dataCatalog.length === 0)
+            if(dataFind === true)
             {
                 return  <div>
                             <Skeleton height={25} />
                             <Skeleton height="25px" />
                             <Skeleton height="3rem" />
+                        </div>
+            }
+            else if(dataCatalog.length === 0)
+            {
+                return  <div className ="no-data">
+                            <h3>No hay datos</h3>
                         </div>
             }
             else {
@@ -200,12 +235,18 @@ function CatalogosSat({autoCloseAlert}) {
         }
         else if(catalog === "Taxes")
         {
-            if(dataCatalog.length === 0)
+            if(dataFind === true)
             {
                 return  <div>
                             <Skeleton height={25} />
                             <Skeleton height="25px" />
                             <Skeleton height="3rem" />
+                        </div>
+            }
+            else if(dataCatalog.length === 0)
+            {
+                return  <div className ="no-data">
+                            <h3>No hay datos</h3>
                         </div>
             }
             else {
@@ -214,12 +255,18 @@ function CatalogosSat({autoCloseAlert}) {
         }
         else if(catalog === "Incoterm")
         {
-            if(dataCatalog.length === 0)
+            if(dataFind === true)
             {
                 return  <div>
                             <Skeleton height={25} />
                             <Skeleton height="25px" />
                             <Skeleton height="3rem" />
+                        </div>
+            }
+            else if(dataCatalog.length === 0)
+            {
+                return  <div className ="no-data">
+                            <h3>No hay datos</h3>
                         </div>
             }
             else {
@@ -228,12 +275,18 @@ function CatalogosSat({autoCloseAlert}) {
         }
         else if(catalog === "Currencies")
         {
-            if(dataCatalog.length === 0)
+            if(dataFind === true)
             {
                 return  <div>
                             <Skeleton height={25} />
                             <Skeleton height="25px" />
                             <Skeleton height="3rem" />
+                        </div>
+            }
+            else if(dataCatalog.length === 0)
+            {
+                return  <div className ="no-data">
+                            <h3>No hay datos</h3>
                         </div>
             }
             else {
@@ -242,12 +295,18 @@ function CatalogosSat({autoCloseAlert}) {
         }
         else if(catalog === "ReasonsTransfer")
         {
-            if(dataCatalog.length === 0)
+            if(dataFind === true)
             {
                 return  <div>
                             <Skeleton height={25} />
                             <Skeleton height="25px" />
                             <Skeleton height="3rem" />
+                        </div>
+            }
+            else if(dataCatalog.length === 0)
+            {
+                return  <div className ="no-data">
+                            <h3>No hay datos</h3>
                         </div>
             }
             else {
@@ -256,12 +315,18 @@ function CatalogosSat({autoCloseAlert}) {
         }
         else if(catalog === "PaymentMethods")
         {
-            if(dataCatalog.length === 0)
+            if(dataFind === true)
             {
                 return  <div>
                             <Skeleton height={25} />
                             <Skeleton height="25px" />
                             <Skeleton height="3rem" />
+                        </div>
+            }
+            else if(dataCatalog.length === 0)
+            {
+                return  <div className ="no-data">
+                            <h3>No hay datos</h3>
                         </div>
             }
             else {
@@ -270,12 +335,18 @@ function CatalogosSat({autoCloseAlert}) {
         }
         else if(catalog === "Countries")
         {
-            if(dataCatalog.length === 0)
+            if(dataFind === true)
             {
                 return  <div>
                             <Skeleton height={25} />
                             <Skeleton height="25px" />
                             <Skeleton height="3rem" />
+                        </div>
+            }
+            else if(dataCatalog.length === 0)
+            {
+                return  <div className ="no-data">
+                            <h3>No hay datos</h3>
                         </div>
             }
             else {
@@ -284,12 +355,18 @@ function CatalogosSat({autoCloseAlert}) {
         }
         else if(catalog === "TaxRegimes")
         {
-            if(dataCatalog.length === 0)
+            if(dataFind === true)
             {
                 return  <div>
                             <Skeleton height={25} />
                             <Skeleton height="25px" />
                             <Skeleton height="3rem" />
+                        </div>
+            }
+            else if(dataCatalog.length === 0)
+            {
+                return  <div className ="no-data">
+                            <h3>No hay datos</h3>
                         </div>
             }
             else {
@@ -298,12 +375,18 @@ function CatalogosSat({autoCloseAlert}) {
         }
         else if(catalog === "VoucherTypes")
         {
-            if(dataCatalog.length === 0)
+            if(dataFind === true)
             {
                 return  <div>
                             <Skeleton height={25} />
                             <Skeleton height="25px" />
                             <Skeleton height="3rem" />
+                        </div>
+            }
+            else if(dataCatalog.length === 0)
+            {
+                return  <div className ="no-data">
+                            <h3>No hay datos</h3>
                         </div>
             }
             else {
@@ -312,12 +395,18 @@ function CatalogosSat({autoCloseAlert}) {
         }
         else if(catalog === "TypesOperation")
         {
-            if(dataCatalog.length === 0)
+            if(dataFind === true)
             {
                 return  <div>
                             <Skeleton height={25} />
                             <Skeleton height="25px" />
                             <Skeleton height="3rem" />
+                        </div>
+            }
+            else if(dataCatalog.length === 0)
+            {
+                return  <div className ="no-data">
+                            <h3>No hay datos</h3>
                         </div>
             }
             else {
@@ -326,12 +415,18 @@ function CatalogosSat({autoCloseAlert}) {
         }
         else if(catalog === "PetitionTypes")
         {
-            if(dataCatalog.length === 0)
+            if(dataFind === true)
             {
                 return  <div>
                             <Skeleton height={25} />
                             <Skeleton height="25px" />
                             <Skeleton height="3rem" />
+                        </div>
+            }
+            else if(dataCatalog.length === 0)
+            {
+                return  <div className ="no-data">
+                            <h3>No hay datos</h3>
                         </div>
             }
             else {
@@ -340,12 +435,18 @@ function CatalogosSat({autoCloseAlert}) {
         }
         else if(catalog === "EntityTypes")
         {
-            if(dataCatalog.length === 0)
+            if(dataFind === true)
             {
                 return  <div>
                             <Skeleton height={25} />
                             <Skeleton height="25px" />
                             <Skeleton height="3rem" />
+                        </div>
+            }
+            else if(dataCatalog.length === 0)
+            {
+                return  <div className ="no-data">
+                            <h3>No hay datos</h3>
                         </div>
             }
             else {
@@ -354,12 +455,18 @@ function CatalogosSat({autoCloseAlert}) {
         }
         else if(catalog === "RelationshipTypes")
         {
-            if(dataCatalog.length === 0)
+            if(dataFind === true)
             {
                 return  <div>
                             <Skeleton height={25} />
                             <Skeleton height="25px" />
                             <Skeleton height="3rem" />
+                        </div>
+            }
+            else if(dataCatalog.length === 0)
+            {
+                return  <div className ="no-data">
+                            <h3>No hay datos</h3>
                         </div>
             }
             else {
@@ -368,12 +475,18 @@ function CatalogosSat({autoCloseAlert}) {
         }
         else if(catalog === "CustomsUnits")
         {
-            if(dataCatalog.length === 0)
+            if(dataFind === true)
             {
                 return  <div>
                             <Skeleton height={25} />
                             <Skeleton height="25px" />
                             <Skeleton height="3rem" />
+                        </div>
+            }
+            else if(dataCatalog.length === 0)
+            {
+                return  <div className ="no-data">
+                            <h3>No hay datos</h3>
                         </div>
             }
             else {
@@ -382,12 +495,18 @@ function CatalogosSat({autoCloseAlert}) {
         }
         else if(catalog === "CFDIUses")
         {
-            if(dataCatalog.length === 0)
+            if(dataFind === true)
             {
                 return  <div>
                             <Skeleton height={25} />
                             <Skeleton height="25px" />
                             <Skeleton height="3rem" />
+                        </div>
+            }
+            else if(dataCatalog.length === 0)
+            {
+                return  <div className ="no-data">
+                            <h3>No hay datos</h3>
                         </div>
             }
             else {
@@ -396,12 +515,18 @@ function CatalogosSat({autoCloseAlert}) {
         }
         else if(catalog === "Municipalities")
         {
-            if(dataCatalog.length === 0)
+            if(dataFind === true)
             {
                 return  <div>
                             <Skeleton height={25} />
                             <Skeleton height="25px" />
                             <Skeleton height="3rem" />
+                        </div>
+            }
+            else if(dataCatalog.length === 0)
+            {
+                return  <div className ="no-data">
+                            <h3>No hay datos</h3>
                         </div>
             }
             else {
@@ -410,12 +535,18 @@ function CatalogosSat({autoCloseAlert}) {
         }
         else if(catalog === "Locations")
         {
-            if(dataCatalog.length === 0)
+            if(dataFind === true)
             {
                 return  <div>
                             <Skeleton height={25} />
                             <Skeleton height="25px" />
                             <Skeleton height="3rem" />
+                        </div>
+            }
+            else if(dataCatalog.length === 0)
+            {
+                return  <div className ="no-data">
+                            <h3>No hay datos</h3>
                         </div>
             }
             else {
@@ -424,12 +555,18 @@ function CatalogosSat({autoCloseAlert}) {
         }
         else if(catalog === "States")
         {
-            if(dataCatalog.length === 0)
+            if(dataFind === true)
             {
                 return  <div>
                             <Skeleton height={25} />
                             <Skeleton height="25px" />
                             <Skeleton height="3rem" />
+                        </div>
+            }
+            else if(dataCatalog.length === 0)
+            {
+                return  <div className ="no-data">
+                            <h3>No hay datos</h3>
                         </div>
             }
             else {
@@ -438,12 +575,18 @@ function CatalogosSat({autoCloseAlert}) {
         }
         else if(catalog === "ZipCodes")
         {
-            if(dataCatalog.length === 0)
+            if(dataFind === true)
             {
                 return  <div>
                             <Skeleton height={25} />
                             <Skeleton height="25px" />
                             <Skeleton height="3rem" />
+                        </div>
+            }
+            else if(dataCatalog.length === 0)
+            {
+                return  <div className ="no-data">
+                            <h3>No hay datos</h3>
                         </div>
             }
             else {
@@ -455,7 +598,7 @@ function CatalogosSat({autoCloseAlert}) {
 
     //Nos servirá para pasarle los datos a la tabla ya descargados
     function updateData(datos){
-        console.log(datos.CRUD_References)
+        setDataFind(true)
         const params = {
             pvOptionCRUD: "R",
             pSpCatalog : datos.CRUD_References,
@@ -477,6 +620,7 @@ function CatalogosSat({autoCloseAlert}) {
         .then(function(data) {
             console.log(data)
             setDataCatalog(data)
+            setDataFind(false)
         })
         .catch(function(err) {
             alert("No se pudo consultar la informacion de los catálogos" + err);
@@ -485,6 +629,7 @@ function CatalogosSat({autoCloseAlert}) {
 
     //Para actualizar la tabla al insertar registro
     function updateAddData(){
+        setDataFind(true)
         setDataCatalog([])
         var datos = dataTable.find(o => o.Component === catalog)
         const params = {
@@ -507,6 +652,7 @@ function CatalogosSat({autoCloseAlert}) {
         })
         .then(function(data) {
             setDataCatalog(data)
+            setDataFind(false)
         })
         .catch(function(err) {
             alert("No se pudo consultar la informacion de los catálogos" + err);

@@ -7,19 +7,6 @@ import Cargando from "../../assets/img/loading_icon.gif";
 
 // reactstrap components
 import {
-  Button,
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  Label,
-  FormGroup,
-  Form,
-  Input,
-  InputGroupAddon,
-  InputGroupText,
-  InputGroup,
-  Container,
   Col,
   Row,
 } from "reactstrap";
@@ -174,13 +161,13 @@ function Login(){
   }
 
   return (
-    <div>
+    <div className='login-backgroud'>
       <div className="sample-form">
         <h3>Login</h3>
         <form onSubmit={onSubmitForm}>
           <div className="description">Por favor ingresa tu correo y contraseña para iniciar sesión</div>
           <div className='form-group'>
-            <label className="form-control-label">Email</label>
+            <label className="form-control-label">Usuario</label>
             <div className="input-group">
               <span className="input-group-addon rounded-left">
                 <i className={'material-icons'}>
@@ -190,7 +177,7 @@ function Login(){
               <input 
                 className="form-control rounded-right"
                 placeholder=''
-                type="email"
+                type="text"
                 name="email"
                 onChange={onChangeEmail}
               />

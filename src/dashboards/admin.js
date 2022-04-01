@@ -1,6 +1,7 @@
 import React from 'react'
 
 function DashboardAdmin(){
+ 
   return (
     <div>
       <h1>Dashboard Admin</h1>

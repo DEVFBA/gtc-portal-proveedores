@@ -811,7 +811,7 @@ $colors: map-merge(
 }
 
 .login-page{
-  background-color: #000000 !important;
+  background-color: red !important;
 }
 
 .change-password{
@@ -849,4 +849,25 @@ $colors: map-merge(
   margin-top: 10px;
   font-size: 11px;
   color: red;
+}
+
+.full-page-background{
+  position: absolute;
+  z-index: 1;
+  height: 100%;
+  width: 100%;
+  display: block;
+  top: 0;
+  left: 0;
+  background-size: cover;
+  background-position: center center;
+}
+
+.login-backgroud {
+  margin: 0; 
+ 
+}
+
+.logo-navbar {
+  width: 55px;
 }
