@@ -7,21 +7,12 @@ import axios from 'axios'
 import '../../css/forms/react-datetime.css'
 
 import {
-  Button,
   Card,
   CardHeader,
   CardBody,
   CardTitle,
   Row,
   Col,
-  FormGroup,
-  Form,
-  Label,
-  Input,
-  Modal, 
-  ModalBody, 
-  ModalFooter,
-  CardFooter
 } from "reactstrap";
 
 import CartaPorteRequestsTable from "./CartaPorteRequestsTable";

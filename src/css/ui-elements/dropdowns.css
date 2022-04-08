@@ -164,62 +164,62 @@
     border-color: #404040;
     color: #ffffff; }
     [data-background="dark"] .dropdown-menu .dropdown-item:hover {
-      background: #ffa000;
-      border-color: #ffa000;
+      background: #af1b2b;
+      border-color: #af1b2b;
       color: #fff; }
 
 [data-background="primary"] .dropdown-menu {
-  background: #303f9f;
-  border-color: #303f9f;
+  background: #af1b2b;
+  border-color: #af1b2b;
   color: #ffffff; }
   [data-background="primary"] .dropdown-menu .dropdown-title {
     color: #ffffff;
-    background: #4557c7; }
+    background: #de293d; }
   [data-background="primary"] .dropdown-menu .dropdown-divider {
-    background: #4557c7; }
+    background: #de293d; }
   [data-background="primary"] .dropdown-menu .dropdown-item {
-    background: #303f9f;
-    border-color: #4557c7;
+    background: #af1b2b;
+    border-color: #de293d;
     color: #ffffff; }
     [data-background="primary"] .dropdown-menu .dropdown-item:hover {
-      background: #ffa000;
-      border-color: #ffa000;
+      background: #af1b2b;
+      border-color: #af1b2b;
       color: #fff; }
 
 [data-background="secondary"] .dropdown-menu {
-  background: #7b1fa2;
-  border-color: #7b1fa2;
+  background: #242424;
+  border-color: #242424;
   color: #ffffff; }
   [data-background="secondary"] .dropdown-menu .dropdown-title {
     color: #ffffff;
-    background: #a229d5; }
+    background: #434343; }
   [data-background="secondary"] .dropdown-menu .dropdown-divider {
-    background: #a229d5; }
+    background: #434343; }
   [data-background="secondary"] .dropdown-menu .dropdown-item {
-    background: #7b1fa2;
-    border-color: #a229d5;
+    background: #242424;
+    border-color: #434343;
     color: #ffffff; }
     [data-background="secondary"] .dropdown-menu .dropdown-item:hover {
-      background: #ffa000;
-      border-color: #ffa000;
+      background: #af1b2b;
+      border-color: #af1b2b;
       color: #fff; }
 
 [data-background="info"] .dropdown-menu {
-  background: #0288d1;
-  border-color: #0288d1;
+  background: #af1b2b;
+  border-color: #af1b2b;
   color: #ffffff; }
   [data-background="info"] .dropdown-menu .dropdown-title {
     color: #ffffff;
-    background: #13aafd; }
+    background: #de293d; }
   [data-background="info"] .dropdown-menu .dropdown-divider {
-    background: #13aafd; }
+    background: #de293d; }
   [data-background="info"] .dropdown-menu .dropdown-item {
-    background: #0288d1;
-    border-color: #13aafd;
+    background: #af1b2b;
+    border-color: #de293d;
     color: #ffffff; }
     [data-background="info"] .dropdown-menu .dropdown-item:hover {
-      background: #ffa000;
-      border-color: #ffa000;
+      background: #af1b2b;
+      border-color: #af1b2b;
       color: #fff; }
 
 [data-background="success"] .dropdown-menu {
@@ -236,26 +236,26 @@
     border-color: #4bb850;
     color: #ffffff; }
     [data-background="success"] .dropdown-menu .dropdown-item:hover {
-      background: #ffa000;
-      border-color: #ffa000;
+      background: #af1b2b;
+      border-color: #af1b2b;
       color: #fff; }
 
 [data-background="warning"] .dropdown-menu {
-  background: #ffa000;
-  border-color: #ffa000;
+  background: #af1b2b;
+  border-color: #af1b2b;
   color: #ffffff; }
   [data-background="warning"] .dropdown-menu .dropdown-title {
     color: #ffffff;
-    background: #ffb73d; }
+    background: #de293d; }
   [data-background="warning"] .dropdown-menu .dropdown-divider {
-    background: #ffb73d; }
+    background: #de293d; }
   [data-background="warning"] .dropdown-menu .dropdown-item {
-    background: #ffa000;
-    border-color: #ffb73d;
+    background: #af1b2b;
+    border-color: #de293d;
     color: #ffffff; }
     [data-background="warning"] .dropdown-menu .dropdown-item:hover {
-      background: #0288d1;
-      border-color: #0288d1;
+      background: #af1b2b;
+      border-color: #af1b2b;
       color: #fff; }
 
 [data-background="danger"] .dropdown-menu {
@@ -272,8 +272,8 @@
     border-color: #de6262;
     color: #ffffff; }
     [data-background="danger"] .dropdown-menu .dropdown-item:hover {
-      background: #ffa000;
-      border-color: #ffa000;
+      background: #af1b2b;
+      border-color: #af1b2b;
       color: #fff; }
 
 .dropdown.show > .animated {

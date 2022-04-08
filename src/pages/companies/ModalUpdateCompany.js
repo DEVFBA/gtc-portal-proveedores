@@ -90,6 +90,9 @@ function ModalUpdateCompany({modalUpdateRecord, setModalUpdateRecord, record, da
             setupdateStatus(false);
         }
         setupdateLogo(record.logo)
+        /*setupdateFullNameState("has-success");
+        setupdateRfcState("has-success");
+        setupdateCountryState("has-success");*/
     },[record]);
 
     const handleModalClick = () => {
@@ -107,48 +110,34 @@ function ModalUpdateCompany({modalUpdateRecord, setModalUpdateRecord, record, da
         return false;
     };
     
-    const isValidated = () => {
-        verifyInputs()
-        if (
-            updateFullNameState !== "has-success" &&
-            updateRfcState !== "has-success" &&
-            updateCountryState !== "has-success"
-        ) {
-          return false;
-        } else {
-          return true;
-        }
-    };
-
     const updateClick = () => {
-        if(isValidated()===true)
-        {
-            updateRegister()
-        }
-        else{
-            console.log("no entre")
-        }
-    };
-
-    //Funcion para validar que no se queden en blanco los inputs en caso de que haga cambios
-    const verifyInputs = () =>{
+        var fullnameState = false;
         var fullname = document.getElementById("fullname").value
 
         if (!verifyLength(fullname, 1)) {
             setupdateFullNameState("text-danger");
         } else {
+            fullnameState = true;
             setupdateFullNameState("has-success");
         }
         setupdateFullName(fullname);
         
+        var rfcState = false;
         var rfc = document.getElementById("rfc").value
+        
         if (!verifyLength(rfc, 1)) {
             setupdateRfcState("text-danger");
         } else {
+            rfcState = true;
             setupdateRfcState("has-success");
         }
         setupdateRfc(rfc);
-    }
+
+        if (fullnameState === true && rfcState === true) 
+        {
+            updateRegister();
+        }
+    };
 
     function updateRegister(){
         const catRegister = {

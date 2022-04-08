@@ -98,11 +98,43 @@ function ModalUpdateVendor({modalUpdateRecord, setModalUpdateRecord, record, dat
         }
     };
 
-    const updateClick = () => {
+    /*const updateClick = () => {
         if(isValidated()===true)
         {
             updateRegister()
         }
+    };*/
+
+    const updateClick = () => {
+        var fullnameState = false;
+        var fullname = document.getElementById("fullname").value
+
+        if (!verifyLength(fullname, 1)) {
+            console.log("NO ENTRE AL NOMBRE")
+            setupdateFullNameState("text-danger");
+        } else {
+            fullnameState = true;
+            setupdateFullNameState("has-success");
+        }
+        setupdateFullName(fullname);
+        
+        var rfcState = false;
+        var rfc = document.getElementById("rfc").value
+        if (!verifyLength(rfc, 1)) {
+            console.log("NO ENTRE AL RFC")
+            setupdateRfcState("text-danger");
+        } else {
+            rfcState = true;
+            setupdateRfcState("has-success");
+        }
+        setupdateRfc(rfc);
+
+        if (
+            fullnameState === true &&
+            rfcState === true
+        ) {
+            updateRegister()
+        } 
     };
 
     //Funcion para validar que no se queden en blanco los inputs en caso de que haga cambios

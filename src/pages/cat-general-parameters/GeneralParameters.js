@@ -17,11 +17,6 @@ import {
   FormGroup,
   Form,
   Label,
-  Input,
-  Modal, 
-  ModalBody, 
-  ModalFooter,
-  CardFooter
 } from "reactstrap";
 
 import GeneralParametersTable from "./GeneralParametersTable";
@@ -46,6 +41,9 @@ function CatGeneralParameters({autoCloseAlert}) {
     const [dataFind, setDataFind] = useState(false);
 
     const [filterGrouper, setFilterGrouper] = useState({});
+
+    const [dataError, setDataError] = useState(false);
+    const [dataErrorMessage, setDataErrorMessage] = useState("");
   
     const getData = async () => {
     //const res = await axios.get('https://geolocation-db.com/json/')
@@ -93,11 +91,10 @@ function CatGeneralParameters({autoCloseAlert}) {
             return response.ok ? response.json() : Promise.reject();
         })
         .then(function(data) {
-            console.log(data)
             if(role === "SYSADMIN")
             {
-                setDataGeneralParameters(data)
-                setDataFind(true);
+                setDataGeneralParameters(data);
+                getDataGroupers();
             }
             else {
                 var dataGP = []
@@ -111,15 +108,17 @@ function CatGeneralParameters({autoCloseAlert}) {
                     }
                 }
                 setDataGeneralParameters(dataGP)
-                setDataFind(true);
+                getDataGroupers();
             }
         })
         .catch(function(err) {
-            alert("No se pudo consultar la informacion de los cat general parameters" + err);
+            setDataError(true);
+            setDataErrorMessage(" de los parámetros generales. ")
         });
     }, []);
 
-    useEffect(() => {
+    function getDataGroupers()
+    {
         //Aqui vamos a descargar la lista de vendors de la base de datos 
         var url = new URL(`${process.env.REACT_APP_API_URI}groupers/`);
         
@@ -157,15 +156,14 @@ function CatGeneralParameters({autoCloseAlert}) {
             {
                 dataSelect[j] = {value: data[j].Id_Grouper, label: data[j].Long_Desc}
             }
-
-            console.log(dataSelect)
-
             setDataGroupers(dataSelect)
+            setDataFind(true);
         })
         .catch(function(err) {
-            alert("No se pudo consultar la informacion de los groupers" + err);
+            setDataError(true);
+            setDataErrorMessage(" de los groupers. ")
         });
-    }, []);
+    }
 
     function deleteClick(){
         setDataFind(false)
@@ -190,7 +188,6 @@ function CatGeneralParameters({autoCloseAlert}) {
             return response.ok ? response.json() : Promise.reject();
         })
         .then(function(data) {
-            console.log(data)
             if(role === "SYSADMIN")
             {
                 setDataGeneralParameters(data)
@@ -212,14 +209,13 @@ function CatGeneralParameters({autoCloseAlert}) {
             }
         })
         .catch(function(err) {
-            alert("No se pudo consultar la informacion de los cat general parameters" + err);
+            setDataError(true);
+            setDataErrorMessage(" de los parámetros generales. ")
         });
     }
 
     function filterClick()
-    {
-        console.log(filterGrouper)
-       
+    {  
         const params = {
             pvidGrouper : filterGrouper.value,
         };
@@ -262,7 +258,8 @@ function CatGeneralParameters({autoCloseAlert}) {
             }
         })
         .catch(function(err) {
-            alert("No se pudo consultar la informacion de los parámetros generales" + err);
+            setDataError(true);
+            setDataErrorMessage(" de los parámetros generales. ")
         });
     }
 
@@ -296,7 +293,8 @@ function CatGeneralParameters({autoCloseAlert}) {
             setDataFind(true);
         })
         .catch(function(err) {
-            alert("No se pudo consultar la informacion de los cat general parameters" + err);
+            setDataError(true);
+            setDataErrorMessage(" de los parámetros generales. ")
         });
     }
 
@@ -341,9 +339,17 @@ function CatGeneralParameters({autoCloseAlert}) {
                                 </Col>
                             </Row>
                         </Form>
-                        <Skeleton height={25} />
-                        <Skeleton height="25px" />
-                        <Skeleton height="3rem" />
+                        {dataError === true ? (
+                            <div className ="no-data">
+                                <h3>No se pudo descargar la información de {dataErrorMessage} Recarga la página.</h3>
+                            </div>
+                        ):
+                            <div>
+                                <Skeleton height={25} />
+                                <Skeleton height="25px" />
+                                <Skeleton height="3rem" />
+                            </div> 
+                        }
                     </CardBody>
                 </Card>
                 </Col>

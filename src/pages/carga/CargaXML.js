@@ -7,21 +7,12 @@ import Skeleton from '@yisheng90/react-loading';
 
 // reactstrap components
 import {
-  Button,
   Card,
   CardHeader,
   CardBody,
   CardTitle,
   Row,
   Col,
-  FormGroup,
-  Form,
-  Label,
-  Input,
-  Modal, 
-  ModalBody, 
-  ModalFooter,
-  CardFooter
 } from "reactstrap";
 
 function CargaXML({pathFile}) {

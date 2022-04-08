@@ -38,7 +38,7 @@
       color: #ffffff; }
 
 [data-navbar="primary"] .navbar-dropdown.dropdown-grid {
-  background: #303f9f;
+  background: #af1b2b;
   color: #ffffff; }
   [data-navbar="primary"] .navbar-dropdown.dropdown-grid .grid-item {
     color: #ffffff; }
@@ -46,7 +46,7 @@
       color: #ffffff; }
 
 [data-navbar="secondary"] .navbar-dropdown.dropdown-grid {
-  background: #7b1fa2;
+  background: #242424;
   color: #ffffff; }
   [data-navbar="secondary"] .navbar-dropdown.dropdown-grid .grid-item {
     color: #ffffff; }
@@ -54,7 +54,7 @@
       color: #ffffff; }
 
 [data-navbar="info"] .navbar-dropdown.dropdown-grid {
-  background: #0288d1;
+  background: #af1b2b;
   color: #ffffff; }
   [data-navbar="info"] .navbar-dropdown.dropdown-grid .grid-item {
     color: #ffffff; }
@@ -70,7 +70,7 @@
       color: #ffffff; }
 
 [data-navbar="warning"] .navbar-dropdown.dropdown-grid {
-  background: #ffa000;
+  background: #af1b2b;
   color: #ffffff; }
   [data-navbar="warning"] .navbar-dropdown.dropdown-grid .grid-item {
     color: #ffffff; }

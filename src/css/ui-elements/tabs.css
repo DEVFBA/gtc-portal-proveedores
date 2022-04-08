@@ -38,7 +38,7 @@
       right: 0;
       width: 100%;
       height: 3px;
-      background-color: #303f9f;
+      background-color: #af1b2b;
       z-index: 2; }
     [data-background="light"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical) .nav-link:hover, [data-background="light"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical) .nav-link.active {
       background: #ffffff;
@@ -57,15 +57,15 @@
   [data-background="light"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical).nav-tabs-default .nav-link:after {
     background-color: #212121; }
   [data-background="light"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical).nav-tabs-primary .nav-link:after {
-    background-color: #303f9f; }
+    background-color: #af1b2b; }
   [data-background="light"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical).nav-tabs-secondary .nav-link:after {
-    background-color: #7b1fa2; }
+    background-color: #242424; }
   [data-background="light"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical).nav-tabs-info .nav-link:after {
-    background-color: #0288d1; }
+    background-color: #af1b2b; }
   [data-background="light"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical).nav-tabs-success .nav-link:after {
     background-color: #388e3c; }
   [data-background="light"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical).nav-tabs-warning .nav-link:after {
-    background-color: #ffa000; }
+    background-color: #af1b2b; }
   [data-background="light"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical).nav-tabs-danger .nav-link:after {
     background-color: #d32f2f; }
 
@@ -88,7 +88,7 @@
     padding: 10px 20px;
     font-size: 14px; }
     [data-background="light"] .nav.nav-pills .nav-link:hover, [data-background="light"] .nav.nav-pills .nav-link.active {
-      background-color: #303f9f;
+      background-color: #af1b2b;
       color: #fff;
       font-weight: normal; }
     [data-background="light"] .nav.nav-pills .nav-link.disabled {
@@ -104,15 +104,15 @@
   [data-background="light"] .nav.nav-pills.nav-pills-default .nav-link:hover, [data-background="light"] .nav.nav-pills.nav-pills-default .nav-link.active {
     background-color: #212121; }
   [data-background="light"] .nav.nav-pills.nav-pills-primary .nav-link:hover, [data-background="light"] .nav.nav-pills.nav-pills-primary .nav-link.active {
-    background-color: #303f9f; }
+    background-color: #af1b2b; }
   [data-background="light"] .nav.nav-pills.nav-pills-secondary .nav-link:hover, [data-background="light"] .nav.nav-pills.nav-pills-secondary .nav-link.active {
-    background-color: #7b1fa2; }
+    background-color: #242424; }
   [data-background="light"] .nav.nav-pills.nav-pills-info .nav-link:hover, [data-background="light"] .nav.nav-pills.nav-pills-info .nav-link.active {
-    background-color: #0288d1; }
+    background-color: #af1b2b; }
   [data-background="light"] .nav.nav-pills.nav-pills-success .nav-link:hover, [data-background="light"] .nav.nav-pills.nav-pills-success .nav-link.active {
     background-color: #388e3c; }
   [data-background="light"] .nav.nav-pills.nav-pills-warning .nav-link:hover, [data-background="light"] .nav.nav-pills.nav-pills-warning .nav-link.active {
-    background-color: #ffa000; }
+    background-color: #af1b2b; }
   [data-background="light"] .nav.nav-pills.nav-pills-danger .nav-link:hover, [data-background="light"] .nav.nav-pills.nav-pills-danger .nav-link.active {
     background-color: #d32f2f; }
 
@@ -144,7 +144,7 @@
       right: 0;
       width: 100%;
       height: 3px;
-      background-color: #303f9f;
+      background-color: #af1b2b;
       z-index: 2; }
     [data-background="dark"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical) .nav-link:hover, [data-background="dark"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical) .nav-link.active {
       background: #212121;
@@ -163,15 +163,15 @@
   [data-background="dark"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical).nav-tabs-default .nav-link:after {
     background-color: #212121; }
   [data-background="dark"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical).nav-tabs-primary .nav-link:after {
-    background-color: #303f9f; }
+    background-color: #af1b2b; }
   [data-background="dark"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical).nav-tabs-secondary .nav-link:after {
-    background-color: #7b1fa2; }
+    background-color: #242424; }
   [data-background="dark"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical).nav-tabs-info .nav-link:after {
-    background-color: #0288d1; }
+    background-color: #af1b2b; }
   [data-background="dark"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical).nav-tabs-success .nav-link:after {
     background-color: #388e3c; }
   [data-background="dark"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical).nav-tabs-warning .nav-link:after {
-    background-color: #ffa000; }
+    background-color: #af1b2b; }
   [data-background="dark"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical).nav-tabs-danger .nav-link:after {
     background-color: #d32f2f; }
 
@@ -194,7 +194,7 @@
     padding: 10px 20px;
     font-size: 14px; }
     [data-background="dark"] .nav.nav-pills .nav-link:hover, [data-background="dark"] .nav.nav-pills .nav-link.active {
-      background-color: #303f9f;
+      background-color: #af1b2b;
       color: #fff;
       font-weight: normal; }
     [data-background="dark"] .nav.nav-pills .nav-link.disabled {
@@ -210,32 +210,32 @@
   [data-background="dark"] .nav.nav-pills.nav-pills-default .nav-link:hover, [data-background="dark"] .nav.nav-pills.nav-pills-default .nav-link.active {
     background-color: #212121; }
   [data-background="dark"] .nav.nav-pills.nav-pills-primary .nav-link:hover, [data-background="dark"] .nav.nav-pills.nav-pills-primary .nav-link.active {
-    background-color: #303f9f; }
+    background-color: #af1b2b; }
   [data-background="dark"] .nav.nav-pills.nav-pills-secondary .nav-link:hover, [data-background="dark"] .nav.nav-pills.nav-pills-secondary .nav-link.active {
-    background-color: #7b1fa2; }
+    background-color: #242424; }
   [data-background="dark"] .nav.nav-pills.nav-pills-info .nav-link:hover, [data-background="dark"] .nav.nav-pills.nav-pills-info .nav-link.active {
-    background-color: #0288d1; }
+    background-color: #af1b2b; }
   [data-background="dark"] .nav.nav-pills.nav-pills-success .nav-link:hover, [data-background="dark"] .nav.nav-pills.nav-pills-success .nav-link.active {
     background-color: #388e3c; }
   [data-background="dark"] .nav.nav-pills.nav-pills-warning .nav-link:hover, [data-background="dark"] .nav.nav-pills.nav-pills-warning .nav-link.active {
-    background-color: #ffa000; }
+    background-color: #af1b2b; }
   [data-background="dark"] .nav.nav-pills.nav-pills-danger .nav-link:hover, [data-background="dark"] .nav.nav-pills.nav-pills-danger .nav-link.active {
     background-color: #d32f2f; }
 
 [data-background="primary"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical) {
   border: 0; }
   [data-background="primary"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical) .nav-item {
-    background: #303f9f;
+    background: #af1b2b;
     color: #ffffff; }
     [data-background="primary"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical) .nav-item:hover, [data-background="primary"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical) .nav-item.open {
-      background: #303f9f; }
+      background: #af1b2b; }
     @media (max-width: 543px) {
       [data-background="primary"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical) .nav-item {
         display: block;
         float: none; } }
   [data-background="primary"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical) .nav-link {
     border: 0;
-    background: #303f9f;
+    background: #af1b2b;
     color: #ffffff;
     position: relative;
     padding: 10px 20px;
@@ -250,10 +250,10 @@
       right: 0;
       width: 100%;
       height: 3px;
-      background-color: #303f9f;
+      background-color: #af1b2b;
       z-index: 2; }
     [data-background="primary"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical) .nav-link:hover, [data-background="primary"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical) .nav-link.active {
-      background: #303f9f;
+      background: #af1b2b;
       font-weight: normal; }
       [data-background="primary"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical) .nav-link:hover:after, [data-background="primary"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical) .nav-link.active:after {
         display: block;
@@ -269,38 +269,38 @@
   [data-background="primary"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical).nav-tabs-default .nav-link:after {
     background-color: #212121; }
   [data-background="primary"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical).nav-tabs-primary .nav-link:after {
-    background-color: #303f9f; }
+    background-color: #af1b2b; }
   [data-background="primary"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical).nav-tabs-secondary .nav-link:after {
-    background-color: #7b1fa2; }
+    background-color: #242424; }
   [data-background="primary"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical).nav-tabs-info .nav-link:after {
-    background-color: #0288d1; }
+    background-color: #af1b2b; }
   [data-background="primary"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical).nav-tabs-success .nav-link:after {
     background-color: #388e3c; }
   [data-background="primary"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical).nav-tabs-warning .nav-link:after {
-    background-color: #ffa000; }
+    background-color: #af1b2b; }
   [data-background="primary"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical).nav-tabs-danger .nav-link:after {
     background-color: #d32f2f; }
 
 [data-background="primary"] .nav.nav-pills {
   border: 0; }
   [data-background="primary"] .nav.nav-pills .nav-item {
-    background: #303f9f;
+    background: #af1b2b;
     color: #ffffff; }
     [data-background="primary"] .nav.nav-pills .nav-item:hover, [data-background="primary"] .nav.nav-pills .nav-item.open {
-      background: #303f9f; }
+      background: #af1b2b; }
     @media (max-width: 543px) {
       [data-background="primary"] .nav.nav-pills .nav-item {
         display: block;
         float: none; } }
   [data-background="primary"] .nav.nav-pills .nav-link {
     border: 0;
-    background: #303f9f;
+    background: #af1b2b;
     color: #ffffff;
     position: relative;
     padding: 10px 20px;
     font-size: 14px; }
     [data-background="primary"] .nav.nav-pills .nav-link:hover, [data-background="primary"] .nav.nav-pills .nav-link.active {
-      background-color: #303f9f;
+      background-color: #af1b2b;
       color: #fff;
       font-weight: normal; }
     [data-background="primary"] .nav.nav-pills .nav-link.disabled {
@@ -316,32 +316,32 @@
   [data-background="primary"] .nav.nav-pills.nav-pills-default .nav-link:hover, [data-background="primary"] .nav.nav-pills.nav-pills-default .nav-link.active {
     background-color: #212121; }
   [data-background="primary"] .nav.nav-pills.nav-pills-primary .nav-link:hover, [data-background="primary"] .nav.nav-pills.nav-pills-primary .nav-link.active {
-    background-color: #303f9f; }
+    background-color: #af1b2b; }
   [data-background="primary"] .nav.nav-pills.nav-pills-secondary .nav-link:hover, [data-background="primary"] .nav.nav-pills.nav-pills-secondary .nav-link.active {
-    background-color: #7b1fa2; }
+    background-color: #242424; }
   [data-background="primary"] .nav.nav-pills.nav-pills-info .nav-link:hover, [data-background="primary"] .nav.nav-pills.nav-pills-info .nav-link.active {
-    background-color: #0288d1; }
+    background-color: #af1b2b; }
   [data-background="primary"] .nav.nav-pills.nav-pills-success .nav-link:hover, [data-background="primary"] .nav.nav-pills.nav-pills-success .nav-link.active {
     background-color: #388e3c; }
   [data-background="primary"] .nav.nav-pills.nav-pills-warning .nav-link:hover, [data-background="primary"] .nav.nav-pills.nav-pills-warning .nav-link.active {
-    background-color: #ffa000; }
+    background-color: #af1b2b; }
   [data-background="primary"] .nav.nav-pills.nav-pills-danger .nav-link:hover, [data-background="primary"] .nav.nav-pills.nav-pills-danger .nav-link.active {
     background-color: #d32f2f; }
 
 [data-background="secondary"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical) {
   border: 0; }
   [data-background="secondary"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical) .nav-item {
-    background: #7b1fa2;
+    background: #242424;
     color: #ffffff; }
     [data-background="secondary"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical) .nav-item:hover, [data-background="secondary"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical) .nav-item.open {
-      background: #7b1fa2; }
+      background: #242424; }
     @media (max-width: 543px) {
       [data-background="secondary"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical) .nav-item {
         display: block;
         float: none; } }
   [data-background="secondary"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical) .nav-link {
     border: 0;
-    background: #7b1fa2;
+    background: #242424;
     color: #ffffff;
     position: relative;
     padding: 10px 20px;
@@ -356,10 +356,10 @@
       right: 0;
       width: 100%;
       height: 3px;
-      background-color: #303f9f;
+      background-color: #af1b2b;
       z-index: 2; }
     [data-background="secondary"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical) .nav-link:hover, [data-background="secondary"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical) .nav-link.active {
-      background: #7b1fa2;
+      background: #242424;
       font-weight: normal; }
       [data-background="secondary"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical) .nav-link:hover:after, [data-background="secondary"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical) .nav-link.active:after {
         display: block;
@@ -375,38 +375,38 @@
   [data-background="secondary"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical).nav-tabs-default .nav-link:after {
     background-color: #212121; }
   [data-background="secondary"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical).nav-tabs-primary .nav-link:after {
-    background-color: #303f9f; }
+    background-color: #af1b2b; }
   [data-background="secondary"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical).nav-tabs-secondary .nav-link:after {
-    background-color: #7b1fa2; }
+    background-color: #242424; }
   [data-background="secondary"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical).nav-tabs-info .nav-link:after {
-    background-color: #0288d1; }
+    background-color: #af1b2b; }
   [data-background="secondary"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical).nav-tabs-success .nav-link:after {
     background-color: #388e3c; }
   [data-background="secondary"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical).nav-tabs-warning .nav-link:after {
-    background-color: #ffa000; }
+    background-color: #af1b2b; }
   [data-background="secondary"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical).nav-tabs-danger .nav-link:after {
     background-color: #d32f2f; }
 
 [data-background="secondary"] .nav.nav-pills {
   border: 0; }
   [data-background="secondary"] .nav.nav-pills .nav-item {
-    background: #7b1fa2;
+    background: #242424;
     color: #ffffff; }
     [data-background="secondary"] .nav.nav-pills .nav-item:hover, [data-background="secondary"] .nav.nav-pills .nav-item.open {
-      background: #7b1fa2; }
+      background: #242424; }
     @media (max-width: 543px) {
       [data-background="secondary"] .nav.nav-pills .nav-item {
         display: block;
         float: none; } }
   [data-background="secondary"] .nav.nav-pills .nav-link {
     border: 0;
-    background: #7b1fa2;
+    background: #242424;
     color: #ffffff;
     position: relative;
     padding: 10px 20px;
     font-size: 14px; }
     [data-background="secondary"] .nav.nav-pills .nav-link:hover, [data-background="secondary"] .nav.nav-pills .nav-link.active {
-      background-color: #303f9f;
+      background-color: #af1b2b;
       color: #fff;
       font-weight: normal; }
     [data-background="secondary"] .nav.nav-pills .nav-link.disabled {
@@ -422,32 +422,32 @@
   [data-background="secondary"] .nav.nav-pills.nav-pills-default .nav-link:hover, [data-background="secondary"] .nav.nav-pills.nav-pills-default .nav-link.active {
     background-color: #212121; }
   [data-background="secondary"] .nav.nav-pills.nav-pills-primary .nav-link:hover, [data-background="secondary"] .nav.nav-pills.nav-pills-primary .nav-link.active {
-    background-color: #303f9f; }
+    background-color: #af1b2b; }
   [data-background="secondary"] .nav.nav-pills.nav-pills-secondary .nav-link:hover, [data-background="secondary"] .nav.nav-pills.nav-pills-secondary .nav-link.active {
-    background-color: #7b1fa2; }
+    background-color: #242424; }
   [data-background="secondary"] .nav.nav-pills.nav-pills-info .nav-link:hover, [data-background="secondary"] .nav.nav-pills.nav-pills-info .nav-link.active {
-    background-color: #0288d1; }
+    background-color: #af1b2b; }
   [data-background="secondary"] .nav.nav-pills.nav-pills-success .nav-link:hover, [data-background="secondary"] .nav.nav-pills.nav-pills-success .nav-link.active {
     background-color: #388e3c; }
   [data-background="secondary"] .nav.nav-pills.nav-pills-warning .nav-link:hover, [data-background="secondary"] .nav.nav-pills.nav-pills-warning .nav-link.active {
-    background-color: #ffa000; }
+    background-color: #af1b2b; }
   [data-background="secondary"] .nav.nav-pills.nav-pills-danger .nav-link:hover, [data-background="secondary"] .nav.nav-pills.nav-pills-danger .nav-link.active {
     background-color: #d32f2f; }
 
 [data-background="info"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical) {
   border: 0; }
   [data-background="info"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical) .nav-item {
-    background: #0288d1;
+    background: #af1b2b;
     color: #ffffff; }
     [data-background="info"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical) .nav-item:hover, [data-background="info"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical) .nav-item.open {
-      background: #0288d1; }
+      background: #af1b2b; }
     @media (max-width: 543px) {
       [data-background="info"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical) .nav-item {
         display: block;
         float: none; } }
   [data-background="info"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical) .nav-link {
     border: 0;
-    background: #0288d1;
+    background: #af1b2b;
     color: #ffffff;
     position: relative;
     padding: 10px 20px;
@@ -462,10 +462,10 @@
       right: 0;
       width: 100%;
       height: 3px;
-      background-color: #303f9f;
+      background-color: #af1b2b;
       z-index: 2; }
     [data-background="info"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical) .nav-link:hover, [data-background="info"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical) .nav-link.active {
-      background: #0288d1;
+      background: #af1b2b;
       font-weight: normal; }
       [data-background="info"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical) .nav-link:hover:after, [data-background="info"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical) .nav-link.active:after {
         display: block;
@@ -481,38 +481,38 @@
   [data-background="info"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical).nav-tabs-default .nav-link:after {
     background-color: #212121; }
   [data-background="info"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical).nav-tabs-primary .nav-link:after {
-    background-color: #303f9f; }
+    background-color: #af1b2b; }
   [data-background="info"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical).nav-tabs-secondary .nav-link:after {
-    background-color: #7b1fa2; }
+    background-color: #242424; }
   [data-background="info"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical).nav-tabs-info .nav-link:after {
-    background-color: #0288d1; }
+    background-color: #af1b2b; }
   [data-background="info"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical).nav-tabs-success .nav-link:after {
     background-color: #388e3c; }
   [data-background="info"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical).nav-tabs-warning .nav-link:after {
-    background-color: #ffa000; }
+    background-color: #af1b2b; }
   [data-background="info"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical).nav-tabs-danger .nav-link:after {
     background-color: #d32f2f; }
 
 [data-background="info"] .nav.nav-pills {
   border: 0; }
   [data-background="info"] .nav.nav-pills .nav-item {
-    background: #0288d1;
+    background: #af1b2b;
     color: #ffffff; }
     [data-background="info"] .nav.nav-pills .nav-item:hover, [data-background="info"] .nav.nav-pills .nav-item.open {
-      background: #0288d1; }
+      background: #af1b2b; }
     @media (max-width: 543px) {
       [data-background="info"] .nav.nav-pills .nav-item {
         display: block;
         float: none; } }
   [data-background="info"] .nav.nav-pills .nav-link {
     border: 0;
-    background: #0288d1;
+    background: #af1b2b;
     color: #ffffff;
     position: relative;
     padding: 10px 20px;
     font-size: 14px; }
     [data-background="info"] .nav.nav-pills .nav-link:hover, [data-background="info"] .nav.nav-pills .nav-link.active {
-      background-color: #303f9f;
+      background-color: #af1b2b;
       color: #fff;
       font-weight: normal; }
     [data-background="info"] .nav.nav-pills .nav-link.disabled {
@@ -528,15 +528,15 @@
   [data-background="info"] .nav.nav-pills.nav-pills-default .nav-link:hover, [data-background="info"] .nav.nav-pills.nav-pills-default .nav-link.active {
     background-color: #212121; }
   [data-background="info"] .nav.nav-pills.nav-pills-primary .nav-link:hover, [data-background="info"] .nav.nav-pills.nav-pills-primary .nav-link.active {
-    background-color: #303f9f; }
+    background-color: #af1b2b; }
   [data-background="info"] .nav.nav-pills.nav-pills-secondary .nav-link:hover, [data-background="info"] .nav.nav-pills.nav-pills-secondary .nav-link.active {
-    background-color: #7b1fa2; }
+    background-color: #242424; }
   [data-background="info"] .nav.nav-pills.nav-pills-info .nav-link:hover, [data-background="info"] .nav.nav-pills.nav-pills-info .nav-link.active {
-    background-color: #0288d1; }
+    background-color: #af1b2b; }
   [data-background="info"] .nav.nav-pills.nav-pills-success .nav-link:hover, [data-background="info"] .nav.nav-pills.nav-pills-success .nav-link.active {
     background-color: #388e3c; }
   [data-background="info"] .nav.nav-pills.nav-pills-warning .nav-link:hover, [data-background="info"] .nav.nav-pills.nav-pills-warning .nav-link.active {
-    background-color: #ffa000; }
+    background-color: #af1b2b; }
   [data-background="info"] .nav.nav-pills.nav-pills-danger .nav-link:hover, [data-background="info"] .nav.nav-pills.nav-pills-danger .nav-link.active {
     background-color: #d32f2f; }
 
@@ -568,7 +568,7 @@
       right: 0;
       width: 100%;
       height: 3px;
-      background-color: #303f9f;
+      background-color: #af1b2b;
       z-index: 2; }
     [data-background="success"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical) .nav-link:hover, [data-background="success"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical) .nav-link.active {
       background: #388e3c;
@@ -587,15 +587,15 @@
   [data-background="success"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical).nav-tabs-default .nav-link:after {
     background-color: #212121; }
   [data-background="success"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical).nav-tabs-primary .nav-link:after {
-    background-color: #303f9f; }
+    background-color: #af1b2b; }
   [data-background="success"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical).nav-tabs-secondary .nav-link:after {
-    background-color: #7b1fa2; }
+    background-color: #242424; }
   [data-background="success"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical).nav-tabs-info .nav-link:after {
-    background-color: #0288d1; }
+    background-color: #af1b2b; }
   [data-background="success"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical).nav-tabs-success .nav-link:after {
     background-color: #388e3c; }
   [data-background="success"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical).nav-tabs-warning .nav-link:after {
-    background-color: #ffa000; }
+    background-color: #af1b2b; }
   [data-background="success"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical).nav-tabs-danger .nav-link:after {
     background-color: #d32f2f; }
 
@@ -618,7 +618,7 @@
     padding: 10px 20px;
     font-size: 14px; }
     [data-background="success"] .nav.nav-pills .nav-link:hover, [data-background="success"] .nav.nav-pills .nav-link.active {
-      background-color: #303f9f;
+      background-color: #af1b2b;
       color: #fff;
       font-weight: normal; }
     [data-background="success"] .nav.nav-pills .nav-link.disabled {
@@ -634,32 +634,32 @@
   [data-background="success"] .nav.nav-pills.nav-pills-default .nav-link:hover, [data-background="success"] .nav.nav-pills.nav-pills-default .nav-link.active {
     background-color: #212121; }
   [data-background="success"] .nav.nav-pills.nav-pills-primary .nav-link:hover, [data-background="success"] .nav.nav-pills.nav-pills-primary .nav-link.active {
-    background-color: #303f9f; }
+    background-color: #af1b2b; }
   [data-background="success"] .nav.nav-pills.nav-pills-secondary .nav-link:hover, [data-background="success"] .nav.nav-pills.nav-pills-secondary .nav-link.active {
-    background-color: #7b1fa2; }
+    background-color: #242424; }
   [data-background="success"] .nav.nav-pills.nav-pills-info .nav-link:hover, [data-background="success"] .nav.nav-pills.nav-pills-info .nav-link.active {
-    background-color: #0288d1; }
+    background-color: #af1b2b; }
   [data-background="success"] .nav.nav-pills.nav-pills-success .nav-link:hover, [data-background="success"] .nav.nav-pills.nav-pills-success .nav-link.active {
     background-color: #388e3c; }
   [data-background="success"] .nav.nav-pills.nav-pills-warning .nav-link:hover, [data-background="success"] .nav.nav-pills.nav-pills-warning .nav-link.active {
-    background-color: #ffa000; }
+    background-color: #af1b2b; }
   [data-background="success"] .nav.nav-pills.nav-pills-danger .nav-link:hover, [data-background="success"] .nav.nav-pills.nav-pills-danger .nav-link.active {
     background-color: #d32f2f; }
 
 [data-background="warning"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical) {
   border: 0; }
   [data-background="warning"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical) .nav-item {
-    background: #ffa000;
+    background: #af1b2b;
     color: #ffffff; }
     [data-background="warning"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical) .nav-item:hover, [data-background="warning"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical) .nav-item.open {
-      background: #ffa000; }
+      background: #af1b2b; }
     @media (max-width: 543px) {
       [data-background="warning"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical) .nav-item {
         display: block;
         float: none; } }
   [data-background="warning"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical) .nav-link {
     border: 0;
-    background: #ffa000;
+    background: #af1b2b;
     color: #ffffff;
     position: relative;
     padding: 10px 20px;
@@ -674,10 +674,10 @@
       right: 0;
       width: 100%;
       height: 3px;
-      background-color: #303f9f;
+      background-color: #af1b2b;
       z-index: 2; }
     [data-background="warning"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical) .nav-link:hover, [data-background="warning"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical) .nav-link.active {
-      background: #ffa000;
+      background: #af1b2b;
       font-weight: normal; }
       [data-background="warning"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical) .nav-link:hover:after, [data-background="warning"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical) .nav-link.active:after {
         display: block;
@@ -693,38 +693,38 @@
   [data-background="warning"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical).nav-tabs-default .nav-link:after {
     background-color: #212121; }
   [data-background="warning"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical).nav-tabs-primary .nav-link:after {
-    background-color: #303f9f; }
+    background-color: #af1b2b; }
   [data-background="warning"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical).nav-tabs-secondary .nav-link:after {
-    background-color: #7b1fa2; }
+    background-color: #242424; }
   [data-background="warning"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical).nav-tabs-info .nav-link:after {
-    background-color: #0288d1; }
+    background-color: #af1b2b; }
   [data-background="warning"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical).nav-tabs-success .nav-link:after {
     background-color: #388e3c; }
   [data-background="warning"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical).nav-tabs-warning .nav-link:after {
-    background-color: #ffa000; }
+    background-color: #af1b2b; }
   [data-background="warning"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical).nav-tabs-danger .nav-link:after {
     background-color: #d32f2f; }
 
 [data-background="warning"] .nav.nav-pills {
   border: 0; }
   [data-background="warning"] .nav.nav-pills .nav-item {
-    background: #ffa000;
+    background: #af1b2b;
     color: #ffffff; }
     [data-background="warning"] .nav.nav-pills .nav-item:hover, [data-background="warning"] .nav.nav-pills .nav-item.open {
-      background: #ffa000; }
+      background: #af1b2b; }
     @media (max-width: 543px) {
       [data-background="warning"] .nav.nav-pills .nav-item {
         display: block;
         float: none; } }
   [data-background="warning"] .nav.nav-pills .nav-link {
     border: 0;
-    background: #ffa000;
+    background: #af1b2b;
     color: #ffffff;
     position: relative;
     padding: 10px 20px;
     font-size: 14px; }
     [data-background="warning"] .nav.nav-pills .nav-link:hover, [data-background="warning"] .nav.nav-pills .nav-link.active {
-      background-color: #303f9f;
+      background-color: #af1b2b;
       color: #fff;
       font-weight: normal; }
     [data-background="warning"] .nav.nav-pills .nav-link.disabled {
@@ -740,15 +740,15 @@
   [data-background="warning"] .nav.nav-pills.nav-pills-default .nav-link:hover, [data-background="warning"] .nav.nav-pills.nav-pills-default .nav-link.active {
     background-color: #212121; }
   [data-background="warning"] .nav.nav-pills.nav-pills-primary .nav-link:hover, [data-background="warning"] .nav.nav-pills.nav-pills-primary .nav-link.active {
-    background-color: #303f9f; }
+    background-color: #af1b2b; }
   [data-background="warning"] .nav.nav-pills.nav-pills-secondary .nav-link:hover, [data-background="warning"] .nav.nav-pills.nav-pills-secondary .nav-link.active {
-    background-color: #7b1fa2; }
+    background-color: #242424; }
   [data-background="warning"] .nav.nav-pills.nav-pills-info .nav-link:hover, [data-background="warning"] .nav.nav-pills.nav-pills-info .nav-link.active {
-    background-color: #0288d1; }
+    background-color: #af1b2b; }
   [data-background="warning"] .nav.nav-pills.nav-pills-success .nav-link:hover, [data-background="warning"] .nav.nav-pills.nav-pills-success .nav-link.active {
     background-color: #388e3c; }
   [data-background="warning"] .nav.nav-pills.nav-pills-warning .nav-link:hover, [data-background="warning"] .nav.nav-pills.nav-pills-warning .nav-link.active {
-    background-color: #ffa000; }
+    background-color: #af1b2b; }
   [data-background="warning"] .nav.nav-pills.nav-pills-danger .nav-link:hover, [data-background="warning"] .nav.nav-pills.nav-pills-danger .nav-link.active {
     background-color: #d32f2f; }
 
@@ -780,7 +780,7 @@
       right: 0;
       width: 100%;
       height: 3px;
-      background-color: #303f9f;
+      background-color: #af1b2b;
       z-index: 2; }
     [data-background="danger"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical) .nav-link:hover, [data-background="danger"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical) .nav-link.active {
       background: #d32f2f;
@@ -799,15 +799,15 @@
   [data-background="danger"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical).nav-tabs-default .nav-link:after {
     background-color: #212121; }
   [data-background="danger"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical).nav-tabs-primary .nav-link:after {
-    background-color: #303f9f; }
+    background-color: #af1b2b; }
   [data-background="danger"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical).nav-tabs-secondary .nav-link:after {
-    background-color: #7b1fa2; }
+    background-color: #242424; }
   [data-background="danger"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical).nav-tabs-info .nav-link:after {
-    background-color: #0288d1; }
+    background-color: #af1b2b; }
   [data-background="danger"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical).nav-tabs-success .nav-link:after {
     background-color: #388e3c; }
   [data-background="danger"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical).nav-tabs-warning .nav-link:after {
-    background-color: #ffa000; }
+    background-color: #af1b2b; }
   [data-background="danger"] .nav.nav-tabs:not(.nav-pills):not(.nav-vertical).nav-tabs-danger .nav-link:after {
     background-color: #d32f2f; }
 
@@ -830,7 +830,7 @@
     padding: 10px 20px;
     font-size: 14px; }
     [data-background="danger"] .nav.nav-pills .nav-link:hover, [data-background="danger"] .nav.nav-pills .nav-link.active {
-      background-color: #303f9f;
+      background-color: #af1b2b;
       color: #fff;
       font-weight: normal; }
     [data-background="danger"] .nav.nav-pills .nav-link.disabled {
@@ -846,14 +846,14 @@
   [data-background="danger"] .nav.nav-pills.nav-pills-default .nav-link:hover, [data-background="danger"] .nav.nav-pills.nav-pills-default .nav-link.active {
     background-color: #212121; }
   [data-background="danger"] .nav.nav-pills.nav-pills-primary .nav-link:hover, [data-background="danger"] .nav.nav-pills.nav-pills-primary .nav-link.active {
-    background-color: #303f9f; }
+    background-color: #af1b2b; }
   [data-background="danger"] .nav.nav-pills.nav-pills-secondary .nav-link:hover, [data-background="danger"] .nav.nav-pills.nav-pills-secondary .nav-link.active {
-    background-color: #7b1fa2; }
+    background-color: #242424; }
   [data-background="danger"] .nav.nav-pills.nav-pills-info .nav-link:hover, [data-background="danger"] .nav.nav-pills.nav-pills-info .nav-link.active {
-    background-color: #0288d1; }
+    background-color: #af1b2b; }
   [data-background="danger"] .nav.nav-pills.nav-pills-success .nav-link:hover, [data-background="danger"] .nav.nav-pills.nav-pills-success .nav-link.active {
     background-color: #388e3c; }
   [data-background="danger"] .nav.nav-pills.nav-pills-warning .nav-link:hover, [data-background="danger"] .nav.nav-pills.nav-pills-warning .nav-link.active {
-    background-color: #ffa000; }
+    background-color: #af1b2b; }
   [data-background="danger"] .nav.nav-pills.nav-pills-danger .nav-link:hover, [data-background="danger"] .nav.nav-pills.nav-pills-danger .nav-link.active {
     background-color: #d32f2f; }

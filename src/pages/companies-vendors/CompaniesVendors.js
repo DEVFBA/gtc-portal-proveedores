@@ -1,9 +1,7 @@
 import React from 'react'
 import { useState, useEffect} from "react";
-import { Link, useHistory } from "react-router-dom";
 import axios from 'axios'
 import '../../css/pages/form.css'
-import Widget from '../../elements/Widget'
 import Skeleton from '@yisheng90/react-loading';
 
 import CompaniesVendorsTable from './CompaniesVendorsTable';
@@ -12,23 +10,11 @@ import ModalAddCompany2 from "./ModalAddCompany2";
 import ModalAddVendor from ".//ModalAddVendor2";
 
 import {
-    Button,
     Card,
     CardHeader,
     CardBody,
     CardTitle,
-    Row,
-    Col,
-    FormGroup,
-    Form,
-    Label,
-    Input,
-    Modal, 
-    ModalBody, 
-    ModalFooter,
-    CardFooter
 } from "reactstrap";
-import { data } from 'jquery';
 
 function CompaniesVendors({autoCloseAlert}){
     //Para guardar los datos de las companies - vendors
@@ -52,6 +38,12 @@ function CompaniesVendors({autoCloseAlert}){
 
     const [dataFind, setDataFind] = useState(true)
 
+    //Para guardar los datos de los vendors
+    const [dataVendors, setDataVendors] = useState([]);
+
+    const [dataError, setDataError] = useState(false);
+    const [dataErrorMessage, setDataErrorMessage] = useState("");
+
     const getData = async () => {
         //const res = await axios.get('https://geolocation-db.com/json/')
         //setIP(res.data.IPv4)
@@ -69,14 +61,14 @@ function CompaniesVendors({autoCloseAlert}){
                 error: err
               }
         }
-      }
+    }
     
-      useEffect(() => {
-          //Descargamos la IP del usuario
-          getData()
-      }, []);
+    useEffect(() => {
+        //Descargamos la IP del usuario
+        getData()
+    }, []);
 
-      useEffect(() => {
+    useEffect(() => {
         //Aqui vamos a descargar la lista de usuarios de la base de datos por primera vez
         const params = {
           pvOptionCRUD: "R"
@@ -97,21 +89,62 @@ function CompaniesVendors({autoCloseAlert}){
             return response.ok ? response.json() : Promise.reject();
         })
         .then(function(data) {
-            setDataCompaniesVendors(data)
-            setDataFind(false)
+            setDataCompaniesVendors(data);
+            getDataCompanies();
         })
         .catch(function(err) {
-            alert("No se pudo consultar la informacion de los usuarios" + err);
+            setDataError(true);
+            setDataErrorMessage(" de las compañías - proveedores. ")
         });
     }, []);
 
-    useEffect(() => {
+    function getDataCompanies()
+    {
         //Aqui vamos a descargar la lista de roles de la base de datos por primera vez
         const params = {
-          pvOptionCRUD: "R"
+            pvOptionCRUD: "R"
+        };
+      
+        var url = new URL(`${process.env.REACT_APP_API_URI}companies/`);
+    
+        Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
+      
+        fetch(url, {
+            method: "GET",
+            headers: {
+                "access-token": token,
+                "Content-Type": "application/json",
+            }
+        })
+        .then(function(response) {
+            return response.ok ? response.json() : Promise.reject();
+        })
+        .then(function(data) {
+            var optionsAux = [];
+            var i;
+            for(i=0; i<data.length; i++)
+            {
+            optionsAux.push({
+                value: data[i].Id_Company, label: data[i].Name
+            })
+            }
+            setDataCompanies(optionsAux);
+            getDataVendors();
+        })
+        .catch(function(err) {
+            setDataError(true);
+            setDataErrorMessage(" de las compañías. ")
+        });
+    }
+
+    function getDataVendors()
+    {
+        //Aqui vamos a descargar la lista de roles de la base de datos por primera vez
+        const params = {
+            pvOptionCRUD: "R"
         };
     
-        var url = new URL(`${process.env.REACT_APP_API_URI}companies/`);
+        var url = new URL(`${process.env.REACT_APP_API_URI}vendors/`);
     
         Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
     
@@ -130,26 +163,29 @@ function CompaniesVendors({autoCloseAlert}){
             var i;
             for(i=0; i<data.length; i++)
             {
-              optionsAux.push({
-                value: data[i].Id_Company, label: data[i].Name
-              })
+                optionsAux.push({
+                    value: data[i].Id_Vendor, label: data[i].Name
+                })
             }
-            setDataCompanies(optionsAux)
+            setDataVendors(optionsAux)
+            getDataCountries();
         })
         .catch(function(err) {
-            alert("No se pudo consultar la informacion de las companies" + err);
+            setDataError(true);
+            setDataErrorMessage(" de los proveedores. ")
         });
-    }, []);
+    }
 
-    useEffect(() => {
+    function getDataCountries()
+    {
         const params = {
-          pvOptionCRUD: "R",
-          pSpCatalog : "spSAT_Cat_Countries_CRUD_Records",
-        };
-    
-        var url = new URL(`${process.env.REACT_APP_API_URI}cat-catalogs/catalog`);
-        Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
-    
+            pvOptionCRUD: "R",
+            pSpCatalog : "spSAT_Cat_Countries_CRUD_Records",
+          };
+      
+          var url = new URL(`${process.env.REACT_APP_API_URI}cat-catalogs/catalog`);
+          Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
+      
         fetch(url, {
             method: "GET",
             headers: {
@@ -161,28 +197,31 @@ function CompaniesVendors({autoCloseAlert}){
             return response.ok ? response.json() : Promise.reject();
         })
         .then(function(data) {
-          //Creamos el arreglo de opciones para el select
-          var optionsAux = [];
-          var i;
-          for(i=0; i<data.length; i++)
-          {
-            optionsAux.push({
-              value: data[i].Id_Catalog, label: data[i].Short_Desc 
-            })
-          }
-          setDataCountries(optionsAux)
+            //Creamos el arreglo de opciones para el select
+            var optionsAux = [];
+            var i;
+            for(i=0; i<data.length; i++)
+            {
+                optionsAux.push({
+                value: data[i].Id_Catalog, label: data[i].Short_Desc 
+                })
+            }
+            setDataCountries(optionsAux);
+            getDataGeneralParameters();
         })
         .catch(function(err) {
-            alert("No se pudo consultar la informacion de los catálogos" + err);
+            setDataError(true);
+            setDataErrorMessage(" de los países. ")
         });
-    }, []);
+    }
 
-    useEffect(() => {
+   function getDataGeneralParameters()
+   {
         //Aqui vamos a descargar la lista de general parameters para revisar la vigencia del password
         const params = {
-          pvOptionCRUD: "R"
+            pvOptionCRUD: "R"
         };
-    
+      
         var url = new URL(`${process.env.REACT_APP_API_URI}general-parameters/`);
     
         Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
@@ -202,13 +241,15 @@ function CompaniesVendors({autoCloseAlert}){
             var aux2 = data.find( o => o.Id_Catalog === 7 )
             setPathLogo(aux.Value)
             setProfilePath(aux2.Value)
+            setDataFind(false);
         })
         .catch(function(err) {
-            alert("No se pudo consultar la informacion de los general parameters" + err);
+            setDataError(true);
+            setDataErrorMessage(" de los parámetros generales. ")
         });
-    }, []);
-
-     //Renderizado condicional
+    }
+   
+    //Renderizado condicional
     function CompaniesVendorsT() {
         return <CompaniesVendorsTable dataTable = {dataCompaniesVendors} ip = {ip}  autoCloseAlert = {autoCloseAlert} updateAddData = {updateAddData}  dataCountries = {dataCountries} pathLogo = {pathLogo} profilePath = {profilePath}/>
     }
@@ -241,7 +282,8 @@ function CompaniesVendors({autoCloseAlert}){
             setDataFind(false)
         })
         .catch(function(err) {
-            alert("No se pudo consultar la informacion de los usuarios" + err);
+            setDataError(true);
+            setDataErrorMessage(" de las compañías - proveedores. ")
         });
     }
 
@@ -277,7 +319,8 @@ function CompaniesVendors({autoCloseAlert}){
             setDataCompanies(optionsAux)
         })
         .catch(function(err) {
-            alert("No se pudo consultar la informacion de las companies" + err);
+            setDataError(true);
+            setDataErrorMessage(" de las compañías. ")
         });
     }
 
@@ -323,83 +366,6 @@ function CompaniesVendors({autoCloseAlert}){
     const [companyE, setCompanyE] = useState({});
     const [vendorE, setVendorE] = useState({});
 
-    //const [dataCompanies, setDataCompanies] = useState([])
-
-    //Para guardar los datos de los vendors
-    const [dataVendors, setDataVendors] = useState([]);
-
-    useEffect(() => {
-        //Aqui vamos a descargar la lista de roles de la base de datos por primera vez
-        const params = {
-          pvOptionCRUD: "R"
-        };
-    
-        var url = new URL(`${process.env.REACT_APP_API_URI}companies/`);
-    
-        Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
-    
-        fetch(url, {
-            method: "GET",
-            headers: {
-                "access-token": token,
-                "Content-Type": "application/json",
-            }
-        })
-        .then(function(response) {
-            return response.ok ? response.json() : Promise.reject();
-        })
-        .then(function(data) {
-            var optionsAux = [];
-            var i;
-            for(i=0; i<data.length; i++)
-            {
-              optionsAux.push({
-                value: data[i].Id_Company, label: data[i].Name
-              })
-            }
-            setDataCompanies(optionsAux)
-        })
-        .catch(function(err) {
-            alert("No se pudo consultar la informacion de las companies" + err);
-        });
-    }, []);
-
-    useEffect(() => {
-        //Aqui vamos a descargar la lista de roles de la base de datos por primera vez
-        const params = {
-          pvOptionCRUD: "R"
-        };
-    
-        var url = new URL(`${process.env.REACT_APP_API_URI}vendors/`);
-    
-        Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
-    
-        fetch(url, {
-            method: "GET",
-            headers: {
-                "access-token": token,
-                "Content-Type": "application/json",
-            }
-        })
-        .then(function(response) {
-            return response.ok ? response.json() : Promise.reject();
-        })
-        .then(function(data) {
-            var optionsAux = [];
-            var i;
-            for(i=0; i<data.length; i++)
-            {
-              optionsAux.push({
-                value: data[i].Id_Vendor, label: data[i].Name
-              })
-            }
-            setDataVendors(optionsAux)
-        })
-        .catch(function(err) {
-            alert("No se pudo consultar la informacion de las vendors" + err);
-        });
-    }, []);
-
     function updateVendors(){
         //Aqui vamos a descargar la lista de roles de la base de datos por primera vez
         const params = {
@@ -432,7 +398,8 @@ function CompaniesVendors({autoCloseAlert}){
             setDataVendors(optionsAux)
         })
         .catch(function(err) {
-            alert("No se pudo consultar la informacion de las vendors" + err);
+            setDataError(true);
+            setDataErrorMessage(" de los proveedores. ")
         });
     }
 
@@ -449,16 +416,24 @@ function CompaniesVendors({autoCloseAlert}){
                     </button>
                 </span>
                 &nbsp;
-                <Skeleton height={25} />
-                <Skeleton height="25px" />
-                <Skeleton height="3rem" />
+                {dataError === true ? (
+                    <div className ="no-data">
+                        <h3>No se pudo descargar la información de {dataErrorMessage} Recarga la página.</h3>
+                    </div>
+                ):
+                    <div>
+                        <Skeleton height={25} />
+                        <Skeleton height="25px" />
+                        <Skeleton height="3rem" />
+                    </div> 
+                }
             </CardBody>
             {/*MODAL PARA AÑADIR REGISTROS*/}
             <ModalAddCompanyVendor modalAddRecord = {modalAddRecord} setModalAddRecord = {setModalAddRecord}  ip = {ip} autoCloseAlert = {autoCloseAlert} updateAddData = {updateAddData} dataCompanies = {dataCompanies} dataVendors = {dataVendors} updateVendors = {updateVendors} companyE = {companyE} vendorE = {vendorE} toggleModalAddCompany = {toggleModalAddCompany} mensajeAdd = {mensajeAdd} toggleModalAddVendor = {toggleModalAddVendor} setCompanyE = {setCompanyE} setVendorE = {setVendorE} mensajeAdd2 = {mensajeAdd2}/>
             {/*MODAL PARA AÑADIR REGISTROS*/}
             <ModalAddCompany2 modalAddCompany = {modalAddCompany} setModalAddCompany= {setModalAddCompany} dataCountries = {dataCountries} updateCompanies = {updateCompanies} pathLogo = {pathLogo} ip = {ip} autoCloseAlert = {autoCloseAlert}  setCompanyE = {setCompanyE} toggleModalAddRecord = {toggleModalAddRecord} setModalAddRecord = {setModalAddRecord} setMensajeAdd = {setMensajeAdd}/>
             {/*MODAL PARA AÑADIR REGISTROS*/}
-            <ModalAddVendor modalAddVendor = {modalAddVendor} setModalAddVendor = {setModalAddVendor}  ip = {ip} autoCloseAlert = {autoCloseAlert} updateVendors = {updateVendors} dataCountries = {dataCountries} setVendorE = {setVendorE} toggleModalAddRecord = {toggleModalAddRecord} setModalAddRecord = {setModalAddRecord} setMensajeAdd2 = {setMensajeAdd2} updateVendors = {updateVendors}/>
+            <ModalAddVendor modalAddVendor = {modalAddVendor} setModalAddVendor = {setModalAddVendor}  ip = {ip} autoCloseAlert = {autoCloseAlert} dataCountries = {dataCountries} setVendorE = {setVendorE} toggleModalAddRecord = {toggleModalAddRecord} setModalAddRecord = {setModalAddRecord} setMensajeAdd2 = {setMensajeAdd2} updateVendors = {updateVendors}/>
         </Card>
     ) : (   
         <Card>
@@ -486,7 +461,7 @@ function CompaniesVendors({autoCloseAlert}){
             {/*MODAL PARA AÑADIR REGISTROS*/}
             <ModalAddCompany2 modalAddCompany = {modalAddCompany} setModalAddCompany= {setModalAddCompany} dataCountries = {dataCountries} updateCompanies = {updateCompanies} pathLogo = {pathLogo} ip = {ip} autoCloseAlert = {autoCloseAlert}  setCompanyE = {setCompanyE} toggleModalAddRecord = {toggleModalAddRecord} setModalAddRecord = {setModalAddRecord} setMensajeAdd = {setMensajeAdd}/>
             {/*MODAL PARA AÑADIR REGISTROS*/}
-            <ModalAddVendor modalAddVendor = {modalAddVendor} setModalAddVendor = {setModalAddVendor}  ip = {ip} autoCloseAlert = {autoCloseAlert} updateVendors = {updateVendors} dataCountries = {dataCountries} setVendorE = {setVendorE} toggleModalAddRecord = {toggleModalAddRecord} setModalAddRecord = {setModalAddRecord} setMensajeAdd2 = {setMensajeAdd2} updateVendors = {updateVendors}/>
+            <ModalAddVendor modalAddVendor = {modalAddVendor} setModalAddVendor = {setModalAddVendor}  ip = {ip} autoCloseAlert = {autoCloseAlert} dataCountries = {dataCountries} setVendorE = {setVendorE} toggleModalAddRecord = {toggleModalAddRecord} setModalAddRecord = {setModalAddRecord} setMensajeAdd2 = {setMensajeAdd2} updateVendors = {updateVendors}/>
         </Card>
     )
 

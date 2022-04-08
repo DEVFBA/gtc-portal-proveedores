@@ -29,22 +29,22 @@
     background-color: #212121; }
 
 [data-left-sidebar="primary"] .sidebar-widget-1 {
-  background: #303f9f;
+  background: #af1b2b;
   color: #ffffff; }
   [data-left-sidebar="primary"] .sidebar-widget-1 .progress {
-    background-color: #303f9f; }
+    background-color: #af1b2b; }
 
 [data-left-sidebar="secondary"] .sidebar-widget-1 {
-  background: #7b1fa2;
+  background: #242424;
   color: #ffffff; }
   [data-left-sidebar="secondary"] .sidebar-widget-1 .progress {
-    background-color: #7b1fa2; }
+    background-color: #242424; }
 
 [data-left-sidebar="info"] .sidebar-widget-1 {
-  background: #0288d1;
+  background: #af1b2b;
   color: #ffffff; }
   [data-left-sidebar="info"] .sidebar-widget-1 .progress {
-    background-color: #0288d1; }
+    background-color: #af1b2b; }
 
 [data-left-sidebar="success"] .sidebar-widget-1 {
   background: #388e3c;
@@ -53,10 +53,10 @@
     background-color: #388e3c; }
 
 [data-left-sidebar="warning"] .sidebar-widget-1 {
-  background: #ffa000;
+  background: #af1b2b;
   color: #ffffff; }
   [data-left-sidebar="warning"] .sidebar-widget-1 .progress {
-    background-color: #ffa000; }
+    background-color: #af1b2b; }
 
 [data-left-sidebar="danger"] .sidebar-widget-1 {
   background: #d32f2f;

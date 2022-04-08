@@ -1,30 +1,17 @@
 import React from 'react'
 import { useState, useEffect} from "react";
-import { Link, useHistory } from "react-router-dom";
 import axios from 'axios'
 import '../../css/pages/form.css'
-import Widget from '../../elements/Widget'
 import Skeleton from '@yisheng90/react-loading';
 
 import UsersTable from './UsersTable';
 import ModalAddUser from "./ModalAddUser.js";
 
 import {
-    Button,
     Card,
     CardHeader,
     CardBody,
     CardTitle,
-    Row,
-    Col,
-    FormGroup,
-    Form,
-    Label,
-    Input,
-    Modal, 
-    ModalBody, 
-    ModalFooter,
-    CardFooter
 } from "reactstrap";
 
 function Users({autoCloseAlert, changeImageP, setChangeImageP}){
@@ -57,6 +44,9 @@ function Users({autoCloseAlert, changeImageP, setChangeImageP}){
     const [dataFind, setDataFind] = useState(true)
 
     const [modalAddRecord, setModalAddRecord] = useState(false);
+
+    const [dataError, setDataError] = useState(false);
+    const [dataErrorMessage, setDataErrorMessage] = useState("");
 
     const getData = async () => {
         //const res = await axios.get('https://geolocation-db.com/json/')
@@ -103,19 +93,20 @@ function Users({autoCloseAlert, changeImageP, setChangeImageP}){
             return response.ok ? response.json() : Promise.reject();
         })
         .then(function(data) {
-          console.log(data)
+            console.log(data)
           setDataUsers(data)
-          setDataFind(false)
+          getDataRoles()
         })
         .catch(function(err) {
-            alert("No se pudo consultar la informacion de los usuarios" + err);
+            setDataError(true);
+            setDataErrorMessage(" de los usuarios. ")
         });
     }, []);
 
-    useEffect(() => {
-        //Aqui vamos a descargar la lista de roles de la base de datos por primera vez
+    function getDataRoles()
+    {
         const params = {
-          pvOptionCRUD: "R"
+            pvOptionCRUD: "R"
         };
     
         var url = new URL(`${process.env.REACT_APP_API_URI}security-roles/`);
@@ -138,21 +129,23 @@ function Users({autoCloseAlert, changeImageP, setChangeImageP}){
             var i;
             for(i=0; i<data.length; i++)
             {
-              optionsAux.push({
-                value: data[i].Id_Role, label: data[i].Short_Desc 
-              })
+                optionsAux.push({
+                    value: data[i].Id_Role, label: data[i].Short_Desc 
+                })
             }
             setDataRoles(optionsAux)
+            getDataVendors()
         })
         .catch(function(err) {
-            alert("No se pudo consultar la informacion de los roles" + err);
+            setDataError(true);
+            setDataErrorMessage(" de los roles. ")
         });
-    }, []);
+    }
 
-    useEffect(() => {
-        //Aqui vamos a descargar la lista de customers de la base de datos por primera vez
+    function getDataVendors()
+    {
         const params = {
-          pvOptionCRUD: "R"
+            pvOptionCRUD: "R"
         };
     
         var url = new URL(`${process.env.REACT_APP_API_URI}vendors/`);
@@ -175,21 +168,24 @@ function Users({autoCloseAlert, changeImageP, setChangeImageP}){
             var i;
             for(i=0; i<data.length; i++)
             {
-              optionsAux.push({
-                value: data[i].Id_Vendor, label: data[i].Name
-              })
+                optionsAux.push({
+                    value: data[i].Id_Vendor, label: data[i].Name
+                })
             }
-            setDataVendors(optionsAux)
+            setDataVendors(optionsAux);
+            getDataDepartments();
         })
         .catch(function(err) {
-            alert("No se pudo consultar la informacion de los vendors" + err);
+            setDataError(true);
+            setDataErrorMessage(" de los proveedores. ")
         });
-    }, []);
+    }
 
-    useEffect(() => {
+    function getDataDepartments()
+    {
         //Aqui vamos a descargar la lista de customers de la base de datos por primera vez
         const params = {
-          pvOptionCRUD: "R"
+            pvOptionCRUD: "R"
         };
     
         var url = new URL(`${process.env.REACT_APP_API_URI}cat-departments/`);
@@ -207,27 +203,28 @@ function Users({autoCloseAlert, changeImageP, setChangeImageP}){
             return response.ok ? response.json() : Promise.reject();
         })
         .then(function(data) {
-            console.log(data)
             //Creamos el arreglo de customers para el select
             var optionsAux = [];
             var i;
             for(i=0; i<data.length; i++)
             {
-              optionsAux.push({
-                value: data[i].Id_Catalog, label: data[i].Short_Desc
-              })
+                optionsAux.push({
+                    value: data[i].Id_Catalog, label: data[i].Short_Desc
+                })
             }
             setDataDepartments(optionsAux)
+            getDataGeneralParameters()
         })
         .catch(function(err) {
-            alert("No se pudo consultar la informacion de los departamentos" + err);
+            setDataError(true);
+            setDataErrorMessage(" de los departamentos. ")
         });
-    }, []);
+    }
 
-    useEffect(() => {
-        //Aqui vamos a descargar la lista de general parameters para revisar la vigencia del password
+    function getDataGeneralParameters()
+    {
         const params = {
-          pvOptionCRUD: "R"
+            pvOptionCRUD: "R"
         };
     
         var url = new URL(`${process.env.REACT_APP_API_URI}general-parameters/`);
@@ -245,17 +242,19 @@ function Users({autoCloseAlert, changeImageP, setChangeImageP}){
             return response.ok ? response.json() : Promise.reject();
         })
         .then(function(data) {
-            var aux = data.find( o => o.Id_Catalog === 1 )
-            var aux2 = data.find( o => o.Id_Catalog === 4 )
-            var aux3 = data.find( o => o.Id_Catalog === 6 )
+            var aux = data.find( o => o.Id_Catalog === 1 );
+            var aux2 = data.find( o => o.Id_Catalog === 4 );
+            var aux3 = data.find( o => o.Id_Catalog === 6 );
             setValidDays(parseInt(aux.Value,10))
-            setPathImage(aux2.Value)
-            setProfilePath(aux3.Value)
+            setPathImage(aux2.Value);
+            setProfilePath(aux3.Value);
+            setDataFind(false);
         })
         .catch(function(err) {
-            alert("No se pudo consultar la informacion de los general parameters" + err);
+            setDataError(true);
+            setDataErrorMessage(" de los parámetros generales. ")
         });
-    }, []);
+    }
 
      //Renderizado condicional
     function UsersT() {
@@ -289,16 +288,17 @@ function Users({autoCloseAlert, changeImageP, setChangeImageP}){
             setDataFind(false)
         })
         .catch(function(err) {
-            alert("No se pudo consultar la informacion de los usuarios" + err);
+            setDataError(true);
+            setDataErrorMessage(" de los usuarios. ")
         });
     }
 
     function toggleModalAddRecord(){
         if(modalAddRecord == false){
-        setModalAddRecord(true);
+            setModalAddRecord(true);
         }
         else{
-        setModalAddRecord(false);
+            setModalAddRecord(false);
         }
     }
 
@@ -315,9 +315,17 @@ function Users({autoCloseAlert, changeImageP, setChangeImageP}){
                     </button>
                 </span>
                 &nbsp;
-                <Skeleton height={25} />
-                <Skeleton height="25px" />
-                <Skeleton height="3rem" />
+                {dataError === true ? (
+                    <div className ="no-data">
+                        <h3>No se pudo descargar la información de {dataErrorMessage} Recarga la página.</h3>
+                    </div>
+                ):
+                    <div>
+                        <Skeleton height={25} />
+                        <Skeleton height="25px" />
+                        <Skeleton height="3rem" />
+                    </div> 
+                }
             </CardBody>
             {/*MODAL PARA AÑADIR REGISTROS*/}
             <ModalAddUser modalAddRecord = {modalAddRecord} setModalAddRecord = {setModalAddRecord} dataRoles = {dataRoles} dataVendors = {dataVendors} ip = {ip} autoCloseAlert = {autoCloseAlert} updateAddData = {updateAddData} validDays = {validDays} pathImage = {pathImage} dataDepartments = {dataDepartments}/>

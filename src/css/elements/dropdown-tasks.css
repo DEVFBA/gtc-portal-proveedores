@@ -29,19 +29,19 @@
   background-color: #212121; }
 
 [data-navbar="primary"] .navbar-dropdown.dropdown-tasks .dropdown-item .progress {
-  background-color: #303f9f; }
+  background-color: #af1b2b; }
 
 [data-navbar="secondary"] .navbar-dropdown.dropdown-tasks .dropdown-item .progress {
-  background-color: #7b1fa2; }
+  background-color: #242424; }
 
 [data-navbar="info"] .navbar-dropdown.dropdown-tasks .dropdown-item .progress {
-  background-color: #0288d1; }
+  background-color: #af1b2b; }
 
 [data-navbar="success"] .navbar-dropdown.dropdown-tasks .dropdown-item .progress {
   background-color: #388e3c; }
 
 [data-navbar="warning"] .navbar-dropdown.dropdown-tasks .dropdown-item .progress {
-  background-color: #ffa000; }
+  background-color: #af1b2b; }
 
 [data-navbar="danger"] .navbar-dropdown.dropdown-tasks .dropdown-item .progress {
   background-color: #d32f2f; }

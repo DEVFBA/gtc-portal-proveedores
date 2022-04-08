@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
-import Skeleton from '@yisheng90/react-loading';
 import { useParams } from "react-router-dom";
 import { Link, useHistory } from "react-router-dom";
 

@@ -1,6 +1,5 @@
 import React from 'react'
 import { useState, useEffect} from "react";
-import { Link, useHistory } from "react-router-dom";
 import axios from 'axios'
 import '../../css/pages/form.css'
 import Skeleton from '@yisheng90/react-loading';
@@ -9,21 +8,10 @@ import VendorsTable from './VendorsTable';
 import ModalAddVendor from "./ModalAddVendor";
 
 import {
-    Button,
     Card,
     CardHeader,
     CardBody,
     CardTitle,
-    Row,
-    Col,
-    FormGroup,
-    Form,
-    Label,
-    Input,
-    Modal, 
-    ModalBody, 
-    ModalFooter,
-    CardFooter
 } from "reactstrap";
 
 function Vendors({autoCloseAlert}){
@@ -44,12 +32,12 @@ function Vendors({autoCloseAlert}){
     const getData = async () => {
         const res = await axios.get('https://geolocation-db.com/json/')
         setIP(res.data.IPv4)
-      }
+    }
     
-      useEffect(() => {
-          //Descargamos la IP del usuario
-          getData()
-      }, []);
+    useEffect(() => {
+        //Descargamos la IP del usuario
+        getData()
+    }, []);
 
     useEffect(() => {
         //Aqui vamos a descargar la lista de roles de la base de datos por primera vez
@@ -72,14 +60,51 @@ function Vendors({autoCloseAlert}){
             return response.ok ? response.json() : Promise.reject();
         })
         .then(function(data) {
-            console.log(data)
             setDataVendors(data)
-            setDataFind(false)
+            getDataCountries();
         })
         .catch(function(err) {
             alert("No se pudo consultar la informacion de las vendors" + err);
         });
     }, []);
+
+    function getDataCountries()
+    {
+        const params = {
+            pvOptionCRUD: "R",
+            pSpCatalog : "spSAT_Cat_Countries_CRUD_Records",
+        };
+    
+        var url = new URL(`${process.env.REACT_APP_API_URI}cat-catalogs/catalog`);
+        Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
+    
+        fetch(url, {
+            method: "GET",
+            headers: {
+                "access-token": token,
+                "Content-Type": "application/json",
+            }
+        })
+        .then(function(response) {
+            return response.ok ? response.json() : Promise.reject();
+        })
+        .then(function(data) {
+            //Creamos el arreglo de opciones para el select
+            var optionsAux = [];
+            var i;
+            for(i=0; i<data.length; i++)
+            {
+                optionsAux.push({
+                value: data[i].Id_Catalog, label: data[i].Short_Desc 
+                })
+            }
+            setDataCountries(optionsAux);
+            setDataFind(false);
+        })
+        .catch(function(err) {
+            alert("No se pudo consultar la informacion de los catálogos" + err);
+        });
+    }
 
      //Renderizado condicional
     function VendorsT() {
@@ -109,50 +134,13 @@ function Vendors({autoCloseAlert}){
             return response.ok ? response.json() : Promise.reject();
         })
         .then(function(data) {
-            console.log(data)
-            setDataVendors(data)
-            setDataFind(false)
+            setDataVendors(data);
+            setDataFind(false);
         })
         .catch(function(err) {
             alert("No se pudo consultar la informacion de las vendors" + err);
         });
     }
-
-    useEffect(() => {
-        const params = {
-          pvOptionCRUD: "R",
-          pSpCatalog : "spSAT_Cat_Countries_CRUD_Records",
-        };
-    
-        var url = new URL(`${process.env.REACT_APP_API_URI}cat-catalogs/catalog`);
-        Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
-    
-        fetch(url, {
-            method: "GET",
-            headers: {
-                "access-token": token,
-                "Content-Type": "application/json",
-            }
-        })
-        .then(function(response) {
-            return response.ok ? response.json() : Promise.reject();
-        })
-        .then(function(data) {
-          //Creamos el arreglo de opciones para el select
-          var optionsAux = [];
-          var i;
-          for(i=0; i<data.length; i++)
-          {
-            optionsAux.push({
-              value: data[i].Id_Catalog, label: data[i].Short_Desc 
-            })
-          }
-          setDataCountries(optionsAux)
-        })
-        .catch(function(err) {
-            alert("No se pudo consultar la informacion de los catálogos" + err);
-        });
-    }, []);
 
     const [modalAddRecord, setModalAddRecord] = useState(false);
 
@@ -164,7 +152,6 @@ function Vendors({autoCloseAlert}){
         setModalAddRecord(false);
         }
     }
-
 
     return dataFind === true ? (
         <Card>

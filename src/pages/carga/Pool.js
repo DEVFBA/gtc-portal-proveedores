@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
-import Skeleton from '@yisheng90/react-loading';
 import { useLocation } from "react-router-dom";
 import { Link, useHistory } from "react-router-dom";
 
 import axios from 'axios'
 import '../../css/forms/react-datetime.css'
+
 // reactstrap components
 import {
   Button,
@@ -17,18 +17,10 @@ import {
   Row,
   Col,
   FormGroup,
-  Form,
-  Label,
   Input,
-  Modal, 
-  ModalBody, 
-  ModalFooter,
-  CardFooter
 } from "reactstrap";
 
-import Select from "react-select";
-
-function Pool({autoCloseAlert}) {
+function Pool({autoCloseAlert, autoCloseAlertCarga, hideAlert4}) {
     const ambiente = process.env.REACT_APP_ENVIRONMENT
     const history = useHistory();
     //Para guardar el token de la sesión
@@ -113,8 +105,7 @@ function Pool({autoCloseAlert}) {
 
     function getDataPDF64()
     {
-        console.log("ENTRE")
-        console.log(pdf)
+        autoCloseAlertCarga("Cargando...")
         var pdfbase64 = ""
         if(pdf!==null)
         {
@@ -174,6 +165,7 @@ function Pool({autoCloseAlert}) {
                 console.log("Hubo un error al procesar tu solicitud")
             }
             else {
+                hideAlert4()
                 autoCloseAlert(data.data.message)
                 history.push(ambiente + `/admin/invoices/`);
                 //setTimeout(redireccionar, 3000);

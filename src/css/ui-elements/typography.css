@@ -37,27 +37,27 @@ a,
   padding-right: 20px; }
 
 .blockquote.blockquote-primary:not(.blockquote-reverse) {
-  border-left: 0.25rem solid #303f9f;
+  border-left: 0.25rem solid #af1b2b;
   padding-left: 20px; }
 
 .blockquote.blockquote-primary.blockquote-reverse {
-  border-right: 0.25rem solid #303f9f;
+  border-right: 0.25rem solid #af1b2b;
   padding-right: 20px; }
 
 .blockquote.blockquote-secondary:not(.blockquote-reverse) {
-  border-left: 0.25rem solid #7b1fa2;
+  border-left: 0.25rem solid #242424;
   padding-left: 20px; }
 
 .blockquote.blockquote-secondary.blockquote-reverse {
-  border-right: 0.25rem solid #7b1fa2;
+  border-right: 0.25rem solid #242424;
   padding-right: 20px; }
 
 .blockquote.blockquote-info:not(.blockquote-reverse) {
-  border-left: 0.25rem solid #0288d1;
+  border-left: 0.25rem solid #af1b2b;
   padding-left: 20px; }
 
 .blockquote.blockquote-info.blockquote-reverse {
-  border-right: 0.25rem solid #0288d1;
+  border-right: 0.25rem solid #af1b2b;
   padding-right: 20px; }
 
 .blockquote.blockquote-success:not(.blockquote-reverse) {
@@ -69,11 +69,11 @@ a,
   padding-right: 20px; }
 
 .blockquote.blockquote-warning:not(.blockquote-reverse) {
-  border-left: 0.25rem solid #ffa000;
+  border-left: 0.25rem solid #af1b2b;
   padding-left: 20px; }
 
 .blockquote.blockquote-warning.blockquote-reverse {
-  border-right: 0.25rem solid #ffa000;
+  border-right: 0.25rem solid #af1b2b;
   padding-right: 20px; }
 
 .blockquote.blockquote-danger:not(.blockquote-reverse) {
@@ -95,14 +95,14 @@ a,
   color: #d32f2f; }
 
 [data-background="dark"] a {
-  color: #ffa000; }
+  color: #af1b2b; }
 
 [data-background="dark"] pre,
 [data-background="dark"] code {
   font-family: "Montserrat", sans-serif;
   font-size: 0.875rem;
   background: #292929;
-  color: #ffa000; }
+  color: #af1b2b; }
 
 [data-background="primary"] a {
   color: #388e3c; }
@@ -111,5 +111,5 @@ a,
 [data-background="primary"] code {
   font-family: "Montserrat", sans-serif;
   font-size: 0.875rem;
-  background: #3444ab;
-  color: #ffa000; }
+  background: #bc1d2e;
+  color: #af1b2b; }

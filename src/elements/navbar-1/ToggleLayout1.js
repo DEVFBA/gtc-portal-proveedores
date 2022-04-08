@@ -1,6 +1,4 @@
 import React from 'react'
-import {connect} from 'react-redux'
-import {setConfig} from '../../actions/config'
 
 function ToggleLayout1({layout, setLayout}) {
   

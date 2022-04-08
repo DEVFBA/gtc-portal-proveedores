@@ -18,7 +18,8 @@ function UsersTable({dataTable, ip, dataRoles, dataVendors, autoCloseAlert, upda
             return {
               id: key,
               name: prop.Name,
-              email: prop.User,
+              user: prop.User,
+              email: prop.Email,
               rol: prop.Role_Desc,
               idRole: prop.Id_Role,
               status: status,

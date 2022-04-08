@@ -7,21 +7,12 @@ import axios from 'axios'
 import '../../css/forms/react-datetime.css'
 
 import {
-  Button,
   Card,
   CardHeader,
   CardBody,
   CardTitle,
   Row,
   Col,
-  FormGroup,
-  Form,
-  Label,
-  Input,
-  Modal, 
-  ModalBody, 
-  ModalFooter,
-  CardFooter
 } from "reactstrap";
 
 import InvoicesPoolsTable from "./InvoicesPoolsTable";
@@ -37,6 +28,10 @@ function InvoicesPools({autoCloseAlert}) {
   const [dataFind, setDataFind] = useState(false);
 
   const [showButtons, setShowButtons] = useState();
+
+  const [cargaFallidaAdobeSign, setCargaFallidaAdobeSign] = useState();
+
+  const [enviarAgreement, setEnviarAgreement] = useState();
 
   //Para guardar la direccion IP del usuario
   const [ip, setIP] = useState("");
@@ -81,8 +76,8 @@ function InvoicesPools({autoCloseAlert}) {
     .then(function(data) {
       if(data.length === 0)
       {
-        setDataInvoicesPools(data)
-        setDataFind(true)
+        setDataInvoicesPools(data);
+        setDataFind(true);
       }
       else {
         var dataAux = []
@@ -96,10 +91,8 @@ function InvoicesPools({autoCloseAlert}) {
             dataAuxIndex++
           }
         }
-        //console.log(dataAux)
-        console.log(dataAux)
-        setDataInvoicesPools(dataAux)
-        setDataFind(true)
+        setDataInvoicesPools(dataAux);
+        getDataWorkflowTrackerRejectReasons();
       }
       
     })
@@ -108,7 +101,8 @@ function InvoicesPools({autoCloseAlert}) {
     });
   }, []);
 
-  useEffect(() => {
+  function getDataWorkflowTrackerRejectReasons()
+  {
     var url = new URL(`${process.env.REACT_APP_API_URI}workflow-tracker-reject-reasons/`);
 
     fetch(url, {
@@ -133,15 +127,16 @@ function InvoicesPools({autoCloseAlert}) {
           value: data[i].Id_Reject_Reason, label: data[i].Reject_Reason
         })
       }
-      //console.log(optionsAux)
-      setDataTrackerReasons(optionsAux)
+      setDataTrackerReasons(optionsAux);
+      getDataGeneralParameters();
     })
     .catch(function(err) {
       alert("No se pudo consultar la informacion del endpoint Workflow Tracker Reasons " + err);
     });
-  }, []);
+  }
 
-  useEffect(() => {
+  function getDataGeneralParameters()
+  {
     //Aqui vamos a descargar la lista de general parameters para revisar la vigencia del password
     const params = {
       pvOptionCRUD: "R"
@@ -162,13 +157,18 @@ function InvoicesPools({autoCloseAlert}) {
         return response.ok ? response.json() : Promise.reject();
     })
     .then(function(data) {
-        var statusButtons = data.find( o => o.Id_Catalog === 39 )
-        setShowButtons(statusButtons.Value)
+        var statusButtons = data.find( o => o.Id_Catalog === 39 );
+        var cargaAdobe = data.find( o => o.Id_Catalog === 50 );
+        var enviarA = data.find( o => o.Id_Catalog === 52 );
+        setShowButtons(statusButtons.Value);
+        setCargaFallidaAdobeSign(cargaAdobe.Value);
+        setEnviarAgreement(enviarA.Value);
+        setDataFind(true);
     })
     .catch(function(err) {
         alert("No se pudo consultar la informacion de los general parameters" + err);
     });
-  }, []);
+  }
 
   function updateAddData(){
     setDataFind(false)
@@ -208,7 +208,7 @@ function InvoicesPools({autoCloseAlert}) {
 
   //Renderizado condicional
   function CargaT() {
-      return <InvoicesPoolsTable dataTable = {dataInvoicesPools} autoCloseAlert = {autoCloseAlert} ip = {ip} dataTrackerReasons = {dataTrackerReasons} showButtons = {showButtons} updateAddData = {updateAddData}/>
+      return <InvoicesPoolsTable dataTable = {dataInvoicesPools} autoCloseAlert = {autoCloseAlert} ip = {ip} dataTrackerReasons = {dataTrackerReasons} showButtons = {showButtons} updateAddData = {updateAddData} cargaFallidaAdobeSign = {cargaFallidaAdobeSign} enviarAgreement = {enviarAgreement}/>
   }
 
   return dataFind === false ? (

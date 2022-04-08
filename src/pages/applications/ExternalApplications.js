@@ -6,19 +6,10 @@ import FileTransfer from "./FileTransfer";
 
 // reactstrap components
 import {
-  Button,
   Card,
   CardHeader,
   CardBody,
   CardTitle,
-  Row,
-  Col,
-  Modal, 
-  ModalBody, 
-  ModalFooter,
-  FormGroup,
-  Label,
-  Input,
 } from "reactstrap";
 
 import Select from "react-select";

@@ -505,8 +505,8 @@
       :local .notification--success .notification-button:hover, :local .notification--success .notification-button:active {
         color: #cccccc; }
   :local .notification--info {
-    background-color: #0288d1;
-    border: 1px solid #027ec2;
+    background-color: #af1b2b;
+    border: 1px solid #a21928;
     color: #ffffff; }
     :local .notification--info .notification-icon:before {
       content: "";
@@ -514,13 +514,13 @@
     :local .notification--info .notification-button {
       background: transparent;
       border: none;
-      border-left: 1px solid #027ec2;
+      border-left: 1px solid #a21928;
       color: #ffffff; }
       :local .notification--info .notification-button:hover, :local .notification--info .notification-button:active {
         color: #cccccc; }
   :local .notification--warning {
-    background-color: #ffa000;
-    border: 1px solid #f09600;
+    background-color: #af1b2b;
+    border: 1px solid #a21928;
     color: #ffffff; }
     :local .notification--warning .notification-icon:before {
       content: "";
@@ -528,7 +528,7 @@
     :local .notification--warning .notification-button {
       background: transparent;
       border: none;
-      border-left: 1px solid #f09600;
+      border-left: 1px solid #a21928;
       color: #ffffff; }
       :local .notification--warning .notification-button:hover, :local .notification--warning .notification-button:active {
         color: #cccccc; }
@@ -547,8 +547,8 @@
       :local .notification--error .notification-button:hover, :local .notification--error .notification-button:active {
         color: #cccccc; }
   :local .notification--loading {
-    background-color: #303f9f;
-    border: 1px solid #2c3a93;
+    background-color: #af1b2b;
+    border: 1px solid #a21928;
     color: #ffffff; }
     :local .notification--loading .notification-icon {
       -webkit-animation: rotating 2s infinite linear;
@@ -559,7 +559,7 @@
     :local .notification--loading .notification-button {
       background: transparent;
       border: none;
-      border-left: 1px solid #2c3a93;
+      border-left: 1px solid #a21928;
       color: #ffffff; }
       :local .notification--loading .notification-button:hover, :local .notification--loading .notification-button:active {
         color: #cccccc; }

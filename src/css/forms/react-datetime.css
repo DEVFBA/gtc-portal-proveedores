@@ -267,7 +267,7 @@
 
 [data-background="dark"] .rdtPicker td.rdtActive,
 [data-background="dark"] .rdtPicker td.rdtActive:hover {
-  background-color: #ffa000;
+  background-color: #af1b2b;
   color: #fff; }
 
 [data-background="dark"] .rdtPicker td.rdtActive.rdtToday:before {
@@ -414,9 +414,9 @@
   padding: 4px;
   margin-top: 1px;
   z-index: 99999 !important;
-  background-color: #303f9f;
+  background-color: #af1b2b;
   color: #ffffff;
-  border: 1px solid #4557c7; }
+  border: 1px solid #de293d; }
 
 [data-background="primary"] .rdtOpen .rdtPicker {
   display: block; }
@@ -445,7 +445,7 @@
 [data-background="primary"] .rdtPicker td.rdtMinute:hover,
 [data-background="primary"] .rdtPicker td.rdtSecond:hover,
 [data-background="primary"] .rdtPicker .rdtTimeToggle:hover {
-  background-color: #3b4dc2;
+  background-color: #d72135;
   cursor: pointer; }
 
 [data-background="primary"] .rdtPicker td.rdtOld,
@@ -459,24 +459,24 @@
   content: "";
   display: inline-block;
   border-left: 7px solid transparent;
-  border-bottom: 7px solid #4557c7;
-  border-top-color: #4557c7;
+  border-bottom: 7px solid #de293d;
+  border-top-color: #de293d;
   position: absolute;
   bottom: 4px;
   right: 4px; }
 
 [data-background="primary"] .rdtPicker td.rdtActive,
 [data-background="primary"] .rdtPicker td.rdtActive:hover {
-  background-color: #ffa000;
+  background-color: #af1b2b;
   color: #fff; }
 
 [data-background="primary"] .rdtPicker td.rdtActive.rdtToday:before {
-  border-bottom-color: #4557c7; }
+  border-bottom-color: #de293d; }
 
 [data-background="primary"] .rdtPicker td.rdtDisabled,
 [data-background="primary"] .rdtPicker td.rdtDisabled:hover {
   background: none;
-  color: #3444ab;
+  color: #bc1d2e;
   cursor: not-allowed; }
 
 [data-background="primary"] .rdtPicker td span.rdtOld {
@@ -489,7 +489,7 @@
   cursor: not-allowed; }
 
 [data-background="primary"] .rdtPicker th {
-  border-bottom: 1px solid #4557c7; }
+  border-bottom: 1px solid #de293d; }
 
 [data-background="primary"] .rdtPicker .dow {
   width: 14.2857%;
@@ -528,10 +528,10 @@
   cursor: pointer; }
 
 [data-background="primary"] .rdtPicker thead tr:first-child th:hover {
-  background: #303f9f; }
+  background: #af1b2b; }
 
 [data-background="primary"] .rdtPicker tfoot {
-  border-top: 1px solid #4557c7; }
+  border-top: 1px solid #de293d; }
 
 [data-background="primary"] .rdtPicker button {
   border: none;
@@ -539,7 +539,7 @@
   cursor: pointer; }
 
 [data-background="primary"] .rdtPicker button:hover {
-  background-color: #303f9f; }
+  background-color: #af1b2b; }
 
 [data-background="primary"] .rdtPicker thead button {
   width: 100%;
@@ -553,7 +553,7 @@
 
 [data-background="primary"] td.rdtMonth:hover,
 [data-background="primary"] td.rdtYear:hover {
-  background: #303f9f; }
+  background: #af1b2b; }
 
 [data-background="primary"] .rdtCounters {
   display: inline-block; }
@@ -588,7 +588,7 @@
   user-select: none; }
 
 [data-background="primary"] .rdtCounter .rdtBtn:hover {
-  background: #303f9f; }
+  background: #af1b2b; }
 
 [data-background="primary"] .rdtCounter .rdtCount {
   height: 20%;

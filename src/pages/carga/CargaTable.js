@@ -4,6 +4,7 @@ import ReactTable from "../../reacttable/ReactTable";
 import { Link, useHistory } from "react-router-dom";
 
 import ModalAddWorkflow from "./ModalAddWorkflow.js";
+import ModalVerDetalleInvoice from "./ModalVerDetalleInvoice.js";
 
 import {
     Button,
@@ -11,7 +12,6 @@ import {
     ModalBody, 
     ModalFooter,
     FormGroup,
-    Form,
     Input,
     Label,
     Row,
@@ -89,6 +89,11 @@ function CargaTable({dataTable, ip, autoCloseAlert, updateAddData, workflowTypes
               idWorkflow: prop.Id_Workflow,
               workflow: null,
               workflowTracker : null,
+              currencyDesc:  prop.Currency_Desc,
+              idCurrency:  prop.Id_Currency,
+              subtotal:  prop.SubTotal,
+              total:  prop.Total,
+              transferredTaxes: prop.Transferred_Taxes,
               actions: (
                 // ACCIONES A REALIZAR EN CADA REGISTRO
                 <div className="actions-center">
@@ -183,6 +188,19 @@ function CargaTable({dataTable, ip, autoCloseAlert, updateAddData, workflowTypes
                             </button>
                         </abbr>
                     ):null}
+                    <abbr title="Ver Detalle">
+                        <button
+                            onClick={() => {
+                                getRegistro(key);
+                                toggleModalReadRecord()
+                            }}
+                            color="warning"
+                            size="sm"
+                            className="btn-icon btn-link edit"
+                        >
+                            <i className="fa fa-info-circle" />
+                        </button>
+                    </abbr>
                 </div>
               ),
               actions2: (
@@ -212,33 +230,26 @@ function CargaTable({dataTable, ip, autoCloseAlert, updateAddData, workflowTypes
         })
     );
 
+    const [modalReadRecord, setModalReadRecord] = useState(false);
+
+    function toggleModalReadRecord(){
+        if(modalReadRecord == false){
+            setModalReadRecord(true);
+        }
+        else{
+            setModalReadRecord(false);
+        }
+    }
+
     const [modalAddRecord, setModalAddRecord] = useState(false);
 
-    //Para saber que usuario se va a editar
-    const [record, setRecord] = useState({});
+    //Para saber que usuario se va a visualizar
+    const [record, setRecord] = useState([]);
 
     function getRegistro(key)
     {
         var registro = dataState.find((o) => o.id === key)
-        var url = new URL(`${process.env.REACT_APP_API_URI}workflow/${registro.idWorkflow}`);
-        fetch(url, {
-            method: "GET",
-            headers: {
-                "access-token": token,
-                "Content-Type": "application/json",
-            }
-        })
-        .then(function(response) {
-            return response.ok ? response.json() : Promise.reject();
-        })
-        .then(function(data) {
-            var workflow = data[0]
-            registro.workflow = workflow    
-            getWorkflowTrackerRoles(workflow.Id_Workflow_Status, registro)
-        })
-        .catch(function(err) {
-            console.log("No se pudo consultar la informacion del workflow" + err);
-        }); 
+        setRecord(registro) 
     }
 
     function getWorkflowTrackerRoles(status, registro)
@@ -362,7 +373,10 @@ function CargaTable({dataTable, ip, autoCloseAlert, updateAddData, workflowTypes
             />
 
             {/*MODAL PARA AÑADIR WORKFLOW*/}
-            <ModalAddWorkflow modalAddRecord = {modalAddRecord} setModalAddRecord = {setModalAddRecord} record = {record} ip = {ip} autoCloseAlert = {autoCloseAlert} updateAddData = {updateAddData} workflowTypes = {workflowTypes} workflowTracker = {workflowTracker}/>
+            {/*<ModalAddWorkflow modalAddRecord = {modalAddRecord} setModalAddRecord = {setModalAddRecord} record = {record} ip = {ip} autoCloseAlert = {autoCloseAlert} updateAddData = {updateAddData} workflowTypes = {workflowTypes} workflowTracker = {workflowTracker}/>*/}
+
+            {/*MODAL PARA VER DETALLE INVOICE*/}
+            <ModalVerDetalleInvoice modalReadRecord = {modalReadRecord} setModalReadRecord = {setModalReadRecord} record = {record}/>
 
             {/*MODAL PARA MODIFICAR REGISTRO*/}
             {/*<ModalUpdateUser abierto = {modalUpdateRecord} toggleModalUpdateRecord = {toggleModalUpdateRecord} record = {record} dataRoles ={dataRoles} ip = {ip} dataVendors = {dataVendors} autoCloseAlert = {autoCloseAlert} updateAddData = {updateAddData} validDays = {validDays} pathImage = {pathImage} profilePath ={profilePath}/>*/}

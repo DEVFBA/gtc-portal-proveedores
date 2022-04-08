@@ -1,15 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import ConnectedDatePicker from '../../forms/react-datetime/ConnectedDatePicker'
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 //import ModalAddRequester from "./ModalAddRequester";
 
-import convert from 'xml-js';
-import axios from 'axios'
-import Widget from '../../elements/Widget'
-import Skeleton from '@yisheng90/react-loading';
 import '../../css/forms/react-datetime.css'
-import CargaTable from './CargaTable';
+
 // reactstrap components
 import {
   Button,

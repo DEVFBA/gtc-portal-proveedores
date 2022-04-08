@@ -57,18 +57,18 @@
   color: #fff; }
 
 [data-background="light"] .table thead.thead-primary th {
-  border-color: #303f9f;
-  background-color: #303f9f;
+  border-color: #af1b2b;
+  background-color: #af1b2b;
   color: #fff; }
 
 [data-background="light"] .table thead.thead-secondary th {
-  border-color: #7b1fa2;
-  background-color: #7b1fa2;
+  border-color: #242424;
+  background-color: #242424;
   color: #fff; }
 
 [data-background="light"] .table thead.thead-info th {
-  border-color: #0288d1;
-  background-color: #0288d1;
+  border-color: #af1b2b;
+  background-color: #af1b2b;
   color: #fff; }
 
 [data-background="light"] .table thead.thead-success th {
@@ -77,8 +77,8 @@
   color: #fff; }
 
 [data-background="light"] .table thead.thead-warning th {
-  border-color: #ffa000;
-  background-color: #ffa000;
+  border-color: #af1b2b;
+  background-color: #af1b2b;
   color: #fff; }
 
 [data-background="light"] .table thead.thead-danger th {
@@ -124,33 +124,33 @@
   color: #fff; }
 
 [data-background="light"] .table tbody tr.table-primary > td {
-  border-color: #303f9f !important;
-  background-color: #303f9f !important;
+  border-color: #af1b2b !important;
+  background-color: #af1b2b !important;
   color: #fff; }
 
 [data-background="light"] .table tbody tr.table-primary tr:hover > td {
-  border-color: #2a378b;
-  background-color: #2a378b;
+  border-color: #991826;
+  background-color: #991826;
   color: #fff; }
 
 [data-background="light"] .table tbody tr.table-secondary > td {
-  border-color: #7b1fa2 !important;
-  background-color: #7b1fa2 !important;
+  border-color: #242424 !important;
+  background-color: #242424 !important;
   color: #fff; }
 
 [data-background="light"] .table tbody tr.table-secondary tr:hover > td {
-  border-color: #6b1b8d;
-  background-color: #6b1b8d;
+  border-color: #171717;
+  background-color: #171717;
   color: #fff; }
 
 [data-background="light"] .table tbody tr.table-info > td {
-  border-color: #0288d1 !important;
-  background-color: #0288d1 !important;
+  border-color: #af1b2b !important;
+  background-color: #af1b2b !important;
   color: #fff; }
 
 [data-background="light"] .table tbody tr.table-info tr:hover > td {
-  border-color: #0278b8;
-  background-color: #0278b8;
+  border-color: #991826;
+  background-color: #991826;
   color: #fff; }
 
 [data-background="light"] .table tbody tr.table-success > td {
@@ -164,13 +164,13 @@
   color: #fff; }
 
 [data-background="light"] .table tbody tr.table-warning > td {
-  border-color: #ffa000 !important;
-  background-color: #ffa000 !important;
+  border-color: #af1b2b !important;
+  background-color: #af1b2b !important;
   color: #fff; }
 
 [data-background="light"] .table tbody tr.table-warning tr:hover > td {
-  border-color: #e69000;
-  background-color: #e69000;
+  border-color: #991826;
+  background-color: #991826;
   color: #fff; }
 
 [data-background="light"] .table tbody tr.table-danger > td {
@@ -213,18 +213,18 @@
   color: #fff; }
 
 [data-background="light"] .table.table-hover.table-hover-primary tbody tr:hover td {
-  border-color: #303f9f;
-  background-color: #303f9f;
+  border-color: #af1b2b;
+  background-color: #af1b2b;
   color: #fff; }
 
 [data-background="light"] .table.table-hover.table-hover-secondary tbody tr:hover td {
-  border-color: #7b1fa2;
-  background-color: #7b1fa2;
+  border-color: #242424;
+  background-color: #242424;
   color: #fff; }
 
 [data-background="light"] .table.table-hover.table-hover-info tbody tr:hover td {
-  border-color: #0288d1;
-  background-color: #0288d1;
+  border-color: #af1b2b;
+  background-color: #af1b2b;
   color: #fff; }
 
 [data-background="light"] .table.table-hover.table-hover-success tbody tr:hover td {
@@ -233,8 +233,8 @@
   color: #fff; }
 
 [data-background="light"] .table.table-hover.table-hover-warning tbody tr:hover td {
-  border-color: #ffa000;
-  background-color: #ffa000;
+  border-color: #af1b2b;
+  background-color: #af1b2b;
   color: #fff; }
 
 [data-background="light"] .table.table-hover.table-hover-danger tbody tr:hover td {
@@ -278,18 +278,18 @@
   color: #fff; }
 
 [data-background="dark"] .table thead.thead-primary th {
-  border-color: #303f9f;
-  background-color: #303f9f;
+  border-color: #af1b2b;
+  background-color: #af1b2b;
   color: #fff; }
 
 [data-background="dark"] .table thead.thead-secondary th {
-  border-color: #7b1fa2;
-  background-color: #7b1fa2;
+  border-color: #242424;
+  background-color: #242424;
   color: #fff; }
 
 [data-background="dark"] .table thead.thead-info th {
-  border-color: #0288d1;
-  background-color: #0288d1;
+  border-color: #af1b2b;
+  background-color: #af1b2b;
   color: #fff; }
 
 [data-background="dark"] .table thead.thead-success th {
@@ -298,8 +298,8 @@
   color: #fff; }
 
 [data-background="dark"] .table thead.thead-warning th {
-  border-color: #ffa000;
-  background-color: #ffa000;
+  border-color: #af1b2b;
+  background-color: #af1b2b;
   color: #fff; }
 
 [data-background="dark"] .table thead.thead-danger th {
@@ -345,33 +345,33 @@
   color: #fff; }
 
 [data-background="dark"] .table tbody tr.table-primary > td {
-  border-color: #303f9f !important;
-  background-color: #303f9f !important;
+  border-color: #af1b2b !important;
+  background-color: #af1b2b !important;
   color: #fff; }
 
 [data-background="dark"] .table tbody tr.table-primary tr:hover > td {
-  border-color: #2a378b;
-  background-color: #2a378b;
+  border-color: #991826;
+  background-color: #991826;
   color: #fff; }
 
 [data-background="dark"] .table tbody tr.table-secondary > td {
-  border-color: #7b1fa2 !important;
-  background-color: #7b1fa2 !important;
+  border-color: #242424 !important;
+  background-color: #242424 !important;
   color: #fff; }
 
 [data-background="dark"] .table tbody tr.table-secondary tr:hover > td {
-  border-color: #6b1b8d;
-  background-color: #6b1b8d;
+  border-color: #171717;
+  background-color: #171717;
   color: #fff; }
 
 [data-background="dark"] .table tbody tr.table-info > td {
-  border-color: #0288d1 !important;
-  background-color: #0288d1 !important;
+  border-color: #af1b2b !important;
+  background-color: #af1b2b !important;
   color: #fff; }
 
 [data-background="dark"] .table tbody tr.table-info tr:hover > td {
-  border-color: #0278b8;
-  background-color: #0278b8;
+  border-color: #991826;
+  background-color: #991826;
   color: #fff; }
 
 [data-background="dark"] .table tbody tr.table-success > td {
@@ -385,13 +385,13 @@
   color: #fff; }
 
 [data-background="dark"] .table tbody tr.table-warning > td {
-  border-color: #ffa000 !important;
-  background-color: #ffa000 !important;
+  border-color: #af1b2b !important;
+  background-color: #af1b2b !important;
   color: #fff; }
 
 [data-background="dark"] .table tbody tr.table-warning tr:hover > td {
-  border-color: #e69000;
-  background-color: #e69000;
+  border-color: #991826;
+  background-color: #991826;
   color: #fff; }
 
 [data-background="dark"] .table tbody tr.table-danger > td {
@@ -434,18 +434,18 @@
   color: #fff; }
 
 [data-background="dark"] .table.table-hover.table-hover-primary tbody tr:hover td {
-  border-color: #303f9f;
-  background-color: #303f9f;
+  border-color: #af1b2b;
+  background-color: #af1b2b;
   color: #fff; }
 
 [data-background="dark"] .table.table-hover.table-hover-secondary tbody tr:hover td {
-  border-color: #7b1fa2;
-  background-color: #7b1fa2;
+  border-color: #242424;
+  background-color: #242424;
   color: #fff; }
 
 [data-background="dark"] .table.table-hover.table-hover-info tbody tr:hover td {
-  border-color: #0288d1;
-  background-color: #0288d1;
+  border-color: #af1b2b;
+  background-color: #af1b2b;
   color: #fff; }
 
 [data-background="dark"] .table.table-hover.table-hover-success tbody tr:hover td {
@@ -454,8 +454,8 @@
   color: #fff; }
 
 [data-background="dark"] .table.table-hover.table-hover-warning tbody tr:hover td {
-  border-color: #ffa000;
-  background-color: #ffa000;
+  border-color: #af1b2b;
+  background-color: #af1b2b;
   color: #fff; }
 
 [data-background="dark"] .table.table-hover.table-hover-danger tbody tr:hover td {
@@ -465,26 +465,26 @@
 
 [data-background="primary"] .table th,
 [data-background="primary"] .table td {
-  background-color: #303f9f;
-  border-color: #4557c7;
+  background-color: #af1b2b;
+  border-color: #de293d;
   color: #ffffff; }
 
 [data-background="primary"] .table tbody td {
-  border-color: #4557c7; }
+  border-color: #de293d; }
   [data-background="primary"] .table tbody td:hover {
-    background-color: #3b4dc2; }
+    background-color: #d72135; }
 
 [data-background="primary"] .table thead th {
-  background-color: #3748b7;
-  border-color: #4557c7;
-  border-top-color: #3748b7; }
+  background-color: #ca1f32;
+  border-color: #de293d;
+  border-top-color: #ca1f32; }
 
 [data-background="primary"] .table thead.thead-default th {
-  background-color: #303f9f;
-  border-color: #4557c7; }
+  background-color: #af1b2b;
+  border-color: #de293d; }
 
 [data-background="primary"] .table thead.thead-inverse th {
-  color: #303f9f;
+  color: #af1b2b;
   background-color: #ffffff;
   border-color: #ffffff; }
 
@@ -499,18 +499,18 @@
   color: #fff; }
 
 [data-background="primary"] .table thead.thead-primary th {
-  border-color: #303f9f;
-  background-color: #303f9f;
+  border-color: #af1b2b;
+  background-color: #af1b2b;
   color: #fff; }
 
 [data-background="primary"] .table thead.thead-secondary th {
-  border-color: #7b1fa2;
-  background-color: #7b1fa2;
+  border-color: #242424;
+  background-color: #242424;
   color: #fff; }
 
 [data-background="primary"] .table thead.thead-info th {
-  border-color: #0288d1;
-  background-color: #0288d1;
+  border-color: #af1b2b;
+  background-color: #af1b2b;
   color: #fff; }
 
 [data-background="primary"] .table thead.thead-success th {
@@ -519,8 +519,8 @@
   color: #fff; }
 
 [data-background="primary"] .table thead.thead-warning th {
-  border-color: #ffa000;
-  background-color: #ffa000;
+  border-color: #af1b2b;
+  background-color: #af1b2b;
   color: #fff; }
 
 [data-background="primary"] .table thead.thead-danger th {
@@ -529,11 +529,11 @@
   color: #fff; }
 
 [data-background="primary"] .table tbody tr:hover td {
-  background-color: #3b4dc2; }
+  background-color: #d72135; }
 
 [data-background="primary"] .table tbody tr.table-active > th,
 [data-background="primary"] .table tbody tr.table-active > td {
-  background-color: #3b4dc2; }
+  background-color: #d72135; }
 
 [data-background="primary"] .table tbody tr.table-light > td {
   border-color: #ffffff !important;
@@ -566,33 +566,33 @@
   color: #fff; }
 
 [data-background="primary"] .table tbody tr.table-primary > td {
-  border-color: #303f9f !important;
-  background-color: #303f9f !important;
+  border-color: #af1b2b !important;
+  background-color: #af1b2b !important;
   color: #fff; }
 
 [data-background="primary"] .table tbody tr.table-primary tr:hover > td {
-  border-color: #2a378b;
-  background-color: #2a378b;
+  border-color: #991826;
+  background-color: #991826;
   color: #fff; }
 
 [data-background="primary"] .table tbody tr.table-secondary > td {
-  border-color: #7b1fa2 !important;
-  background-color: #7b1fa2 !important;
+  border-color: #242424 !important;
+  background-color: #242424 !important;
   color: #fff; }
 
 [data-background="primary"] .table tbody tr.table-secondary tr:hover > td {
-  border-color: #6b1b8d;
-  background-color: #6b1b8d;
+  border-color: #171717;
+  background-color: #171717;
   color: #fff; }
 
 [data-background="primary"] .table tbody tr.table-info > td {
-  border-color: #0288d1 !important;
-  background-color: #0288d1 !important;
+  border-color: #af1b2b !important;
+  background-color: #af1b2b !important;
   color: #fff; }
 
 [data-background="primary"] .table tbody tr.table-info tr:hover > td {
-  border-color: #0278b8;
-  background-color: #0278b8;
+  border-color: #991826;
+  background-color: #991826;
   color: #fff; }
 
 [data-background="primary"] .table tbody tr.table-success > td {
@@ -606,13 +606,13 @@
   color: #fff; }
 
 [data-background="primary"] .table tbody tr.table-warning > td {
-  border-color: #ffa000 !important;
-  background-color: #ffa000 !important;
+  border-color: #af1b2b !important;
+  background-color: #af1b2b !important;
   color: #fff; }
 
 [data-background="primary"] .table tbody tr.table-warning tr:hover > td {
-  border-color: #e69000;
-  background-color: #e69000;
+  border-color: #991826;
+  background-color: #991826;
   color: #fff; }
 
 [data-background="primary"] .table tbody tr.table-danger > td {
@@ -626,10 +626,10 @@
   color: #fff; }
 
 [data-background="primary"] .table.table-striped tbody tr:nth-child(even) td {
-  background-color: #3748b7; }
+  background-color: #ca1f32; }
 
 [data-background="primary"] .table.table-striped tbody tr:nth-child(odd) td {
-  background-color: #3444ab; }
+  background-color: #bc1d2e; }
 
 [data-background="primary"] .table.table-unbordered thead th,
 [data-background="primary"] .table.table-unbordered thead td,
@@ -655,18 +655,18 @@
   color: #fff; }
 
 [data-background="primary"] .table.table-hover.table-hover-primary tbody tr:hover td {
-  border-color: #303f9f;
-  background-color: #303f9f;
+  border-color: #af1b2b;
+  background-color: #af1b2b;
   color: #fff; }
 
 [data-background="primary"] .table.table-hover.table-hover-secondary tbody tr:hover td {
-  border-color: #7b1fa2;
-  background-color: #7b1fa2;
+  border-color: #242424;
+  background-color: #242424;
   color: #fff; }
 
 [data-background="primary"] .table.table-hover.table-hover-info tbody tr:hover td {
-  border-color: #0288d1;
-  background-color: #0288d1;
+  border-color: #af1b2b;
+  background-color: #af1b2b;
   color: #fff; }
 
 [data-background="primary"] .table.table-hover.table-hover-success tbody tr:hover td {
@@ -675,8 +675,8 @@
   color: #fff; }
 
 [data-background="primary"] .table.table-hover.table-hover-warning tbody tr:hover td {
-  border-color: #ffa000;
-  background-color: #ffa000;
+  border-color: #af1b2b;
+  background-color: #af1b2b;
   color: #fff; }
 
 [data-background="primary"] .table.table-hover.table-hover-danger tbody tr:hover td {

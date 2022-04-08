@@ -32,6 +32,9 @@ function Accounts({autoCloseAlert}){
 
     const [modalAddRecord, setModalAddRecord] = useState(false);
 
+    const [dataError, setDataError] = useState(false);
+    const [dataErrorMessage, setDataErrorMessage] = useState("");
+
     const getData = async () => {
         try{
             let response = await axios({
@@ -68,16 +71,17 @@ function Accounts({autoCloseAlert}){
             return response.ok ? response.json() : Promise.reject();
         })
         .then(function(data) {
-          console.log(data)
-          setDataAccounts(data)
-          setDataFind(false)
+          setDataAccounts(data);
+          getDataAccountTypes();
         })
         .catch(function(err) {
-            alert("No se pudo consultar la informacion de las cuentas" + err);
+            setDataError(true);
+            setDataErrorMessage(" de las cuentas. ")
         });
     }, []);
 
-    useEffect(() => {
+    function getDataAccountTypes()
+    {
         var url = new URL(`${process.env.REACT_APP_API_URI}cat-account-types/`);
         //var url = new URL(`http://localhost:8091/api/cat-account-types/`);
     
@@ -101,24 +105,25 @@ function Accounts({autoCloseAlert}){
                 value: data[i].Id_Account_Type, label: data[i].Short_Desc 
               })
             }
-            setDataAccountTypes(optionsAux)
+            setDataAccountTypes(optionsAux);
+            setDataFind(false);
         })
         .catch(function(err) {
-            alert("No se pudo consultar la informacion de los tipos de cuentas" + err);
+            setDataError(true);
+            setDataErrorMessage(" de los tipos de cuentas. ")
         });
-    }, []);
+    }
 
-     //Renderizado condicional
+    //Renderizado condicional
     function AccountsT() {
         return <AccountsTable dataTable = {dataAccounts} ip = {ip}  autoCloseAlert = {autoCloseAlert} updateAddData = {updateAddData}/>
     }
 
     //Para actualizar la tabla al insertar registro
     function updateAddData(){
-        setDataFind(true)
+        setDataFind(true);
 
         var url = new URL(`${process.env.REACT_APP_API_URI}cat-accounts/`);
-        //var url = new URL(`http://localhost:8091/api/cat-accounts/`);
 
         fetch(url, {
             method: "GET",
@@ -131,11 +136,12 @@ function Accounts({autoCloseAlert}){
             return response.ok ? response.json() : Promise.reject();
         })
         .then(function(data) {
-            setDataAccounts(data)
-            setDataFind(false)
+            setDataAccounts(data);
+            setDataFind(false);
         })
         .catch(function(err) {
-            alert("No se pudo consultar la informacion de las cuentas" + err);
+            setDataError(true);
+            setDataErrorMessage(" de las cuentas. ")
         });
     }
 
@@ -161,9 +167,17 @@ function Accounts({autoCloseAlert}){
                     </button>
                 </span>
                 &nbsp;
-                <Skeleton height={25} />
-                <Skeleton height="25px" />
-                <Skeleton height="3rem" />
+                {dataError === true ? (
+                    <div className ="no-data">
+                        <h3>No se pudo descargar la información {dataErrorMessage} Recarga la página.</h3>
+                    </div>
+                ):
+                    <div>
+                        <Skeleton height={25} />
+                        <Skeleton height="25px" />
+                        <Skeleton height="3rem" />
+                    </div> 
+                }
             </CardBody>
             {/*MODAL PARA AÑADIR REGISTROS*/}
             <ModalAddAccount modalAddRecord = {modalAddRecord} setModalAddRecord = {setModalAddRecord} dataAccountTypes = {dataAccountTypes} ip = {ip} autoCloseAlert = {autoCloseAlert} updateAddData = {updateAddData}/>

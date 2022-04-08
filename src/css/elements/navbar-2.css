@@ -149,19 +149,19 @@
         color: #ffffff; }
 
 [data-navbar="primary"] .navbar.navbar-2 {
-  background: #303f9f;
+  background: #af1b2b;
   color: #ffffff; }
   [data-navbar="primary"] .navbar.navbar-2 .nav-link {
     color: #ffffff; }
   [data-navbar="primary"] .navbar.navbar-2 .input-group .input-group-addon {
     color: #ffffff;
-    background-color: #3748b7;
-    border-color: #3748b7;
+    background-color: #ca1f32;
+    border-color: #ca1f32;
     cursor: pointer; }
   [data-navbar="primary"] .navbar.navbar-2 .input-group .form-control {
     color: #ffffff;
-    background-color: #3748b7;
-    border-color: #3748b7; }
+    background-color: #ca1f32;
+    border-color: #ca1f32; }
   [data-navbar="primary"] .navbar.navbar-2 .navbar-search .form-control ::-webkit-input-placeholder {
     color: #ffffff; }
   [data-navbar="primary"] .navbar.navbar-2 .navbar-search .form-control :-moz-placeholder {
@@ -171,34 +171,34 @@
   [data-navbar="primary"] .navbar.navbar-2 .navbar-search .form-control :-ms-input-placeholder {
     color: #ffffff; }
   [data-navbar="primary"] .navbar.navbar-2 .navbar-dropdown {
-    background: #303f9f;
+    background: #af1b2b;
     color: #ffffff; }
     [data-navbar="primary"] .navbar.navbar-2 .navbar-dropdown .dropdown-title {
-      background: #303f9f;
+      background: #af1b2b;
       color: #ffffff; }
     [data-navbar="primary"] .navbar.navbar-2 .navbar-dropdown .dropdown-item {
-      background: #303f9f;
+      background: #af1b2b;
       color: #ffffff; }
       [data-navbar="primary"] .navbar.navbar-2 .navbar-dropdown .dropdown-item a {
         color: #ffffff; }
       [data-navbar="primary"] .navbar.navbar-2 .navbar-dropdown .dropdown-item:hover {
-        background: #3444ab;
+        background: #bc1d2e;
         color: #ffffff; }
 
 [data-navbar="secondary"] .navbar.navbar-2 {
-  background: #7b1fa2;
+  background: #242424;
   color: #ffffff; }
   [data-navbar="secondary"] .navbar.navbar-2 .nav-link {
     color: #ffffff; }
   [data-navbar="secondary"] .navbar.navbar-2 .input-group .input-group-addon {
     color: #ffffff;
-    background-color: #8f24bc;
-    border-color: #8f24bc;
+    background-color: #333333;
+    border-color: #333333;
     cursor: pointer; }
   [data-navbar="secondary"] .navbar.navbar-2 .input-group .form-control {
     color: #ffffff;
-    background-color: #8f24bc;
-    border-color: #8f24bc; }
+    background-color: #333333;
+    border-color: #333333; }
   [data-navbar="secondary"] .navbar.navbar-2 .navbar-search .form-control ::-webkit-input-placeholder {
     color: #ffffff; }
   [data-navbar="secondary"] .navbar.navbar-2 .navbar-search .form-control :-moz-placeholder {
@@ -208,34 +208,34 @@
   [data-navbar="secondary"] .navbar.navbar-2 .navbar-search .form-control :-ms-input-placeholder {
     color: #ffffff; }
   [data-navbar="secondary"] .navbar.navbar-2 .navbar-dropdown {
-    background: #7b1fa2;
+    background: #242424;
     color: #ffffff; }
     [data-navbar="secondary"] .navbar.navbar-2 .navbar-dropdown .dropdown-title {
-      background: #7b1fa2;
+      background: #242424;
       color: #ffffff; }
     [data-navbar="secondary"] .navbar.navbar-2 .navbar-dropdown .dropdown-item {
-      background: #7b1fa2;
+      background: #242424;
       color: #ffffff; }
       [data-navbar="secondary"] .navbar.navbar-2 .navbar-dropdown .dropdown-item a {
         color: #ffffff; }
       [data-navbar="secondary"] .navbar.navbar-2 .navbar-dropdown .dropdown-item:hover {
-        background: #8521af;
+        background: #2c2c2c;
         color: #ffffff; }
 
 [data-navbar="info"] .navbar.navbar-2 {
-  background: #0288d1;
+  background: #af1b2b;
   color: #ffffff; }
   [data-navbar="info"] .navbar.navbar-2 .nav-link {
     color: #ffffff; }
   [data-navbar="info"] .navbar.navbar-2 .input-group .input-group-addon {
     color: #ffffff;
-    background-color: #029cef;
-    border-color: #029cef;
+    background-color: #ca1f32;
+    border-color: #ca1f32;
     cursor: pointer; }
   [data-navbar="info"] .navbar.navbar-2 .input-group .form-control {
     color: #ffffff;
-    background-color: #029cef;
-    border-color: #029cef; }
+    background-color: #ca1f32;
+    border-color: #ca1f32; }
   [data-navbar="info"] .navbar.navbar-2 .navbar-search .form-control ::-webkit-input-placeholder {
     color: #ffffff; }
   [data-navbar="info"] .navbar.navbar-2 .navbar-search .form-control :-moz-placeholder {
@@ -245,18 +245,18 @@
   [data-navbar="info"] .navbar.navbar-2 .navbar-search .form-control :-ms-input-placeholder {
     color: #ffffff; }
   [data-navbar="info"] .navbar.navbar-2 .navbar-dropdown {
-    background: #0288d1;
+    background: #af1b2b;
     color: #ffffff; }
     [data-navbar="info"] .navbar.navbar-2 .navbar-dropdown .dropdown-title {
-      background: #0288d1;
+      background: #af1b2b;
       color: #ffffff; }
     [data-navbar="info"] .navbar.navbar-2 .navbar-dropdown .dropdown-item {
-      background: #0288d1;
+      background: #af1b2b;
       color: #ffffff; }
       [data-navbar="info"] .navbar.navbar-2 .navbar-dropdown .dropdown-item a {
         color: #ffffff; }
       [data-navbar="info"] .navbar.navbar-2 .navbar-dropdown .dropdown-item:hover {
-        background: #0292e0;
+        background: #bc1d2e;
         color: #ffffff; }
 
 [data-navbar="success"] .navbar.navbar-2 {
@@ -297,19 +297,19 @@
         color: #ffffff; }
 
 [data-navbar="warning"] .navbar.navbar-2 {
-  background: #ffa000;
+  background: #af1b2b;
   color: #ffffff; }
   [data-navbar="warning"] .navbar.navbar-2 .nav-link {
     color: #ffffff; }
   [data-navbar="warning"] .navbar.navbar-2 .input-group .input-group-addon {
     color: #ffffff;
-    background-color: #ffab1f;
-    border-color: #ffab1f;
+    background-color: #ca1f32;
+    border-color: #ca1f32;
     cursor: pointer; }
   [data-navbar="warning"] .navbar.navbar-2 .input-group .form-control {
     color: #ffffff;
-    background-color: #ffab1f;
-    border-color: #ffab1f; }
+    background-color: #ca1f32;
+    border-color: #ca1f32; }
   [data-navbar="warning"] .navbar.navbar-2 .navbar-search .form-control ::-webkit-input-placeholder {
     color: #ffffff; }
   [data-navbar="warning"] .navbar.navbar-2 .navbar-search .form-control :-moz-placeholder {
@@ -319,18 +319,18 @@
   [data-navbar="warning"] .navbar.navbar-2 .navbar-search .form-control :-ms-input-placeholder {
     color: #ffffff; }
   [data-navbar="warning"] .navbar.navbar-2 .navbar-dropdown {
-    background: #ffa000;
+    background: #af1b2b;
     color: #ffffff; }
     [data-navbar="warning"] .navbar.navbar-2 .navbar-dropdown .dropdown-title {
-      background: #ffa000;
+      background: #af1b2b;
       color: #ffffff; }
     [data-navbar="warning"] .navbar.navbar-2 .navbar-dropdown .dropdown-item {
-      background: #ffa000;
+      background: #af1b2b;
       color: #ffffff; }
       [data-navbar="warning"] .navbar.navbar-2 .navbar-dropdown .dropdown-item a {
         color: #ffffff; }
       [data-navbar="warning"] .navbar.navbar-2 .navbar-dropdown .dropdown-item:hover {
-        background: #ffa60f;
+        background: #bc1d2e;
         color: #ffffff; }
 
 [data-navbar="danger"] .navbar.navbar-2 {

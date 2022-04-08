@@ -31,13 +31,13 @@
     color: #ffffff; }
 
 [data-background="primary"] .modal .modal-dialog .modal-content {
-  background-color: #303f9f;
+  background-color: #af1b2b;
   color: #ffffff; }
   [data-background="primary"] .modal .modal-dialog .modal-content .modal-header,
   [data-background="primary"] .modal .modal-dialog .modal-content .modal-body,
   [data-background="primary"] .modal .modal-dialog .modal-content .modal-footer {
-    background-color: #303f9f;
-    border-color: #4557c7;
+    background-color: #af1b2b;
+    border-color: #de293d;
     color: #ffffff; }
 
 .modal-light .modal .modal-dialog .modal-content .modal-header {
@@ -59,19 +59,19 @@
   padding: 15px 20px; }
 
 .modal-primary .modal .modal-dialog .modal-content .modal-header {
-  background-color: #303f9f;
+  background-color: #af1b2b;
   color: #fff;
   border-bottom: none;
   padding: 15px 20px; }
 
 .modal-secondary .modal .modal-dialog .modal-content .modal-header {
-  background-color: #7b1fa2;
+  background-color: #242424;
   color: #fff;
   border-bottom: none;
   padding: 15px 20px; }
 
 .modal-info .modal .modal-dialog .modal-content .modal-header {
-  background-color: #0288d1;
+  background-color: #af1b2b;
   color: #fff;
   border-bottom: none;
   padding: 15px 20px; }
@@ -83,7 +83,7 @@
   padding: 15px 20px; }
 
 .modal-warning .modal .modal-dialog .modal-content .modal-header {
-  background-color: #ffa000;
+  background-color: #af1b2b;
   color: #fff;
   border-bottom: none;
   padding: 15px 20px; }

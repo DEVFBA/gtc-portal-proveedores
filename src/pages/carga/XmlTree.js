@@ -7,17 +7,10 @@ import Skeleton from '@yisheng90/react-loading';
 
 // reactstrap components
 import {
-    Card,
-    CardHeader,
-    CardBody,
-    CardTitle,
     Table,
     Row,
     Col,
   } from "reactstrap";
-
-
-//store.setState("componente", "");
 
 function XmlTree({dataString, dataMunicipios, dataLocalities, dataColonias}) {
 

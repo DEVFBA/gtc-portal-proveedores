@@ -20,15 +20,15 @@
   color: #ffffff; }
 
 [data-left-sidebar="primary"] .sidebar-heading {
-  background-color: #303f9f;
+  background-color: #af1b2b;
   color: #ffffff; }
 
 [data-left-sidebar="secondary"] .sidebar-heading {
-  background-color: #7b1fa2;
+  background-color: #242424;
   color: #ffffff; }
 
 [data-left-sidebar="info"] .sidebar-heading {
-  background-color: #0288d1;
+  background-color: #af1b2b;
   color: #ffffff; }
 
 [data-left-sidebar="success"] .sidebar-heading {
@@ -36,7 +36,7 @@
   color: #ffffff; }
 
 [data-left-sidebar="warning"] .sidebar-heading {
-  background-color: #ffa000;
+  background-color: #af1b2b;
   color: #ffffff; }
 
 [data-left-sidebar="danger"] .sidebar-heading {

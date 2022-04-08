@@ -7,7 +7,9 @@
   height: calc(100%) !important;
   width: calc(100%) !important;
   overflow: hidden;
-  background: black no-repeat center center fixed;
+  /*background: black no-repeat center center fixed;*/
+  /*background: black;*/
+  background-image: url("https://itwpolymex-servicios.com/QA/vendors/Images/Fondo2.jpeg");
   background-size: cover;
   padding-top: 16%;
   padding-bottom: 16%; }

@@ -18,15 +18,15 @@
   color: #ffffff; }
 
 [data-logo="primary"] .navbar .logo {
-  background: #303f9f;
+  background: #af1b2b;
   color: #ffffff; }
 
 [data-logo="secondary"] .navbar .logo {
-  background: #7b1fa2;
+  background: #242424;
   color: #ffffff; }
 
 [data-logo="info"] .navbar .logo {
-  background: #0288d1;
+  background: #af1b2b;
   color: #ffffff; }
 
 [data-logo="success"] .navbar .logo {
@@ -34,7 +34,7 @@
   color: #ffffff; }
 
 [data-logo="warning"] .navbar .logo {
-  background: #ffa000;
+  background: #af1b2b;
   color: #ffffff; }
 
 [data-logo="danger"] .navbar .logo {

@@ -22,6 +22,7 @@ import {
 
 function ModalUpdateUser({abierto, toggleModalUpdateRecord, record, dataRoles, ip, dataVendors, updateAddData, validDays, pathImage, profilePath, autoCloseAlert, changeImageP, setChangeImageP, dataDepartments}) {
         // register form
+    const [updateIdUser, setupdateIdUser] = React.useState("");
     const [updateEmail, setupdateEmail] = React.useState("");
     const [updateFullName, setupdateFullName] = React.useState("");
     const [updatePassword, setupdatePassword] = React.useState("");
@@ -66,6 +67,7 @@ function ModalUpdateUser({abierto, toggleModalUpdateRecord, record, dataRoles, i
     };
 
     useEffect(() => {
+        setupdateIdUser(record.user);
         setupdateEmail(record.email);
         setupdateFullName(record.name)
         setupdateRol({
@@ -87,7 +89,6 @@ function ModalUpdateUser({abierto, toggleModalUpdateRecord, record, dataRoles, i
         else{
             setupdateStatus(false);
         }
-        console.log(dataDepartments)
         setupdateImage(record.image)
     },[record]);
 
@@ -101,6 +102,15 @@ function ModalUpdateUser({abierto, toggleModalUpdateRecord, record, dataRoles, i
     // function that verifies if two strings are equal
     const compare = (string1, string2) => {
         if (string1 === string2) {
+        return true;
+        }
+        return false;
+    };
+
+    // function that returns true if value is email, false otherwise
+    const verifyEmail = (value) => {
+        var emailRex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if (emailRex.test(value)) {
         return true;
         }
         return false;
@@ -145,7 +155,7 @@ function ModalUpdateUser({abierto, toggleModalUpdateRecord, record, dataRoles, i
         }   
     }
     
-    const isValidated = () => {
+    /*const isValidated = () => {
 
         verifyInputs()
         if (
@@ -170,12 +180,68 @@ function ModalUpdateUser({abierto, toggleModalUpdateRecord, record, dataRoles, i
         } else {
           return true;
         }
-      };
+    };*/
 
-    const updateClick = () => {
+    /*const updateClick = () => {
         if(isValidated()===true)
         {
             updateRegister()
+        }
+    };*/
+
+    const updateClick = () => {
+        console.log("ENTRE PERO NO SEGUI")
+        var fullname = document.getElementById("fullname").value
+
+        if (!verifyLength(fullname, 1)) {
+            setupdateFullNameState("text-danger");
+        } else {
+            setupdateFullNameState("has-success");
+        }
+        setupdateFullName(fullname);
+
+        if(updateChangePassword === true)
+        {
+            var password = document.getElementById("password").value
+            var passwordConfirmation = document.getElementById("passwordConfirmation").value
+            if (!verifyLength(password, 1)) {
+                setupdatePasswordState("has-danger");
+            } else {
+                setupdatePasswordState("has-success");
+            }
+            setupdatePassword(password);
+    
+            if (!verifyLength(passwordConfirmation, 1)) {
+                setupdateConfirmPasswordState("has-danger");
+            } else {
+                setupdateConfirmPasswordState("has-success");
+            }
+            setupdateConfirmPassword(passwordConfirmation)
+        }
+        
+        console.log("ENTRE PERO NO SEGUI2")
+
+        if (updateFullNameState !== "has-success") 
+        {
+          if(updateChangePassword === true)
+          {
+            if(
+              updatePasswordState !== "has-success" &&
+              updateConfirmPasswordState !== "has-success"
+            )
+            {
+              console.log("ENTRE PERO NO SEGUI A UN FINAL 1")
+              return false;
+            }
+            else{
+                updateRegister();
+            }
+          }
+          else{
+            updateRegister();
+          }
+        } else {
+            updateRegister();
         }
     };
 
@@ -211,7 +277,8 @@ function ModalUpdateUser({abierto, toggleModalUpdateRecord, record, dataRoles, i
             const catRegister = {
                 pvOptionCRUD: "U",
                 piIdVendor: updateVendor.value,
-                pvIdUser: updateEmail,
+                pvIdUser: updateIdUser,
+                pvEmail: updateEmail,
                 pvIdRole: updateRol.value,
                 pvPassword: updatePassword,
                 pbTempPassword: updateTemporal,
@@ -269,7 +336,8 @@ function ModalUpdateUser({abierto, toggleModalUpdateRecord, record, dataRoles, i
             const catRegister = {
                 pvOptionCRUD: "U",
                 piIdVendor: updateVendor.value,
-                pvIdUser: updateEmail,
+                pvIdUser: updateIdUser,
+                pvEmail: updateEmail,
                 pvIdRole: updateRol.value,
                 pvProfilePicPath: updateImage,
                 pvName: updateFullName,
@@ -345,13 +413,40 @@ function ModalUpdateUser({abierto, toggleModalUpdateRecord, record, dataRoles, i
                 <Row className="justify-content-center">
                     <Col className="mt-3" lg="10">
                         <FormGroup>
-                            <label>Id Usuario / Email</label>
+                            <label>Id Usuario</label>
+                            <Input
+                                name="idUser"
+                                type="text"
+                                value = {updateIdUser}
+                                readOnly
+                            />
+                        </FormGroup>
+                        <FormGroup className={`form-group ${updateEmailState}`}>
+                            <label>Correo electrónico</label>
                             <Input
                                 name="email"
                                 type="email"
+                                autoComplete="off"
                                 value = {updateEmail}
-                                readOnly
+                                onChange={(e) => {
+                                    if (verifyLength(e.target.value, 1)) {
+                                        if (!verifyEmail(e.target.value)) {
+                                            setupdateEmailState("text-danger");
+                                        } else {
+                                            setupdateEmailState("has-success");
+                                        }
+                                    }
+                                    else {
+                                        setupdateEmailState("has-success");
+                                    }
+                                    setupdateEmail(e.target.value);
+                                }}
                             />
+                            {updateEmailState === "text-danger" ? (
+                                <label className="form-text text-danger">
+                                Por favor ingresa un correo electrónico válido.
+                                </label>
+                            ) : null}
                         </FormGroup>
                         <FormGroup className={`form-group ${updateFullNameState}`}>
                             <label>Nombre Usuario *</label>

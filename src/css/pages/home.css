@@ -7,7 +7,7 @@
     .home .logo i {
       font-size: 2.25rem;
       margin-right: 14px;
-      color: #303f9f;
+      color: #af1b2b;
       font-weight: bold; }
     .home .logo .title {
       text-transform: uppercase;
@@ -21,12 +21,12 @@
       font-size: 1.25rem;
       line-height: 1.5; }
       .home .tagline-1 h3 span {
-        color: #303f9f; }
+        color: #af1b2b; }
     .home .tagline-1 h4 {
       font-size: 1rem;
       line-height: 1.5; }
       .home .tagline-1 h4 span {
-        color: #303f9f; }
+        color: #af1b2b; }
   .home .call-to-action {
     margin-bottom: 40px; }
   .home .tagline-2 {
@@ -44,7 +44,7 @@
       .home .screenshots .screenshot p {
         margin-bottom: 20px;
         font-size: 1rem;
-        color: #303f9f; }
+        color: #af1b2b; }
       .home .screenshots .screenshot .placeholder {
         box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12); }
   .home .copyright a {

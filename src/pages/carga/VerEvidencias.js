@@ -17,14 +17,6 @@ import {
   CardTitle,
   Row,
   Col,
-  FormGroup,
-  Form,
-  Label,
-  Input,
-  Modal, 
-  ModalBody, 
-  ModalFooter,
-  CardFooter
 } from "reactstrap";
 
 import Select from "react-select";

@@ -1,3 +1,4 @@
+import _ from "lodash";
 import React, { useState, useEffect } from "react";
 
 // reactstrap components
@@ -64,14 +65,16 @@ function ModalUpdateEstatusAgreements({abierto, toggleModalUpdateRecord, record,
         return false;
     };
 
-    //Funcion para validar que no se queden en blanco los inputs en caso de que haga cambios
-    const verifyInputs = () =>{
+    const updateClick = () => {
         var shortDesc = document.getElementById("shortdesc").value
         var longDesc = document.getElementById("longdesc").value
+        var shortDescState = false;
+        var longDescState = false;
 
         if (!verifyLength(shortDesc, 1)) {
             setupdateShortDescState("text-danger");
         } else {
+            shortDescState = true;
             setupdateShortDescState("has-success");
         }
         setupdateShortDescState(shortDesc);
@@ -79,30 +82,17 @@ function ModalUpdateEstatusAgreements({abierto, toggleModalUpdateRecord, record,
         if (!verifyLength(longDesc, 1)) {
             setupdateLongDescState("text-danger");
         } else {
+            longDescState = true;
             setupdateLongDescState("has-success");
         }
         setupdateLongDescState(longDesc);
 
-    }
-    
-    const isValidated = () => {
-
-        verifyInputs()
         if (
-            updateShortDescState !== "has-success" &&
-            updateLongDescState !== "has-success"
+            shortDescState === true &&
+            longDescState === true
         ) {
-            return false;
-        } else {
-            return true;
-        }
-      };
-
-    const updateClick = () => {
-        if(isValidated()===true)
-        {
-            updateRegister()
-        }
+            updateRegister();
+        } 
     };
 
     function updateRegister(){
@@ -118,7 +108,7 @@ function ModalUpdateEstatusAgreements({abierto, toggleModalUpdateRecord, record,
             pvIP: ip
         };
 
-        fetch(`http://localhost:8091/api/cat-catalogs/update-portal/`, {
+        fetch(`${process.env.REACT_APP_API_URI}cat-catalogs/update-portal/`, {
             method: "PUT",
             body: JSON.stringify(catRegister),
             headers: {

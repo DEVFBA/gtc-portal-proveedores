@@ -8,7 +8,6 @@ import Skeleton from '@yisheng90/react-loading';
 import '../../css/forms/react-datetime.css'
 import CargaTable from './CargaTable';
 import Filtro from './Filtro';
-import ReactBSAlert from "react-bootstrap-sweetalert";
 
 // reactstrap components
 import {
@@ -139,8 +138,6 @@ function Carga({autoCloseAlert, autoCloseAlertEvidencias, autoCloseAlertCarga, h
   const [requester, setRequester] = useState();
   const [requesterState, setRequesterState] = useState("");
 
-  const [modalAddRecord, setModalAddRecord] = useState(false);
-
   const [workflowPortal, setWorkflowPortal] = useState("");
 
   //Para el condicionado de la carga de evidencias
@@ -192,7 +189,6 @@ function Carga({autoCloseAlert, autoCloseAlertEvidencias, autoCloseAlertCarga, h
         return response.ok ? response.json() : Promise.reject();
     })
     .then(function(data) {
-        ///console.log(data)
         setDataRol(data)
         getVendors(data[0])
     })
@@ -411,7 +407,6 @@ useEffect(() => {
   })
   .then(function(data) {
     var aux = data.find( o => o.Id_Catalog === "WF-CP" )
-    //console.log(aux)
     setWorflowTypes(aux)
   })
   .catch(function(err) {
@@ -495,7 +490,6 @@ useEffect(() => {
     {
       dataSelect[j] = {value: dataAux[j].Id_Workflow_Status, label: dataAux[j].Long_Desc}
     }
-    console.log(dataSelect)
     setDataWorkflowStatus(dataSelect)
   })
   .catch(function(err) {
@@ -821,7 +815,6 @@ function preData(dataRequest){
       }
     }
 
-    //console.log(vendorId)
     var vendorTaxId = dataVendors.find( o => o.Id_Vendor === parseInt(vendor,10))
     if(cartaPorte !== true)
     {
@@ -864,7 +857,6 @@ function preData(dataRequest){
           autoCloseAlert("Error: Proveedor incorrecto. Verifique")
         }
         else {
-          console.log("SI ENTRE")
           var companiesVendorsValid = false
           for(var k = 0; k < dataCompaniesVendors.length; k++)
           {
@@ -1045,7 +1037,6 @@ function preData(dataRequest){
   const parseFiles = async(params) => {
 
     var url = params.pathSolicitud
-    console.log(params.pathSolicitud)
     let response = await axios({ url })
     var options = {compact: false, ignoreComment: true, spaces: 4};
     const jsonString = convert.xml2json(response.data, options);
@@ -1056,7 +1047,6 @@ function preData(dataRequest){
     var ubicacionesR = cartaPorteR.elements.find( o => o.name === "cartaporte20:Ubicaciones").elements
     var mercanciasR = cartaPorteR.elements.find( o => o.name === "cartaporte20:Mercancias").elements
     
-    //console.log(params)
     var complementoV = params.jsonXml.find(o => o.name === "cfdi:Complemento")
     var cartaPorteV = complementoV.elements.find(o => o.name === "cartaporte20:CartaPorte")
     var ubicacionesV = cartaPorteV.elements.find(o => o.name === "cartaporte20:Ubicaciones").elements
@@ -1090,7 +1080,7 @@ function preData(dataRequest){
           if(ubicacionFlag === false)
           {
             //EL ARCHIVO SE VA A SUBIR CON ERROR
-            console.log("LAS UBICACIONES NO SON IGUALES")
+            //console.log("LAS UBICACIONES NO SON IGUALES")
             uploadXmlFinal(false)
             i = ubicacionesV.length
             ubicacionesFalse++
@@ -1121,21 +1111,21 @@ function preData(dataRequest){
                   && (mercanciaVActual.attributes.PesoEnKg === mercanciasR[j].attributes.PesoEnKg))
                   {
                     //mercanciaFlag = true
-                    console.log(mercanciaVActual.elements)
+                    //console.log(mercanciaVActual.elements)
                     if(mercanciaVActual.elements !== undefined && mercanciasR[j].elements)
                     {
                       var pedimentoMV = mercanciaVActual.elements.find(o => o.name === "cartaporte20:Pedimentos")
                       var pedimentoMR = mercanciasR[j].elements.find(o => o.name === "cartaporte20:Pedimentos")
                       if(pedimentoMV !== undefined && pedimentoMR !== undefined)
                       {
-                        console.log(pedimentoMV.attributes.Pedimento)
-                        console.log(pedimentoMR.attributes.Pedimento)
+                        /*console.log(pedimentoMV.attributes.Pedimento)
+                        console.log(pedimentoMR.attributes.Pedimento)*/
                         if(pedimentoMV.attributes.Pedimento === pedimentoMR.attributes.Pedimento)
                         {
                           mercanciaFlag = true
                         }
                         else {
-                          console.log("LAS MERCANCIAS NO SON IGUALES POR EL PEDIMENTO")
+                          //console.log("LAS MERCANCIAS NO SON IGUALES POR EL PEDIMENTO")
                           mercanciaFlag = false
                         }
                       }
@@ -1149,17 +1139,17 @@ function preData(dataRequest){
               if(mercanciaFlag === false)
               {
                 //EL ARCHIVO SE VA A SUBIR CON ERROR
-                console.log("LAS MERCANCIAS NO SON IGUALES")
+                //console.log("LAS MERCANCIAS NO SON IGUALES")
                 uploadXmlFinal(false)
                 i = mercanciasV.length
                 mercanciaFalse++
-                console.log(mercanciaVActual)
+                //console.log(mercanciaVActual)
               }
             }
           }
           if(mercanciaFalse === 0)
           {
-            console.log("LAS MERCANCIAS SON IGUALES")
+            //console.log("LAS MERCANCIAS SON IGUALES")
             uploadXmlFinal(true)
           }
           else {
@@ -1169,13 +1159,13 @@ function preData(dataRequest){
       }
       else {
         //EL ARCHIVO SE VA A SUBIR CON ERROR
-        console.log("LAS MERCANCIAS NO TIENEN LA MISMA LONGITUD")
+        //console.log("LAS MERCANCIAS NO TIENEN LA MISMA LONGITUD")
         uploadXmlFinal(false)
       }
     }
     else {
       //EL ARCHIVO SE VA A SUBIR CON ERROR
-      console.log("LAS UBICACIONES NO TIENEN LA MISMA LONGITUD")
+      //console.log("LAS UBICACIONES NO TIENEN LA MISMA LONGITUD")
       uploadXmlFinal(false)
     }
   }
@@ -1459,8 +1449,6 @@ function preData(dataRequest){
       ip: ip
     };
 
-    console.log(catRegister)
-
     fetch(`${process.env.REACT_APP_API_URI}invoices/save-invoice/`, {
         method: "POST",
         body: JSON.stringify(catRegister),
@@ -1473,7 +1461,6 @@ function preData(dataRequest){
     .then((data) => {
         if (data.errors) {
             hideAlert4()
-            console.log("Hubo un error al procesar tu solicitud")
         }
         else {
           if(data.data.success === 1)
@@ -1623,15 +1610,6 @@ function preData(dataRequest){
       finalDate2 = ""
     }
 
-    /*console.log(filterRfcCompany)
-    console.log(filterRfcEmisor)
-    console.log(filterSerie)
-    console.log(filterFolio)
-    console.log(finalDate1)
-    console.log(finalDate2)
-    console.log(filterUuid)*/
-    
-
     var fStatus;
     if(filterStatus.value === undefined)
     {
@@ -1652,12 +1630,9 @@ function preData(dataRequest){
       pvInvoiceDateFinal : finalDate2,
       piIdWorkflowStatus : fStatus
     };
-    console.log(params)
 
     setDataFind(false)
     var url = new URL(`${process.env.REACT_APP_API_URI}invoices/filter`);
-
-    console.log(url)
 
     fetch(url, {
         method: "POST",
@@ -1671,8 +1646,6 @@ function preData(dataRequest){
         return response.ok ? response.json() : Promise.reject();
     })
     .then(function(data) {
-    //setLoaded(true)
-      console.log(data)
       setDataCartaPorte(data)
       setDataFind(false)
     })

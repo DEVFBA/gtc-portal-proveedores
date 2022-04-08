@@ -22,6 +22,7 @@ import {
 
 function ModalAddUser({modalAddRecord, setModalAddRecord, dataRoles, dataVendors, updateAddData, ip, autoCloseAlert, validDays, pathImage, dataDepartments}) {
         // register form
+    const [registerIdUser, setregisterIdUser] = React.useState("");
     const [registerEmail, setregisterEmail] = React.useState("");
     const [registerFullName, setregisterFullName] = React.useState("");
     const [registerPassword, setregisterPassword] = React.useState("");
@@ -32,6 +33,7 @@ function ModalAddUser({modalAddRecord, setModalAddRecord, dataRoles, dataVendors
     const [registerStatus, setregisterStatus] = useState(true);
     const [registerConfirmPassword, setregisterConfirmPassword] = React.useState("");
 
+    const [registerIdUserState, setregisterIdUserState] = React.useState("");
     const [registerEmailState, setregisterEmailState] = React.useState("");
     const [registerFullNameState, setregisterFullNameState] = React.useState("");
     const [registerPasswordState, setregisterPasswordState] = React.useState("");
@@ -69,7 +71,7 @@ function ModalAddUser({modalAddRecord, setModalAddRecord, dataRoles, dataVendors
         setModalAddRecord(!modalAddRecord);
     };
 
-        // function that returns true if value is email, false otherwise
+    // function that returns true if value is email, false otherwise
     const verifyEmail = (value) => {
         var emailRex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if (emailRex.test(value)) {
@@ -77,6 +79,7 @@ function ModalAddUser({modalAddRecord, setModalAddRecord, dataRoles, dataVendors
         }
         return false;
     };
+
     // function that verifies if a string has a given length or not
     const verifyLength = (value, length) => {
         if (value.length >= length) {
@@ -103,7 +106,7 @@ function ModalAddUser({modalAddRecord, setModalAddRecord, dataRoles, dataVendors
     
     const isValidated = () => {
         if (
-            registerEmailState === "has-success" &&
+            registerIdUserState === "has-success" &&
             registerFullNameState === "has-success" &&
             registerPasswordState === "has-success" &&
             registerRolState === "has-success" &&
@@ -113,8 +116,8 @@ function ModalAddUser({modalAddRecord, setModalAddRecord, dataRoles, dataVendors
         ) {
           return true;
         } else {
-          if (registerEmailState !== "has-success") {
-            setregisterEmailState("text-danger");
+          if (registerIdUserState !== "has-success") {
+            setregisterIdUserState("text-danger");
           }
           if (registerFullNameState !== "has-success") {
             setregisterFullNameState("text-danger");
@@ -182,23 +185,11 @@ function ModalAddUser({modalAddRecord, setModalAddRecord, dataRoles, dataVendors
         else{
             finalDate2 = "" + year + "" + month + "" + date;
         }
-        
-        //EL USUARIO HAY QUE CAMBIARLO POR EL QUE SE HAYA LOGGEADO
-        /*console.log("piIdVendor: "+ registerVendor.value)
-        console.log("pvIdUser: " + registerEmail)
-        console.log("pvIdRole: "+ registerRol.value)
-        console.log("pvPassword: " + registerPassword)
-        console.log("pvName: "+ registerFullName)
-        console.log("pbTempPassword: " + true)
-        console.log("pvFinalEffectiveDate: "+ finalDate2)
-        console.log("pvProfilePicPath: " + registerImage)
-        console.log("pvUser: " + "ANGUTIERRE")
-        console.log("pvIP: " + ip)*/
 
         const catRegister = {
             pvOptionCRUD: "C",
             piIdVendor: registerVendor.value,
-            pvIdUser: registerEmail,
+            pvIdUser: registerIdUser,
             pvIdRole: registerRol.value,
             pvPassword: registerPassword,
             pvName: registerFullName,
@@ -209,6 +200,7 @@ function ModalAddUser({modalAddRecord, setModalAddRecord, dataRoles, dataVendors
             pbStatus: registerStatus,
             pvUser: user,
             pathImage : pathImage,
+            pvEmail : registerEmail,
             pvIP: ip
         };
 
@@ -266,19 +258,46 @@ function ModalAddUser({modalAddRecord, setModalAddRecord, dataRoles, dataVendors
             <Form id="RegisterValidation">
                 <Row className="justify-content-center">
                     <Col className="mt-3" lg="10">
+                        <FormGroup className={`form-group ${registerIdUserState}`}>
+                            <label>Id Usuario *</label>
+                            <Input
+                                name="idUser"
+                                type="text"
+                                autoComplete="off"
+                                onChange={(e) => {
+                                    if (!verifyLength(e.target.value, 1)) {
+                                        setregisterIdUserState("text-danger");
+                                    } else {
+                                        setregisterIdUserState("has-success");
+                                    }
+                                    setregisterIdUser(e.target.value);
+                                }}
+                            />
+                            {registerIdUserState === "text-danger" ? (
+                                <label className="form-text text-danger">
+                                    Este campo es requerido.
+                                </label>
+                            ) : null}
+                        </FormGroup>
                         <FormGroup className={`form-group ${registerEmailState}`}>
-                            <label>Correo electrónico / Id Usuario *</label>
+                            <label>Correo electrónico</label>
                             <Input
                                 name="email"
                                 type="text"
                                 autoComplete="off"
                                 onChange={(e) => {
-                                if (!verifyLength(e.target.value, 1)) {
-                                    setregisterEmailState("text-danger");
-                                } else {
-                                    setregisterEmailState("has-success");
-                                }
-                                setregisterEmail(e.target.value);
+                                    if (verifyLength(e.target.value, 1)) {
+                                        if (!verifyEmail(e.target.value)) {
+                                            console.log("ENTRE")
+                                            setregisterEmailState("text-danger");
+                                        } else {
+                                            setregisterEmailState("has-success");
+                                        }
+                                    }
+                                    else {
+                                        setregisterEmailState("has-success");
+                                    }
+                                    setregisterEmail(e.target.value);
                                 }}
                             />
                             {registerEmailState === "text-danger" ? (

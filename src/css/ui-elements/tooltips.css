@@ -45,7 +45,7 @@
 [data-background="primary"] .tooltip .tooltip-inner {
   border-radius: 5px;
   background-color: #ffffff;
-  color: #303f9f; }
+  color: #af1b2b; }
 
 [data-background="primary"] .tooltip.tooltip-top .tooltip-inner::before, [data-background="primary"] .tooltip.bs-tether-element-attached-bottom .tooltip-inner::before {
   border-top-color: #ffffff; }
@@ -115,54 +115,54 @@
 
 .tooltip .tooltip-primary .tooltip-inner {
   border-radius: 5px;
-  background-color: #303f9f;
+  background-color: #af1b2b;
   color: #fff; }
 
 .tooltip .tooltip-primary.tooltip-top .tooltip-inner::before, .tooltip .tooltip-primary.bs-tether-element-attached-bottom .tooltip-inner::before {
-  border-top-color: #303f9f; }
+  border-top-color: #af1b2b; }
 
 .tooltip .tooltip-primary.tooltip-right .tooltip-inner::before, .tooltip .tooltip-primary.bs-tether-element-attached-left .tooltip-inner::before {
-  border-right-color: #303f9f; }
+  border-right-color: #af1b2b; }
 
 .tooltip .tooltip-primary.tooltip-bottom .tooltip-inner::before, .tooltip .tooltip-primary.bs-tether-element-attached-top .tooltip-inner::before {
-  border-bottom-color: #303f9f; }
+  border-bottom-color: #af1b2b; }
 
 .tooltip .tooltip-primary.tooltip-left .tooltip-inner::before, .tooltip .tooltip-primary.bs-tether-element-attached-right .tooltip-inner::before {
-  border-left-color: #303f9f; }
+  border-left-color: #af1b2b; }
 
 .tooltip .tooltip-secondary .tooltip-inner {
   border-radius: 5px;
-  background-color: #7b1fa2;
+  background-color: #242424;
   color: #fff; }
 
 .tooltip .tooltip-secondary.tooltip-top .tooltip-inner::before, .tooltip .tooltip-secondary.bs-tether-element-attached-bottom .tooltip-inner::before {
-  border-top-color: #7b1fa2; }
+  border-top-color: #242424; }
 
 .tooltip .tooltip-secondary.tooltip-right .tooltip-inner::before, .tooltip .tooltip-secondary.bs-tether-element-attached-left .tooltip-inner::before {
-  border-right-color: #7b1fa2; }
+  border-right-color: #242424; }
 
 .tooltip .tooltip-secondary.tooltip-bottom .tooltip-inner::before, .tooltip .tooltip-secondary.bs-tether-element-attached-top .tooltip-inner::before {
-  border-bottom-color: #7b1fa2; }
+  border-bottom-color: #242424; }
 
 .tooltip .tooltip-secondary.tooltip-left .tooltip-inner::before, .tooltip .tooltip-secondary.bs-tether-element-attached-right .tooltip-inner::before {
-  border-left-color: #7b1fa2; }
+  border-left-color: #242424; }
 
 .tooltip .tooltip-info .tooltip-inner {
   border-radius: 5px;
-  background-color: #0288d1;
+  background-color: #af1b2b;
   color: #fff; }
 
 .tooltip .tooltip-info.tooltip-top .tooltip-inner::before, .tooltip .tooltip-info.bs-tether-element-attached-bottom .tooltip-inner::before {
-  border-top-color: #0288d1; }
+  border-top-color: #af1b2b; }
 
 .tooltip .tooltip-info.tooltip-right .tooltip-inner::before, .tooltip .tooltip-info.bs-tether-element-attached-left .tooltip-inner::before {
-  border-right-color: #0288d1; }
+  border-right-color: #af1b2b; }
 
 .tooltip .tooltip-info.tooltip-bottom .tooltip-inner::before, .tooltip .tooltip-info.bs-tether-element-attached-top .tooltip-inner::before {
-  border-bottom-color: #0288d1; }
+  border-bottom-color: #af1b2b; }
 
 .tooltip .tooltip-info.tooltip-left .tooltip-inner::before, .tooltip .tooltip-info.bs-tether-element-attached-right .tooltip-inner::before {
-  border-left-color: #0288d1; }
+  border-left-color: #af1b2b; }
 
 .tooltip .tooltip-success .tooltip-inner {
   border-radius: 5px;
@@ -183,20 +183,20 @@
 
 .tooltip .tooltip-warning .tooltip-inner {
   border-radius: 5px;
-  background-color: #ffa000;
+  background-color: #af1b2b;
   color: #fff; }
 
 .tooltip .tooltip-warning.tooltip-top .tooltip-inner::before, .tooltip .tooltip-warning.bs-tether-element-attached-bottom .tooltip-inner::before {
-  border-top-color: #ffa000; }
+  border-top-color: #af1b2b; }
 
 .tooltip .tooltip-warning.tooltip-right .tooltip-inner::before, .tooltip .tooltip-warning.bs-tether-element-attached-left .tooltip-inner::before {
-  border-right-color: #ffa000; }
+  border-right-color: #af1b2b; }
 
 .tooltip .tooltip-warning.tooltip-bottom .tooltip-inner::before, .tooltip .tooltip-warning.bs-tether-element-attached-top .tooltip-inner::before {
-  border-bottom-color: #ffa000; }
+  border-bottom-color: #af1b2b; }
 
 .tooltip .tooltip-warning.tooltip-left .tooltip-inner::before, .tooltip .tooltip-warning.bs-tether-element-attached-right .tooltip-inner::before {
-  border-left-color: #ffa000; }
+  border-left-color: #af1b2b; }
 
 .tooltip .tooltip-danger .tooltip-inner {
   border-radius: 5px;

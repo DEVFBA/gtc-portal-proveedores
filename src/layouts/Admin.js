@@ -901,7 +901,7 @@ function Admin(props) {
                 <Route
                   path={prop.layout + prop.path}
                 >
-                  <Pool autoCloseAlert = {autoCloseAlertPool}/>
+                  <Pool autoCloseAlert = {autoCloseAlertPool} autoCloseAlertCarga = {autoCloseAlertCarga} hideAlert4 = {hideAlert4}/>
                 </Route>
               );
             }

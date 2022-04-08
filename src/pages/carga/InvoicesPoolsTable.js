@@ -7,10 +7,13 @@ import axios from 'axios'
 import ModalVerDetallePool from "./ModalVerDetallePool.js";
 import ModalRechazarPool from "./ModalRechazarPool.js";
 
-function InvoicesPoolsTable({dataTable, autoCloseAlert, ip, dataTrackerReasons, showButtons, updateAddData}) {
+function InvoicesPoolsTable({dataTable, autoCloseAlert, ip, dataTrackerReasons, showButtons, updateAddData, cargaFallidaAdobeSign, enviarAgreement}) {
 
     //Para guardar el token de la sesión
     const token = localStorage.getItem("Token");
+
+    //Para guardar el rol de la sesión
+    const rol = localStorage.getItem("Id_Role");
 
     //Para saber que invoice pool se va a ver
     const [record, setRecord] = useState([]);
@@ -28,17 +31,45 @@ function InvoicesPoolsTable({dataTable, autoCloseAlert, ip, dataTrackerReasons, 
 
     const [dataState, setDataState] = useState(
         dataTable.map((prop, key) => { 
+            console.log(prop)
+            var fecha = new Date(prop.Header_Pool_Date)
+            console.log(fecha);
+            var date, month, year, fechaFinal;
+            if(fecha.getDate() < 10)
+            {
+                date = "0" + fecha.getDate()
+            }
+            else{
+                date = fecha.getDate()
+            }
+            if((fecha.getMonth() + 1) < 10)
+            {
+                month = "0" + (fecha.getMonth() + 1)
+            }
+            else 
+            {
+                month = fecha.getMonth() + 1
+            }
+            year = fecha.getFullYear()
+            console.log(fecha.getDate())
+            fechaFinal = date + "/" + month + "/" + year
+
             return {
                 id: key,
                 idInvoicePool: prop.Id_Invoice_Pool,
+                headerPHPath: prop.Header_PH_Path,
                 comments: prop.Comments,
                 serie: prop.Serie,
                 folio: prop.Folio,
                 totalFacturas: prop.Header_Total_Invoices,
-                poolDate: prop.Header_Pool_Date,
+                poolDate: fechaFinal,
                 company: prop.Header_Company,
                 vendor: prop.Header_Vendor,
                 totalAmount: "$" + Intl.NumberFormat("en-IN").format(prop.Header_Total_Amount),
+                documentId : prop.Document_Id,
+                generadoPor: prop.Header_PH_Generated_By,
+                nextSigner: prop.Next_Signer,
+                estatus: prop.Header_Workflow_Status_Change,
                 actions: (
                     // ACCIONES A REALIZAR EN CADA REGISTRO
                     <div className="actions-center">
@@ -97,6 +128,36 @@ function InvoicesPoolsTable({dataTable, autoCloseAlert, ip, dataTrackerReasons, 
                                 className="btn-icon btn-link edit"
                                 >
                                 <i className="fa fa-close" />
+                                </button>
+                            </abbr>
+                        ):null}
+                        {prop.Header_Id_Workflow_Status_Change === parseInt(cargaFallidaAdobeSign,10) ? (
+                            <abbr title="Enviar Carátula para Firma">
+                                <button
+                                onClick={() => {
+                                    let obj = dataState.find((o) => o.id === key); 
+                                    reenviarDocumento(obj)
+                                }}
+                                color="warning"
+                                size="sm"
+                                className="btn-icon btn-link edit"
+                                >
+                                <i className="fa fa-cloud-upload" />
+                                </button>
+                            </abbr>
+                        ):null}
+                        {prop.Header_Id_Workflow_Status_Change === parseInt(enviarAgreement,10) ? (
+                            <abbr title="Enviar Agreement">
+                                <button
+                                onClick={() => {
+                                    let obj = dataState.find((o) => o.id === key); 
+                                    enviarDocumento(obj)
+                                }}
+                                color="warning"
+                                size="sm"
+                                className="btn-icon btn-link edit"
+                                >
+                                <i className="fa fa-send-o" />
                                 </button>
                             </abbr>
                         ):null}
@@ -186,7 +247,8 @@ function InvoicesPoolsTable({dataTable, autoCloseAlert, ip, dataTrackerReasons, 
         const catRegister = {
             piIdInvoicePool: obj.idInvoicePool,
             pvUser: user,
-            pvIP: ip
+            pvIP: ip,
+            petitionType: "FRONT"
         };
 
         //var url = new URL(`http://localhost:8091/api/invoices-pool/accept-invoice-pool/`);
@@ -204,6 +266,66 @@ function InvoicesPoolsTable({dataTable, autoCloseAlert, ip, dataTrackerReasons, 
         .then((data) => {
             console.log(data)
             autoCloseAlert(data.data.message)
+            updateAddData()
+        });
+    }
+    
+    function reenviarDocumento(pool)
+    {
+        const catRegister = {
+            idPool: pool.idInvoicePool,
+            idRole : rol,
+            headerPHPath: pool.headerPHPath,
+            pvUser: user,
+            pvIP: ip
+        };
+
+        //var url = new URL(`http://localhost:8091/api/invoices-pool/upload-adobe-sign/`);
+        var url = new URL(`${process.env.REACT_APP_API_URI}invoices-pool/upload-adobe-sign/`);
+    
+        fetch(url, {
+            method: "POST",
+            body: JSON.stringify(catRegister),
+            headers: {
+                "access-token": token,
+                "Content-Type": "application/json"
+            }
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            console.log(data)
+            autoCloseAlert(data.message)
+            updateAddData()
+        });
+    }
+
+    function enviarDocumento(pool)
+    {
+        const catRegister = {
+            idPool: pool.idInvoicePool,
+            idRole : rol,
+            documentId: pool.documentId,
+            pvUser: user,
+            pvIP: ip
+        };
+
+        console.log(catRegister)
+
+        //var url = new URL(`http://localhost:8091/api/invoices-pool/upload-adobe-sign/`);
+        var url = new URL(`${process.env.REACT_APP_API_URI}invoices-pool/send-agreement/`);
+    
+        fetch(url, {
+            method: "POST",
+            body: JSON.stringify(catRegister),
+            headers: {
+                "access-token": token,
+                "Content-Type": "application/json"
+            }
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            console.log(data)
+            autoCloseAlert(data.message)
             updateAddData()
         });
     }
@@ -257,6 +379,18 @@ function InvoicesPoolsTable({dataTable, autoCloseAlert, ip, dataTrackerReasons, 
                     {
                         Header: "Monto Total",
                         accessor: "totalAmount",
+                    },
+                    {
+                        Header: "Estatus",
+                        accessor: "estatus",
+                    },
+                    {
+                        Header: "Generado Por",
+                        accessor: "generadoPor",
+                    },
+                    {
+                        Header: "Siguiente Firmante",
+                        accessor: "nextSigner",
                     },
                     {
                         Header: "Acciones",

@@ -2,7 +2,7 @@
   "name": "gtc-portal-proveedores",
   "version": "1.5.0",
   "private": true,
-  "homepage": "https://itwpolymex-servicios.com/DEV/",
+  "homepage": "https://itwpolymex-servicios.com/QA/",
   "dependencies": {
     "@nodecfdi/sat-estado-cfdi": "^1.0.4",
     "@nodecfdi/sat-estado-cfdi-soap": "^1.0.0",

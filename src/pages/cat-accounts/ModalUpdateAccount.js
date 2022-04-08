@@ -70,34 +70,17 @@ function ModalUpdateAccount({abierto, toggleModalUpdateRecord, record, ip, updat
         return false;
     };
 
-    //Funcion para validar que no se queden en blanco los inputs en caso de que haga cambios
-    const verifyInputs = () =>{
+    function updateClick()
+    {
         var accountName = document.getElementById("accountName").value
 
         if (!verifyLength(accountName, 1)) {
             setAccountNameState("text-danger");
+            setAccountName(accountName); 
         } else {
             setAccountNameState("has-success");
-        }
-        setAccountName(accountName);  
-    }
-    
-    const isValidated = () => {
-
-        verifyInputs()
-        if (
-            accountNameState !== "has-success"
-        ) {
-            return false;
-        } else {
-          return true;
-        }
-    };
-
-    const updateClick = () => {
-        if(isValidated()===true)
-        {
-            updateRegister()
+            setAccountName(accountName); 
+            updateRegister();
         }
     };
 

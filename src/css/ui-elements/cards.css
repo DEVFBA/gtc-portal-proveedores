@@ -90,24 +90,24 @@
     border-color: #212121;
     color: #fff; }
   [data-background="light"] .card.card-primary {
-    background: #303f9f;
-    border-color: #303f9f;
+    background: #af1b2b;
+    border-color: #af1b2b;
     color: #fff; }
   [data-background="light"] .card.card-secondary {
-    background: #7b1fa2;
-    border-color: #7b1fa2;
+    background: #242424;
+    border-color: #242424;
     color: #fff; }
   [data-background="light"] .card.card-info {
-    background: #0288d1;
-    border-color: #0288d1;
+    background: #af1b2b;
+    border-color: #af1b2b;
     color: #fff; }
   [data-background="light"] .card.card-success {
     background: #388e3c;
     border-color: #388e3c;
     color: #fff; }
   [data-background="light"] .card.card-warning {
-    background: #ffa000;
-    border-color: #ffa000;
+    background: #af1b2b;
+    border-color: #af1b2b;
     color: #fff; }
   [data-background="light"] .card.card-danger {
     background: #d32f2f;
@@ -143,24 +143,24 @@
     border-color: #212121;
     color: #fff; }
   [data-background="dark"] .card.card-primary {
-    background: #303f9f;
-    border-color: #303f9f;
+    background: #af1b2b;
+    border-color: #af1b2b;
     color: #fff; }
   [data-background="dark"] .card.card-secondary {
-    background: #7b1fa2;
-    border-color: #7b1fa2;
+    background: #242424;
+    border-color: #242424;
     color: #fff; }
   [data-background="dark"] .card.card-info {
-    background: #0288d1;
-    border-color: #0288d1;
+    background: #af1b2b;
+    border-color: #af1b2b;
     color: #fff; }
   [data-background="dark"] .card.card-success {
     background: #388e3c;
     border-color: #388e3c;
     color: #fff; }
   [data-background="dark"] .card.card-warning {
-    background: #ffa000;
-    border-color: #ffa000;
+    background: #af1b2b;
+    border-color: #af1b2b;
     color: #fff; }
   [data-background="dark"] .card.card-danger {
     background: #d32f2f;
@@ -168,21 +168,21 @@
     color: #fff; }
 
 [data-background="primary"] .card {
-  background: #3444ab;
-  border-color: #3444ab;
+  background: #bc1d2e;
+  border-color: #bc1d2e;
   color: #ffffff; }
   [data-background="primary"] .card .card-header {
-    background: #3444ab;
-    border-color: #3444ab;
+    background: #bc1d2e;
+    border-color: #bc1d2e;
     color: #ffffff; }
   [data-background="primary"] .card.card-inverse {
     background: #ffffff;
     border-color: #ffffff;
-    color: #3444ab; }
+    color: #bc1d2e; }
     [data-background="primary"] .card.card-inverse .card-header {
       background: #ffffff;
       border-color: #ffffff;
-      color: #3444ab; }
+      color: #bc1d2e; }
   [data-background="primary"] .card.card-light {
     background: #ffffff;
     border-color: #ffffff;
@@ -196,24 +196,24 @@
     border-color: #212121;
     color: #fff; }
   [data-background="primary"] .card.card-primary {
-    background: #303f9f;
-    border-color: #303f9f;
+    background: #af1b2b;
+    border-color: #af1b2b;
     color: #fff; }
   [data-background="primary"] .card.card-secondary {
-    background: #7b1fa2;
-    border-color: #7b1fa2;
+    background: #242424;
+    border-color: #242424;
     color: #fff; }
   [data-background="primary"] .card.card-info {
-    background: #0288d1;
-    border-color: #0288d1;
+    background: #af1b2b;
+    border-color: #af1b2b;
     color: #fff; }
   [data-background="primary"] .card.card-success {
     background: #388e3c;
     border-color: #388e3c;
     color: #fff; }
   [data-background="primary"] .card.card-warning {
-    background: #ffa000;
-    border-color: #ffa000;
+    background: #af1b2b;
+    border-color: #af1b2b;
     color: #fff; }
   [data-background="primary"] .card.card-danger {
     background: #d32f2f;

@@ -64,14 +64,16 @@ function ModalUpdateCFDIUses({abierto, toggleModalUpdateRecord, record, ip, auto
         return false;
     };
 
-    //Funcion para validar que no se queden en blanco los inputs en caso de que haga cambios
-    const verifyInputs = () =>{
+    const updateClick = () => {
         var shortDesc = document.getElementById("shortdesc").value
         var longDesc = document.getElementById("longdesc").value
+        var shortDescState = false;
+        var longDescState = false;
 
         if (!verifyLength(shortDesc, 1)) {
             setupdateShortDescState("text-danger");
         } else {
+            shortDescState = true;
             setupdateShortDescState("has-success");
         }
         setupdateShortDescState(shortDesc);
@@ -79,30 +81,17 @@ function ModalUpdateCFDIUses({abierto, toggleModalUpdateRecord, record, ip, auto
         if (!verifyLength(longDesc, 1)) {
             setupdateLongDescState("text-danger");
         } else {
+            longDescState = true;
             setupdateLongDescState("has-success");
         }
         setupdateLongDescState(longDesc);
 
-    }
-    
-    const isValidated = () => {
-
-        verifyInputs()
         if (
-            updateShortDescState !== "has-success" &&
-            updateLongDescState !== "has-success"
+            shortDescState === true &&
+            longDescState === true
         ) {
-            return false;
-        } else {
-            return true;
-        }
-      };
-
-    const updateClick = () => {
-        if(isValidated()===true)
-        {
-            updateRegister()
-        }
+            updateRegister();
+        } 
     };
 
     function updateRegister(){

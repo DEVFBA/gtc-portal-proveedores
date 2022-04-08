@@ -10,21 +10,10 @@ import CompaniesTable from './CompaniesTable';
 import ModalAddCompany from "./ModalAddCompany";
 
 import {
-    Button,
     Card,
     CardHeader,
     CardBody,
     CardTitle,
-    Row,
-    Col,
-    FormGroup,
-    Form,
-    Label,
-    Input,
-    Modal, 
-    ModalBody, 
-    ModalFooter,
-    CardFooter
 } from "reactstrap";
 
 function Companies({autoCloseAlert}){
@@ -46,7 +35,10 @@ function Companies({autoCloseAlert}){
     //Para guardar el Retrieve del logo
     const [profilePath, setProfilePath] = React.useState("");
 
-    const [dataFind, setDataFind] = useState(true)
+    const [dataFind, setDataFind] = useState(true);
+
+    const [dataError, setDataError] = useState(false);
+    const [dataErrorMessage, setDataErrorMessage] = useState("");
 
     const getData = async () => {
         const res = await axios.get('https://geolocation-db.com/json/')
@@ -79,56 +71,59 @@ function Companies({autoCloseAlert}){
             return response.ok ? response.json() : Promise.reject();
         })
         .then(function(data) {
-            console.log(data)
-            setDataCompanies(data)
-            setDataFind(false)
+            setDataCompanies(data);
+            getDataCountries();
         })
         .catch(function(err) {
-            alert("No se pudo consultar la informacion de las companies" + err);
+            setDataError(true);
+            setDataErrorMessage(" de las compañías. ")
         });
     }, []);
 
-    useEffect(() => {
+    function getDataCountries()
+    {
         const params = {
-          pvOptionCRUD: "R",
-          pSpCatalog : "spSAT_Cat_Countries_CRUD_Records",
-        };
-    
-        var url = new URL(`${process.env.REACT_APP_API_URI}cat-catalogs/catalog`);
-        Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
-    
-        fetch(url, {
-            method: "GET",
-            headers: {
-                "access-token": token,
-                "Content-Type": "application/json",
+            pvOptionCRUD: "R",
+            pSpCatalog : "spSAT_Cat_Countries_CRUD_Records",
+          };
+      
+          var url = new URL(`${process.env.REACT_APP_API_URI}cat-catalogs/catalog`);
+          Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
+      
+          fetch(url, {
+              method: "GET",
+              headers: {
+                  "access-token": token,
+                  "Content-Type": "application/json",
+              }
+          })
+          .then(function(response) {
+              return response.ok ? response.json() : Promise.reject();
+          })
+          .then(function(data) {
+            //Creamos el arreglo de opciones para el select
+            var optionsAux = [];
+            var i;
+            for(i=0; i<data.length; i++)
+            {
+              optionsAux.push({
+                value: data[i].Id_Catalog, label: data[i].Short_Desc 
+              })
             }
-        })
-        .then(function(response) {
-            return response.ok ? response.json() : Promise.reject();
-        })
-        .then(function(data) {
-          //Creamos el arreglo de opciones para el select
-          var optionsAux = [];
-          var i;
-          for(i=0; i<data.length; i++)
-          {
-            optionsAux.push({
-              value: data[i].Id_Catalog, label: data[i].Short_Desc 
-            })
-          }
-          console.log(optionsAux)
-          setDataCountries(optionsAux)
-        })
-        .catch(function(err) {
-            alert("No se pudo consultar la informacion de los catálogos" + err);
-        });
-    }, []);
+            setDataCountries(optionsAux);
+            getDataGeneralParameters();
+          })
+          .catch(function(err) {
+            setDataError(true);
+            setDataErrorMessage(" de los países. ")
+          });
+    }
 
-    useEffect(() => {
+    function getDataGeneralParameters()
+    {
         //Aqui vamos a descargar la lista de general parameters para revisar la vigencia del password
         const params = {
-          pvOptionCRUD: "R"
+            pvOptionCRUD: "R"
         };
     
         var url = new URL(`${process.env.REACT_APP_API_URI}general-parameters/`);
@@ -146,17 +141,19 @@ function Companies({autoCloseAlert}){
             return response.ok ? response.json() : Promise.reject();
         })
         .then(function(data) {
-            var aux = data.find( o => o.Id_Catalog === 5 )
-            var aux2 = data.find( o => o.Id_Catalog === 7 )
-            setPathLogo(aux.Value)
-            setProfilePath(aux2.Value)
+            var aux = data.find( o => o.Id_Catalog === 5 );
+            var aux2 = data.find( o => o.Id_Catalog === 7 );
+            setPathLogo(aux.Value);
+            setProfilePath(aux2.Value);
+            setDataFind(false);
         })
         .catch(function(err) {
-            alert("No se pudo consultar la informacion de los general parameters" + err);
+            setDataError(true);
+            setDataErrorMessage(" de los parámetros generales. ")
         });
-    }, []);
+    }
 
-     //Renderizado condicional
+    //Renderizado condicional
     function CompaniesT() {
         return <CompaniesTable dataTable = {dataCompanies} ip = {ip} autoCloseAlert = {autoCloseAlert} updateAddData = {updateAddData} dataCountries = {dataCountries} pathLogo = {pathLogo} profilePath = {profilePath}/>
     }
@@ -187,7 +184,8 @@ function Companies({autoCloseAlert}){
             setDataFind(false)
         })
         .catch(function(err) {
-            alert("No se pudo consultar la informacion de las companies" + err);
+            setDataError(true);
+            setDataErrorMessage(" de las compañías. ")
         });
     }
 
@@ -215,9 +213,17 @@ function Companies({autoCloseAlert}){
                     </button>
                 </span>
                 &nbsp;
-                <Skeleton height={25} />
-                <Skeleton height="25px" />
-                <Skeleton height="3rem" />
+                {dataError === true ? (
+                    <div className ="no-data">
+                        <h3>No se pudo descargar la información de {dataErrorMessage} Recarga la página.</h3>
+                    </div>
+                ):
+                    <div>
+                        <Skeleton height={25} />
+                        <Skeleton height="25px" />
+                        <Skeleton height="3rem" />
+                    </div> 
+                }
             </CardBody>
             {/*MODAL PARA AÑADIR REGISTROS*/}
             <ModalAddCompany modalAddRecord = {modalAddRecord} setModalAddRecord = {setModalAddRecord} dataCountries = {dataCountries} updateAddData = {updateAddData} pathLogo = {pathLogo} ip = {ip} autoCloseAlert = {autoCloseAlert}  />

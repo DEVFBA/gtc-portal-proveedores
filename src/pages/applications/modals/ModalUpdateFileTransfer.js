@@ -57,34 +57,16 @@ function ModalUpdateFileTransfer({abierto, toggleModalUpdateRecord, record, ip, 
         return false;
     };
 
-    //Funcion para validar que no se queden en blanco los inputs en caso de que haga cambios
-    const verifyInputs = () =>{
+    const updateClick = () => {
         var value = document.getElementById("settingsvalue").value
 
         if (!verifyLength(value, 1)) {
             setSettingsValueState("text-danger");
+            setSettingsValue(value);
         } else {
             setSettingsValueState("has-success");
-        }
-        setSettingsValue(value);
-    }
-    
-    const isValidated = () => {
-
-        verifyInputs()
-        if (
-            settingsValueState !== "has-success" 
-        ) {
-            return false;
-        } else {
-            return true;
-        }
-    };
-
-    const updateClick = () => {
-        if(isValidated()===true)
-        {
-            updateRegister()
+            setSettingsValue(value);
+            updateRegister();
         }
     };
 

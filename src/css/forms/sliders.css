@@ -25,7 +25,7 @@
   left: 0;
   height: 4px;
   border-radius: 6px;
-  background-color: #303f9f; }
+  background-color: #af1b2b; }
 
 .rc-slider-handle {
   position: absolute;
@@ -34,17 +34,17 @@
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  border: solid 2px #303f9f;
+  border: solid 2px #af1b2b;
   background-color: #fff;
   -ms-touch-action: pan-x;
   touch-action: pan-x; }
 
 .rc-slider-handle:hover {
-  border-color: #303f9f; }
+  border-color: #af1b2b; }
 
 .rc-slider-handle:active {
-  border-color: #303f9f;
-  box-shadow: 0 0 5px #303f9f; }
+  border-color: #af1b2b;
+  box-shadow: 0 0 5px #af1b2b; }
 
 .rc-slider-mark {
   position: absolute;
@@ -87,7 +87,7 @@
   margin-left: -4px; }
 
 .rc-slider-dot-active {
-  border-color: #303f9f; }
+  border-color: #af1b2b; }
 
 .rc-slider-disabled {
   background-color: #ffffff; }

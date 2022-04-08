@@ -33,7 +33,7 @@
       left: -3px;
       height: calc(100%);
       width: 3px;
-      background-color: #303f9f;
+      background-color: #af1b2b;
       z-index: 2; }
     .nav-tabs-vertical .nav-link.active:after, .nav-tabs-vertical .nav-link:hover:after {
       display: block;
@@ -63,19 +63,19 @@
   background-color: #212121; }
 
 [data-background="light"] .nav-tabs-vertical.nav-tabs-primary .nav-link:after {
-  background-color: #303f9f; }
+  background-color: #af1b2b; }
 
 [data-background="light"] .nav-tabs-vertical.nav-tabs-secondary .nav-link:after {
-  background-color: #7b1fa2; }
+  background-color: #242424; }
 
 [data-background="light"] .nav-tabs-vertical.nav-tabs-info .nav-link:after {
-  background-color: #0288d1; }
+  background-color: #af1b2b; }
 
 [data-background="light"] .nav-tabs-vertical.nav-tabs-success .nav-link:after {
   background-color: #388e3c; }
 
 [data-background="light"] .nav-tabs-vertical.nav-tabs-warning .nav-link:after {
-  background-color: #ffa000; }
+  background-color: #af1b2b; }
 
 [data-background="light"] .nav-tabs-vertical.nav-tabs-danger .nav-link:after {
   background-color: #d32f2f; }
@@ -97,28 +97,28 @@
   background-color: #212121; }
 
 [data-background="dark"] .nav-tabs-vertical.nav-tabs-primary .nav-link:after {
-  background-color: #303f9f; }
+  background-color: #af1b2b; }
 
 [data-background="dark"] .nav-tabs-vertical.nav-tabs-secondary .nav-link:after {
-  background-color: #7b1fa2; }
+  background-color: #242424; }
 
 [data-background="dark"] .nav-tabs-vertical.nav-tabs-info .nav-link:after {
-  background-color: #0288d1; }
+  background-color: #af1b2b; }
 
 [data-background="dark"] .nav-tabs-vertical.nav-tabs-success .nav-link:after {
   background-color: #388e3c; }
 
 [data-background="dark"] .nav-tabs-vertical.nav-tabs-warning .nav-link:after {
-  background-color: #ffa000; }
+  background-color: #af1b2b; }
 
 [data-background="dark"] .nav-tabs-vertical.nav-tabs-danger .nav-link:after {
   background-color: #d32f2f; }
 
 [data-background="primary"] .nav-tabs-vertical .nav-link {
-  background: #303f9f;
+  background: #af1b2b;
   color: #ffffff; }
   [data-background="primary"] .nav-tabs-vertical .nav-link.active, [data-background="primary"] .nav-tabs-vertical .nav-link:hover {
-    background: #303f9f;
+    background: #af1b2b;
     color: #ffffff; }
 
 [data-background="primary"] .nav-tabs-vertical.nav-tabs-light .nav-link:after {
@@ -131,28 +131,28 @@
   background-color: #212121; }
 
 [data-background="primary"] .nav-tabs-vertical.nav-tabs-primary .nav-link:after {
-  background-color: #303f9f; }
+  background-color: #af1b2b; }
 
 [data-background="primary"] .nav-tabs-vertical.nav-tabs-secondary .nav-link:after {
-  background-color: #7b1fa2; }
+  background-color: #242424; }
 
 [data-background="primary"] .nav-tabs-vertical.nav-tabs-info .nav-link:after {
-  background-color: #0288d1; }
+  background-color: #af1b2b; }
 
 [data-background="primary"] .nav-tabs-vertical.nav-tabs-success .nav-link:after {
   background-color: #388e3c; }
 
 [data-background="primary"] .nav-tabs-vertical.nav-tabs-warning .nav-link:after {
-  background-color: #ffa000; }
+  background-color: #af1b2b; }
 
 [data-background="primary"] .nav-tabs-vertical.nav-tabs-danger .nav-link:after {
   background-color: #d32f2f; }
 
 [data-background="secondary"] .nav-tabs-vertical .nav-link {
-  background: #7b1fa2;
+  background: #242424;
   color: #ffffff; }
   [data-background="secondary"] .nav-tabs-vertical .nav-link.active, [data-background="secondary"] .nav-tabs-vertical .nav-link:hover {
-    background: #7b1fa2;
+    background: #242424;
     color: #ffffff; }
 
 [data-background="secondary"] .nav-tabs-vertical.nav-tabs-light .nav-link:after {
@@ -165,28 +165,28 @@
   background-color: #212121; }
 
 [data-background="secondary"] .nav-tabs-vertical.nav-tabs-primary .nav-link:after {
-  background-color: #303f9f; }
+  background-color: #af1b2b; }
 
 [data-background="secondary"] .nav-tabs-vertical.nav-tabs-secondary .nav-link:after {
-  background-color: #7b1fa2; }
+  background-color: #242424; }
 
 [data-background="secondary"] .nav-tabs-vertical.nav-tabs-info .nav-link:after {
-  background-color: #0288d1; }
+  background-color: #af1b2b; }
 
 [data-background="secondary"] .nav-tabs-vertical.nav-tabs-success .nav-link:after {
   background-color: #388e3c; }
 
 [data-background="secondary"] .nav-tabs-vertical.nav-tabs-warning .nav-link:after {
-  background-color: #ffa000; }
+  background-color: #af1b2b; }
 
 [data-background="secondary"] .nav-tabs-vertical.nav-tabs-danger .nav-link:after {
   background-color: #d32f2f; }
 
 [data-background="info"] .nav-tabs-vertical .nav-link {
-  background: #0288d1;
+  background: #af1b2b;
   color: #ffffff; }
   [data-background="info"] .nav-tabs-vertical .nav-link.active, [data-background="info"] .nav-tabs-vertical .nav-link:hover {
-    background: #0288d1;
+    background: #af1b2b;
     color: #ffffff; }
 
 [data-background="info"] .nav-tabs-vertical.nav-tabs-light .nav-link:after {
@@ -199,19 +199,19 @@
   background-color: #212121; }
 
 [data-background="info"] .nav-tabs-vertical.nav-tabs-primary .nav-link:after {
-  background-color: #303f9f; }
+  background-color: #af1b2b; }
 
 [data-background="info"] .nav-tabs-vertical.nav-tabs-secondary .nav-link:after {
-  background-color: #7b1fa2; }
+  background-color: #242424; }
 
 [data-background="info"] .nav-tabs-vertical.nav-tabs-info .nav-link:after {
-  background-color: #0288d1; }
+  background-color: #af1b2b; }
 
 [data-background="info"] .nav-tabs-vertical.nav-tabs-success .nav-link:after {
   background-color: #388e3c; }
 
 [data-background="info"] .nav-tabs-vertical.nav-tabs-warning .nav-link:after {
-  background-color: #ffa000; }
+  background-color: #af1b2b; }
 
 [data-background="info"] .nav-tabs-vertical.nav-tabs-danger .nav-link:after {
   background-color: #d32f2f; }
@@ -233,28 +233,28 @@
   background-color: #212121; }
 
 [data-background="success"] .nav-tabs-vertical.nav-tabs-primary .nav-link:after {
-  background-color: #303f9f; }
+  background-color: #af1b2b; }
 
 [data-background="success"] .nav-tabs-vertical.nav-tabs-secondary .nav-link:after {
-  background-color: #7b1fa2; }
+  background-color: #242424; }
 
 [data-background="success"] .nav-tabs-vertical.nav-tabs-info .nav-link:after {
-  background-color: #0288d1; }
+  background-color: #af1b2b; }
 
 [data-background="success"] .nav-tabs-vertical.nav-tabs-success .nav-link:after {
   background-color: #388e3c; }
 
 [data-background="success"] .nav-tabs-vertical.nav-tabs-warning .nav-link:after {
-  background-color: #ffa000; }
+  background-color: #af1b2b; }
 
 [data-background="success"] .nav-tabs-vertical.nav-tabs-danger .nav-link:after {
   background-color: #d32f2f; }
 
 [data-background="warning"] .nav-tabs-vertical .nav-link {
-  background: #ffa000;
+  background: #af1b2b;
   color: #ffffff; }
   [data-background="warning"] .nav-tabs-vertical .nav-link.active, [data-background="warning"] .nav-tabs-vertical .nav-link:hover {
-    background: #ffa000;
+    background: #af1b2b;
     color: #ffffff; }
 
 [data-background="warning"] .nav-tabs-vertical.nav-tabs-light .nav-link:after {
@@ -267,19 +267,19 @@
   background-color: #212121; }
 
 [data-background="warning"] .nav-tabs-vertical.nav-tabs-primary .nav-link:after {
-  background-color: #303f9f; }
+  background-color: #af1b2b; }
 
 [data-background="warning"] .nav-tabs-vertical.nav-tabs-secondary .nav-link:after {
-  background-color: #7b1fa2; }
+  background-color: #242424; }
 
 [data-background="warning"] .nav-tabs-vertical.nav-tabs-info .nav-link:after {
-  background-color: #0288d1; }
+  background-color: #af1b2b; }
 
 [data-background="warning"] .nav-tabs-vertical.nav-tabs-success .nav-link:after {
   background-color: #388e3c; }
 
 [data-background="warning"] .nav-tabs-vertical.nav-tabs-warning .nav-link:after {
-  background-color: #ffa000; }
+  background-color: #af1b2b; }
 
 [data-background="warning"] .nav-tabs-vertical.nav-tabs-danger .nav-link:after {
   background-color: #d32f2f; }
@@ -301,19 +301,19 @@
   background-color: #212121; }
 
 [data-background="danger"] .nav-tabs-vertical.nav-tabs-primary .nav-link:after {
-  background-color: #303f9f; }
+  background-color: #af1b2b; }
 
 [data-background="danger"] .nav-tabs-vertical.nav-tabs-secondary .nav-link:after {
-  background-color: #7b1fa2; }
+  background-color: #242424; }
 
 [data-background="danger"] .nav-tabs-vertical.nav-tabs-info .nav-link:after {
-  background-color: #0288d1; }
+  background-color: #af1b2b; }
 
 [data-background="danger"] .nav-tabs-vertical.nav-tabs-success .nav-link:after {
   background-color: #388e3c; }
 
 [data-background="danger"] .nav-tabs-vertical.nav-tabs-warning .nav-link:after {
-  background-color: #ffa000; }
+  background-color: #af1b2b; }
 
 [data-background="danger"] .nav-tabs-vertical.nav-tabs-danger .nav-link:after {
   background-color: #d32f2f; }
