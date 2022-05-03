@@ -9,7 +9,7 @@ function BarChartWidget9({widget, color, height}){
       <div className="row align-items-center justify-content-center m-b-10">
         <div className="col">
           <div className="p-10">
-            <TextWidget1 {...widget} />
+            <TextWidget1 widget={widget} />
           </div>
         </div>
       </div>

@@ -268,6 +268,7 @@ function ModalAddCompanyVendor({modalAddRecord, setModalAddRecord, ip, autoClose
                             ) : (
                                 null
                         )}
+                        <Label for="exampleSelect">Estatus</Label>
                         <FormGroup check>
                             <Label check>
                             <Input 

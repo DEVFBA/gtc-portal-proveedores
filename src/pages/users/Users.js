@@ -46,6 +46,7 @@ function Users({autoCloseAlert, changeImageP, setChangeImageP}){
     const [modalAddRecord, setModalAddRecord] = useState(false);
 
     const [dataError, setDataError] = useState(false);
+    
     const [dataErrorMessage, setDataErrorMessage] = useState("");
 
     const getData = async () => {

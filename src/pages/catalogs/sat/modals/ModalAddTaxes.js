@@ -216,6 +216,7 @@ function ModalAddTaxes({modalAddRecord, setModalAddRecord, updateAddData, ip, au
                                 <label className="form-text text-danger">Este campo es requerido.</label>
                             ) : null}
                         </FormGroup>
+                        <label>Estatus</label>
                         <FormGroup check>
                             <Label check>
                             <Input 

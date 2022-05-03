@@ -283,7 +283,7 @@ function ModalAddCompany({modalAddRecord, setModalAddRecord, dataCountries, upda
                             />
                         </FormGroup>
                         <FormGroup  className={`form-group ${registerCountryState}`}>
-                            <Label for="exampleSelect">País</Label>
+                            <Label for="exampleSelect">País * </Label>
                             <Select
                                 name="country"
                                 className="react-select"
@@ -374,19 +374,20 @@ function ModalAddCompany({modalAddRecord, setModalAddRecord, dataCountries, upda
                                 }}
                             />
                         </FormGroup>
+                        <label>Estatus</label>
                         <FormGroup check>
                             <Label check>
-                            <Input 
-                                type="checkbox" 
-                                checked = {registerStatus}
-                                onChange={(e) => {
-                                    setregisterStatus(e.target.checked)
-                                }}
-                            />{' '}
-                            Habilitado
-                            <span className="form-check-sign">
-                                <span className="check"></span>
-                            </span>
+                                <Input 
+                                    type="checkbox" 
+                                    checked = {registerStatus}
+                                    onChange={(e) => {
+                                        setregisterStatus(e.target.checked)
+                                    }}
+                                />{' '}
+                                Habilitado
+                                <span className="form-check-sign">
+                                    <span className="check"></span>
+                                </span>
                             </Label>
                         </FormGroup>
                     </Col> 

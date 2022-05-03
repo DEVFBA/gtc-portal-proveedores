@@ -68,7 +68,7 @@ function Pool({autoCloseAlert, autoCloseAlertCarga, hideAlert4}) {
 
     useEffect(() => {
         //Descargamos la IP del usuario
-        getData()
+        getData();
     }, []);
 
     useEffect(() => {
@@ -227,15 +227,17 @@ function Pool({autoCloseAlert, autoCloseAlertCarga, hideAlert4}) {
                                                 <th>UUID</th>
                                                 <th>Serie</th>
                                                 <th>Folio</th>
+                                                <th>Total</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             {location.state.cfdis.map((item, i) => (
-                                            <tr key={i}>
-                                                <td>{item.UUID}</td>
-                                                <td>{item.Serie}</td>
-                                                <td>{item.Folio}</td>
-                                            </tr>
+                                                <tr key={i}>
+                                                    <td>{item.UUID}</td>
+                                                    <td>{item.Serie}</td>
+                                                    <td>{item.Folio}</td>
+                                                    <td>{"$" + Intl.NumberFormat("en-IN").format(item.Total)}</td>
+                                                </tr>
                                             ))}
                                         </tbody>
                                     </table>

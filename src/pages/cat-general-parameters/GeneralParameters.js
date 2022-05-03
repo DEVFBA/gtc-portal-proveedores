@@ -222,7 +222,7 @@ function CatGeneralParameters({autoCloseAlert}) {
 
         setDataFind(false)
 
-        var url = new URL(`${process.env.REACT_APP_API_URI}general-parameters/filter`);
+        var url = new URL(`${process.env.REACT_APP_API_URI}general-parameters/filter/`);
 
         Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
 

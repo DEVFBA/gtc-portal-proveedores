@@ -293,7 +293,7 @@ function ModalUpdateVendor({modalUpdateRecord, setModalUpdateRecord, record, dat
                             />
                         </FormGroup>
                         <FormGroup>
-                            <Label for="exampleSelect">País</Label>
+                            <Label for="exampleSelect">País *</Label>
                             <Select
                                 name="country"
                                 className="react-select"
@@ -343,6 +343,7 @@ function ModalUpdateVendor({modalUpdateRecord, setModalUpdateRecord, record, dat
                                 }}
                             />
                         </FormGroup>
+                        <label>Estatus</label>
                         <FormGroup check>
                             <Label check>
                             <Input 

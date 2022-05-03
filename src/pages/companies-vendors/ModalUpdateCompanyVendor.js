@@ -133,6 +133,7 @@ function ModalUpdateCompanyVendor({modalUpdateRecord, setModalUpdateRecord, reco
                                 readOnly
                             />
                         </FormGroup>
+                        <Label for="exampleSelect">Estatus</Label>
                         <FormGroup check>
                             <Label check>
                             <Input 

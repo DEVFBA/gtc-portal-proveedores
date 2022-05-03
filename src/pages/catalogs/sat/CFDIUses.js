@@ -91,7 +91,7 @@ function CFDIUses({dataTable, ip, autoCloseAlert, updateAddData}) {
 
     return (
         <div>
-            <span className="input-group-btn rounded-left" onClick={toggleModalAddRecord}>
+            <span className="input-group-btn rounded-left">
                 <button className="btn btn-primary btn-gtc" onClick={toggleModalAddRecord}>
                     <i className="ion-plus btn-icon"/>
                      Agregar Registro 

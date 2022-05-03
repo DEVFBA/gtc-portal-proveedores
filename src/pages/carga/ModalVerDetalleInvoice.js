@@ -30,7 +30,7 @@ function ModalVerDetalleInvoice({modalReadRecord, setModalReadRecord, record}) {
             <ModalBody>
             <Form method="">
                 <Row className="justify-content-center">
-                    <Col sm = "9">
+                    <Col sm = "5">
                         <FormGroup>
                             <label>Id Moneda</label>
                             <Input
@@ -40,6 +40,8 @@ function ModalVerDetalleInvoice({modalReadRecord, setModalReadRecord, record}) {
                                 readOnly
                             />
                         </FormGroup>
+                    </Col>
+                    <Col sm = "5">
                         <FormGroup>
                             <label>Moneda</label>
                             <Input
@@ -49,12 +51,14 @@ function ModalVerDetalleInvoice({modalReadRecord, setModalReadRecord, record}) {
                                 readOnly
                             />
                         </FormGroup>
+                    </Col>
+                    <Col sm = "10">
                         <FormGroup>
                             <label>Subtotal</label>
                             <Input
                                 name="text"
                                 type="text"
-                                value = {record.subtotal}
+                                value = {"$" + Intl.NumberFormat("en-IN").format(record.subtotal)}
                                 readOnly
                             />
                         </FormGroup>
@@ -63,7 +67,7 @@ function ModalVerDetalleInvoice({modalReadRecord, setModalReadRecord, record}) {
                             <Input
                                 name="text"
                                 type="text"
-                                value = {record.transferredTaxes}
+                                value = {"$" + Intl.NumberFormat("en-IN").format(record.transferredTaxes)}
                                 readOnly
                             />
                         </FormGroup>
@@ -72,7 +76,29 @@ function ModalVerDetalleInvoice({modalReadRecord, setModalReadRecord, record}) {
                             <Input
                                 name="text"
                                 type="text"
-                                value = {record.total}
+                                value = {"$" + Intl.NumberFormat("en-IN").format(record.total)}
+                                readOnly
+                            />
+                        </FormGroup>
+                    </Col>
+                    <Col sm = "5">
+                        <FormGroup>
+                            <label>Fecha Estimada Pago</label>
+                            <Input
+                                name="text"
+                                type="text"
+                                value = {record.dueDate}
+                                readOnly
+                            />
+                        </FormGroup>
+                    </Col>
+                    <Col sm = "5">
+                        <FormGroup>
+                            <label>Fecha Pago</label>
+                            <Input
+                                name="text"
+                                type="text"
+                                value = {record.paymentDate}
                                 readOnly
                             />
                         </FormGroup>

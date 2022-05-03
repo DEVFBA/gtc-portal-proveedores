@@ -187,7 +187,7 @@ function ModalAddAccount({modalAddRecord, setModalAddRecord, dataAccountTypes, u
                             <Select
                                 name=""
                                 className="react-select"
-                                placeholder="Selecciona un rol"
+                                placeholder="Selecciona un tipo de cuenta"
                                 classNamePrefix="react-select"
                                 value={accountType}
                                 onChange={(value) => {

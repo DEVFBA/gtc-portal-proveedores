@@ -107,15 +107,21 @@ function ChangePassword() {
     // function that verifies if two strings are equal
     const compare = (string1, string2) => {
         if (string1 === string2) {
-        return true;
+            return true;
         }
         return false;
     };
 
     const verifyPassword = (value) => {
-        var passwordRex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{10,50}$/;
+        var passwordRex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,50}$/;
         if (passwordRex.test(value)) {
-        return true;
+            if(value.includes("/") || value.includes(`\\`) || value.includes(`-`) || value.includes(`'`))
+            {
+                return false;
+            }
+            else {
+                return true;
+            }
         }
         return false;
     };
@@ -261,7 +267,7 @@ function ChangePassword() {
                     />
                     </div>
                     {registerPasswordState === "text-danger" ? (
-                        <label className="error-password">La contraseña debe tener una longitud mínima de 10 caracteres, al menos un número, una letra mayúscula y minúscula, y un caracter especial.</label>
+                        <label className="error-password">La contraseña debe tener una longitud mínima de 12 caracteres, al menos un número, una letra mayúscula y minúscula, y un caracter especial (NO PERMITIDOS:  /  \   -   ').</label>
                     ) : null}
                 </div>
                 <div className='form-group'>

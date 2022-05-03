@@ -40,6 +40,8 @@ import DashboardSysAdmin from '../dashboards/sysadmin'
 import DashboardSalfreight from '../dashboards/salfreight'
 import DashboardPurfreight from '../dashboards/purfreight'
 import DashboardVendor from '../dashboards/vendor'
+import DashboardAccPaya from '../dashboards/accpaya'
+import DashboardAdobeSigner from '../dashboards/adobesigner'
 import ExternalApplications from "../pages/applications/ExternalApplications"
 import Accounts from "../pages/cat-accounts/Accounts"
 
@@ -250,6 +252,34 @@ function Admin(props) {
                       name: data[i].Module_Desc,
                       icon: String(data[i].Icon),
                       component: DashboardPurfreight,
+                      layout: ambiente + data[i].Layout_Module,
+                      views: []
+                    }
+                  )
+                }
+                else if(data[i].Component_Module === "DashboardAP")
+                {
+                  routesAux.push(
+                    {
+                      collapse: false,
+                      path: data[i].Url,
+                      name: data[i].Module_Desc,
+                      icon: String(data[i].Icon),
+                      component: DashboardAccPaya,
+                      layout: ambiente + data[i].Layout_Module,
+                      views: []
+                    }
+                  )
+                }
+                else if(data[i].Component_Module === "DashboardASSigner")
+                {
+                  routesAux.push(
+                    {
+                      collapse: false,
+                      path: data[i].Url,
+                      name: data[i].Module_Desc,
+                      icon: String(data[i].Icon),
+                      component: DashboardAdobeSigner,
                       layout: ambiente + data[i].Layout_Module,
                       views: []
                     }
@@ -661,6 +691,19 @@ function Admin(props) {
               }
             )
           }
+          else if(params.pvIdRole == "ASSIGN"){
+            routesAux2.push(
+              {
+                collapse: false,
+                path: "/carga-evidencias/:uUID/",
+                name: "Carga de Evidencias",
+                icon: 'dashboard',
+                component: "CargaEvidencias",
+                layout: ambiente + "/admin",
+                views: []
+              }
+            )
+          }
 
           //FINALIZAMOS RUTAS PARA EL MENU
           setDbRoutes([
@@ -1052,11 +1095,13 @@ function Admin(props) {
             if(data.data.success === 1)
             {
               autoCloseAlert(data.data.message)
-              history.push(ambiente + `/admin/invoices/`);
+              //history.push(ambiente + `/admin/invoices/`);
+              window.location.reload(false);
             }
             else {
               autoCloseAlert(data.data.message)
-              history.push(ambiente + `/admin/invoices/`);
+              //history.push(ambiente + `/admin/invoices/`);
+              window.location.reload(false);
             }
           }
       });

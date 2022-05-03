@@ -216,6 +216,7 @@ function ModalAddTariffFractions({modalAddRecord, setModalAddRecord, updateAddDa
                                 <label className="form-text text-danger">Este campo es requerido.</label>
                             ) : null}
                         </FormGroup>
+                        <label>Estatus</label>
                         <FormGroup check>
                             <Label check>
                             <Input 

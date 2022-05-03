@@ -1,5 +1,5 @@
 import React from 'react'
-import {connect} from 'react-redux'
+
 import {
   ResponsiveContainer,
   AreaChart,
@@ -18,39 +18,37 @@ const data = [
   {name: 'Sunday', USA: 3490, UK: 4300, MX: 2100}
 ]
 
-const SampleAreaChart = ({colors}) => (
-  <ResponsiveContainer width="100%" height={287}>
-    <AreaChart data={data} margin={{top: 0, right: 0, left: 0, bottom: 0}}>
-      <CartesianGrid strokeDasharray="3 3" />
-      <Tooltip labelFormatter={e => data[e].name} />
-      <Area
-        type="monotone"
-        dataKey="USA"
-        stackId="1"
-        stroke={colors.primary}
-        fill={colors.primary}
-      />
-      <Area
-        type="monotone"
-        dataKey="UK"
-        stackId="1"
-        stroke={colors.warning}
-        fill={colors.warning}
-      />
-      <Area
-        type="monotone"
-        dataKey="MX"
-        stackId="1"
-        stroke={colors.danger}
-        fill={colors.danger}
-      />
-    </AreaChart>
-  </ResponsiveContainer>
-)
-
-const mapStateToProps = (state, ownProps) => {
-  return {
-    colors: state.colors
-  }
+function SampleAreaChart({colors})
+{
+  return (
+    <ResponsiveContainer width="100%" height={287}>
+      <AreaChart data={data} margin={{top: 0, right: 0, left: 0, bottom: 0}}>
+        <CartesianGrid strokeDasharray="3 3" />
+        <Tooltip labelFormatter={e => data[e].name} />
+        <Area
+          type="monotone"
+          dataKey="USA"
+          stackId="1"
+          stroke={"primary"}
+          fill={"primary"}
+        />
+        <Area
+          type="monotone"
+          dataKey="UK"
+          stackId="1"
+          stroke={"warning"}
+          fill={"warning"}
+        />
+        <Area
+          type="monotone"
+          dataKey="MX"
+          stackId="1"
+          stroke={"danger"}
+          fill={"danger"}
+        />
+      </AreaChart>
+    </ResponsiveContainer>
+  )
 }
-export default connect(mapStateToProps)(SampleAreaChart)
+
+export default SampleAreaChart

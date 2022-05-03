@@ -110,6 +110,10 @@ function Carga({autoCloseAlert, autoCloseAlertEvidencias, autoCloseAlertCarga, h
   //Para guardar los workflow tracker
   const [workflowTracker, setWorkflowTracker] = useState([]);
 
+  const [dataError, setDataError] = useState(false);
+    
+  const [dataErrorMessage, setDataErrorMessage] = useState("");
+
   //Variables para el filtro
   const [filterRfcCompany, setFilterRfcCompany] = useState("")
   const [filterRfcEmisor, setFilterRfcEmisor] = useState("")
@@ -148,7 +152,12 @@ function Carga({autoCloseAlert, autoCloseAlertEvidencias, autoCloseAlertCarga, h
 
   //Para el condicionado de ver evidencia
   const [excepcionRechazo, setExcepcionRechazo] = useState("");
-  
+
+  //Para la tolerancia en pesos de las Mercancias
+  const [toleranciaPeso, setToleranciaPeso] = useState("");
+
+  const [errorMessage, setErrorMessage] = useState("");
+ 
   const getData = async () => {
     //const res = await axios.get('https://geolocation-db.com/json/')
     //setIP(res.data.IPv4)
@@ -193,8 +202,8 @@ function Carga({autoCloseAlert, autoCloseAlertEvidencias, autoCloseAlertCarga, h
         getVendors(data[0])
     })
     .catch(function(err) {
-        alert("No se pudo consultar la informacion del rol logueado" + err);
-        
+      setDataError(true);
+      setDataErrorMessage(" del rol logueado. ")
     });
   }, []); 
 
@@ -224,7 +233,8 @@ function Carga({autoCloseAlert, autoCloseAlertEvidencias, autoCloseAlertCarga, h
           getCartaPorte(data, dataRol)
       })
       .catch(function(err) {
-          alert("No se pudo consultar la informacion de las vendors" + err);
+        setDataError(true);
+        setDataErrorMessage(" de los proveedores. ")
       });
   }
 
@@ -254,7 +264,8 @@ function Carga({autoCloseAlert, autoCloseAlertEvidencias, autoCloseAlertCarga, h
         setDataFind(false)
       })
       .catch(function(err) {
-          alert("No se pudo consultar la informacion de carta porte" + err);
+        setDataError(true);
+        setDataErrorMessage(" de las facturas. ")
       });
     }
     else {
@@ -277,7 +288,8 @@ function Carga({autoCloseAlert, autoCloseAlertEvidencias, autoCloseAlertCarga, h
         setDataFind(false)
       })
       .catch(function(err) {
-          alert("No se pudo consultar la informacion de carta porte" + err);
+        setDataError(true);
+        setDataErrorMessage(" de las facturas. ")
       });
     }
   }
@@ -306,7 +318,8 @@ useEffect(() => {
       setDataCompanies(data)
   })
   .catch(function(err) {
-      alert("No se pudo consultar la informacion de las companies" + err);
+    setDataError(true);
+    setDataErrorMessage(" de las compañías. ")
   });
 }, []);
 
@@ -334,7 +347,8 @@ useEffect(() => {
       setDataCompaniesVendors(data)
   })
   .catch(function(err) {
-      alert("No se pudo consultar la informacion de las companies vendors" + err);
+    setDataError(true);
+    setDataErrorMessage(" de las compañías - proveedores. ")
   });
 }, []);
 
@@ -379,9 +393,13 @@ useEffect(() => {
 
       var excepcionP = data.find( o => o.Id_Catalog === 32 )
       setExcepcionRechazo(excepcionP.Value)
+
+      var toleranciaP = data.find( o => o.Id_Catalog === 59 )
+      setToleranciaPeso(Number(toleranciaP.Value))
   })
   .catch(function(err) {
-      alert("No se pudo consultar la informacion de los general parameters" + err);
+    setDataError(true);
+    setDataErrorMessage(" de los parámetros generales. ")
   });
 }, []);
 
@@ -410,7 +428,8 @@ useEffect(() => {
     setWorflowTypes(aux)
   })
   .catch(function(err) {
-      alert("No se pudo consultar la informacion de los workflow types" + err);
+    setDataError(true);
+    setDataErrorMessage(" de los workflow types. ")
   });
 }, []);
 
@@ -438,7 +457,8 @@ useEffect(() => {
     setWorkflowTracker(data)
   })
   .catch(function(err) {
-      alert("No se pudo consultar la informacion de los workflow tracker" + err);
+    setDataError(true);
+    setDataErrorMessage(" de los workflow tracker. ")
   });
 }, []);
 
@@ -493,7 +513,8 @@ useEffect(() => {
     setDataWorkflowStatus(dataSelect)
   })
   .catch(function(err) {
-      alert("No se pudo consultar la informacion de los workflow tracker" + err);
+    setDataError(true);
+    setDataErrorMessage(" de los cat workflow status. ")
   });
 }, []);
 
@@ -531,7 +552,8 @@ function deleteClick(){
       setDataFind(false)
     })
     .catch(function(err) {
-        alert("No se pudo consultar la informacion de carta porte" + err);
+      setDataError(true);
+      setDataErrorMessage(" de las facturas. ")
     });
   }
   else {
@@ -554,7 +576,8 @@ function deleteClick(){
       setDataFind(false)
     })
     .catch(function(err) {
-        alert("No se pudo consultar la informacion de carta porte" + err);
+      setDataError(true);
+      setDataErrorMessage(" de las facturas. ")
     });
   }
 }
@@ -701,7 +724,8 @@ function getSolicitud()
     }
   })
   .catch(function(err) {
-      alert("No se pudo consultar la informacion del carta porte request" + err);
+    setDataError(true);
+    setDataErrorMessage(" de la solicitud de carta porte. ")
   });
 }
 
@@ -1052,6 +1076,8 @@ function preData(dataRequest){
     var ubicacionesV = cartaPorteV.elements.find(o => o.name === "cartaporte20:Ubicaciones").elements
     var mercanciasV = cartaPorteV.elements.find(o => o.name === "cartaporte20:Mercancias").elements
 
+    var error = "";
+
     //1. Comparamos que las ubicaciones sean la misma cantidad.
     if(ubicacionesV.length === ubicacionesR.length)
     {
@@ -1080,8 +1106,9 @@ function preData(dataRequest){
           if(ubicacionFlag === false)
           {
             //EL ARCHIVO SE VA A SUBIR CON ERROR
-            //console.log("LAS UBICACIONES NO SON IGUALES")
-            uploadXmlFinal(false)
+            error = " Las ubicaciones no son iguales.";
+            console.log("LAS UBICACIONES NO SON IGUALES")
+            uploadXmlFinal(false, error)
             i = ubicacionesV.length
             ubicacionesFalse++
           }
@@ -1089,94 +1116,156 @@ function preData(dataRequest){
 
         if(ubicacionesFalse === 0)
         {
-          //Vamos a verificar las mercancias
+          
+           //Vamos a verificar las mercancias
           var mercanciaFalse = 0 //para validar si alguna mercancia no existe
-          for(var i=0; i<mercanciasV.length; i++)
+
+           //Validar el peso bruto total de las 2 antes de validar cada Mercancia
+          var mercanciasRPesoBrutoTotal = cartaPorteR.elements.find( o => o.name === "cartaporte20:Mercancias").attributes.PesoBrutoTotal;
+          var mercanciasVPesoBrutoTotal = cartaPorteV.elements.find( o => o.name === "cartaporte20:Mercancias").attributes.PesoBrutoTotal;
+          
+          //Para sacar el margen de error
+          var margenErrorPesoBrutoTotal = mercanciasRPesoBrutoTotal * (toleranciaPeso/100);
+          console.log(margenErrorPesoBrutoTotal);
+
+          if(mercanciasVPesoBrutoTotal <= mercanciasRPesoBrutoTotal + margenErrorPesoBrutoTotal && mercanciasVPesoBrutoTotal >= mercanciasRPesoBrutoTotal - margenErrorPesoBrutoTotal)
           {
-            var mercanciaVActual = mercanciasV[i]
-            if(mercanciaVActual.name === "cartaporte20:Mercancia")
+            console.log("SI ENTRE")
+            for(var i=0; i<mercanciasV.length; i++)
             {
-              var mercanciaFlag = false
-              for(var j=0; j<mercanciasR.length; j++)
+              var mercanciaVActual = mercanciasV[i]
+              if(mercanciaVActual.name === "cartaporte20:Mercancia")
               {
-                if(mercanciasR[j].name === "cartaporte20:Mercancia")
+                var mercanciaFlag = false
+                for(var j=0; j<mercanciasR.length; j++)
                 {
-                  if((mercanciaVActual.attributes.BienesTransp === mercanciasR[j].attributes.BienesTransp)
-                  && (mercanciaVActual.attributes.Cantidad === mercanciasR[j].attributes.Cantidad)
-                  && (mercanciaVActual.attributes.ClaveUnidad === mercanciasR[j].attributes.ClaveUnidad)
-                  && (mercanciaVActual.attributes.CveMaterialPeligroso === mercanciasR[j].attributes.CveMaterialPeligroso)
-                  && (mercanciaVActual.attributes.Descripcion === mercanciasR[j].attributes.Descripcion)
-                  && (mercanciaVActual.attributes.Embalaje === mercanciasR[j].attributes.Embalaje)
-                  && (mercanciaVActual.attributes.MaterialPeligroso === mercanciasR[j].attributes.MaterialPeligroso)
-                  && (mercanciaVActual.attributes.PesoEnKg === mercanciasR[j].attributes.PesoEnKg))
+                  if(mercanciasR[j].name === "cartaporte20:Mercancia")
                   {
-                    //mercanciaFlag = true
-                    //console.log(mercanciaVActual.elements)
-                    if(mercanciaVActual.elements !== undefined && mercanciasR[j].elements)
+                    var cantidadV = Number(mercanciaVActual.attributes.Cantidad);
+                    var cantidadR =  Number(mercanciasR[j].attributes.Cantidad);
+
+                    //Para validar el peso de cada mercancia
+                    var mercanciaRPesoEnKg = mercanciaVActual.attributes.PesoEnKg;
+                    var mercanciaVPesoEnKg = mercanciasR[j].attributes.PesoEnKg;
+                    
+                    //Para sacar el margen de error
+                    var margenErrorPesoEnKg = mercanciaRPesoEnKg * (toleranciaPeso/100);
+                    console.log(mercanciaRPesoEnKg);
+                    console.log(mercanciaVPesoEnKg);
+
+                    if((mercanciaVActual.attributes.BienesTransp === mercanciasR[j].attributes.BienesTransp)
+                    && (cantidadV === cantidadR)
+                    && (mercanciaVActual.attributes.ClaveUnidad === mercanciasR[j].attributes.ClaveUnidad)
+                    && (mercanciaVActual.attributes.CveMaterialPeligroso === mercanciasR[j].attributes.CveMaterialPeligroso)
+                    && (mercanciaVActual.attributes.Embalaje === mercanciasR[j].attributes.Embalaje)
+                    && (mercanciaVActual.attributes.MaterialPeligroso === mercanciasR[j].attributes.MaterialPeligroso)
+                    && (mercanciaVPesoEnKg <= mercanciaRPesoEnKg + margenErrorPesoEnKg && mercanciaVPesoEnKg >= mercanciaRPesoEnKg - margenErrorPesoEnKg))
                     {
-                      var pedimentoMV = mercanciaVActual.elements.find(o => o.name === "cartaporte20:Pedimentos")
-                      var pedimentoMR = mercanciasR[j].elements.find(o => o.name === "cartaporte20:Pedimentos")
-                      if(pedimentoMV !== undefined && pedimentoMR !== undefined)
+                      //mercanciaFlag = true
+                      //console.log(mercanciaVActual.elements)
+                      if(mercanciaVActual.elements !== undefined && mercanciasR[j].elements)
                       {
-                        /*console.log(pedimentoMV.attributes.Pedimento)
-                        console.log(pedimentoMR.attributes.Pedimento)*/
-                        if(pedimentoMV.attributes.Pedimento === pedimentoMR.attributes.Pedimento)
+                        console.log(mercanciaVActual.elements)
+                        var pedimentoMV = mercanciaVActual.elements.find(o => o.name === "cartaporte20:Pedimentos")
+                        var pedimentoMR = mercanciasR[j].elements.find(o => o.name === "cartaporte20:Pedimentos")
+                        if(pedimentoMV !== undefined && pedimentoMR !== undefined)
                         {
-                          mercanciaFlag = true
+                          /*console.log(pedimentoMV.attributes.Pedimento)
+                          console.log(pedimentoMR.attributes.Pedimento)*/
+                          if(pedimentoMV.attributes.Pedimento === pedimentoMR.attributes.Pedimento)
+                          {
+                            mercanciaFlag = true
+                          }
+                          else {
+                            error = " Las mercancías no son iguales por el pedimento."
+                            //console.log("LAS MERCANCIAS NO SON IGUALES POR EL PEDIMENTO")
+                            mercanciaFlag = false
+                          }
+                        }
+
+                        if(mercanciaVActual.elements.length === mercanciasR[j].elements.length)
+                        {
+                          for(var cT = 0; cT < mercanciaVActual.elements.length; cT++)
+                          {
+                            var cantidadMV = mercanciaVActual.elements.find(o => o.name === "cartaporte20:CantidadTransporta")
+                            var cantidadMR = mercanciasR[j].elements.find(o => o.name === "cartaporte20:CantidadTransporta")
+                            if(cantidadMV !== undefined && cantidadMR !== undefined)
+                            {
+                              if(cantidadMV.attributes.Cantidad === cantidadMR.attributes.Cantidad
+                                && cantidadMV.attributes.IDOrigen === cantidadMR.attributes.IDOrigen
+                                && cantidadMV.attributes.IDDestino === cantidadMR.attributes.IDDestino)
+                              {
+                                mercanciaFlag = true
+                              }
+                              else {
+                                error = " Las mercancias no son iguales por la cantidad transporta.";
+                                console.log("LAS MERCANCIAS NO SON IGUALES POR LA CANTIDAD TRANSPORTA")
+                                mercanciaFlag = false
+                              }
+                            }
+                          }
                         }
                         else {
-                          //console.log("LAS MERCANCIAS NO SON IGUALES POR EL PEDIMENTO")
+                          error = " Las mercancias no tienen el mismo número de elementos."
+                          console.log("LAS MERCANCIAS NO TIENEN EL MISMO NUMERO DE ELEMENTOS")
                           mercanciaFlag = false
                         }
                       }
-                    }
-                    else {
-                      mercanciaFlag = true
+                      else {
+                        mercanciaFlag = true
+                      }
                     }
                   }
                 }
-              }
-              if(mercanciaFlag === false)
-              {
-                //EL ARCHIVO SE VA A SUBIR CON ERROR
-                //console.log("LAS MERCANCIAS NO SON IGUALES")
-                uploadXmlFinal(false)
-                i = mercanciasV.length
-                mercanciaFalse++
-                //console.log(mercanciaVActual)
+                if(mercanciaFlag === false)
+                {
+                  //EL ARCHIVO SE VA A SUBIR CON ERROR
+                  error = " Las mercancías no son iguales.";
+                  console.log("LAS MERCANCIAS NO SON IGUALES")
+                  uploadXmlFinal(false, error)
+                  i = mercanciasV.length
+                  mercanciaFalse++
+                  //console.log(mercanciaVActual)
+                }
               }
             }
-          }
-          if(mercanciaFalse === 0)
-          {
-            //console.log("LAS MERCANCIAS SON IGUALES")
-            uploadXmlFinal(true)
+            if(mercanciaFalse === 0)
+            {
+              //console.log("LAS MERCANCIAS SON IGUALES")
+              uploadXmlFinal(true, error)
+            }
+            else {
+              console.log(mercanciaFalse)
+            }
           }
           else {
-            console.log(mercanciaFalse)
+            error = " El peso bruto total de las mercancias no está dentro del margen."
+            uploadXmlFinal(false, error)
           }
         }
       }
       else {
         //EL ARCHIVO SE VA A SUBIR CON ERROR
-        //console.log("LAS MERCANCIAS NO TIENEN LA MISMA LONGITUD")
-        uploadXmlFinal(false)
+        error = " La cantidad de mercancias es diferente.";
+        console.log("LA CANTIDAD DE MERCANCIAS ES DIFERENTE")
+        uploadXmlFinal(false, error)
       }
     }
     else {
       //EL ARCHIVO SE VA A SUBIR CON ERROR
-      //console.log("LAS UBICACIONES NO TIENEN LA MISMA LONGITUD")
-      uploadXmlFinal(false)
+      error = " La cantidad de ubicaciones es diferente.";
+      console.log("LA CANTIDAD DE UBICACIONES ES DIFERENTE")
+      uploadXmlFinal(false, error)
     }
   }
 
-  function uploadXmlFinal(shipmentApproval)
+  function uploadXmlFinal(shipmentApproval, error)
   {
     let reader = new FileReader();
     let file = xml;
 
     reader.onloadend = () => { 
-      getData64PDF(reader.result, shipmentApproval)
+      getData64PDF(reader.result, shipmentApproval, error)
     };
     if (file) {
       reader.readAsDataURL(file);
@@ -1425,20 +1514,20 @@ function preData(dataRequest){
     });*/
   //}
 
-  function getData64PDF(xmlbase64, shipmentApproval)
+  function getData64PDF(xmlbase64, shipmentApproval, error)
   {
     let reader = new FileReader();
     let file = pdf;
 
     reader.onloadend = () => { 
-      sendData(xmlbase64, reader.result, shipmentApproval)
+      sendData(xmlbase64, reader.result, shipmentApproval, error)
     };
     if (file) {
       reader.readAsDataURL(file);
     }
   }
 
-  function sendData(xmlbase64, pdfbase64, shipmentApproval)
+  function sendData(xmlbase64, pdfbase64, shipmentApproval, error)
   {
     const catRegister = {
       invoiceXMLBase64: xmlbase64,
@@ -1459,6 +1548,7 @@ function preData(dataRequest){
     })
     .then((response) => response.json())
     .then((data) => {
+        console.log("ERROR MESSAGE: " + error)
         if (data.errors) {
             hideAlert4()
         }
@@ -1470,7 +1560,7 @@ function preData(dataRequest){
             resetFileInputPdf()
             resetFileInputText()
             setRequester("")
-            autoCloseAlert(data.data.message)
+            autoCloseAlert(data.data.message + error)
             updateAddData()
           }
           else {
@@ -1523,12 +1613,13 @@ function preData(dataRequest){
         setDataFind(false)
       })
       .catch(function(err) {
-          alert("No se pudo consultar la informacion de carta porte" + err);
+        setDataError(true);
+        setDataErrorMessage(" de carta porte. ")
       });
     }
     else {
       //Para guardar el valor del filterRfcEmisor
-      var vendorId = vendors.find( o => o.Id_Vendor === parseInt(vendor,10))
+      var vendorId = dataVendors.find( o => o.Id_Vendor === parseInt(vendor,10))
       setFilterRfcEmisor(vendorId.Tax_Id)
       var url = new URL(`${process.env.REACT_APP_API_URI}invoices/vendor/${vendorId.Tax_Id}`);
       fetch(url, {
@@ -1546,7 +1637,8 @@ function preData(dataRequest){
         setDataFind(false)
       })
       .catch(function(err) {
-          alert("No se pudo consultar la informacion de carta porte" + err);
+        setDataError(true);
+        setDataErrorMessage(" de carta porte. ")
       });
     }
   }
@@ -1650,7 +1742,8 @@ function preData(dataRequest){
       setDataFind(false)
     })
     .catch(function(err) {
-        alert("No se pudo consultar la informacion de carta porte" + err);
+      setDataError(true);
+      setDataErrorMessage(" de carta porte. ")
     });
   }
 
@@ -1748,9 +1841,17 @@ function preData(dataRequest){
             </CardHeader>
             <CardBody>
               <FiltroT/>
-              <Skeleton height={25} />
-              <Skeleton height="25px" />
-              <Skeleton height="3rem" />
+              {dataError === true ? (
+                    <div className ="no-data">
+                        <h3>No se pudo descargar la información de {dataErrorMessage} Recarga la página. Si el problema persiste comunícate con el administrador</h3>
+                    </div>
+                ):
+                    <div>
+                        <Skeleton height={25} />
+                        <Skeleton height="25px" />
+                        <Skeleton height="3rem" />
+                    </div> 
+              }
             </CardBody>
           </Card>
         </Col>

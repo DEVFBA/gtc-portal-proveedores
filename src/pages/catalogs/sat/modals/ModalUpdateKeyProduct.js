@@ -151,7 +151,7 @@ function ModalUpdateKeyProduct({abierto, toggleModalUpdateRecord, record, ip, au
     return (
         <Modal isOpen={abierto} toggle={handleModalClick} size="lg">
             <div className="modal-header justify-content-center">
-            <h5 className="modal-title">Actualizar Rol</h5>
+            <h5 className="modal-title">Actualizar Registro</h5>
             <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={handleModalClick}>
                 <span aria-hidden="true">×</span>
             </button>
@@ -209,6 +209,7 @@ function ModalUpdateKeyProduct({abierto, toggleModalUpdateRecord, record, ip, au
                                 <label className="form-text text-danger">Este campo es requerido.</label>
                             ) : null}
                         </FormGroup>
+                        <label>Estatus</label>
                         <FormGroup check >
                             <Label check>
                             <Input 

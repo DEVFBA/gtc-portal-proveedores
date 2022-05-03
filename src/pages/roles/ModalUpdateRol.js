@@ -233,7 +233,7 @@ function ModalUpdateRol({abierto, toggleModalUpdateRecord, record, autoCloseAler
                         </FormGroup>
                     </Col>
                     <Col className="mt-3" lg="10">
-                        <label>Status</label>
+                        <label>Estatus</label>
                         <FormGroup check >
                             <Label check>
                             <Input 

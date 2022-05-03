@@ -248,7 +248,7 @@ function ModalAddVendor({modalAddRecord, setModalAddRecord, ip, autoCloseAlert, 
                             />
                         </FormGroup>
                         <FormGroup  className={`form-group ${registerCountryState}`}>
-                            <Label for="exampleSelect">País</Label>
+                            <Label for="exampleSelect">País *</Label>
                             <Select
                                 name="country"
                                 className="react-select"
@@ -301,6 +301,7 @@ function ModalAddVendor({modalAddRecord, setModalAddRecord, ip, autoCloseAlert, 
                                 }}
                             />
                         </FormGroup>
+                        <label>Estatus</label>
                         <FormGroup check>
                             <Label check>
                             <Input 

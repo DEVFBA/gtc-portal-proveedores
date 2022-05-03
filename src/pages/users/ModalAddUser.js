@@ -97,9 +97,15 @@ function ModalAddUser({modalAddRecord, setModalAddRecord, dataRoles, dataVendors
     };
 
     const verifyPassword = (value) => {
-        var passwordRex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{10,50}$/;
+        var passwordRex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,50}$/;
         if (passwordRex.test(value)) {
-        return true;
+            if(value.includes("/") || value.includes(`\\`) || value.includes(`-`) || value.includes(`'`))
+            {
+                return false;
+            }
+            else {
+                return true;
+            }
         }
         return false;
     };
@@ -342,7 +348,7 @@ function ModalAddUser({modalAddRecord, setModalAddRecord, dataRoles, dataVendors
                                 }}
                             />
                             {registerPasswordState === "text-danger" ? (
-                                <label className="form-text text-danger">La contraseña debe tener una longitud mínima de 10 caracteres, al menos un número, una letra mayúscula y minúscula, y un caracter especial.</label>
+                                <label className="form-text text-danger">La contraseña debe tener una longitud mínima de 12 caracteres, al menos un número, una letra mayúscula y minúscula, y un caracter especial (NO PERMITIDOS:  /  \   -   ').</label>
                             ) : null}
                         </FormGroup>
                         <FormGroup className={`form-group ${registerConfirmPasswordState}`}>

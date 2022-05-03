@@ -74,7 +74,59 @@ function CargaTable({dataTable, ip, autoCloseAlert, updateAddData, workflowTypes
 
     const [dataState, setDataState] = useState(
         dataTable.map((prop, key) => {
-            //console.log(checkPool)
+            var fechaFinal1 = "";
+            
+            if(prop.Due_Date !== null)
+            {
+                var fecha1 = new Date(prop.Due_Date)
+                var date1, month1, year1;
+
+                if(fecha1.getDate() < 10)
+                {
+                    date1 = "0" + fecha1.getDate()
+                }
+                else{
+                    date1 = fecha1.getDate()
+                }
+                if((fecha1.getMonth() + 1) < 10)
+                {
+                    month1 = "0" + (fecha1.getMonth() + 1)
+                }
+                else 
+                {
+                    month1 = fecha1.getMonth() + 1
+                }
+                year1 = fecha1.getFullYear()
+                console.log(fecha1.getDate())
+                fechaFinal1 = year1 + "-" + month1 + "-" + date1
+            }
+
+            var fechaFinal2 = "";
+            if(prop.Payment_Date !== null)
+            {
+                var fecha2 = new Date(prop.Payment_Date)
+                var date2, month2, year2;
+
+                if(fecha2.getDate() < 10)
+                {
+                    date2 = "0" + fecha2.getDate()
+                }
+                else{
+                    date2 = fecha2.getDate()
+                }
+                if((fecha2.getMonth() + 1) < 10)
+                {
+                    month2 = "0" + (fecha2.getMonth() + 1)
+                }
+                else 
+                {
+                    month2 = fecha2.getMonth() + 1
+                }
+                year2 = fecha2.getFullYear()
+                console.log(fecha2.getDate())
+                fechaFinal2 = year2 + "-" + month2 + "-" + date2;
+            }
+
             return {
               id: key,
               taxId: prop.Company_RFC,
@@ -94,6 +146,8 @@ function CargaTable({dataTable, ip, autoCloseAlert, updateAddData, workflowTypes
               subtotal:  prop.SubTotal,
               total:  prop.Total,
               transferredTaxes: prop.Transferred_Taxes,
+              dueDate: fechaFinal1,
+              paymentDate: fechaFinal2,
               actions: (
                 // ACCIONES A REALIZAR EN CADA REGISTRO
                 <div className="actions-center">
@@ -158,12 +212,13 @@ function CargaTable({dataTable, ip, autoCloseAlert, updateAddData, workflowTypes
                             </button>
                         </abbr>
                     ):null}
-                    {prop.Id_Workflow_Status === parseInt(checkPool,10) ? (
+                    {prop.Id_Workflow_Status === parseInt(checkPool,10) && role !== "VENDOR" ? (
                         <abbr title="Rechazar Evidencias">
                             <button
                                 onClick={() => {
                                     let obj = dataState.find((o) => o.id === key); 
                                     autoCloseAlertEvidencias(obj)
+                                    //updateAddData()
                                 }}
                                 color="warning"
                                 size="sm"
@@ -306,7 +361,7 @@ function CargaTable({dataTable, ip, autoCloseAlert, updateAddData, workflowTypes
                 <Col sm = "3">
                 </Col>
                 <Col sm = "6">
-                    {buttonListP === true ? ( 
+                    {buttonListP === true && role !== "VENDOR" && role !== "ASSIGN" && (role === "PURFREIGHT" || role === "SALFREIGHT") ? ( 
                         <Button className="buttons btn-gtc btn-filter" color="primary" onClick={createPool}>
                             <i className="fa fa-angle-double-right btn-icon" />
                             Crear Pool
