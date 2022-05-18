@@ -1130,7 +1130,7 @@ function preData(dataRequest){
 
           if(mercanciasVPesoBrutoTotal <= mercanciasRPesoBrutoTotal + margenErrorPesoBrutoTotal && mercanciasVPesoBrutoTotal >= mercanciasRPesoBrutoTotal - margenErrorPesoBrutoTotal)
           {
-            console.log("SI ENTRE")
+           
             for(var i=0; i<mercanciasV.length; i++)
             {
               var mercanciaVActual = mercanciasV[i]
@@ -1150,8 +1150,8 @@ function preData(dataRequest){
                     
                     //Para sacar el margen de error
                     var margenErrorPesoEnKg = mercanciaRPesoEnKg * (toleranciaPeso/100);
-                    console.log(mercanciaRPesoEnKg);
-                    console.log(mercanciaVPesoEnKg);
+                    //console.log(mercanciaRPesoEnKg);
+                    //console.log(mercanciaVPesoEnKg);
 
                     if((mercanciaVActual.attributes.BienesTransp === mercanciasR[j].attributes.BienesTransp)
                     && (cantidadV === cantidadR)

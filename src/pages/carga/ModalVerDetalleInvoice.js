@@ -30,6 +30,17 @@ function ModalVerDetalleInvoice({modalReadRecord, setModalReadRecord, record}) {
             <ModalBody>
             <Form method="">
                 <Row className="justify-content-center">
+                    <Col sm = "10">
+                        <FormGroup>
+                            <label>UUID</label>
+                            <Input
+                                name="text"
+                                type="text"
+                                value = {record.uuid}
+                                readOnly
+                            />
+                        </FormGroup>
+                    </Col>
                     <Col sm = "5">
                         <FormGroup>
                             <label>Id Moneda</label>

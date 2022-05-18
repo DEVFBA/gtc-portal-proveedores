@@ -83,7 +83,7 @@ function Navbar1({layout, setLayout, changeImageP})
   
   return (
     <nav className="navbar navbar-1 d-flex justify-content-around align-items-center flex-nowrap">
-      <Logo />
+      <Logo layout = {layout}/>
       <ToggleLayout1 layout = {layout} setLayout = {setLayout}/>
       <div className="separator" />
       <ul className="nav nav-inline nav-inline-2">

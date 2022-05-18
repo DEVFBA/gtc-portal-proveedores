@@ -74,6 +74,7 @@ function CargaTable({dataTable, ip, autoCloseAlert, updateAddData, workflowTypes
 
     const [dataState, setDataState] = useState(
         dataTable.map((prop, key) => {
+            console.log(prop)
             var fechaFinal1 = "";
             
             if(prop.Due_Date !== null)
@@ -148,6 +149,7 @@ function CargaTable({dataTable, ip, autoCloseAlert, updateAddData, workflowTypes
               transferredTaxes: prop.Transferred_Taxes,
               dueDate: fechaFinal1,
               paymentDate: fechaFinal2,
+              requestNumber: prop.Request_Number,
               actions: (
                 // ACCIONES A REALIZAR EN CADA REGISTRO
                 <div className="actions-center">
@@ -399,8 +401,8 @@ function CargaTable({dataTable, ip, autoCloseAlert, updateAddData, workflowTypes
                         accessor: "emisor",
                     },
                     {
-                        Header: "UUID",
-                        accessor: "uuid",
+                        Header: "No. Solicitud CP",
+                        accessor: "requestNumber",
                     },
                     {
                         Header: "Serie",
