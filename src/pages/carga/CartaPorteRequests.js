@@ -106,9 +106,86 @@ function CartaPorteRequests({autoCloseAlert}) {
     }
   }
 
+  function inhabilitarRequest(record)
+  {
+
+    const catRegister = {
+      piIdCompany: record.idCompany,
+      piIdVendor: record.idVendor,
+      piRequestNumber: record.requestNumber,
+    };
+    //var url = new URL(`http://localhost:8091/api/carta-porte-requests/disable-request/`);
+    var url = new URL(`${process.env.REACT_APP_API_URI}carta-porte-requests/disable-request/`);
+    fetch(url, {
+      method: "POST",
+      body: JSON.stringify(catRegister),
+      headers: {
+          "access-token": token,
+          "Content-Type": "application/json",
+      }
+    })
+    .then(function(response) {
+        return response.ok ? response.json() : Promise.reject();
+    })
+    .then((data) => {
+        console.log(data[0])
+        autoCloseAlert(data[0].Code_Message_User)
+        updateData();
+    });
+  }
+
+  function updateData(){
+    setDataFind(false)
+    if(dataRol[0].Show_Customers === true)
+    {
+      var url = new URL(`${process.env.REACT_APP_API_URI}carta-porte-requests/`);
+
+      fetch(url, {
+          method: "GET",
+          headers: {
+              "access-token": token,
+              "Content-Type": "application/json",
+          }
+      })
+      .then(function(response) {
+        return response.ok ? response.json() : Promise.reject();
+      })
+      .then(function(data) {
+        setDataCartaPorteRequests(data)
+        console.log(data)
+        setDataFind(true)
+      })
+      .catch(function(err) {
+        alert("No se pudo consultar la informacion de las vendors" + err);
+      });
+    }
+    else {
+      var url = new URL(`${process.env.REACT_APP_API_URI}carta-porte-requests/vendor/${vendor}`);
+
+      fetch(url, {
+          method: "GET",
+          headers: {
+              "access-token": token,
+              "Content-Type": "application/json",
+          }
+      })
+      .then(function(response) {
+        return response.ok ? response.json() : Promise.reject();
+      })
+      .then(function(data) {
+        setDataCartaPorteRequests(data)
+        console.log(data)
+        setDataFind(true)
+      })
+      .catch(function(err) {
+        
+      });
+    }
+  }
+
   //Renderizado condicional
   function CargaT() {
-      return <CartaPorteRequestsTable dataTable = {dataCartaPorteRequests}/>
+      return <CartaPorteRequestsTable dataTable = {dataCartaPorteRequests} inhabilitarRequest = {inhabilitarRequest}/>
   }
 
   return dataFind === false ? (

@@ -16,31 +16,34 @@ import {
 } from "reactstrap";
 
 function CargaXML({pathFile}) {
-  
-
   const { uUID } = useParams();
-
-  //Para guardar el archivo
-  const [dataCartaPorte, setDataCartaPorte] = useState([]);
 
   const token = localStorage.getItem("Token");
 
-  //Para guardar los datos de los usuarios
+  //Guardar los datos de los usuarios
   const [dataXml, setDataXml] = useState([]);
 
-  //Para guardar los datos de los municipios
+  //Guardar los datos de los municipios
   const [dataMunicipios, setDataMunicipios] = useState([]);
 
-  //Para guardar los datos de las localidades
+  //Guardar los datos de las localidades
   const [dataLocalities, setDataLocalities] = useState([]);
 
-  //Para guardar los datos de los codigos postales
+  //Guardar los datos de los codigos postales
   const [dataZipCodes, setDataZipCodes] = useState([]);
 
+  //Guardar las colonias de las ubicaciones
   const [dataColonias, setDataColonias] = useState([]);
 
+  //Manejo de errores
+  const [dataError, setDataError] = useState(false);
+  const [dataErrorMessage, setDataErrorMessage] = useState(false);
+
+  //Detener el renderizado
+  const [dataFind, setDataFind] = useState(true);
+
   useEffect(() => {
-    //Aqui vamos a descargar la lista de usuarios de la base de datos por primera vez
+    //Descargar los datos de la factura
     const params = {
       pvOptionCRUD: "R"
     };
@@ -64,12 +67,14 @@ function CargaXML({pathFile}) {
       consultaXML(data[0].XML_Path)
     })
     .catch(function(err) {
-        alert("No se pudo consultar la informacion de carta porte" + err);
+      setDataError(true);
+      setDataFind(false)
+      setDataErrorMessage("No se pudo consultar la información del CFDI.")
     });
   }, [pathFile]);
 
   useEffect(() => {
-    //Aqui vamos a descargar la lista de municipios
+    //Descargar la lista de municipios
     const params = {
       pvOptionCRUD: "R",
       pSpCatalog : "spSAT_Cat_Municipalities_CRUD_Records",
@@ -93,12 +98,14 @@ function CargaXML({pathFile}) {
       setDataMunicipios(data)
     })
     .catch(function(err) {
-        alert("No se pudo consultar la informacion de carta porte" + err);
+      setDataError(true);
+      setDataFind(false)
+      setDataErrorMessage("No se pudo consultar la información de los municipios.")
     });
   }, []);
 
   useEffect(() => {
-    //Aqui vamos a descargar la lista de municipios
+    //Descargar la lista de localidades
     const params = {
       pvOptionCRUD: "R",
       pSpCatalog : "spSAT_Cat_Locations_CRUD_Records",
@@ -122,7 +129,9 @@ function CargaXML({pathFile}) {
       setDataLocalities(data)
     })
     .catch(function(err) {
-        alert("No se pudo consultar la informacion de carta porte" + err);
+        setDataError(true);
+        setDataFind(false)
+        setDataErrorMessage("No se pudo consultar la información de las localidades.")
     });
   }, []);
 
@@ -189,43 +198,49 @@ function CargaXML({pathFile}) {
   }*/
 
   const consultaXML = async(doc) => {
-    var url = pathFile + doc
-    let response = await axios({ url })
-    var options = {compact: false, ignoreComment: true, spaces: 4};
-    const jsonString = convert.xml2json(response.data, options);
-    const jsonData = JSON.parse(jsonString)
-    setDataXml(jsonData.elements)
-    
-    var complemento = jsonData.elements[0].elements.find( o => o.name === "cfdi:Complemento")
-    var cartaPorte = complemento.elements.find( o => o.name === "cartaporte20:CartaPorte")
-    var ubicaciones = cartaPorte.elements.find( o => o.name === "cartaporte20:Ubicaciones")
-    var ubicacionesF = ubicaciones.elements
+    try {
+      var url = pathFile + doc
+      let response = await axios({ url })
+      var options = {compact: false, ignoreComment: true, spaces: 4};
+      const jsonString = convert.xml2json(response.data, options);
+      const jsonData = JSON.parse(jsonString)
+      setDataXml(jsonData.elements)
+      
+      var complemento = jsonData.elements[0].elements.find( o => o.name === "cfdi:Complemento")
+      var cartaPorte = complemento.elements.find( o => o.name === "cartaporte20:CartaPorte")
+      var ubicaciones = cartaPorte.elements.find( o => o.name === "cartaporte20:Ubicaciones")
+      var ubicacionesF = ubicaciones.elements
 
-    var colonias = []
-    for(var i=0; i< ubicacionesF.length; i++)
-    {
-      const zp = {
-        pvIdState: ubicacionesF[i].elements[0].attributes.Estado,
-        pvIdCounty : ubicacionesF[i].elements[0].attributes.Colonia,
-      };
+      var colonias = []
+      for(var i=0; i< ubicacionesF.length; i++)
+      {
+        const zp = {
+          pvIdState: ubicacionesF[i].elements[0].attributes.Estado,
+          pvIdCounty : ubicacionesF[i].elements[0].attributes.Colonia,
+        };
 
-      var url = new URL(`${process.env.REACT_APP_API_URI}cat-catalogs/zip-code-county/`);
-      Object.keys(zp).forEach(key => url.searchParams.append(key, zp[key]))
-      await fetch(url, {
-          method: "GET",
-          headers: {
-              "access-token": token,
-              "Content-Type": "application/json"
-          }
-      })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data)
-        colonias[i] = data
-      });
+        var url = new URL(`${process.env.REACT_APP_API_URI}cat-catalogs/zip-code-county/`);
+        Object.keys(zp).forEach(key => url.searchParams.append(key, zp[key]))
+        await fetch(url, {
+            method: "GET",
+            headers: {
+                "access-token": token,
+                "Content-Type": "application/json"
+            }
+        })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data)
+          colonias[i] = data
+        });
+      }
+      console.log(colonias)
+      setDataColonias(colonias)
+      setDataFind(false);
+    }catch(error){
+      setDataError(true);
+      setDataErrorMessage("El archivo XML tiene errores.")
     }
-    console.log(colonias)
-    setDataColonias(colonias)
   }
 
   //Renderizado condicional
@@ -245,7 +260,7 @@ function CargaXML({pathFile}) {
     }
   }
 
-  return dataColonias.length === 0 ? (
+  return dataFind === true ? (
     <>
       <div>
         <Row>
@@ -255,9 +270,13 @@ function CargaXML({pathFile}) {
                 <CardTitle tag="h4">CFDI Carta Porte</CardTitle>
               </CardHeader>
               <CardBody>
-                <Skeleton height={25} />
-                <Skeleton height="25px" />
-                <Skeleton height="3rem" />
+                {dataError === false ? (
+                  <>
+                    <Skeleton height={25} />
+                    <Skeleton height="25px" />
+                    <Skeleton height="3rem" />
+                  </>
+                ): dataErrorMessage}
               </CardBody>
             </Card>
           </Col>
@@ -274,7 +293,9 @@ function CargaXML({pathFile}) {
                 <CardTitle tag="h4">CFDI Carta Porte</CardTitle>
               </CardHeader>
               <CardBody>
+                  {dataError === false ?(
                     <XmlTreeData />
+                  ): dataErrorMessage} 
               </CardBody>
             </Card>
           </Col>

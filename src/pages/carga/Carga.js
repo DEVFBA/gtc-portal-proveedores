@@ -23,7 +23,7 @@ import {
   Input,
 } from "reactstrap";
 
-function Carga({autoCloseAlert, autoCloseAlertEvidencias, autoCloseAlertCarga, hideAlert4}) {
+function Carga({autoCloseAlert, autoCloseAlertEvidencias, autoCloseAlertCarga, hideAlert4, autoCloseAlertCargaInvoices}) {
 
   //Para guardar el archivo XML
   const [xml, setXml] = useState(null);
@@ -730,6 +730,8 @@ function getSolicitud()
 }
 
 function preData(dataRequest){
+  console.log("DATA REQUEST")
+  console.log(dataRequest)
   //1. Leemos los datos del xml que nos serviran para el SP
   let fileReader = new FileReader();
   fileReader.readAsText(xml);
@@ -847,7 +849,7 @@ function preData(dataRequest){
       resetFileInputPdf()
       resetFileInputText()
       setRequester("")
-      autoCloseAlert("Error. El documento no es de Carta Porte. Verifique.")
+      autoCloseAlertCargaInvoices("Error. El documento no es de Carta Porte. Verifique.")
     }
     else if(companyValid === false)
     {
@@ -856,7 +858,7 @@ function preData(dataRequest){
       resetFileInputPdf()
       resetFileInputText()
       setRequester("")
-      autoCloseAlert("Error: Compañía inexistente. Verifique")
+      autoCloseAlertCargaInvoices("Error: Compañía inexistente. Verifique")
     }
     else if(vendorValid === false)
     {
@@ -865,7 +867,7 @@ function preData(dataRequest){
       resetFileInputPdf()
       resetFileInputText()
       setRequester("")
-      autoCloseAlert("Error: Proveedor inexistente. Verifique")
+      autoCloseAlertCargaInvoices("Error: Proveedor inexistente. Verifique")
     }
     else{
       
@@ -878,7 +880,7 @@ function preData(dataRequest){
           resetFileInputPdf()
           resetFileInputText()
           setRequester("")
-          autoCloseAlert("Error: Proveedor incorrecto. Verifique")
+          autoCloseAlertCargaInvoices("Error: Proveedor incorrecto. Verifique")
         }
         else {
           var companiesVendorsValid = false
@@ -963,7 +965,7 @@ function preData(dataRequest){
             resetFileInputPdf()
             resetFileInputText()
             setRequester("")
-            autoCloseAlert("La relación entre Compañías / Proveedores es incorrecta. Valide.")
+            autoCloseAlertCargaInvoices("La relación entre Compañías / Proveedores es incorrecta. Valide.")
           }
         }
       }
@@ -1051,7 +1053,7 @@ function preData(dataRequest){
           resetFileInputPdf()
           resetFileInputText()
           setRequester("")
-          autoCloseAlert("La relación entre Compañías / Proveedores es incorrecta. Valide.")
+          autoCloseAlertCargaInvoices("La relación entre Compañías / Proveedores es incorrecta. Valide.")
         }
       }
     }
@@ -1061,6 +1063,7 @@ function preData(dataRequest){
   const parseFiles = async(params) => {
 
     var url = params.pathSolicitud
+    console.log(params.pathSolicitud)
     let response = await axios({ url })
     var options = {compact: false, ignoreComment: true, spaces: 4};
     const jsonString = convert.xml2json(response.data, options);
@@ -1089,25 +1092,57 @@ function preData(dataRequest){
         for(var i=0; i<ubicacionesV.length; i++)
         {
           var ubicacionVActual = ubicacionesV[i]
-          var ubicacionFlag = false
+          var ubicacionFlag = false;
+          var errorMessageUbicaciones = ""
           for(var j=0; j<ubicacionesR.length; j++)
           {
-            if((ubicacionVActual.attributes.TipoUbicacion === ubicacionesR[j].attributes.TipoUbicacion)
-              && (ubicacionVActual.attributes.RFCRemitenteDestinatario === ubicacionesR[j].attributes.RFCRemitenteDestinatario)
-              && (ubicacionVActual.elements[0].attributes.Colonia === ubicacionesR[j].elements[0].attributes.Colonia)
-              && (ubicacionVActual.elements[0].attributes.Localidad === ubicacionesR[j].elements[0].attributes.Localidad)
-              && (ubicacionVActual.elements[0].attributes.Municipio === ubicacionesR[j].elements[0].attributes.Municipio)
-              && (ubicacionVActual.elements[0].attributes.Pais === ubicacionesR[j].elements[0].attributes.Pais)
-              && (ubicacionVActual.elements[0].attributes.CodigoPostal === ubicacionesR[j].elements[0].attributes.CodigoPostal) )
+            /*console.log("UBICACION " + i)
+            console.log(ubicacionVActual.attributes.TipoUbicacion)
+            console.log(ubicacionesR[j].attributes.TipoUbicacion)*/
+            if(ubicacionVActual.attributes.TipoUbicacion === ubicacionesR[j].attributes.TipoUbicacion)
             {
-              ubicacionFlag = true
+              //console.log("Pase el tipo de ubicación")
+              if(ubicacionVActual.attributes.RFCRemitenteDestinatario === ubicacionesR[j].attributes.RFCRemitenteDestinatario)
+              {
+                //console.log("Pase el RFC Remitente Destinatario")
+                if(ubicacionVActual.elements[0].attributes.Pais === ubicacionesR[j].elements[0].attributes.Pais)
+                {
+                  //console.log("Pase el País")
+                  if(ubicacionVActual.elements[0].attributes.CodigoPostal === ubicacionesR[j].elements[0].attributes.CodigoPostal)
+                  {
+                    //console.log("Pase el codigo postal")
+                    ubicacionFlag = true;
+                    j = ubicacionesR.length;
+                  }
+                  else {
+                    //console.log(" La ubicación con RFC Remitente Destinatario " + ubicacionVActual.attributes.RFCRemitenteDestinatario + "no coincide en el código postal de la solicitud.")
+                    errorMessageUbicaciones = " La ubicación con RFC Remitente Destinatario " + ubicacionVActual.attributes.RFCRemitenteDestinatario + " no tiene el mismo código postal que la solicitud.";
+                    ubicacionFlag = false;
+                  }
+                }
+                else {
+                  //console.log(" La ubicación con RFC Remitente Destinatario " + ubicacionVActual.attributes.RFCRemitenteDestinatario + "no coincide en el país de la solicitud.")
+                  errorMessageUbicaciones = " La ubicación con RFC Remitente Destinatario " + ubicacionVActual.attributes.RFCRemitenteDestinatario + " no tiene el mismo país que la solicitud.";
+                  ubicacionFlag = false;
+                }
+              }
+              else {
+                //console.log(" La ubicación con RFC Remitente Destinatario " + ubicacionVActual.attributes.RFCRemitenteDestinatario + "no coincide en el RFC remitente destinatario de la solicitud.")
+                errorMessageUbicaciones = " La ubicación con RFC Remitente Destinatario " + ubicacionVActual.attributes.RFCRemitenteDestinatario + " no tiene el mismo RFC remitente destinatario que la solicitud.";
+                ubicacionFlag = false;
+              }
+            }
+            else {
+              //console.log(" La ubicación con RFC Remitente Destinatario " + ubicacionVActual.attributes.RFCRemitenteDestinatario + "no coincide en el tipo de ubicación de la solicitud.")
+              errorMessageUbicaciones = " La ubicación con RFC Remitente Destinatario " + ubicacionVActual.attributes.RFCRemitenteDestinatario + " no tiene el mismo tipo de ubicación que la solicitud.";
+              ubicacionFlag = false;
             }
           }
           if(ubicacionFlag === false)
           {
             //EL ARCHIVO SE VA A SUBIR CON ERROR
-            error = " Las ubicaciones no son iguales.";
-            console.log("LAS UBICACIONES NO SON IGUALES")
+            error = " Las ubicaciones no son iguales. " + errorMessageUbicaciones;
+            //console.log("LAS UBICACIONES NO SON IGUALES")
             uploadXmlFinal(false, error)
             i = ubicacionesV.length
             ubicacionesFalse++
@@ -1126,12 +1161,12 @@ function preData(dataRequest){
           
           //Para sacar el margen de error
           var margenErrorPesoBrutoTotal = mercanciasRPesoBrutoTotal * (toleranciaPeso/100);
-          console.log(margenErrorPesoBrutoTotal);
 
-          if(mercanciasVPesoBrutoTotal <= mercanciasRPesoBrutoTotal + margenErrorPesoBrutoTotal && mercanciasVPesoBrutoTotal >= mercanciasRPesoBrutoTotal - margenErrorPesoBrutoTotal)
+          if(parseFloat(mercanciasVPesoBrutoTotal) <= Math.round(parseFloat(mercanciasRPesoBrutoTotal) + parseFloat(margenErrorPesoBrutoTotal)) && parseFloat(mercanciasVPesoBrutoTotal) >= Math.round(parseFloat(mercanciasRPesoBrutoTotal) - parseFloat(margenErrorPesoBrutoTotal)))
           {
            
-            for(var i=0; i<mercanciasV.length; i++)
+            var errorMercancia ="";
+            /*for(var i=0; i<mercanciasV.length; i++)
             {
               var mercanciaVActual = mercanciasV[i]
               if(mercanciaVActual.name === "cartaporte20:Mercancia")
@@ -1141,8 +1176,8 @@ function preData(dataRequest){
                 {
                   if(mercanciasR[j].name === "cartaporte20:Mercancia")
                   {
-                    var cantidadV = Number(mercanciaVActual.attributes.Cantidad);
-                    var cantidadR =  Number(mercanciasR[j].attributes.Cantidad);
+                    var cantidadV = parseFloat(mercanciaVActual.attributes.Cantidad);
+                    var cantidadR =  parseFloat(mercanciasR[j].attributes.Cantidad);
 
                     //Para validar el peso de cada mercancia
                     var mercanciaRPesoEnKg = mercanciaVActual.attributes.PesoEnKg;
@@ -1150,16 +1185,14 @@ function preData(dataRequest){
                     
                     //Para sacar el margen de error
                     var margenErrorPesoEnKg = mercanciaRPesoEnKg * (toleranciaPeso/100);
-                    //console.log(mercanciaRPesoEnKg);
-                    //console.log(mercanciaVPesoEnKg);
 
                     if((mercanciaVActual.attributes.BienesTransp === mercanciasR[j].attributes.BienesTransp)
                     && (cantidadV === cantidadR)
                     && (mercanciaVActual.attributes.ClaveUnidad === mercanciasR[j].attributes.ClaveUnidad)
-                    && (mercanciaVActual.attributes.CveMaterialPeligroso === mercanciasR[j].attributes.CveMaterialPeligroso)
-                    && (mercanciaVActual.attributes.Embalaje === mercanciasR[j].attributes.Embalaje)
-                    && (mercanciaVActual.attributes.MaterialPeligroso === mercanciasR[j].attributes.MaterialPeligroso)
-                    && (mercanciaVPesoEnKg <= mercanciaRPesoEnKg + margenErrorPesoEnKg && mercanciaVPesoEnKg >= mercanciaRPesoEnKg - margenErrorPesoEnKg))
+                    //&& (mercanciaVActual.attributes.CveMaterialPeligroso === mercanciasR[j].attributes.CveMaterialPeligroso)
+                    //&& (mercanciaVActual.attributes.Embalaje === mercanciasR[j].attributes.Embalaje)
+                    //&& (mercanciaVActual.attributes.MaterialPeligroso === mercanciasR[j].attributes.MaterialPeligroso)
+                    && (parseFloat(mercanciaVPesoEnKg) <= Math.round(parseFloat(mercanciaRPesoEnKg) + parseFloat(margenErrorPesoEnKg)) && parseFloat(mercanciaVPesoEnKg) >= Math.round(parseFloat(mercanciaRPesoEnKg) - parseFloat(margenErrorPesoEnKg))))
                     {
                       //mercanciaFlag = true
                       //console.log(mercanciaVActual.elements)
@@ -1170,8 +1203,8 @@ function preData(dataRequest){
                         var pedimentoMR = mercanciasR[j].elements.find(o => o.name === "cartaporte20:Pedimentos")
                         if(pedimentoMV !== undefined && pedimentoMR !== undefined)
                         {
-                          /*console.log(pedimentoMV.attributes.Pedimento)
-                          console.log(pedimentoMR.attributes.Pedimento)*/
+                          //console.log(pedimentoMV.attributes.Pedimento)
+                          //console.log(pedimentoMR.attributes.Pedimento)
                           if(pedimentoMV.attributes.Pedimento === pedimentoMR.attributes.Pedimento)
                           {
                             mercanciaFlag = true
@@ -1215,17 +1248,267 @@ function preData(dataRequest){
                         mercanciaFlag = true
                       }
                     }
+                    else {
+                      console.log(mercanciaVActual.attributes)
+                      console.log(mercanciasR[j].attributes)
+                      
+                      if((mercanciaVActual.attributes.BienesTransp !== mercanciasR[j].attributes.BienesTransp))
+                      {
+                        errorMercancia = "Los bienes transportados no son iguales.";
+                      }
+                      if(cantidadV !== cantidadR)
+                      {
+                        errorMercancia = "Las cantidades no son iguales.";
+                      }
+                      if(mercanciaVActual.attributes.ClaveUnidad !== mercanciasR[j].attributes.ClaveUnidad)
+                      {
+                        errorMercancia = "Las claves unidades no son iguales";
+                      }
+                      if(mercanciaVActual.attributes.Embalaje !== mercanciasR[j].attributes.Embalaje)
+                      {
+                        errorMercancia = "Los embalajes no son iguales";
+                      }
+                      if(parseFloat(mercanciaVPesoEnKg) <= Math.round(parseFloat(mercanciaRPesoEnKg) + parseFloat(margenErrorPesoEnKg)) && parseFloat(mercanciaVPesoEnKg) >= Math.round(parseFloat(mercanciaRPesoEnKg) - parseFloat(margenErrorPesoEnKg)))
+                      {
+                        errorMercancia = "Los pesos no están dentro del rango.";
+                      }
+                    }
                   }
                 }
                 if(mercanciaFlag === false)
                 {
                   //EL ARCHIVO SE VA A SUBIR CON ERROR
-                  error = " Las mercancías no son iguales.";
-                  console.log("LAS MERCANCIAS NO SON IGUALES")
+                  error = " Las mercancías no son iguales. " + errorMercancia;
+                  console.log("LAS MERCANCIAS NO SON IGUALES " + errorMercancia)
                   uploadXmlFinal(false, error)
                   i = mercanciasV.length
                   mercanciaFalse++
                   //console.log(mercanciaVActual)
+                }
+              }
+            }*/
+            var errorMercancia ="";
+            for(var i=0; i<mercanciasV.length; i++)
+            {
+              var mercanciaVActual = mercanciasV[i];
+              if(mercanciaVActual.name === "cartaporte20:Mercancia")
+              {
+                //console.log(mercanciaVActual.attributes.BienesTransp)
+                //console.log("MERCANCIA: " + i)
+                var mercanciaFlag = false;
+                var mercanciaRActual = mercanciasR.find(o => o.attributes.BienesTransp === mercanciaVActual.attributes.BienesTransp)
+                if(mercanciaRActual !== undefined)
+                {
+                  //console.log("NO SOY UNDEFINED")
+                  var cantidadV = parseFloat(mercanciaVActual.attributes.Cantidad);
+                  var cantidadR =  parseFloat(mercanciaRActual.attributes.Cantidad);
+
+                  //Para validar el peso de cada mercancia
+                  var mercanciaVPesoEnKg = mercanciaVActual.attributes.PesoEnKg;
+                  var mercanciaRPesoEnKg = mercanciaRActual.attributes.PesoEnKg;
+                  
+                  //Para sacar el margen de error
+                  var margenErrorPesoEnKg = mercanciaRPesoEnKg * (toleranciaPeso/100);
+
+                  //Verificamos que las claves unidades sean iguales
+                  if(mercanciaVActual.attributes.ClaveUnidad === mercanciaRActual.attributes.ClaveUnidad)
+                  {
+                    //console.log("Pase la Clave Unidad")
+                    //Verificamos que las cantidades sean iguales
+                    if(cantidadV === cantidadR)
+                    {
+                      //console.log("Pase la Cantidad")
+
+                      //Verificamos que el peso en kg esté dentro del rango
+                      if(parseFloat(mercanciaVPesoEnKg) <= Math.round(parseFloat(mercanciaRPesoEnKg) + parseFloat(margenErrorPesoEnKg)) && parseFloat(mercanciaVPesoEnKg) >= Math.round(parseFloat(mercanciaRPesoEnKg) - parseFloat(margenErrorPesoEnKg)))
+                      {
+                        //console.log("Pase el peso en kilogramos");
+                        if(mercanciaRActual.attributes.MaterialPeligroso === "Si" || mercanciaRActual.attributes.MaterialPeligroso === "Sí")
+                        {
+                          //console.log("La solicitud si tiene Material Peligroso")
+                          if(mercanciaVActual.attributes.MaterialPeligroso !== undefined)
+                          {
+                            //Verificamos que el material peligroso sea igual
+                            var MaterialVPeligroso = removeAccents(mercanciaVActual.attributes.MaterialPeligroso)
+                            var MaterialRPeligroso = removeAccents(mercanciaRActual.attributes.MaterialPeligroso)
+                            if(MaterialVPeligroso === MaterialRPeligroso)
+                            {
+                              //Verificamos la clave material peligroso
+                              if(mercanciaVActual.attributes.CveMaterialPeligroso === mercanciaRActual.attributes.CveMaterialPeligroso)
+                              {
+                                //Se verifica el embalaje
+                                if(mercanciaVActual.attributes.Embalaje === mercanciaRActual.attributes.Embalaje)
+                                {
+                                  if(mercanciaVActual.elements !== undefined && mercanciaRActual.elements !== undefined)
+                                  {
+                                    var pedimentoMV = mercanciaVActual.elements.find(o => o.name === "cartaporte20:Pedimentos")
+                                    var pedimentoMR = mercanciaRActual.elements.find(o => o.name === "cartaporte20:Pedimentos")
+                                    if(pedimentoMV !== undefined && pedimentoMR !== undefined)
+                                    {
+                                      //console.log(pedimentoMV.attributes.Pedimento)
+                                      //console.log(pedimentoMR.attributes.Pedimento)
+                                      if(pedimentoMV.attributes.Pedimento === pedimentoMR.attributes.Pedimento)
+                                      {
+                                        mercanciaFlag = true;
+                                      }
+                                      else {
+                                        error = " Las mercancías no son iguales por el pedimento."
+                                        //console.log("LAS MERCANCIAS NO SON IGUALES POR EL PEDIMENTO")
+                                        mercanciaFlag = false;
+                                      }
+                                    }
+
+                                    if(mercanciaVActual.elements.length === mercanciaRActual.elements.length)
+                                    {
+                                      for(var cT = 0; cT < mercanciaVActual.elements.length; cT++)
+                                      {
+                                        var cantidadMV = mercanciaVActual.elements.find(o => o.name === "cartaporte20:CantidadTransporta")
+                                        var cantidadMR = mercanciaRActual.elements.find(o => o.name === "cartaporte20:CantidadTransporta")
+                                        if(cantidadMV !== undefined && cantidadMR !== undefined)
+                                        {
+                                          if(cantidadMV.attributes.Cantidad === cantidadMR.attributes.Cantidad
+                                            && cantidadMV.attributes.IDOrigen === cantidadMR.attributes.IDOrigen
+                                            && cantidadMV.attributes.IDDestino === cantidadMR.attributes.IDDestino)
+                                          {
+                                            mercanciaFlag = true;
+                                          }
+                                          else {
+                                            error = "La mercancía con Bienes Transportados " + mercanciaVActual.attributes.BienesTransp + " no tiene el mismo número de elementos que la solicitud."
+                                            //console.log("LAS MERCANCIAS NO SON IGUALES POR LA CANTIDAD TRANSPORTA")
+                                            mercanciaFlag = false;
+                                          }
+                                        }
+                                      }
+                                    }
+                                    else {
+                                      error = "La mercancía con Bienes Transportados " + mercanciaVActual.attributes.BienesTransp + " no tiene el mismo número de elementos que la solicitud."
+                                      //console.log("LAS MERCANCIAS NO TIENEN EL MISMO NUMERO DE ELEMENTOS")
+                                      mercanciaFlag = false;
+                                    }
+                                  }
+                                  else {
+                                    mercanciaFlag = true;
+                                  }
+                                }
+                                else {
+                                  errorMercancia = "La mercancía con Bienes Transportados " + mercanciaVActual.attributes.BienesTransp + " no tiene el mismo embalaje que la solicitud."
+                                  mercanciaFlag = false;
+                                }
+                              }
+                              else {
+                                errorMercancia = "La mercancía con Bienes Transportados " + mercanciaVActual.attributes.BienesTransp + " no tiene la misma clave material peligroso que la solicitud."
+                                mercanciaFlag = false;
+                              }
+                            }
+                            else 
+                            {
+                              errorMercancia = "La mercancía con Bienes Transportados " + mercanciaVActual.attributes.BienesTransp + " no tiene el mismo material peligroso que la solicitud."
+                              mercanciaFlag = false;
+                            }
+                          }
+                          else {
+                            errorMercancia = "La mercancía con Bienes Transportados " + mercanciaVActual.attributes.BienesTransp + " no contiene material peligroso, pero la solicitud si."
+                            //console.log("La mercancía con Bienes Transportados " + mercanciaVActual.attributes.BienesTransp + " no contiene material peligroso, pero la solicitud si.")
+                            mercanciaFlag = false;
+                          }
+                          
+                        }
+                        else {
+                          if(mercanciaVActual.elements !== undefined && mercanciaRActual.elements !== undefined)
+                          {
+                            console.log(mercanciaVActual.elements)
+                            var pedimentoMV = mercanciaVActual.elements.find(o => o.name === "cartaporte20:Pedimentos")
+                            var pedimentoMR = mercanciaRActual.elements.find(o => o.name === "cartaporte20:Pedimentos")
+                            if(pedimentoMV !== undefined && pedimentoMR !== undefined)
+                            {
+                              //console.log(pedimentoMV.attributes.Pedimento)
+                              //console.log(pedimentoMR.attributes.Pedimento)
+                              if(pedimentoMV.attributes.Pedimento === pedimentoMR.attributes.Pedimento)
+                              {
+                                mercanciaFlag = true;
+                              }
+                              else {
+                                error = " Las mercancías no son iguales por el pedimento."
+                                //console.log("LAS MERCANCIAS NO SON IGUALES POR EL PEDIMENTO")
+                                mercanciaFlag = false;
+                              }
+                            }
+
+                            if(mercanciaVActual.elements.length === mercanciaRActual.elements.length)
+                            {
+                              for(var cT = 0; cT < mercanciaVActual.elements.length; cT++)
+                              {
+                                var cantidadMV = mercanciaVActual.elements.find(o => o.name === "cartaporte20:CantidadTransporta")
+                                var cantidadMR = mercanciaRActual.elements.find(o => o.name === "cartaporte20:CantidadTransporta")
+                                if(cantidadMV !== undefined && cantidadMR !== undefined)
+                                {
+                                  if(cantidadMV.attributes.Cantidad === cantidadMR.attributes.Cantidad
+                                    && cantidadMV.attributes.IDOrigen === cantidadMR.attributes.IDOrigen
+                                    && cantidadMV.attributes.IDDestino === cantidadMR.attributes.IDDestino)
+                                  {
+                                    mercanciaFlag = true;
+                                  }
+                                  else {
+                                    error = "La mercancía con Bienes Transportados " + mercanciaVActual.attributes.BienesTransp + " no tiene el mismo número de elementos que la solicitud."
+                                    //console.log("LAS MERCANCIAS NO SON IGUALES POR LA CANTIDAD TRANSPORTA")
+                                    mercanciaFlag = false;
+
+                                  }
+                                }
+                              }
+                            }
+                            else {
+                              error = "La mercancía con Bienes Transportados " + mercanciaVActual.attributes.BienesTransp + " no tiene el mismo número de elementos que la solicitud."
+                              //console.log("LAS MERCANCIAS NO TIENEN EL MISMO NUMERO DE ELEMENTOS")
+                              mercanciaFlag = false;
+                            }
+                          }
+                          else {
+                            mercanciaFlag = true;
+                          }
+                        }
+                      }
+                      else {
+                        //console.log("La mercancía con Bienes Transportados " + mercanciaVActual.attributes.BienesTransp + " no tiene el mismo peso en kg que la solicitud.")
+                        errorMercancia = "La mercancía con Bienes Transportados " + mercanciaVActual.attributes.BienesTransp + " no tiene el mismo peso en kg que la solicitud."
+                        mercanciaFlag = false;
+                      }
+                    }
+                    else {
+                      //console.log("La mercancía con Bienes Transportados " + mercanciaVActual.attributes.BienesTransp + " no tiene la misma cantidad que la solicitud.")
+                      errorMercancia = "La mercancía con Bienes Transportados " + mercanciaVActual.attributes.BienesTransp + " no tiene la misma cantidad que la solicitud."
+                      mercanciaFlag = false;
+                    }
+                  }
+                  else {
+                    //console.log("La mercancía con Bienes Transportados " + mercanciaVActual.attributes.BienesTransp + " no tiene la misma clave unidad que la solicitud.")
+                    errorMercancia = "La mercancía con Bienes Transportados " + mercanciaVActual.attributes.BienesTransp + " no tiene la misma clave unidad que la solicitud."
+                    mercanciaFlag = false;
+                    
+                  }
+
+                  if(mercanciaFlag === false)
+                  {
+                    //EL ARCHIVO SE VA A SUBIR CON ERROR
+                    error = " Las mercancías no son iguales. " + errorMercancia;
+                    //console.log("LAS MERCANCIAS NO SON IGUALES " + errorMercancia)
+                    uploadXmlFinal(false, error)
+                    i = mercanciasV.length
+                    mercanciaFalse++
+                    //console.log(mercanciaVActual)
+                  }
+                }
+                else {
+                  if(mercanciaFlag === false)
+                  {
+                    //EL ARCHIVO SE VA A SUBIR CON ERROR
+                    error = " Las mercancías no son iguales. " + errorMercancia;
+                    //console.log("LAS MERCANCIAS NO SON IGUALES " + errorMercancia)
+                    uploadXmlFinal(false, error)
+                    i = mercanciasV.length
+                    mercanciaFalse++
+                    //console.log(mercanciaVActual)
+                  }
                 }
               }
             }
@@ -1247,14 +1530,14 @@ function preData(dataRequest){
       else {
         //EL ARCHIVO SE VA A SUBIR CON ERROR
         error = " La cantidad de mercancias es diferente.";
-        console.log("LA CANTIDAD DE MERCANCIAS ES DIFERENTE")
+        //console.log("LA CANTIDAD DE MERCANCIAS ES DIFERENTE")
         uploadXmlFinal(false, error)
       }
     }
     else {
       //EL ARCHIVO SE VA A SUBIR CON ERROR
       error = " La cantidad de ubicaciones es diferente.";
-      console.log("LA CANTIDAD DE UBICACIONES ES DIFERENTE")
+      //console.log("LA CANTIDAD DE UBICACIONES ES DIFERENTE")
       uploadXmlFinal(false, error)
     }
   }
@@ -1560,7 +1843,7 @@ function preData(dataRequest){
             resetFileInputPdf()
             resetFileInputText()
             setRequester("")
-            autoCloseAlert(data.data.message + error)
+            autoCloseAlertCargaInvoices(data.data.message + error)
             updateAddData()
           }
           else {
@@ -1569,7 +1852,7 @@ function preData(dataRequest){
             resetFileInputPdf()
             resetFileInputText()
             setRequester("")
-            autoCloseAlert(data.data.message)
+            autoCloseAlertCargaInvoices(data.data.message)
           }
         }
     });
@@ -1642,6 +1925,10 @@ function preData(dataRequest){
       });
     }
   }
+
+  const removeAccents = (str) => {
+    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  } 
 
   function filterClick()
   {

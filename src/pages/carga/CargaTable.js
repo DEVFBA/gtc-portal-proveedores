@@ -74,7 +74,7 @@ function CargaTable({dataTable, ip, autoCloseAlert, updateAddData, workflowTypes
 
     const [dataState, setDataState] = useState(
         dataTable.map((prop, key) => {
-            console.log(prop)
+            //console.log(prop)
             var fechaFinal1 = "";
             
             if(prop.Due_Date !== null)
@@ -153,7 +153,7 @@ function CargaTable({dataTable, ip, autoCloseAlert, updateAddData, workflowTypes
               actions: (
                 // ACCIONES A REALIZAR EN CADA REGISTRO
                 <div className="actions-center">
-                  {/*IMPLEMENTAR EDICION PARA CADA REGISTRO */}
+                  {/*IMPLEMENTAR VISTA DE CFDI PARA CADA REGISTRO */}
                   <abbr title="Ver Contenido CFDI">
                     <button
                       onClick={() => {

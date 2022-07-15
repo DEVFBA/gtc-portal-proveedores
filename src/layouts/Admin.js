@@ -44,6 +44,7 @@ import DashboardAccPaya from '../dashboards/accpaya'
 import DashboardAdobeSigner from '../dashboards/adobesigner'
 import ExternalApplications from "../pages/applications/ExternalApplications"
 import Accounts from "../pages/cat-accounts/Accounts"
+import CartaPorteRequestsXML from "../pages/carga/CartaPorteRequestsXML"
 
 import Cargando from "../assets/img/loading_icon.gif";
 
@@ -85,6 +86,9 @@ function Admin(props) {
 
     //Para el alert de cargando carga
     const [alert4, setAlert4] = React.useState(null);
+
+    //Para mostrar una alerta al actualizar o insertar registro
+    const [alert5, setAlert5] = React.useState(null);
 
     //Para el cierre de sesión cuando no hay actividad
     const [timeout, setTimeout] = useState(1800000); //despues de media hora se cierra la sesión
@@ -620,6 +624,19 @@ function Admin(props) {
                 views: []
               }
             )
+
+            routesAux2.push(
+              {
+                collapse: false,
+                path: "/xml-tree-cp-requests/:requestNumber/",
+                name: "Árbol XML Solicitud Carta Porte",
+                icon: 'dashboard',
+                component: "CartaPorteRequestsXML",
+                layout: ambiente + "/admin",
+                views: []
+              }
+            )
+
             routesAux2.push(
               {
                 collapse: false,
@@ -662,6 +679,18 @@ function Admin(props) {
                 name: "Árbol XML",
                 icon: 'dashboard',
                 component: "CargaXML",
+                layout: ambiente + "/admin",
+                views: []
+              }
+            )
+
+            routesAux2.push(
+              {
+                collapse: false,
+                path: "/xml-tree-cp-requests/:requestNumber/",
+                name: "Árbol XML Solicitud Carta Porte",
+                icon: 'dashboard',
+                component: "CartaPorteRequestsXML",
                 layout: ambiente + "/admin",
                 views: []
               }
@@ -914,7 +943,7 @@ function Admin(props) {
                 <Route
                   path={prop.layout + prop.path}
                 >
-                  <Carga autoCloseAlert = {autoCloseAlert} autoCloseAlertEvidencias = {autoCloseAlertEvidencias} autoCloseAlertCarga = {autoCloseAlertCarga} hideAlert4 = {hideAlert4}/>
+                  <Carga autoCloseAlert = {autoCloseAlert} autoCloseAlertEvidencias = {autoCloseAlertEvidencias} autoCloseAlertCarga = {autoCloseAlertCarga} hideAlert4 = {hideAlert4} autoCloseAlertCargaInvoices = {autoCloseAlertCargaInvoices}/>
                 </Route>
               );
             }
@@ -955,6 +984,16 @@ function Admin(props) {
                   path={prop.layout + prop.path}
                 >
                   <CargaXML pathFile = {pathFile}/>
+                </Route>
+              );
+            }
+            else if(prop.component === "CartaPorteRequestsXML")
+            {
+              return (
+                <Route
+                  path={prop.layout + prop.path}
+                >
+                  <CartaPorteRequestsXML/>
                 </Route>
               );
             }
@@ -1026,6 +1065,22 @@ function Admin(props) {
         window.setTimeout(()=>{
           hideAlert()
         },3000)
+    };
+
+    const autoCloseAlertCargaInvoices = (mensaje) => {
+      setAlert5(
+          <ReactBSAlert
+              style={{ display: "block", display: "flex", justifyContent: "center", alignItems: "center" }}
+              title="Mensaje"
+              onConfirm={() => hideAlert5()}
+              showConfirm={false}
+              >
+          {mensaje}
+          </ReactBSAlert>
+      );
+      window.setTimeout(()=>{
+        hideAlert5()
+      },9000)
     };
 
     const autoCloseAlertPool = (mensaje) => {
@@ -1150,6 +1205,10 @@ function Admin(props) {
       setAlert4(null);
     };
 
+    const hideAlert5 = () => {
+      setAlert5(null);
+    };
+
     return dataFind === false ? (
         <div
             data-layout={layout}
@@ -1170,6 +1229,7 @@ function Admin(props) {
             {alert2}
             {alert3}
             {alert4}
+            {alert5}
             <Navbar1 layout = {layout} setLayout = {setLayout} changeImageP = {changeImageP}/>
             <div className={isEmptyView ? '' : 'container-fluid'}>
                 <div className={isEmptyView ? '' : 'row'}>

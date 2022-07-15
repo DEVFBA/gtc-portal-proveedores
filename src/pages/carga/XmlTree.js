@@ -168,6 +168,7 @@ function XmlTree({dataString, dataMunicipios, dataLocalities, dataColonias}) {
 
               //Posteriormente vamos a pintar la tabla de Mercancias
               var conceptos = json[i]
+
               
               //console.log(conceptos)
               var columnas  = Object.keys(conceptos.elements[0].attributes).length;
@@ -193,7 +194,7 @@ function XmlTree({dataString, dataMunicipios, dataLocalities, dataColonias}) {
                 {
                   tabla = tabla + "<tr>"
                   divs = divs + '<Row className="tree-rows">' 
-                  for(var y=0; y< columnas; y++)
+                  /*for(var y=0; y< columnas; y++)
                   {
                     divs = divs + '<Col>' 
                     var encabezado = Object.keys(conceptos.elements[x].attributes)[y]
@@ -201,20 +202,141 @@ function XmlTree({dataString, dataMunicipios, dataLocalities, dataColonias}) {
                     tabla = tabla + "<th>"+ encabezado + "</th>"
                     divs = divs + encabezado
                     divs = divs + '</Col>' 
-                  }
+                    console.log(encabezado)
+                  }*/
+                  /*SECCION NUEVA*/
+                  var encabezado = ""
+
+                  divs = divs + '<Col>'
+                  encabezado = "Bienes Transp"
+                  tabla = tabla + "<th>"+ encabezado + "</th>"
+                  divs = divs + encabezado
+                  divs = divs + '</Col>' 
+
+                  divs = divs + '<Col>' 
+                  encabezado = "Descripción"
+                  tabla = tabla + "<th>"+ encabezado + "</th>"
+                  divs = divs + encabezado
+                  divs = divs + '</Col>' 
+
+                  divs = divs + '<Col>' 
+                  encabezado = "Cantidad"
+                  tabla = tabla + "<th>"+ encabezado + "</th>"
+                  divs = divs + encabezado
+                  divs = divs + '</Col>' 
+
+                  divs = divs + '<Col>' 
+                  encabezado = "Clave Unidad"
+                  tabla = tabla + "<th>"+ encabezado + "</th>"
+                  divs = divs + encabezado
+                  divs = divs + '</Col>' 
+
+                  divs = divs + '<Col>' 
+                  encabezado = "Peso en Kg"
+                  tabla = tabla + "<th>"+ encabezado + "</th>"
+                  divs = divs + encabezado
+                  divs = divs + '</Col>' 
+                  
+                  divs = divs + '<Col>' 
+                  encabezado = "Material Peligroso"
+                  tabla = tabla + "<th>"+ encabezado + "</th>"
+                  divs = divs + encabezado
+                  divs = divs + '</Col>' 
+
+                  divs = divs + '<Col>' 
+                  encabezado = "Cve. Material Peligroso"
+                  tabla = tabla + "<th>"+ encabezado + "</th>"
+                  divs = divs + encabezado
+                  divs = divs + '</Col>' 
+
+                  divs = divs + '<Col>' 
+                  encabezado = "Embalaje"
+                  tabla = tabla + "<th>"+ encabezado + "</th>"
+                  divs = divs + encabezado
+                  divs = divs + '</Col>' 
+
+                  /*TERMINA SECCION NUEVA*/
+
                   tabla = tabla + "</tr>"
                   divs = divs + '</Row>'
+
+
                   divs = divs + '<Row className="tree-rows-content-first">'  
                   tabla = tabla + "<tr>"
-                  for(var y=0; y< columnas; y++)
+                 /* for(var y=0; y< columnas; y++)
                   {
+                    console.log(conceptos.elements[x].attributes.BienesTransp)
                     divs = divs + '<Col>' 
                     tabla = tabla + '<td className="table-active">'+ Object.values(conceptos.elements[x].attributes)[y] + "</td>"
                     divs = divs + Object.values(conceptos.elements[x].attributes)[y] 
                     divs = divs + '</Col>' 
+                  }*/
+
+                  /*SECCION NUEVA*/
+
+                  divs = divs + '<Col>' 
+                  tabla = tabla + '<td className="table-active">'+ conceptos.elements[x].attributes.BienesTransp + "</td>"
+                  divs = divs + conceptos.elements[x].attributes.BienesTransp
+                  divs = divs + '</Col>' 
+
+                  divs = divs + '<Col>' 
+                  tabla = tabla + '<td className="table-active">'+ conceptos.elements[x].attributes.Descripcion + "</td>"
+                  divs = divs + conceptos.elements[x].attributes.Descripcion
+                  divs = divs + '</Col>' 
+
+                  divs = divs + '<Col>' 
+                  tabla = tabla + '<td className="table-active">'+ conceptos.elements[x].attributes.Cantidad + "</td>"
+                  divs = divs + conceptos.elements[x].attributes.Cantidad
+                  divs = divs + '</Col>' 
+
+                  divs = divs + '<Col>' 
+                  tabla = tabla + '<td className="table-active">'+ conceptos.elements[x].attributes.ClaveUnidad + "</td>"
+                  divs = divs + conceptos.elements[x].attributes.ClaveUnidad
+                  divs = divs + '</Col>' 
+
+                  divs = divs + '<Col>' 
+                  tabla = tabla + '<td className="table-active">'+ conceptos.elements[x].attributes.PesoEnKg + "</td>"
+                  divs = divs + conceptos.elements[x].attributes.PesoEnKg
+                  divs = divs + '</Col>' 
+
+                  var materialPeligroso = "-"
+                  if(conceptos.elements[x].attributes.MaterialPeligroso !== undefined)
+                  {
+                    materialPeligroso = conceptos.elements[x].attributes.MaterialPeligroso;
                   }
+
+                  divs = divs + '<Col>' 
+                  tabla = tabla + '<td className="table-active">'+ materialPeligroso + "</td>"
+                  divs = divs + materialPeligroso
+                  divs = divs + '</Col>' 
+
+                  var cveMaterialPeligroso = "-"
+                  if(conceptos.elements[x].attributes.CveMaterialPeligroso !== undefined)
+                  {
+                    cveMaterialPeligroso = conceptos.elements[x].attributes.CveMaterialPeligroso;
+                  }
+
+                  divs = divs + '<Col>' 
+                  tabla = tabla + '<td className="table-active">'+ cveMaterialPeligroso + "</td>"
+                  divs = divs + cveMaterialPeligroso
+                  divs = divs + '</Col>' 
+
+                  var embalaje = "-"
+                  if(conceptos.elements[x].attributes.Embalaje !== undefined)
+                  {
+                    embalaje = conceptos.elements[x].attributes.Embalaje;
+                  }
+
+                  divs = divs + '<Col>' 
+                  tabla = tabla + '<td className="table-active">'+ embalaje+ "</td>"
+                  divs = divs + embalaje
+                  divs = divs + '</Col>' 
+
+                  /*TERMINA SECCION NUEVA*/
                   tabla = tabla + "</tr>"
                   divs = divs + '</Row>'
+
+                  /*Se van a pintar los elementos de cada mercancía*/
                   if(conceptos.elements[x].elements!==undefined)
                   {
                     //console.log(conceptos.elements[x].elements)
@@ -272,16 +394,78 @@ function XmlTree({dataString, dataMunicipios, dataLocalities, dataColonias}) {
                   }
                 }
                 else {
+                  
                   var columnas  = Object.keys(conceptos.elements[0].attributes).length;
                   tabla = tabla + "<tr>"
                   divs = divs + '<Row className="tree-rows-content-late">'
-                  for(var y=0; y< columnas; y++)
+                  /*for(var y=0; y< columnas; y++)
                   {
                       divs = divs + '<Col>' 
                       tabla = tabla + '<td className="table-active">' + Object.values(conceptos.elements[x].attributes)[y] + "</td>"
                       divs = divs + Object.values(conceptos.elements[x].attributes)[y]
                       divs = divs + '</Col>' 
+                  }*/
+
+                  /*SECCION NUEVA*/
+                  divs = divs + '<Col>' 
+                  tabla = tabla + '<td className="table-active">'+ conceptos.elements[x].attributes.BienesTransp + "</td>"
+                  divs = divs + conceptos.elements[x].attributes.BienesTransp
+                  divs = divs + '</Col>' 
+
+                  divs = divs + '<Col>' 
+                  tabla = tabla + '<td className="table-active">'+ conceptos.elements[x].attributes.Descripcion + "</td>"
+                  divs = divs + conceptos.elements[x].attributes.Descripcion
+                  divs = divs + '</Col>' 
+
+                  divs = divs + '<Col>' 
+                  tabla = tabla + '<td className="table-active">'+ conceptos.elements[x].attributes.Cantidad + "</td>"
+                  divs = divs + conceptos.elements[x].attributes.Cantidad
+                  divs = divs + '</Col>' 
+
+                  divs = divs + '<Col>' 
+                  tabla = tabla + '<td className="table-active">'+ conceptos.elements[x].attributes.ClaveUnidad + "</td>"
+                  divs = divs + conceptos.elements[x].attributes.ClaveUnidad
+                  divs = divs + '</Col>' 
+
+                  divs = divs + '<Col>' 
+                  tabla = tabla + '<td className="table-active">'+ conceptos.elements[x].attributes.PesoEnKg + "</td>"
+                  divs = divs + conceptos.elements[x].attributes.PesoEnKg
+                  divs = divs + '</Col>' 
+
+                  var materialPeligroso = "-"
+                  if(conceptos.elements[x].attributes.MaterialPeligroso !== undefined)
+                  {
+                    materialPeligroso = conceptos.elements[x].attributes.MaterialPeligroso;
                   }
+
+                  divs = divs + '<Col>' 
+                  tabla = tabla + '<td className="table-active">'+ materialPeligroso + "</td>"
+                  divs = divs + materialPeligroso
+                  divs = divs + '</Col>' 
+
+                  var cveMaterialPeligroso = "-"
+                  if(conceptos.elements[x].attributes.CveMaterialPeligroso !== undefined)
+                  {
+                    cveMaterialPeligroso = conceptos.elements[x].attributes.CveMaterialPeligroso;
+                  }
+
+                  divs = divs + '<Col>' 
+                  tabla = tabla + '<td className="table-active">'+ cveMaterialPeligroso + "</td>"
+                  divs = divs + cveMaterialPeligroso
+                  divs = divs + '</Col>' 
+
+                  var embalaje = "-"
+                  if(conceptos.elements[x].attributes.Embalaje !== undefined)
+                  {
+                    embalaje = conceptos.elements[x].attributes.Embalaje;
+                  }
+
+                  divs = divs + '<Col>' 
+                  tabla = tabla + '<td className="table-active">'+ embalaje+ "</td>"
+                  divs = divs + embalaje
+                  divs = divs + '</Col>' 
+                  /*TERMINA SECCION NUEVA*/
+
                   tabla = tabla + "</tr>"
                   divs = divs + '</Row>'
                   if(conceptos.elements[x].elements!==undefined)
