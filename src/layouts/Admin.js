@@ -648,6 +648,7 @@ function Admin(props) {
                 views: []
               }
             )
+
             routesAux2.push(
               {
                 collapse: false,
@@ -659,6 +660,7 @@ function Admin(props) {
                 views: []
               }
             )
+
             routesAux2.push(
               {
                 collapse: false,
@@ -670,6 +672,7 @@ function Admin(props) {
                 views: []
               }
             )
+
           }
           else if(params.pvIdRole == "VENDOR"){
             routesAux2.push(
@@ -728,6 +731,30 @@ function Admin(props) {
                 name: "Carga de Evidencias",
                 icon: 'dashboard',
                 component: "CargaEvidencias",
+                layout: ambiente + "/admin",
+                views: []
+              }
+            )
+
+            routesAux2.push(
+              {
+                collapse: false,
+                path: "/xml-tree/:uUID/",
+                name: "Árbol XML",
+                icon: 'dashboard',
+                component: "CargaXML",
+                layout: ambiente + "/admin",
+                views: []
+              }
+            )
+
+            routesAux2.push(
+              {
+                collapse: false,
+                path: "/xml-tree-cp-requests/:requestNumber/",
+                name: "Árbol XML Solicitud Carta Porte",
+                icon: 'dashboard',
+                component: "CartaPorteRequestsXML",
                 layout: ambiente + "/admin",
                 views: []
               }

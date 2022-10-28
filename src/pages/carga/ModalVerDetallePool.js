@@ -14,9 +14,6 @@ import {
 } from "reactstrap";
 
 function ModalVerDetallePool({abierto, toggleModalReadRecord, record, poolNumber, vendor}) {
-        // register form
-    //const [poolNumber, setPoolNumber] = React.useState("");
-    //const [vendor, setVendor] = React.useState("");
 
     const handleModalClick = () => {
         toggleModalReadRecord(!abierto);
@@ -75,7 +72,7 @@ function ModalVerDetallePool({abierto, toggleModalReadRecord, record, poolNumber
                                             <td>{item.UUID}</td>
                                             <td>{item.Serie}</td>
                                             <td>{item.Folio}</td>
-                                            <td>{"$" + Intl.NumberFormat("en-IN").format(item.Total)}</td>
+                                            <td>{"$" + parseFloat(item.Total).toLocaleString(undefined, {minimumFractionDigits: 2})}</td>
                                         </tr>
                                     ))
                                     }

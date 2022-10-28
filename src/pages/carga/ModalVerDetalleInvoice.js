@@ -69,7 +69,7 @@ function ModalVerDetalleInvoice({modalReadRecord, setModalReadRecord, record}) {
                             <Input
                                 name="text"
                                 type="text"
-                                value = {"$" + Intl.NumberFormat("en-IN").format(record.subtotal)}
+                                value = {"$" + parseFloat(record.subtotal).toLocaleString(undefined, {minimumFractionDigits: 2})}
                                 readOnly
                             />
                         </FormGroup>
@@ -78,7 +78,7 @@ function ModalVerDetalleInvoice({modalReadRecord, setModalReadRecord, record}) {
                             <Input
                                 name="text"
                                 type="text"
-                                value = {"$" + Intl.NumberFormat("en-IN").format(record.transferredTaxes)}
+                                value = {"$" + parseFloat(record.transferredTaxes).toLocaleString(undefined, {minimumFractionDigits: 2})}
                                 readOnly
                             />
                         </FormGroup>
@@ -87,7 +87,7 @@ function ModalVerDetalleInvoice({modalReadRecord, setModalReadRecord, record}) {
                             <Input
                                 name="text"
                                 type="text"
-                                value = {"$" + Intl.NumberFormat("en-IN").format(record.total)}
+                                value = {"$" + parseFloat(record.total).toLocaleString(undefined, {minimumFractionDigits: 2})}
                                 readOnly
                             />
                         </FormGroup>

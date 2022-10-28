@@ -1096,9 +1096,6 @@ function preData(dataRequest){
           var errorMessageUbicaciones = ""
           for(var j=0; j<ubicacionesR.length; j++)
           {
-            /*console.log("UBICACION " + i)
-            console.log(ubicacionVActual.attributes.TipoUbicacion)
-            console.log(ubicacionesR[j].attributes.TipoUbicacion)*/
             if(ubicacionVActual.attributes.TipoUbicacion === ubicacionesR[j].attributes.TipoUbicacion)
             {
               //console.log("Pase el tipo de ubicación")
@@ -1162,7 +1159,7 @@ function preData(dataRequest){
           //Para sacar el margen de error
           var margenErrorPesoBrutoTotal = mercanciasRPesoBrutoTotal * (toleranciaPeso/100);
 
-          if(parseFloat(mercanciasVPesoBrutoTotal) <= Math.round(parseFloat(mercanciasRPesoBrutoTotal) + parseFloat(margenErrorPesoBrutoTotal)) && parseFloat(mercanciasVPesoBrutoTotal) >= Math.round(parseFloat(mercanciasRPesoBrutoTotal) - parseFloat(margenErrorPesoBrutoTotal)))
+          if(parseFloat(mercanciasVPesoBrutoTotal) <= parseFloat(mercanciasRPesoBrutoTotal) + parseFloat(margenErrorPesoBrutoTotal) && parseFloat(mercanciasVPesoBrutoTotal) >= parseFloat(mercanciasRPesoBrutoTotal) - parseFloat(margenErrorPesoBrutoTotal))
           {
            
             var errorMercancia ="";
@@ -1320,7 +1317,7 @@ function preData(dataRequest){
                       //console.log("Pase la Cantidad")
 
                       //Verificamos que el peso en kg esté dentro del rango
-                      if(parseFloat(mercanciaVPesoEnKg) <= Math.round(parseFloat(mercanciaRPesoEnKg) + parseFloat(margenErrorPesoEnKg)) && parseFloat(mercanciaVPesoEnKg) >= Math.round(parseFloat(mercanciaRPesoEnKg) - parseFloat(margenErrorPesoEnKg)))
+                      if(parseFloat(mercanciaVPesoEnKg) <= parseFloat(mercanciaRPesoEnKg) + parseFloat(margenErrorPesoEnKg) && parseFloat(mercanciaVPesoEnKg) >= parseFloat(mercanciaRPesoEnKg) - parseFloat(margenErrorPesoEnKg))
                       {
                         //console.log("Pase el peso en kilogramos");
                         if(mercanciaRActual.attributes.MaterialPeligroso === "Si" || mercanciaRActual.attributes.MaterialPeligroso === "Sí")
@@ -1336,24 +1333,21 @@ function preData(dataRequest){
                               //Verificamos la clave material peligroso
                               if(mercanciaVActual.attributes.CveMaterialPeligroso === mercanciaRActual.attributes.CveMaterialPeligroso)
                               {
-                                //Se verifica el embalaje
-                                if(mercanciaVActual.attributes.Embalaje === mercanciaRActual.attributes.Embalaje)
-                                {
+                                //Se verifica el embalaje (DE MOMENTO COMENTAR PARA QUE LAS PUEDAN SUBIR ASI)
+                                //if(mercanciaVActual.attributes.Embalaje === mercanciaRActual.attributes.Embalaje)
+                                //{
                                   if(mercanciaVActual.elements !== undefined && mercanciaRActual.elements !== undefined)
                                   {
                                     var pedimentoMV = mercanciaVActual.elements.find(o => o.name === "cartaporte20:Pedimentos")
                                     var pedimentoMR = mercanciaRActual.elements.find(o => o.name === "cartaporte20:Pedimentos")
                                     if(pedimentoMV !== undefined && pedimentoMR !== undefined)
                                     {
-                                      //console.log(pedimentoMV.attributes.Pedimento)
-                                      //console.log(pedimentoMR.attributes.Pedimento)
                                       if(pedimentoMV.attributes.Pedimento === pedimentoMR.attributes.Pedimento)
                                       {
                                         mercanciaFlag = true;
                                       }
                                       else {
                                         error = " Las mercancías no son iguales por el pedimento."
-                                        //console.log("LAS MERCANCIAS NO SON IGUALES POR EL PEDIMENTO")
                                         mercanciaFlag = false;
                                       }
                                     }
@@ -1389,11 +1383,11 @@ function preData(dataRequest){
                                   else {
                                     mercanciaFlag = true;
                                   }
-                                }
+                                /*}
                                 else {
                                   errorMercancia = "La mercancía con Bienes Transportados " + mercanciaVActual.attributes.BienesTransp + " no tiene el mismo embalaje que la solicitud."
                                   mercanciaFlag = false;
-                                }
+                                }*/
                               }
                               else {
                                 errorMercancia = "La mercancía con Bienes Transportados " + mercanciaVActual.attributes.BienesTransp + " no tiene la misma clave material peligroso que la solicitud."
@@ -1421,8 +1415,6 @@ function preData(dataRequest){
                             var pedimentoMR = mercanciaRActual.elements.find(o => o.name === "cartaporte20:Pedimentos")
                             if(pedimentoMV !== undefined && pedimentoMR !== undefined)
                             {
-                              //console.log(pedimentoMV.attributes.Pedimento)
-                              //console.log(pedimentoMR.attributes.Pedimento)
                               if(pedimentoMV.attributes.Pedimento === pedimentoMR.attributes.Pedimento)
                               {
                                 mercanciaFlag = true;
@@ -1522,6 +1514,21 @@ function preData(dataRequest){
             }
           }
           else {
+            console.log("ERROR")
+            console.log(margenErrorPesoBrutoTotal)
+            console.log("PESO FACTURA")
+            console.log(parseFloat(mercanciasVPesoBrutoTotal))
+            console.log("PESO SOLICITUD")
+            console.log(parseFloat(mercanciasRPesoBrutoTotal))
+
+            console.log("MARGEN SUPERIOR");
+            console.log(parseFloat(mercanciasRPesoBrutoTotal) + parseFloat(margenErrorPesoBrutoTotal))
+            console.log("MARGEN INFERIOR");
+            console.log(parseFloat(mercanciasRPesoBrutoTotal) - parseFloat(margenErrorPesoBrutoTotal))
+
+            console.log(parseFloat(mercanciasVPesoBrutoTotal) <= Math.round(parseFloat(mercanciasRPesoBrutoTotal) + parseFloat(margenErrorPesoBrutoTotal)))
+            console.log(parseFloat(mercanciasVPesoBrutoTotal) >= Math.round(parseFloat(mercanciasRPesoBrutoTotal) - parseFloat(margenErrorPesoBrutoTotal)))
+
             error = " El peso bruto total de las mercancias no está dentro del margen."
             uploadXmlFinal(false, error)
           }

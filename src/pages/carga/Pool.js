@@ -236,7 +236,7 @@ function Pool({autoCloseAlert, autoCloseAlertCarga, hideAlert4}) {
                                                     <td>{item.UUID}</td>
                                                     <td>{item.Serie}</td>
                                                     <td>{item.Folio}</td>
-                                                    <td>{"$" + Intl.NumberFormat("en-IN").format(item.Total)}</td>
+                                                    <td>{"$" + parseFloat(item.Total).toLocaleString(undefined, {minimumFractionDigits: 2})}</td>
                                                 </tr>
                                             ))}
                                         </tbody>
