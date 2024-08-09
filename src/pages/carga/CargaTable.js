@@ -263,7 +263,6 @@ function CargaTable({dataTable, ip, autoCloseAlert, updateAddData, workflowTypes
               actions2: (
                 // ACCIONES A REALIZAR EN CADA REGISTRO
                 <div className="actions-center">
-                    {console.log(prop.Id_Workflow_Status)}
                     {/*IMPLEMENTAR EDICION PARA CADA REGISTRO */}
                     {prop.Id_Workflow_Status === parseInt(checkPool,10) ? (
                         <FormGroup check >
@@ -362,7 +361,7 @@ function CargaTable({dataTable, ip, autoCloseAlert, updateAddData, workflowTypes
         <div>
             <Row>
                 <Col sm = "3">
-                    {console.log(checkPool)}
+                    
                 </Col>
                 <Col sm = "6">
                     {buttonListP === true && role !== "VENDOR" && role !== "ASSIGN" && (role === "PURFREIGHT" || role === "SALFREIGHT") ? ( 

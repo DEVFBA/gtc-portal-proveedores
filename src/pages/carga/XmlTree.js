@@ -24,8 +24,31 @@ function XmlTree({dataString, dataMunicipios, dataLocalities, dataColonias}) {
 
   //Para obtener los nombres de las colonias del xml
   var complemento = dataString[0].elements.find( o => o.name === "cfdi:Complemento")
-  var cartaPorte = complemento.elements.find( o => o.name === "cartaporte20:CartaPorte")
-  var ubicaciones = cartaPorte.elements.find( o => o.name === "cartaporte20:Ubicaciones")
+  var cartaPorte; 
+  var ubicaciones;
+
+  if(complemento.elements.find( o => o.name === "cartaporte20:CartaPorte") !== undefined)
+  {
+    cartaPorte = complemento.elements.find( o => o.name === "cartaporte20:CartaPorte")
+    ubicaciones = cartaPorte.elements.find( o => o.name === "cartaporte20:Ubicaciones")
+  }
+  else if(complemento.elements.find( o => o.name === "cartaporte30:CartaPorte") !== undefined){
+    cartaPorte = complemento.elements.find( o => o.name === "cartaporte30:CartaPorte")
+    ubicaciones = cartaPorte.elements.find( o => o.name === "cartaporte30:Ubicaciones")
+  }
+  else {
+    cartaPorte = complemento.elements.find( o => o.name === "cartaporte31:CartaPorte")
+    ubicaciones = cartaPorte.elements.find( o => o.name === "cartaporte31:Ubicaciones")
+  }
+  
+  /*var ubicaciones;
+  if(cartaPorte.elements.find( o => o.name === "cartaporte20:Ubicaciones") !== undefined || cartaPorte.elements.find( o => o.name === "cartaporte20:Ubicaciones") !== null)
+  {
+    ubicaciones = cartaPorte.elements.find( o => o.name === "cartaporte20:Ubicaciones")
+  }
+  else {
+    ubicaciones = cartaPorte.elements.find( o => o.name === "cartaporte30:Ubicaciones")
+  }*/
 
   var componente = ""
   
@@ -57,18 +80,30 @@ function XmlTree({dataString, dataMunicipios, dataLocalities, dataColonias}) {
         nombreF = nombre.substr(13)
         nombreF = nombreF.replace(/([A-Z])/g, ' $1').trim()
       }
+      else if(nombre.includes("cartaporte30:"))
+      {
+        nombreF = nombre.substr(13)
+        nombreF = nombreF.replace(/([A-Z])/g, ' $1').trim()
+      }
+      else if(nombre.includes("cartaporte31:"))
+      {
+        nombreF = nombre.substr(13)
+        nombreF = nombreF.replace(/([A-Z])/g, ' $1').trim()
+      }
       else 
       {
         nombreF = nombre.substr(4)
         nombreF = nombreF.replace(/([A-Z])/g, ' $1').trim()
       }
-      if(nombre !== "cfdi:Concepto" && nombre !== "cfdi:Retencion" && nombre !== "cfdi:Traslado" && nombre !== "cartaporte20:Ubicacion" && nombre !== "cartaporte20:Mercancia" && nombre !== "cartaporte20:Remolque")
+      if(nombre !== "cfdi:Concepto" && nombre !== "cfdi:Retencion" && nombre !== "cfdi:Traslado" && nombre !== "cartaporte20:Ubicacion" && nombre !== "cartaporte20:Mercancia" && nombre !== "cartaporte20:Remolque" && nombre !== "cartaporte30:Ubicacion" && nombre !== "cartaporte30:Mercancia" && nombre !== "cartaporte30:Remolque" && nombre !== "cartaporte30:TiposFigura" && nombre !== "cartaporte30:Remolques" && nombre !== "cartaporte31:Ubicacion" && nombre !== "cartaporte31:Mercancia" && nombre !== "cartaporte31:Remolque" && nombre !== "cartaporte31:TiposFigura" && nombre !== "cartaporte31:Remolques")
       {
         componente = componente + "<Tree  key ='"+json[i].name+i+"' content='"+nombreF+"' style={{ whiteSpace: 'normal' }}>"
         //setComponente(componente + "<Tree  key ='"+json[i].name+i+"' content='"+nombreF+"' style={{ whiteSpace: 'normal' }}>")
         type = typeof json[i].elements;
         if (type=="undefined")
-        {				
+        {
+          console.log('json[i]')				
+          console.log(json[i])				
           var columnas  = Object.keys(json[i].attributes).length;
           var lista = ""
           var filas = 2
@@ -115,7 +150,7 @@ function XmlTree({dataString, dataMunicipios, dataLocalities, dataColonias}) {
         else{ 
           if(json[i].attributes !== undefined && json[i].name !== "cfdi:Comprobante")
           {
-            if(json[i].name === "cartaporte20:Mercancias")
+            if(json[i].name === "cartaporte20:Mercancias" || json[i].name === "cartaporte30:Mercancias" || json[i].name === "cartaporte31:Mercancias")
             {
               //Pintamos primero su tabla superior
               var columnas  = Object.keys(json[i].attributes).length;
@@ -178,7 +213,7 @@ function XmlTree({dataString, dataMunicipios, dataLocalities, dataColonias}) {
               var contadorColumnas = 0;
               for(var cC = 0; cC<conceptos.elements.length; cC++)
               {
-                if(conceptos.elements[cC].name === "cartaporte20:Mercancia")
+                if(conceptos.elements[cC].name === "cartaporte20:Mercancia" || conceptos.elements[cC].name === "cartaporte30:Mercancia" || conceptos.elements[cC].name === "cartaporte31:Mercancia")
                 {
                   contadorColumnas++
                 }
@@ -902,7 +937,7 @@ function XmlTree({dataString, dataMunicipios, dataLocalities, dataColonias}) {
             //setComponente(componente + divs)
             componente = componente + divs
           }
-          else if(json[i].name === "cartaporte20:Ubicaciones")
+          else if(json[i].name === "cartaporte20:Ubicaciones" || json[i].name === "cartaporte30:Ubicaciones" || json[i].name === "cartaporte31:Ubicaciones")
           {
             var conceptos = json[i]
             var columnas  = Object.keys(conceptos.elements[0].attributes).length;
@@ -1227,7 +1262,7 @@ function XmlTree({dataString, dataMunicipios, dataLocalities, dataColonias}) {
             //setComponente(componente + divs)
             componente = componente + divs
           }
-          else if(json[i].name === "cartaporte20:Remolques")
+          else if(json[i].name === "cartaporte20:Remolques" || json[i].name === "cartaporte30:Remolques" || json[i].name === "cartaporte31:Remolques")
           {
               //Posteriormente vamos a pintar la tabla de remolques
               var conceptos = json[i]
@@ -1237,7 +1272,7 @@ function XmlTree({dataString, dataMunicipios, dataLocalities, dataColonias}) {
               var contadorColumnas = 0;
               for(var cC = 0; cC<conceptos.elements.length; cC++)
               {
-                if(conceptos.elements[cC].name === "cartaporte20:Remolque")
+                if(conceptos.elements[cC].name === "cartaporte20:Remolque" || conceptos.elements[cC].name === "cartaporte30:Remolque" || conceptos.elements[cC].name === "cartaporte31:Remolque")
                 {
                   contadorColumnas++
                 }

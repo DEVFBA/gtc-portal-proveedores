@@ -146,8 +146,32 @@ function CartaPorteRequestsXML() {
             setDataXml(jsonData.elements)
             
             var complemento = jsonData.elements[0].elements.find( o => o.name === "cfdi:Complemento")
-            var cartaPorte = complemento.elements.find( o => o.name === "cartaporte20:CartaPorte")
-            var ubicaciones = cartaPorte.elements.find( o => o.name === "cartaporte20:Ubicaciones")
+            var cartaPorte;
+            var ubicaciones;
+
+            if(complemento.elements.find( o => o.name === "cartaporte20:CartaPorte") !== undefined)
+            {
+                cartaPorte = complemento.elements.find( o => o.name === "cartaporte20:CartaPorte");
+                ubicaciones = cartaPorte.elements.find( o => o.name === "cartaporte20:Ubicaciones");
+            }
+            else if(complemento.elements.find( o => o.name === "cartaporte30:CartaPorte") !== undefined){
+                cartaPorte = complemento.elements.find( o => o.name === "cartaporte30:CartaPorte");
+                ubicaciones = cartaPorte.elements.find( o => o.name === "cartaporte30:Ubicaciones")
+            }
+            else {
+                console.log("ENTRE AQUI")
+                cartaPorte = complemento.elements.find( o => o.name === "cartaporte31:CartaPorte");
+                ubicaciones = cartaPorte.elements.find( o => o.name === "cartaporte31:Ubicaciones")
+            }
+
+            /*if(cartaPorte.elements.find( o => o.name === "cartaporte20:Ubicaciones") !== undefined)
+            {
+                ubicaciones = cartaPorte.elements.find( o => o.name === "cartaporte20:Ubicaciones");
+            }
+            else {
+                ubicaciones = cartaPorte.elements.find( o => o.name === "cartaporte30:Ubicaciones")
+            }*/
+
             var ubicacionesF = ubicaciones.elements
 
             var colonias = []

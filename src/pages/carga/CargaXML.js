@@ -200,15 +200,39 @@ function CargaXML({pathFile}) {
   const consultaXML = async(doc) => {
     try {
       var url = pathFile + doc
+
       let response = await axios({ url })
+
       var options = {compact: false, ignoreComment: true, spaces: 4};
       const jsonString = convert.xml2json(response.data, options);
       const jsonData = JSON.parse(jsonString)
       setDataXml(jsonData.elements)
       
       var complemento = jsonData.elements[0].elements.find( o => o.name === "cfdi:Complemento")
-      var cartaPorte = complemento.elements.find( o => o.name === "cartaporte20:CartaPorte")
-      var ubicaciones = cartaPorte.elements.find( o => o.name === "cartaporte20:Ubicaciones")
+      var cartaPorte;
+      var ubicaciones;
+
+      if(complemento.elements.find( o => o.name === "cartaporte20:CartaPorte") !== undefined){
+        cartaPorte = complemento.elements.find( o => o.name === "cartaporte20:CartaPorte");
+      }
+      else if(complemento.elements.find( o => o.name === "cartaporte30:CartaPorte") !== undefined){
+        cartaPorte = complemento.elements.find( o => o.name === "cartaporte30:CartaPorte");
+      }
+      else {
+        cartaPorte = complemento.elements.find( o => o.name === "cartaporte31:CartaPorte");
+      }
+      
+      if(complemento.elements.find( o => o.name === "cartaporte20:CartaPorte") !== undefined)
+      {
+        ubicaciones = cartaPorte.elements.find( o => o.name === "cartaporte20:Ubicaciones")
+      }
+      else if(complemento.elements.find( o => o.name === "cartaporte30:CartaPorte") !== undefined){
+        ubicaciones = cartaPorte.elements.find( o => o.name === "cartaporte30:Ubicaciones")
+      }
+      else{
+        ubicaciones = cartaPorte.elements.find( o => o.name === "cartaporte31:Ubicaciones")
+      }
+      
       var ubicacionesF = ubicaciones.elements
 
       var colonias = []
@@ -234,7 +258,7 @@ function CargaXML({pathFile}) {
           colonias[i] = data
         });
       }
-      console.log(colonias)
+
       setDataColonias(colonias)
       setDataFind(false);
     }catch(error){
