@@ -165,7 +165,7 @@ function Login(){
       <div className="sample-form">
         <h3>Login</h3>
         <form onSubmit={onSubmitForm}>
-          <div className="description">Por favor ingresa tu correo y contraseña para iniciar sesión</div>
+          <div className="description">Por favor ingresa tu ID de usuario y contraseña para iniciar sesión</div>
           <div className='form-group'>
             <label className="form-control-label">Usuario</label>
             <div className="input-group">
