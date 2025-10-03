@@ -31,6 +31,7 @@ function ModalAddVendor({modalAddRecord, setModalAddRecord, ip, autoCloseAlert, 
     const [registerState, setregisterState] = React.useState("");
     const [registerWebPage, setregisterWebPage] = React.useState("");
     const [registerStatus, setregisterStatus] = useState(true);
+    const [registerValidateCartaPorte, setregisterValidateCartaPorte] = useState(true);
 
     //Mandar error en caso de que ya exista el Country/TaxId
     const [registerError, setregisterError] = useState("");
@@ -44,6 +45,7 @@ function ModalAddVendor({modalAddRecord, setModalAddRecord, ip, autoCloseAlert, 
     const [registerStateS, setregisterStateS] = React.useState("");
     const [registerWebPageState, setregisterWebPageState] = React.useState("");
     const [registerStatusState, setregisterStatusState] = useState("");
+    const [registerValidateCartaPorteState, setregisterValidateCartaPorteState] = useState("");
 
     const [error, setError] = React.useState();
     const [errorState, setErrorState] = React.useState("");
@@ -60,6 +62,7 @@ function ModalAddVendor({modalAddRecord, setModalAddRecord, ip, autoCloseAlert, 
         setregisterWebPage("")
         setregisterState("")
         setregisterStatus(false)
+        setregisterValidateCartaPorte(false)
         setError("")
         setErrorState("")
         setErrorMessage("")
@@ -109,9 +112,6 @@ function ModalAddVendor({modalAddRecord, setModalAddRecord, ip, autoCloseAlert, 
             addRegister()
             //haremos el fetch a la base de datos para agregar el registro
         }
-        else{
-            console.log("no entre")
-        }
     };
 
     function addRegister(){
@@ -126,6 +126,7 @@ function ModalAddVendor({modalAddRecord, setModalAddRecord, ip, autoCloseAlert, 
             pvPhone2 : registerTelephone2,
             pvWebPage : registerWebPage,
             pbStatus : registerStatus,
+            pbValidateCartaPorte : registerValidateCartaPorte,
             pvUser : user,
             pvIP : ip
         };
@@ -301,22 +302,44 @@ function ModalAddVendor({modalAddRecord, setModalAddRecord, ip, autoCloseAlert, 
                                 }}
                             />
                         </FormGroup>
-                        <label>Estatus</label>
-                        <FormGroup check>
-                            <Label check>
-                            <Input 
-                                type="checkbox" 
-                                checked = {registerStatus}
-                                onChange={(e) => {
-                                    setregisterStatus(e.target.checked)
-                                }}
-                            />{' '}
-                            Habilitado
-                            <span className="form-check-sign">
-                                <span className="check"></span>
-                            </span>
-                            </Label>
-                        </FormGroup>
+                        <Row>
+                            <Col>
+                                <label>Carta Porte</label>
+                                <FormGroup check>
+                                    <Label check>
+                                    <Input 
+                                        type="checkbox" 
+                                        checked = {registerValidateCartaPorte}
+                                        onChange={(e) => {
+                                            setregisterValidateCartaPorte(e.target.checked)
+                                        }}
+                                    />{' '}
+                                    Validación
+                                    <span className="form-check-sign">
+                                        <span className="check"></span>
+                                    </span>
+                                    </Label>
+                                </FormGroup>
+                            </Col>
+                            <Col>
+                                <label>Estatus</label>
+                                <FormGroup check>
+                                    <Label check>
+                                    <Input 
+                                        type="checkbox" 
+                                        checked = {registerStatus}
+                                        onChange={(e) => {
+                                            setregisterStatus(e.target.checked)
+                                        }}
+                                    />{' '}
+                                    Habilitado
+                                    <span className="form-check-sign">
+                                        <span className="check"></span>
+                                    </span>
+                                    </Label>
+                                </FormGroup>
+                            </Col>
+                        </Row>
                     </Col> 
                     <Col className="mt-3" lg="10">
                         <div className="category form-category">

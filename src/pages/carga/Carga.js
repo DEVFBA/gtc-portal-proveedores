@@ -838,6 +838,7 @@ function preData(dataRequest){
     var vendorValid = false;
     var vendorId;
     var vendorTaxIdDoc;
+    var validateCartaPorte = false;
     for(var i = 0; i < dataCompanies.length; i++)
     {
       if(dataCompanies[i].Tax_Id === receptor.attributes.Rfc)
@@ -854,6 +855,7 @@ function preData(dataRequest){
         vendorId = dataVendors[j].Id_Vendor
         vendorTaxIdDoc = dataVendors[j].Tax_Id
         vendorValid = true;
+        validateCartaPorte = dataVendors[j].Carta_Porte_Validation;
       }
     }
 
@@ -931,10 +933,9 @@ function preData(dataRequest){
                   serie: "",
                   folio: "",
                   fecha: jsonData.elements[0].attributes.Fecha,
-                  /*zipCodes : ubicaciones.elements,
-                  ubicaciones : []*/
                   pathSolicitud: dataRequest.path,
-                  jsonXml: elements
+                  jsonXml: elements,
+                  validateCartaPorte: validateCartaPorte
                 }
 
                 if(cartaPorte30  === true)
@@ -948,9 +949,6 @@ function preData(dataRequest){
                 else {
                   parseFiles(params)
                 }
-                //findUbicaciones(params)
-                //findOriginZipCode(params)
-                //uploadXml(file, uuid, vendorId, companyId, jsonData.elements[0].attributes.TipoDeComprobante, entity, "", "", jsonData.elements[0].attributes.Fecha)
               }
               else{
                 var params = {
@@ -963,9 +961,8 @@ function preData(dataRequest){
                   folio: jsonData.elements[0].attributes.Folio,
                   fecha: jsonData.elements[0].attributes.Fecha,
                   pathSolicitud: dataRequest.path,
-                  jsonXml: elements
-                  /*zipCodes: ubicaciones.elements,
-                  ubicaciones : []*/
+                  jsonXml: elements,
+                  validateCartaPorte: validateCartaPorte
                 }
 
                 if(cartaPorte30  === true)
@@ -979,9 +976,6 @@ function preData(dataRequest){
                 else {
                   parseFiles(params)
                 }
-                //findUbicaciones(params)
-                //findOriginZipCode(params)
-                //uploadXml(file, uuid, vendorId, companyId, jsonData.elements[0].attributes.TipoDeComprobante, entity, "", jsonData.elements[0].attributes.Folio, jsonData.elements[0].attributes.Fecha)
               }
             }
             else {
@@ -995,9 +989,8 @@ function preData(dataRequest){
                 folio: jsonData.elements[0].attributes.Folio,
                 fecha: jsonData.elements[0].attributes.Fecha,
                 pathSolicitud: dataRequest.path,
-                jsonXml: elements
-                /*zipCodes: ubicaciones.elements,
-                ubicaciones : []*/
+                jsonXml: elements,
+                validateCartaPorte: validateCartaPorte
               }
 
               if(cartaPorte30  === true)
@@ -1011,8 +1004,6 @@ function preData(dataRequest){
               else {
                 parseFiles(params)
               }
-              //findUbicaciones(params)
-              //uploadXml(file, uuid, vendorId, companyId, jsonData.elements[0].attributes.TipoDeComprobante, entity, jsonData.elements[0].attributes.Serie, jsonData.elements[0].attributes.Folio, jsonData.elements[0].attributes.Fecha)
             }
           }
           else {
@@ -1033,7 +1024,6 @@ function preData(dataRequest){
           if(dataCompaniesVendors[k].Id_Company === companyId && dataCompaniesVendors[k].Id_Vendor === vendorId && dataCompaniesVendors[k].Status === true)
           {
             companiesVendorsValid = true
-            //uploadXml(file, complemento.elements[0].attributes.UUID, emisor.attributes.Rfc, receptor.attributes.Rfc, jsonData.elements[0].attributes.TipoDeComprobante, entity, jsonData.elements[0].attributes.Serie, jsonData.elements[0].attributes.Folio, jsonData.elements[0].attributes.Fecha)
           }
         }
         
@@ -1053,7 +1043,8 @@ function preData(dataRequest){
                 folio: "",
                 fecha: jsonData.elements[0].attributes.Fecha,
                 pathSolicitud: dataRequest.path,
-                jsonXml: elements
+                jsonXml: elements,
+                validateCartaPorte: validateCartaPorte
                 /*zipCodes : ubicaciones.elements,
                 ubicaciones : []*/
               }
@@ -1069,9 +1060,6 @@ function preData(dataRequest){
               else {
                 parseFiles(params)
               }
-              //findUbicaciones(params)
-              //findOriginZipCode(params)
-              //uploadXml(file, uuid, vendorId, companyId, jsonData.elements[0].attributes.TipoDeComprobante, entity, "", "", jsonData.elements[0].attributes.Fecha)
             }
             else{
               var params = {
@@ -1084,13 +1072,10 @@ function preData(dataRequest){
                 folio: jsonData.elements[0].attributes.Folio,
                 fecha: jsonData.elements[0].attributes.Fecha,
                 pathSolicitud: dataRequest.path,
-                jsonXml: elements
-                /*zipCodes: ubicaciones.elements,
-                ubicaciones : []*/
+                jsonXml: elements,
+                validateCartaPorte: validateCartaPorte
               }
-              //findUbicaciones(params)
-              //findOriginZipCode(params)
-              //uploadXml(file, uuid, vendorId, companyId, jsonData.elements[0].attributes.TipoDeComprobante, entity, "", jsonData.elements[0].attributes.Folio, jsonData.elements[0].attributes.Fecha)
+
               if(cartaPorte30  === true)
               {
                 parseFiles30(params)
@@ -1115,13 +1100,10 @@ function preData(dataRequest){
               folio: jsonData.elements[0].attributes.Folio,
               fecha: jsonData.elements[0].attributes.Fecha,
               pathSolicitud: dataRequest.path,
-              jsonXml: elements
-              //zipCodes: ubicaciones.elements,
-              //ubicaciones : []
+              jsonXml: elements,
+              validateCartaPorte: validateCartaPorte
             }
-            //findUbicaciones(params)
-            //uploadXml(file, uuid, vendorId, companyId, jsonData.elements[0].attributes.TipoDeComprobante, entity, jsonData.elements[0].attributes.Serie, jsonData.elements[0].attributes.Folio, jsonData.elements[0].attributes.Fecha)
-            //parseFiles(params)
+
             if(cartaPorte30  === true)
             {
               parseFiles30(params)
@@ -1168,6 +1150,11 @@ function preData(dataRequest){
     var mercanciasV = cartaPorteV.elements.find(o => o.name === "cartaporte20:Mercancias").elements
 
     var error = "";
+
+    if(!params.validateCartaPorte)
+    {
+      uploadXmlFinal(true, error, params.validateCartaPorte)
+    }
 
     //1. Comparamos que las ubicaciones sean la misma cantidad.
     if(ubicacionesV.length === ubicacionesR.length)
@@ -1232,7 +1219,7 @@ function preData(dataRequest){
             //EL ARCHIVO SE VA A SUBIR CON ERROR
             error = " Las ubicaciones no son iguales. " + errorMessageUbicaciones;
             //console.log("LAS UBICACIONES NO SON IGUALES")
-            uploadXmlFinal(false, error)
+            uploadXmlFinal(false, error, params.validateCartaPorte)
             i = ubicacionesV.length
             ubicacionesFalse++
           }
@@ -1369,7 +1356,7 @@ function preData(dataRequest){
                   //EL ARCHIVO SE VA A SUBIR CON ERROR
                   error = " Las mercancías no son iguales. " + errorMercancia;
                   console.log("LAS MERCANCIAS NO SON IGUALES " + errorMercancia)
-                  uploadXmlFinal(false, error)
+                  uploadXmlFinal(false, error, params.validateCartaPorte)
                   i = mercanciasV.length
                   mercanciaFalse++
                   //console.log(mercanciaVActual)
@@ -1578,7 +1565,7 @@ function preData(dataRequest){
                     //EL ARCHIVO SE VA A SUBIR CON ERROR
                     error = " Las mercancías no son iguales. " + errorMercancia;
                     //console.log("LAS MERCANCIAS NO SON IGUALES " + errorMercancia)
-                    uploadXmlFinal(false, error)
+                    uploadXmlFinal(false, error, params.validateCartaPorte)
                     i = mercanciasV.length
                     mercanciaFalse++
                     //console.log(mercanciaVActual)
@@ -1590,7 +1577,7 @@ function preData(dataRequest){
                     //EL ARCHIVO SE VA A SUBIR CON ERROR
                     error = " Las mercancías no son iguales. " + errorMercancia;
                     //console.log("LAS MERCANCIAS NO SON IGUALES " + errorMercancia)
-                    uploadXmlFinal(false, error)
+                    uploadXmlFinal(false, error, params.validateCartaPorte)
                     i = mercanciasV.length
                     mercanciaFalse++
                     //console.log(mercanciaVActual)
@@ -1601,7 +1588,7 @@ function preData(dataRequest){
             if(mercanciaFalse === 0)
             {
               //console.log("LAS MERCANCIAS SON IGUALES")
-              uploadXmlFinal(true, error)
+              uploadXmlFinal(true, error, params.validateCartaPorte)
             }
             else {
               console.log(mercanciaFalse)
@@ -1624,7 +1611,7 @@ function preData(dataRequest){
             console.log(parseFloat(mercanciasVPesoBrutoTotal) >= Math.round(parseFloat(mercanciasRPesoBrutoTotal) - parseFloat(margenErrorPesoBrutoTotal)))
 
             error = " El peso bruto total de las mercancias no está dentro del margen."
-            uploadXmlFinal(false, error)
+            uploadXmlFinal(false, error, params.validateCartaPorte)
           }
         }
       }
@@ -1632,14 +1619,14 @@ function preData(dataRequest){
         //EL ARCHIVO SE VA A SUBIR CON ERROR
         error = " La cantidad de mercancias es diferente.";
         //console.log("LA CANTIDAD DE MERCANCIAS ES DIFERENTE")
-        uploadXmlFinal(false, error)
+        uploadXmlFinal(false, error, params.validateCartaPorte)
       }
     }
     else {
       //EL ARCHIVO SE VA A SUBIR CON ERROR
       error = " La cantidad de ubicaciones es diferente.";
       //console.log("LA CANTIDAD DE UBICACIONES ES DIFERENTE")
-      uploadXmlFinal(false, error)
+      uploadXmlFinal(false, error, params.validateCartaPorte)
     }
   }
 
@@ -1663,6 +1650,11 @@ function preData(dataRequest){
     var mercanciasV = cartaPorteV.elements.find(o => o.name === "cartaporte30:Mercancias").elements
 
     var error = "";
+
+    if(!params.validateCartaPorte)
+    {
+      uploadXmlFinal(true, error, params.validateCartaPorte)
+    }
 
     //1. Comparamos que las ubicaciones sean la misma cantidad.
     if(ubicacionesV.length === ubicacionesR.length)
@@ -1726,7 +1718,7 @@ function preData(dataRequest){
             //EL ARCHIVO SE VA A SUBIR CON ERROR
             error = " Las ubicaciones no son iguales. " + errorMessageUbicaciones;
             //console.log("LAS UBICACIONES NO SON IGUALES")
-            uploadXmlFinal(false, error)
+            uploadXmlFinal(false, error, params.validateCartaPorte)
             i = ubicacionesV.length
             ubicacionesFalse++
           }
@@ -1863,7 +1855,7 @@ function preData(dataRequest){
                   //EL ARCHIVO SE VA A SUBIR CON ERROR
                   error = " Las mercancías no son iguales. " + errorMercancia;
                   console.log("LAS MERCANCIAS NO SON IGUALES " + errorMercancia)
-                  uploadXmlFinal(false, error)
+                  uploadXmlFinal(false, error, params.validateCartaPorte)
                   i = mercanciasV.length
                   mercanciaFalse++
                   //console.log(mercanciaVActual)
@@ -2073,7 +2065,7 @@ function preData(dataRequest){
                     //EL ARCHIVO SE VA A SUBIR CON ERROR
                     error = " Las mercancías no son iguales. " + errorMercancia;
                     //console.log("LAS MERCANCIAS NO SON IGUALES " + errorMercancia)
-                    uploadXmlFinal(false, error)
+                    uploadXmlFinal(false, error, params.validateCartaPorte)
                     i = mercanciasV.length
                     mercanciaFalse++
                     //console.log(mercanciaVActual)
@@ -2085,7 +2077,7 @@ function preData(dataRequest){
                     //EL ARCHIVO SE VA A SUBIR CON ERROR
                     error = " Las mercancías no son iguales. " + errorMercancia;
                     //console.log("LAS MERCANCIAS NO SON IGUALES " + errorMercancia)
-                    uploadXmlFinal(false, error)
+                    uploadXmlFinal(false, error, params.validateCartaPorte)
                     i = mercanciasV.length
                     mercanciaFalse++
                     //console.log(mercanciaVActual)
@@ -2096,7 +2088,7 @@ function preData(dataRequest){
             if(mercanciaFalse === 0)
             {
               //console.log("LAS MERCANCIAS SON IGUALES")
-              uploadXmlFinal(true, error)
+              uploadXmlFinal(true, error, params.validateCartaPorte)
             }
             else {
               console.log(mercanciaFalse)
@@ -2119,7 +2111,7 @@ function preData(dataRequest){
             console.log(parseFloat(mercanciasVPesoBrutoTotal) >= Math.round(parseFloat(mercanciasRPesoBrutoTotal) - parseFloat(margenErrorPesoBrutoTotal)))
 
             error = " El peso bruto total de las mercancias no está dentro del margen."
-            uploadXmlFinal(false, error)
+            uploadXmlFinal(false, error, params.validateCartaPorte)
           }
         }
       }
@@ -2127,14 +2119,14 @@ function preData(dataRequest){
         //EL ARCHIVO SE VA A SUBIR CON ERROR
         error = " La cantidad de mercancias es diferente.";
         //console.log("LA CANTIDAD DE MERCANCIAS ES DIFERENTE")
-        uploadXmlFinal(false, error)
+        uploadXmlFinal(false, error, params.validateCartaPorte)
       }
     }
     else {
       //EL ARCHIVO SE VA A SUBIR CON ERROR
       error = " La cantidad de ubicaciones es diferente.";
       //console.log("LA CANTIDAD DE UBICACIONES ES DIFERENTE")
-      uploadXmlFinal(false, error)
+      uploadXmlFinal(false, error, params.validateCartaPorte)
     }
   }
 
@@ -2158,6 +2150,10 @@ function preData(dataRequest){
     var mercanciasV = cartaPorteV.elements.find(o => o.name === "cartaporte31:Mercancias").elements
 
     var error = "";
+    if(!params.validateCartaPorte)
+    {
+      uploadXmlFinal(true, error, params.validateCartaPorte)
+    }
 
     //1. Comparamos que las ubicaciones sean la misma cantidad.
     if(ubicacionesV.length === ubicacionesR.length)
@@ -2221,7 +2217,7 @@ function preData(dataRequest){
             //EL ARCHIVO SE VA A SUBIR CON ERROR
             error = " Las ubicaciones no son iguales. " + errorMessageUbicaciones;
             //console.log("LAS UBICACIONES NO SON IGUALES")
-            uploadXmlFinal(false, error)
+            uploadXmlFinal(false, error, params.validateCartaPorte)
             i = ubicacionesV.length
             ubicacionesFalse++
           }
@@ -2358,7 +2354,7 @@ function preData(dataRequest){
                   //EL ARCHIVO SE VA A SUBIR CON ERROR
                   error = " Las mercancías no son iguales. " + errorMercancia;
                   console.log("LAS MERCANCIAS NO SON IGUALES " + errorMercancia)
-                  uploadXmlFinal(false, error)
+                  uploadXmlFinal(false, error, params.validateCartaPorte)
                   i = mercanciasV.length
                   mercanciaFalse++
                   //console.log(mercanciaVActual)
@@ -2568,7 +2564,7 @@ function preData(dataRequest){
                     //EL ARCHIVO SE VA A SUBIR CON ERROR
                     error = " Las mercancías no son iguales. " + errorMercancia;
                     //console.log("LAS MERCANCIAS NO SON IGUALES " + errorMercancia)
-                    uploadXmlFinal(false, error)
+                    uploadXmlFinal(false, error, params.validateCartaPorte)
                     i = mercanciasV.length
                     mercanciaFalse++
                     //console.log(mercanciaVActual)
@@ -2580,7 +2576,7 @@ function preData(dataRequest){
                     //EL ARCHIVO SE VA A SUBIR CON ERROR
                     error = " Las mercancías no son iguales. " + errorMercancia;
                     //console.log("LAS MERCANCIAS NO SON IGUALES " + errorMercancia)
-                    uploadXmlFinal(false, error)
+                    uploadXmlFinal(false, error, params.validateCartaPorte)
                     i = mercanciasV.length
                     mercanciaFalse++
                     //console.log(mercanciaVActual)
@@ -2591,7 +2587,7 @@ function preData(dataRequest){
             if(mercanciaFalse === 0)
             {
               //console.log("LAS MERCANCIAS SON IGUALES")
-              uploadXmlFinal(true, error)
+              uploadXmlFinal(true, error, params.validateCartaPorte)
             }
             else {
               console.log(mercanciaFalse)
@@ -2614,7 +2610,7 @@ function preData(dataRequest){
             console.log(parseFloat(mercanciasVPesoBrutoTotal) >= Math.round(parseFloat(mercanciasRPesoBrutoTotal) - parseFloat(margenErrorPesoBrutoTotal)))
 
             error = " El peso bruto total de las mercancias no está dentro del margen."
-            uploadXmlFinal(false, error)
+            uploadXmlFinal(false, error, params.validateCartaPorte)
           }
         }
       }
@@ -2622,24 +2618,24 @@ function preData(dataRequest){
         //EL ARCHIVO SE VA A SUBIR CON ERROR
         error = " La cantidad de mercancias es diferente.";
         //console.log("LA CANTIDAD DE MERCANCIAS ES DIFERENTE")
-        uploadXmlFinal(false, error)
+        uploadXmlFinal(false, error, params.validateCartaPorte)
       }
     }
     else {
       //EL ARCHIVO SE VA A SUBIR CON ERROR
       error = " La cantidad de ubicaciones es diferente.";
       //console.log("LA CANTIDAD DE UBICACIONES ES DIFERENTE")
-      uploadXmlFinal(false, error)
+      uploadXmlFinal(false, error, params.validateCartaPorte)
     }
   }
 
-  function uploadXmlFinal(shipmentApproval, error)
+  function uploadXmlFinal(shipmentApproval, error, validateCartaPorte)
   {
     let reader = new FileReader();
     let file = xml;
 
     reader.onloadend = () => { 
-      getData64PDF(reader.result, shipmentApproval, error)
+      getData64PDF(reader.result, shipmentApproval, error, validateCartaPorte)
     };
     if (file) {
       reader.readAsDataURL(file);
@@ -2888,26 +2884,27 @@ function preData(dataRequest){
     });*/
   //}
 
-  function getData64PDF(xmlbase64, shipmentApproval, error)
+  function getData64PDF(xmlbase64, shipmentApproval, error, validateCartaPorte)
   {
     let reader = new FileReader();
     let file = pdf;
 
     reader.onloadend = () => { 
-      sendData(xmlbase64, reader.result, shipmentApproval, error)
+      sendData(xmlbase64, reader.result, shipmentApproval, error, validateCartaPorte)
     };
     if (file) {
       reader.readAsDataURL(file);
     }
   }
 
-  function sendData(xmlbase64, pdfbase64, shipmentApproval, error)
+  function sendData(xmlbase64, pdfbase64, shipmentApproval, error, validateCartaPorte)
   {
     const catRegister = {
       invoiceXMLBase64: xmlbase64,
       invoicePDFBase64: pdfbase64,
       cPorteRequestNumber: requester,
       shipmentApproval: shipmentApproval,
+      cartaPorteValidation : validateCartaPorte,
       user: user,
       ip: ip
     };

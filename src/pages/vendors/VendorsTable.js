@@ -9,11 +9,19 @@ function VendorsTable({dataTable, ip, autoCloseAlert, updateAddData, dataCountri
     const [dataState, setDataState] = useState(
         dataTable.map((prop, key) => {
             var status;
+            var validateCartaPorte;
             if(prop.Status === true){
                 status = "Habilitado"
             }
             else{
                 status = "No Habilitado"
+            }
+            if(prop.Carta_Porte_Validation)
+            {
+                validateCartaPorte = "Si"
+            }
+            else {
+                validateCartaPorte = "No"
             }
             return {
               id: key,
@@ -28,6 +36,7 @@ function VendorsTable({dataTable, ip, autoCloseAlert, updateAddData, dataCountri
                 phone1: prop.Phone_1,
                 phone2: prop.Phone_2,
                 webPage: prop.Web_Page,
+                validateCartaPorte: validateCartaPorte,
               actions: (
                 // ACCIONES A REALIZAR EN CADA REGISTRO
                 <div className="actions-center">
@@ -95,6 +104,10 @@ function VendorsTable({dataTable, ip, autoCloseAlert, updateAddData, dataCountri
                     {
                         Header: "País",
                         accessor: "country",
+                    },
+                    {
+                        Header: "Valida Carta Porte",
+                        accessor: "validateCartaPorte",
                     },
                     {
                         Header: "Estatus",

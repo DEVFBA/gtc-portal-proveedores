@@ -33,6 +33,7 @@ function ModalUpdateVendor({modalUpdateRecord, setModalUpdateRecord, record, dat
     const [updateTelephone2, setupdateTelephone2] = React.useState("");
     const [updateWebPage, setupdateWebPage] = React.useState("");
     const [updateStatus, setupdateStatus] = useState(false);
+    const [updateValidateCartaPorte, setupdateValidateCartaPorte] = useState(false);
 
     //Mandar error en caso de que ya exista el Country/TaxId
     const [updateError, setregisterError] = useState("");
@@ -44,6 +45,7 @@ function ModalUpdateVendor({modalUpdateRecord, setModalUpdateRecord, record, dat
     const [updateTelephone2State, setupdateTelephone2State] = React.useState("");
     const [updateWebPageState, setupdateWebPageState] = React.useState("");
     const [updateStatusState, setupdateStatusState] = useState(false);
+    const [updateValidateCartaPorteState, setupdateValidateCartaPorteState] = useState(false);
 
     const [error, setError] = React.useState();
     const [errorState, setErrorState] = React.useState("");
@@ -68,6 +70,13 @@ function ModalUpdateVendor({modalUpdateRecord, setModalUpdateRecord, record, dat
         }
         else{
             setupdateStatus(false);
+        }
+        if(record.validateCartaPorte === "Si")
+        {
+            setupdateValidateCartaPorte(true)
+        }
+        else {
+            setupdateValidateCartaPorte(false)
         }
     },[record]);
 
@@ -98,19 +107,11 @@ function ModalUpdateVendor({modalUpdateRecord, setModalUpdateRecord, record, dat
         }
     };
 
-    /*const updateClick = () => {
-        if(isValidated()===true)
-        {
-            updateRegister()
-        }
-    };*/
-
     const updateClick = () => {
         var fullnameState = false;
         var fullname = document.getElementById("fullname").value
 
         if (!verifyLength(fullname, 1)) {
-            console.log("NO ENTRE AL NOMBRE")
             setupdateFullNameState("text-danger");
         } else {
             fullnameState = true;
@@ -121,7 +122,6 @@ function ModalUpdateVendor({modalUpdateRecord, setModalUpdateRecord, record, dat
         var rfcState = false;
         var rfc = document.getElementById("rfc").value
         if (!verifyLength(rfc, 1)) {
-            console.log("NO ENTRE AL RFC")
             setupdateRfcState("text-danger");
         } else {
             rfcState = true;
@@ -170,6 +170,7 @@ function ModalUpdateVendor({modalUpdateRecord, setModalUpdateRecord, record, dat
             pvPhone2 : updateTelephone2,
             pvWebPage : updateWebPage,
             pbStatus : updateStatus,
+            pbValidateCartaPorte : updateValidateCartaPorte,
             pvUser : user,
             pvIP : ip
         };
@@ -343,22 +344,44 @@ function ModalUpdateVendor({modalUpdateRecord, setModalUpdateRecord, record, dat
                                 }}
                             />
                         </FormGroup>
-                        <label>Estatus</label>
-                        <FormGroup check>
-                            <Label check>
-                            <Input 
-                                type="checkbox" 
-                                checked = {updateStatus} 
-                                onChange={(e) => {
-                                    setupdateStatus(e.target.checked)
-                                }}
-                            />{' '}
-                            Habilitado
-                            <span className="form-check-sign">
-                                <span className="check"></span>
-                            </span>
-                            </Label>
-                        </FormGroup>
+                        <Row>
+                            <Col>
+                                <label>Carta Porte</label>
+                                <FormGroup check>
+                                    <Label check>
+                                    <Input 
+                                        type="checkbox" 
+                                        checked = {updateValidateCartaPorte}
+                                        onChange={(e) => {
+                                            setupdateValidateCartaPorte(e.target.checked)
+                                        }}
+                                    />{' '}
+                                    Validación
+                                    <span className="form-check-sign">
+                                        <span className="check"></span>
+                                    </span>
+                                    </Label>
+                                </FormGroup>
+                            </Col>
+                            <Col>
+                                <label>Estatus</label>
+                                <FormGroup check>
+                                    <Label check>
+                                    <Input 
+                                        type="checkbox" 
+                                        checked = {updateStatus} 
+                                        onChange={(e) => {
+                                            setupdateStatus(e.target.checked)
+                                        }}
+                                    />{' '}
+                                    Habilitado
+                                    <span className="form-check-sign">
+                                        <span className="check"></span>
+                                    </span>
+                                    </Label>
+                                </FormGroup>
+                            </Col>
+                        </Row>
                     </Col> 
                     <Col className="mt-3" lg="10">
                         <div className="category form-category">
